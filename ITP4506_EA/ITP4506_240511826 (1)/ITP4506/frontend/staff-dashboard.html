@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Dashboard - Second-hand Toy Platform</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    body {
+      margin: 0; /* keep nav flush with top */
+      background: var(--bg, linear-gradient(135deg, #f5f7ff, #e4f2ff));
+      display: block; /* override flex centering in login.css */
+      height: auto;
+    }
+
+    /* unified top navigation (same as client) */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+    .unified-top-nav .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 100%;
+    }
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+    .unified-top-nav .logo-link:hover {
+      transform: scale(1.05);
+    }
+    .unified-top-nav .logo-icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+    .unified-top-nav .logo-text {
+      color: white;
+    }
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 20px;
+      flex-direction: row;
+    }
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      font-size: 14px;
+      display: inline-block;
+    }
+    .unified-top-nav .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transform: translateY(-1px);
+    }
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: 600;
+    }
+    .unified-top-nav .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background: white;
+      border-radius: 1px;
+    }
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      flex-direction: row;
+    }
+    .unified-top-nav .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+    .unified-top-nav .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .unified-top-nav .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: block;
+    }
+    .unified-top-nav .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+      font-size: 14px;
+    }
+    .unified-top-nav .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+    .unified-top-nav .dropdown-item:last-child {
+      border-bottom: none;
+    }
+    .unified-top-nav .logout-btn {
+      color: #ff4d4f !important;
+    }
+    .staff-container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+      padding: 1.5rem 1.75rem 2rem;
+    }
+    .staff-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    .staff-header-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    .staff-header-sub {
+      font-size: .85rem;
+      color: #6b7280;
+      margin-top: .25rem;
+    }
+    .staff-header-right {
+      text-align: right;
+      font-size: .85rem;
+      color: #6b7280;
+    }
+    .staff-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .1rem .5rem;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-size: .75rem;
+      font-weight: 600;
+      margin-left: .5rem;
+    }
+    .staff-sections {
+      display: flex;
+      justify-content: center;
+    }
+    .panel {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 1rem 1.1rem 1.1rem;
+      border: 1px solid #e5e7eb;
+      max-width: 900px;
+      width: 100%;
+    }
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .65rem;
+      font-size: .95rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    .panel-title span {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .panel-title small {
+      font-size: .75rem;
+      color: #6b7280;
+      font-weight: 400;
+    }
+    .order-row {
+      display: grid;
+      grid-template-columns: 1.5fr 1.2fr 1.2fr 1fr;
+      gap: .5rem;
+      align-items: center;
+      padding: .35rem .4rem;
+      border-radius: 8px;
+      font-size: .8rem;
+    }
+    .order-row:nth-child(odd) {
+      background: #ffffff;
+    }
+    .order-row:nth-child(even) {
+      background: #f3f4f6;
+    }
+    .order-row .custom-sketch-preview {
+      margin-top: .35rem;
+      padding: .35rem;
+      border: 1px dashed #93c5fd;
+      border-radius: .45rem;
+      background: rgba(59,130,246,.08);
+      display: inline-flex;
+      flex-direction: column;
+      gap: .3rem;
+      max-width: 160px;
+    }
+    .order-row .custom-sketch-preview img {
+      width: 100%;
+      height: auto;
+      border-radius: .35rem;
+      border: 1px solid rgba(59,130,246,.3);
+      object-fit: cover;
+    }
+    .order-row .custom-sketch-title {
+      font-size: .7rem;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+    /* modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.3s ease;
+    }
+    .modal h3 {
+      margin: 0 0 20px 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .modal-section {
+      margin-bottom: 20px;
+    }
+    .modal-section label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+    }
+    .modal-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .modal-option {
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+      color: #374151;
+      background: #fff;
+    }
+    .modal-option:hover {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.05);
+    }
+    .modal-option.active {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+      color: #1e40af;
+      font-weight: 600;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      resize: vertical;
+      font-family: inherit;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .modal-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .modal-btn.cancel {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .modal-btn.cancel:hover {
+      background: #d1d5db;
+    }
+    .modal-btn.primary {
+      background: #ef4444;
+      color: #fff;
+    }
+    .modal-btn.primary:hover {
+      background: #dc2626;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .order-status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .05rem .45rem;
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 600;
+    }
+    .status-pending {
+      background: #fffbeb;
+      color: #92400e;
+    }
+    .status-shipping {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+    .status-delivered {
+      background: #ecfdf3;
+      color: #15803d;
+    }
+    .status-cancelled {
+      background: #f3f4f6;
+      color: #4b5563;
+    }
+    .status-return-requested {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+    .status-returned {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+    .status-completed {
+      background: #ecfdf3;
+      color: #15803d;
+    }
+    .btn-sm {
+      padding: .25rem .6rem;
+      font-size: .75rem;
+      border-radius: .5rem;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+      transition: background .15s ease, transform .1s ease;
+    }
+    .btn-sm[disabled] {
+      opacity: .45;
+      cursor: default;
+      background: #9ca3af;
+    }
+    .btn-sm:hover:not([disabled]) {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .btn-outline-sm {
+      padding: .2rem .55rem;
+      font-size: .75rem;
+      border-radius: .5rem;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      color: #4b5563;
+      cursor: pointer;
+    }
+    .empty-tip {
+      font-size: .8rem;
+      color: #9ca3af;
+      padding: .4rem .2rem;
+    }
+    .restock-form {
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+      font-size: .8rem;
+    }
+    .restock-form label {
+      font-weight: 500;
+      color: #374151;
+    }
+    .restock-form input {
+      width: 100%;
+      padding: .3rem .4rem;
+      border-radius: .4rem;
+      border: 1px solid #d1d5db;
+      font-size: .8rem;
+    }
+    .restock-log {
+      max-height: 240px;
+      overflow-y: auto;
+      margin-top: .4rem;
+      padding-top: .35rem;
+      border-top: 1px dashed #e5e7eb;
+      font-size: .78rem;
+    }
+    .restock-item {
+      padding: .2rem 0;
+      border-bottom: 1px dashed #e5e7eb;
+    }
+    .restock-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top navigation (same as client) -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="staff-dashboard.html" class="logo-link">
+          <span class="logo-icon">📦</span>
+          <span class="logo-text">Staff Dashboard</span>
+        </a>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="staff-dashboard.html" class="nav-item active" data-page="staff-orders">Order Management</a>
+        <a href="staff-restock.html" class="nav-item" data-page="staff-restock">Restock Center</a>
+        <a href="staff-quote.html" class="nav-item" data-page="staff-quote">Quotes</a>
+        <a href="login.html" class="nav-item" data-page="login">Login</a>
+      </div>
+      
+      <div class="nav-user">
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">My Account</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">My Account</a>
+            <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="staff-container">
+    <div class="staff-header">
+      <div>
+        <div class="staff-header-title">
+          Staff Dashboard
+          <span class="staff-badge">Internal Use</span>
+        </div>
+        <div class="staff-header-sub">Handle shipping/completion for user orders and keep track of toy restock info here.</div>
+      </div>
+      <div class="staff-header-right">
+        <div id="staffUserInfo">Staff</div>
+        <button class="btn-outline-sm" id="backToMarketBtn">Back to Main Platform</button>
+      </div>
+    </div>
+
+    <div class="staff-sections">
+      <!-- Order fulfillment -->
+      <div class="panel">
+        <div class="panel-title">
+          <span>Order Fulfillment <small>(Store orders + Custom orders)</small></span>
+          <small id="orderCountTip"></small>
+        </div>
+        <div id="orderManageBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // User info & logout logic (simplified)
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        userIdElement.textContent = 'My Account';
+        userIdElement.style.cursor = 'pointer';
+        userIdElement.onclick = function() {
+          // Check login status
+          const userInfo = sessionStorage.getItem('user_info');
+          if (userInfo) {
+            // Logged in, go to account page
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/my-items';
+            } else {
+              window.location.href = 'my-items.html';
+            }
+          } else {
+            // Not logged in, go to login page
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/login';
+            } else {
+              window.location.href = 'login.html';
+            }
+          }
+        };
+      }
+    }
+
+    function setupLogoutHandler() {
+      const logoutBtn = document.querySelector('.unified-top-nav .logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (confirm('Are you sure you want to log out?')) {
+            sessionStorage.removeItem('user_info');
+            window.location.href = '/login';
+          }
+        });
+      }
+    }
+
+    // Basic translation helpers for product titles, variants, sizes, and colors
+    const productTitleMap = {
+      '变形金刚 擎天柱': 'Transformers Optimus Prime',
+      '变形金刚 大黄蜂': 'Transformers Bumblebee',
+      '毛绒玩具 金牌小熊': 'Plush Bear Gold',
+      '毛绒玩具 蓝色小熊': 'Plush Bear Blue',
+      '毛绒玩具 粉色小熊': 'Plush Bear Pink',
+      '遥控赛车 红色': 'RC Race Car Red',
+      '遥控赛车 蓝色': 'RC Race Car Blue',
+      '乐高积木 城市系列': 'Lego City Set',
+      '乐高积木 太空系列': 'Lego Space Set',
+      '芭比娃娃 经典款': 'Barbie Classic',
+      '芭比娃娃 豪华款': 'Barbie Deluxe',
+      '拼装高达 RX-78': 'Gundam RX-78',
+      '拼装高达 独角兽': 'Gundam Unicorn',
+      '超级英雄 蜘蛛侠': 'Superhero Spider-Man',
+      '超级英雄 钢铁侠': 'Superhero Iron Man',
+      '木质火车套装': 'Wooden Train Set',
+      '儿童积木桶装': 'Kids Blocks (Bucket)',
+      '儿童画板': 'Kids Drawing Board',
+      '太空人盲盒': 'Astronaut Blind Box',
+      '变形金刚 玩具枪': 'Transformers Toy Gun',
+      '水弹枪': 'Gel Blaster',
+      '毛绒公仔 企鹅': 'Plush Penguin',
+      '毛绒公仔 狐狸': 'Plush Fox',
+      '乐高风积木 城堡': 'Brick Castle Set',
+      '合金工程车套装': 'Alloy Construction Set'
+    };
+
+    const variantNameMap = {
+      '普通版': 'Regular',
+      '标准版': 'Standard',
+      '豪华版': 'Deluxe',
+      '收藏家版': "Collector's",
+      '旗舰版': 'Flagship',
+      '限定版': 'Limited',
+      '基础款': 'Basic',
+      '进阶款': 'Advanced'
+    };
+
+    const sizeNameMap = {
+      '大号': 'Large',
+      '中号': 'Medium',
+      '小号': 'Small'
+    };
+
+    const colorNameMap = {
+      '红色': 'Red',
+      '蓝色': 'Blue',
+      '绿色': 'Green',
+      '黄色': 'Yellow',
+      '粉色': 'Pink',
+      '黑色': 'Black',
+      '白色': 'White',
+      '紫色': 'Purple',
+      '橙色': 'Orange',
+      '灰色': 'Gray',
+      '棕色': 'Brown',
+      '银色': 'Silver',
+      '金色': 'Gold'
+    };
+
+    function getProductTitle(title) {
+      return productTitleMap[title] || title || '';
+    }
+
+    function getVariantNameEn(name) {
+      return variantNameMap[name] || name || '';
+    }
+
+    function getSizeNameEn(name) {
+      return sizeNameMap[name] || name || '';
+    }
+
+    function getColorNameEn(name) {
+      return colorNameMap[name] || name || '';
+    }
+
+    function getAllOrders() {
+      const normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+
+      const mappedNormal = normalOrders.map(o => ({
+        type: 'normal',
+        id: o.id,
+        createTime: o.createTime,
+        total: o.total,
+        items: (o.items || []).map(item => {
+          const colorText = getColorNameEn(item.colorName || (item.color && item.color.name));
+          const sizeText = getSizeNameEn(item.size);
+          const variantText = getVariantNameEn(item.variant);
+          const detailParts = [
+            variantText,
+            sizeText,
+            colorText
+          ].filter(Boolean);
+
+          return {
+            ...item,
+            title: getProductTitle(item.title),
+            detail: item.detail || (detailParts.length ? detailParts.join(' | ') : '')
+          };
+        }),
+        logisticsStatus: o.logisticsStatus || 'pending',
+        returnStatus: o.returnStatus || 'none',
+        returnReason: o.returnReason || '',
+        rejectReason: o.rejectReason || '',
+        isCompleted: o.isCompleted || false,
+        returnRequestTime: o.returnRequestTime || null
+      }));
+
+      const mappedCustom = customOrders.map(o => {
+        const detailParts = [
+          getProductTitle(o.toyType || o.productName),
+          getVariantNameEn(o.variant),
+          getSizeNameEn(o.size),
+          getColorNameEn(o.color ? (o.color.name || o.color) : '')
+        ].filter(Boolean);
+
+        return {
+          type: 'custom',
+          id: o.id,
+          createTime: o.createTime,
+          total: o.price,
+          items: [{
+            title: getProductTitle(o.productName || (o.toyType + ' Custom')),
+            detail: detailParts.join(' | '),
+            image: o.productImage || '',
+            sketch: o.sketch || ''
+          }],
+          logisticsStatus: o.logisticsStatus || 'pending',
+          returnStatus: o.returnStatus || 'none',
+          returnReason: o.returnReason || '',
+          rejectReason: o.rejectReason || '',
+          isCompleted: o.isCompleted || false,
+          returnRequestTime: o.returnRequestTime || null,
+          customSketch: o.sketch || ''
+        };
+      });
+
+      return [...mappedNormal, ...mappedCustom].sort((a, b) => b.id - a.id);
+    }
+
+    function statusInfo(order) {
+      const status = order.logisticsStatus || 'pending';
+      const returnStatus = order.returnStatus || 'none';
+      const isCompleted = order.isCompleted || false;
+
+      // If order completed
+      if (isCompleted) {
+        return { text: 'Completed', cls: 'status-completed' };
+      }
+
+      // Return requests
+      if (returnStatus === 'requested') {
+        return { text: 'Return Requested', cls: 'status-return-requested' };
+      }
+
+      if (returnStatus === 'approved') {
+        return { text: 'Return Approved', cls: 'status-returned' };
+      }
+
+      if (returnStatus === 'rejected') {
+        return { text: 'Return Rejected', cls: 'status-cancelled' };
+      }
+
+      // Regular logistics states
+      switch (status) {
+        case 'shipping':
+          return { text: 'In Transit', cls: 'status-shipping' };
+        case 'delivered':
+          return { text: 'Delivered', cls: 'status-delivered' };
+        case 'cancelled':
+          return { text: 'Cancelled', cls: 'status-cancelled' };
+        default:
+          return { text: 'Pending Shipment', cls: 'status-pending' };
+      }
+    }
+
+    function renderOrdersForStaff() {
+      const container = document.getElementById('orderManageBody');
+      const orders = getAllOrders();
+      const tip = document.getElementById('orderCountTip');
+      tip.textContent = orders.length ? `${orders.length} orders` : 'No orders';
+
+      if (!orders.length) {
+        container.innerHTML = '<div class="empty-tip">No user orders right now.</div>';
+        return;
+      }
+
+      const headerRow = `
+        <div class="order-row" style="font-weight:600;color:#4b5563;background:transparent;">
+          <div>Order Info</div>
+          <div>Status</div>
+          <div>Actions</div>
+          <div>Total</div>
+        </div>
+      `;
+
+      container.innerHTML = headerRow + orders.map(order => {
+        const info = statusInfo(order);
+        const mainItem = order.items[0] || {};
+        const sketchPreview = order.customSketch || mainItem.sketch || '';
+        const canShip = order.logisticsStatus === 'pending';
+        const canFinish = order.logisticsStatus === 'shipping';
+        const hasPrice = Number(order.total || order.quoteTotal || 0) > 0;
+        const hasReturnRequest = order.returnStatus === 'requested';
+
+        let actionBtns = '';
+        if (hasReturnRequest) {
+          actionBtns = `
+            <button class="btn-sm" onclick="staffApproveReturn(${order.id})" style="background:#22c55e;margin-right:4px;">Approve Return</button>
+            <button class="btn-sm" onclick="staffRejectReturn(${order.id})" style="background:#ef4444;">Reject Return</button>
+          `;
+        } else if (canShip && hasPrice) {
+          actionBtns = `<button class="btn-sm" onclick="staffShipOrder(${order.id})">Mark as Shipped</button>`;
+        } else if (canShip && !hasPrice) {
+          actionBtns = `<button class="btn-sm" disabled title="Price not set">Pending Pricing</button>`;
+        } else if (canFinish) {
+          actionBtns = `<button class="btn-sm" onclick="staffFinishOrder(${order.id})">Mark Delivered</button>`;
+        } else {
+          actionBtns = `<button class="btn-sm" disabled>No Action</button>`;
+        }
+
+        return `
+          <div class="order-row">
+            <div>
+              <div>Order No: ${order.id}</div>
+              <div>${order.type === 'normal' ? 'Store Order' : 'Custom Order'}｜${new Date(order.createTime).toLocaleString()}</div>
+              <div style="color:#6b7280;">${mainItem.title || 'Toy Order'}</div>
+              ${mainItem.detail ? `<div style="color:#94a3b8;margin-top:4px;">${mainItem.detail}</div>` : ''}
+              ${sketchPreview ? `
+                <div class="custom-sketch-preview">
+                  <div class="custom-sketch-title">Customer Design Sketch</div>
+                  <img src="${sketchPreview}" alt="Customer Design Sketch">
+                </div>
+              ` : ''}
+              ${order.returnReason ? `<div style="color:#c2410c;font-size:0.75rem;margin-top:4px;">Return Reason: ${order.returnReason}</div>` : ''}
+              ${order.rejectReason ? `<div style="color:#dc2626;font-size:0.75rem;margin-top:4px;">Reject Reason: ${order.rejectReason}</div>` : ''}
+            </div>
+            <div>
+              <span class="order-status-badge ${info.cls}">${info.text}</span>
+            </div>
+            <div>
+              ${actionBtns}
+            </div>
+            <div>HK$${(order.total || 0).toLocaleString()}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function staffShipOrder(orderId) {
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let changed = false;
+
+      normalOrders.forEach(o => {
+        if (o.id === orderId && (o.logisticsStatus || 'pending') === 'pending') {
+          const hasPrice = Number(o.total || o.quoteTotal || 0) > 0;
+          if (!hasPrice) {
+            changed = false;
+            return;
+          }
+          o.logisticsStatus = 'shipping';
+          changed = true;
+        }
+      });
+      customOrders.forEach(o => {
+        if (o.id === orderId && (o.logisticsStatus || 'pending') === 'pending') {
+          const hasPrice = Number(o.total || o.quoteTotal || 0) > 0;
+          if (!hasPrice) {
+            changed = false;
+            return;
+          }
+          o.logisticsStatus = 'shipping';
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'orders' } }));
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+        alert('Order marked as In Transit.');
+        renderOrdersForStaff();
+      } else {
+        alert('Cannot mark as shipped: pricing not completed or status not allowed.');
+      }
+    }
+
+    function staffFinishOrder(orderId) {
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let changed = false;
+
+      normalOrders.forEach(o => {
+        if (o.id === orderId && (o.logisticsStatus || 'pending') === 'shipping') {
+          o.logisticsStatus = 'delivered';
+          changed = true;
+        }
+      });
+      customOrders.forEach(o => {
+        if (o.id === orderId && (o.logisticsStatus || 'pending') === 'shipping') {
+          o.logisticsStatus = 'delivered';
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'orders' } }));
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+        alert('Order marked as Delivered.');
+        renderOrdersForStaff();
+      } else {
+        alert('Only orders that are in transit can be marked as delivered.');
+      }
+    }
+
+    // Approve return
+    function staffApproveReturn(orderId) {
+      if (!confirm('Approve this return request?')) return;
+
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let changed = false;
+
+      normalOrders.forEach(o => {
+        if (o.id === orderId && o.returnStatus === 'requested') {
+          o.returnStatus = 'approved';
+          changed = true;
+        }
+      });
+      customOrders.forEach(o => {
+        if (o.id === orderId && o.returnStatus === 'requested') {
+          o.returnStatus = 'approved';
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'orders' } }));
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+        alert('Return request approved.');
+        renderOrdersForStaff();
+      } else {
+        alert('This order cannot process a return right now.');
+      }
+    }
+
+    // Track the order being rejected
+    let currentRejectOrderId = null;
+    let selectedRejectReason = '';
+
+    // Open reject-return modal
+    function staffRejectReturn(orderId) {
+      currentRejectOrderId = orderId;
+      selectedRejectReason = '';
+      
+      // Reset modal state
+      const modal = document.getElementById('rejectReturnModal');
+      const customSection = document.getElementById('customRejectReasonSection');
+      const customInput = document.getElementById('customRejectReason');
+      const options = document.querySelectorAll('#rejectReasonOptions .modal-option');
+      
+      if (modal) {
+        // Clear active states
+        options.forEach(opt => opt.classList.remove('active'));
+        // Hide custom box
+        if (customSection) customSection.style.display = 'none';
+        if (customInput) customInput.value = '';
+        // Show modal
+        modal.classList.add('active');
+      }
+
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let changed = false;
+
+      normalOrders.forEach(o => {
+        if (o.id === orderId && o.returnStatus === 'requested') {
+          o.returnStatus = 'rejected';
+          changed = true;
+        }
+      });
+      customOrders.forEach(o => {
+        if (o.id === orderId && o.returnStatus === 'requested') {
+          o.returnStatus = 'rejected';
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'orders' } }));
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+        alert('Return request rejected.');
+        renderOrdersForStaff();
+      } else {
+        alert('This order cannot process a return right now.');
+      }
+    }
+
+    // Close reject modal
+    function closeRejectReturnModal() {
+      const modal = document.getElementById('rejectReturnModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+      currentRejectOrderId = null;
+      selectedRejectReason = '';
+    }
+
+    // Submit reject-return decision
+    function submitRejectReturn() {
+      if (!currentRejectOrderId) {
+        alert('Order information error');
+        return;
+      }
+
+      let reason = selectedRejectReason;
+      
+      // Allow custom reason for "Other"
+      if (reason === 'Other') {
+        const customInput = document.getElementById('customRejectReason');
+        if (customInput) {
+          reason = customInput.value.trim();
+          if (!reason) {
+            alert('Please enter a specific reject reason.');
+            return;
+          }
+          reason = 'Other: ' + reason;
+        }
+      }
+
+      if (!reason) {
+        alert('Please select or enter a reject reason.');
+        return;
+      }
+
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let changed = false;
+      let foundOrder = false;
+
+      // First make sure order exists
+      normalOrders.forEach(o => {
+        if (String(o.id) === String(currentRejectOrderId)) {
+          foundOrder = true;
+          // Only reject when requested
+          if (o.returnStatus === 'requested') {
+            o.returnStatus = 'rejected';
+            o.rejectReason = reason;
+            o.rejectTime = Date.now();
+            changed = true;
+          }
+        }
+      });
+
+      customOrders.forEach(o => {
+        if (String(o.id) === String(currentRejectOrderId)) {
+          foundOrder = true;
+          // Only reject when requested
+          if (o.returnStatus === 'requested') {
+            o.returnStatus = 'rejected';
+            o.rejectReason = reason;
+            o.rejectTime = Date.now();
+            changed = true;
+          }
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'orders' } }));
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+        alert('Return request rejected.');
+        closeRejectReturnModal();
+        renderOrdersForStaff();
+      } else if (!foundOrder) {
+        alert('Order not found.');
+        closeRejectReturnModal();
+      } else {
+        alert('This order cannot process return (status may have changed).');
+        closeRejectReturnModal();
+        renderOrdersForStaff(); // refresh order list
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Display staff username when available
+      const infoEl = document.getElementById('staffUserInfo');
+      try {
+        const raw = sessionStorage.getItem('user_info');
+        if (raw) {
+          const u = JSON.parse(raw);
+          if (u && u.username) {
+            infoEl.textContent = `Staff: ${u.username}`;
+          }
+        }
+      } catch (e) {}
+
+      const backBtn = document.getElementById('backToMarketBtn');
+      if (backBtn) {
+        backBtn.addEventListener('click', () => {
+          window.location.href = 'platform-market.html';
+        });
+      }
+      updateUserInfo();
+      setupLogoutHandler();
+
+      // Initialize reject reason options
+      const rejectReasonOptions = document.querySelectorAll('#rejectReasonOptions .modal-option');
+      const customRejectSection = document.getElementById('customRejectReasonSection');
+      
+      rejectReasonOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove active state
+          rejectReasonOptions.forEach(opt => opt.classList.remove('active'));
+          // Set current active
+          this.classList.add('active');
+          
+          const reason = this.getAttribute('data-reason');
+          selectedRejectReason = reason;
+          
+          // Show custom input when selecting Other
+          if (reason === 'Other' && customRejectSection) {
+            customRejectSection.style.display = 'block';
+          } else if (customRejectSection) {
+            customRejectSection.style.display = 'none';
+            const customInput = document.getElementById('customRejectReason');
+            if (customInput) customInput.value = '';
+          }
+        });
+      });
+
+      // Close when clicking outside modal
+      const rejectModal = document.getElementById('rejectReturnModal');
+      if (rejectModal) {
+        rejectModal.addEventListener('click', function(e) {
+          if (e.target === rejectModal) {
+            closeRejectReturnModal();
+          }
+        });
+      }
+
+      renderOrdersForStaff();
+    });
+  </script>
+
+  <!-- Reject return modal -->
+  <div class="modal-overlay" id="rejectReturnModal">
+    <div class="modal">
+      <h3>Reject Return Request</h3>
+      <div class="modal-section">
+        <label>Please choose a reason</label>
+        <div class="modal-options" id="rejectReasonOptions">
+          <div class="modal-option" data-reason="Return window expired">Return window expired</div>
+          <div class="modal-option" data-reason="Product used or damaged">Product used or damaged</div>
+          <div class="modal-option" data-reason="Packaging opened">Packaging opened</div>
+          <div class="modal-option" data-reason="Does not meet policy">Does not meet policy</div>
+          <div class="modal-option" data-reason="Reason not sufficient">Reason not sufficient</div>
+          <div class="modal-option" data-reason="Other">Other reason</div>
+        </div>
+      </div>
+      <div class="modal-section" id="customRejectReasonSection" style="display:none;">
+        <label for="customRejectReason">Please enter details</label>
+        <textarea id="customRejectReason" class="form-input" rows="3" placeholder="Please describe why the return is rejected..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeRejectReturnModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="submitRejectReturn()">Confirm Reject</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

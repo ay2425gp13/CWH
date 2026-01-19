@@ -1,0 +1,7 @@
+customer ：
+account：zhao33
+password：3624813
+
+staff:
+account: zhao23
+password:3624813

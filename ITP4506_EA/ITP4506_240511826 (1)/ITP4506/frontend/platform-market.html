@@ -1,0 +1,5457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Official Marketplace - FYP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    :root {
+      /* 深色主题变量 */
+      --primary: #1e40af;
+      --secondary: #3b82f6;
+      --accent: #60a5fa;
+      --gold: #ffc82c;
+      --silver: #c7d5e0;
+      --bronze: #cd7f32;
+      --bg: #1e2329;
+      --card-bg: #16181d;
+      --text: #c7d5e0;
+      --text-light: #8f98a0;
+      --border: #3c4043;
+      --success: #5cb85c;
+      --warning: #f0ad4e;
+      --danger: #d9534f;
+      --info: #5bc0de;
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --shadow: 0 4px 12px rgba(0,0,0,0.2);
+      --shadow-hover: 0 8px 24px rgba(0,0,0,0.3);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      
+      /* 兼容旧变量名 */
+      --card: var(--card-bg);
+      --muted: var(--text-light);
+    }
+    
+    /* 浅色主题 */
+    [data-theme="light"] {
+      --bg: #CFD7E2;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --shadow-hover: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 70px; /* 为底部栏留出空间 */
+    }
+
+    /* 统一顶部导航栏样式 */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .unified-top-nav .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 100%;
+    }
+
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .unified-top-nav .logo-link:hover {
+      transform: scale(1.05);
+    }
+
+    .unified-top-nav .logo-icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+
+    .unified-top-nav .logo-text {
+      color: white;
+    }
+
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 15px;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow: visible;
+      min-width: 0;
+    }
+
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 10px 10px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      font-size: 13px;
+      writing-mode: horizontal-tb;
+      display: inline-block;
+      flex-shrink: 0;
+      overflow: visible;
+    }
+
+    .unified-top-nav .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: 600;
+    }
+
+    .unified-top-nav .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background: white;
+      border-radius: 1px;
+    }
+
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      flex-direction: row;
+    }
+
+    .unified-top-nav .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .unified-top-nav .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .unified-top-nav .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: block;
+    }
+
+    .unified-top-nav .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+      font-size: 14px;
+    }
+
+    .unified-top-nav .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+
+    .unified-top-nav .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .unified-top-nav .logout-btn {
+      color: #ff4d4f !important;
+    }
+
+    .unified-top-nav .nav-icon {
+      font-size: 18px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .unified-top-nav .nav-icon:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .unified-top-nav .nav-button {
+      background: white;
+      color: #1e3a8a;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid white;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .unified-top-nav .nav-button:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 购物车图标样式 */
+    .unified-top-nav .cart-icon-link {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-size: 24px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .unified-top-nav .cart-icon-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .unified-top-nav .cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--danger);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 5px;
+      border-radius: 10px;
+      min-width: 16px;
+      text-align: center;
+      line-height: 1.3;
+      transform: translate(25%, -25%);
+    }
+
+    /* 搜索栏容器样式 */
+    .search-bar-container {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: sticky;
+      top: 60px;
+      z-index: 999;
+    }
+
+    .search-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .search-container-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 30px;
+      padding: 8px 16px;
+      transition: all 0.3s ease;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .search-container-main:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    }
+
+    .search-input-main {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 16px;
+      padding: 8px 12px;
+      width: 100%;
+    }
+
+    .search-input-main::placeholder {
+      color: var(--text-light);
+    }
+
+    .search-btn-main {
+      background: var(--primary);
+      border: none;
+      border-radius: 20px;
+      padding: 10px 24px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .search-btn-main:hover {
+      background: var(--secondary);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .search-btn-main:active {
+      transform: translateY(0);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .unified-top-nav .nav-menu {
+        gap: 0;
+      }
+      
+      .unified-top-nav .nav-item {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .unified-top-nav .nav-container {
+        padding: 0 15px;
+      }
+      
+      .unified-top-nav .nav-menu {
+        display: none;
+      }
+      
+      .search-bar-container {
+        padding: 12px 0;
+      }
+      
+      .search-bar {
+        padding: 0 15px;
+      }
+      
+      .search-container-main {
+        padding: 6px 12px;
+      }
+      
+      .search-input-main {
+        font-size: 14px;
+        padding: 6px 8px;
+      }
+      
+      .search-btn-main {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+      
+      .unified-top-nav .nav-user {
+        gap: 8px;
+      }
+      
+      .unified-top-nav .nav-button {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      
+      .unified-top-nav .nav-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .unified-top-nav .nav-container {
+        padding: 0 10px;
+      }
+      
+      .unified-top-nav .logo-text {
+        display: none;
+      }
+      
+      .search-bar-container {
+        padding: 10px 0;
+      }
+      
+      .search-bar {
+        padding: 0 10px;
+      }
+      
+      .search-container-main {
+        padding: 6px 10px;
+        border-radius: 25px;
+      }
+      
+      .search-input-main {
+        font-size: 13px;
+        padding: 6px 8px;
+      }
+      
+      .search-btn-main {
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 15px;
+      }
+      
+      .unified-top-nav .nav-user {
+        gap: 6px;
+      }
+      
+      .unified-top-nav .nav-button {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* 顶部导航栏样式 */
+    .top-nav {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      border-bottom: none;
+      box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 60px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .logo-icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+
+    .logo-text {
+      color: #fff;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-item {
+      text-decoration: none;
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nav-item:hover, .nav-item.active {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    /* 导航栏主题切换按钮样式 */
+    .theme-toggle-nav {
+      display: flex;
+      align-items: center;
+    }
+    
+    .switch-nav {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .switch-nav input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider-nav {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255,255,255,0.2);
+      transition: .4s;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .switch-nav input:checked + .slider-nav {
+      background-color: rgba(255,255,255,0.3);
+    }
+    
+    .slider-nav:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .switch-nav input:checked + .slider-nav:before {
+      transform: translateX(26px);
+    }
+    
+    .switch-label-nav {
+      position: absolute;
+      top: 2px;
+      font-size: 12px;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    
+    .switch-label-nav.on {
+      left: 6px;
+      opacity: 1;
+    }
+    
+    .switch-label-nav.off {
+      right: 6px;
+      opacity: 0;
+    }
+    
+    .switch-nav input:checked + .slider-nav .switch-label-nav.on {
+      opacity: 0;
+    }
+    
+    .switch-nav input:checked + .slider-nav .switch-label-nav.off {
+      opacity: 1;
+    }
+    
+    /* 底部栏样式 */
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--card-bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 30px;
+      z-index: 4000;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .bottom-bar .left-icons,
+    .bottom-bar .right-icons {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    
+    .bottom-bar .icon-btn {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .bottom-bar .icon-btn:hover {
+      transform: scale(1.1);
+      color: var(--primary);
+    }
+    
+    .bottom-bar .username {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 16px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .bottom-bar .username:hover {
+      color: var(--primary);
+    }
+    
+    /* 底部栏深色模式切换开关 */
+    .bottom-bar .switch {
+      position: relative;
+      display: inline-block;
+      width: 120px;
+      height: 32px;
+      margin-right: 16px;
+      vertical-align: middle;
+    }
+    
+    .bottom-bar .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .bottom-bar .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0;
+      background-color: #181818;
+      border-radius: 32px;
+      transition: .4s;
+      border: 2px solid var(--border);
+    }
+    
+    .bottom-bar .switch input:checked + .slider {
+      background-color: #fff;
+    }
+    
+    .bottom-bar .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 3px;
+      background-color: #fff;
+      transition: .4s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .bottom-bar .switch input:checked + .slider:before {
+      transform: translateX(88px);
+      background: #2196f3;
+    }
+    
+    .bottom-bar .switch-label {
+      position: absolute;
+      top: 6px;
+      font-size: 12px;
+      color: #fff;
+      pointer-events: none;
+      transition: color 0.4s, opacity 0.3s;
+      font-weight: 500;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    
+    .bottom-bar .switch-label.on {
+      left: 12px;
+    }
+    
+    .bottom-bar .switch-label.off {
+      right: 12px;
+    }
+    
+    .bottom-bar .switch input:checked + .slider .switch-label.on {
+      opacity: 0;
+    }
+    
+    .bottom-bar .switch input:checked + .slider .switch-label.off {
+      opacity: 1;
+      color: #333;
+    }
+    
+    .bottom-bar .switch input:not(:checked) + .slider .switch-label.on {
+      opacity: 1;
+    }
+    
+    .bottom-bar .switch input:not(:checked) + .slider .switch-label.off {
+      opacity: 0;
+    }
+
+    .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .user-id {
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .user-id:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-1px);
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-width: 200px;
+      display: none;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      margin-top: 5px;
+    }
+
+    .user-info:hover .user-dropdown {
+      display: block;
+    }
+
+    .user-dropdown a {
+      display: block;
+      padding: 12px 16px;
+      color: var(--text);
+      text-decoration: none;
+      transition: background 0.3s;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .user-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .user-dropdown a:hover {
+      background: var(--bg);
+    }
+
+    .logout-btn {
+      display: block;
+      padding: 12px 16px;
+      color: #ff4d4f !important;
+      text-decoration: none;
+      transition: background 0.3s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .logout-btn:hover {
+      background: var(--bg);
+    }
+
+    /* 主要内容区域 */
+    .main-content {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* 左侧分类导航 */
+    .category-sidebar {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 15px 10px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    /* 侧边栏滚动条样式 */
+    .category-sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .category-sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .category-sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+    
+    .category-sidebar::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    .category-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-title::before {
+      content: '';
+      width: 3px;
+      height: 16px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .category-list {
+      list-style: none;
+    }
+
+    .category-item {
+      margin-bottom: 6px;
+    }
+
+    .category-link {
+      display: block;
+      padding: 8px 10px;
+      color: var(--text);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: all 0.3s ease;
+      font-size: 13px;
+    }
+
+    .category-link:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .category-link.active {
+      background: var(--primary);
+      color: white;
+      font-weight: bold;
+    }
+
+    /* 右侧内容区域 */
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 促销横幅轮播器 */
+    .promo-banner {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-hover);
+      margin-bottom: 20px;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 轮播指示器 */
+    .carousel-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .indicator.active {
+      background: white;
+      transform: scale(1.2);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .indicator:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    /* 轮播导航按钮 */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.3s ease;
+      z-index: 10;
+      backdrop-filter: blur(5px);
+    }
+
+    .carousel-nav:hover {
+      background: rgba(0, 0, 0, 0.7);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-nav.prev {
+      left: 20px;
+    }
+
+    .carousel-nav.next {
+      right: 20px;
+    }
+
+    /* 占位文字样式（在没有图片时显示） */
+    .placeholder-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 100%;
+      padding: 0 40px;
+    }
+
+    .placeholder-text h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .placeholder-text p {
+      font-size: 18px;
+      opacity: 0.95;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 商品网格 */
+    .products-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      background: var(--card-bg);
+      display: block;
+    }
+    
+    .product-image[src=""],
+    .product-image:not([src]) {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+    }
+
+    .product-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .product-original-price {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .product-sales {
+      color: var(--success);
+    }
+
+    .product-location {
+      color: var(--muted);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--primary);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .product-badge.new {
+      background: var(--success);
+    }
+
+    .product-badge.hot {
+      background: var(--danger);
+    }
+
+    /* 分页样式 */
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+      padding: 20px 0;
+      gap: 8px;
+    }
+
+    .pagination-btn {
+      padding: 10px 16px;
+      background: var(--primary);
+      color: white;
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      min-width: 40px;
+      text-align: center;
+      font-weight: normal;
+    }
+
+    .pagination-btn:hover:not(.disabled):not(.active) {
+      background: var(--primary-dark, #0056b3);
+      border-color: var(--primary-dark, #0056b3);
+    }
+
+    /* 选中状态的页面按钮 - 黑色背景，白色文字 */
+    .pagination-btn.active {
+      background: #000000;
+      color: white;
+      border-color: #000000;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transform: scale(1.05);
+    }
+
+    .pagination-btn.active:hover {
+      background: #333333;
+      border-color: #333333;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .pagination-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .pagination-info {
+      margin: 0 16px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    /* 热门标签 */
+    .trending-tags {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .tags-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 15px;
+    }
+
+    .tags-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      background: var(--bg);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+    }
+
+    /* 选中状态的标签样式 */
+    .tag.active {
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      border: 1px solid var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .tag-all-products {
+      background: var(--primary);
+      color: white;
+      font-weight: bold;
+      border: 1px solid var(--primary);
+    }
+
+    .tag-all-products:hover {
+      background: var(--primary-dark, #0056b3);
+      transform: scale(1.05);
+    }
+
+    .tag-all-products.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .tag:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    /* 选中状态的标签悬停效果 */
+    .tag.active:hover {
+      background: var(--primary-dark, #0056b3);
+      transform: translateY(-2px);
+    }
+
+    /* 商品详情弹窗样式 */
+    .product-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10000;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .product-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Success Modal with Animation */
+    #successModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #successModal.show {
+      display: flex;
+    }
+
+    .success-modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+      animation: slideUpSuccess 0.4s ease;
+      position: relative;
+    }
+
+    @keyframes slideUpSuccess {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      position: relative;
+      animation: scaleIn 0.5s ease 0.2s both;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .success-icon-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      position: relative;
+      animation: pulse 1s ease 0.5s;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .success-checkmark {
+      width: 40px;
+      height: 40px;
+      position: relative;
+    }
+
+    .success-checkmark::before {
+      content: '';
+      position: absolute;
+      width: 3px;
+      height: 20px;
+      background: #fff;
+      left: 18px;
+      top: 30px;
+      transform: rotate(45deg);
+      animation: checkmark1 0.3s ease 0.7s both;
+    }
+
+    .success-checkmark::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      height: 12px;
+      background: #fff;
+      left: 10px;
+      top: 36px;
+      transform: rotate(-45deg);
+      animation: checkmark2 0.3s ease 0.9s both;
+    }
+
+    @keyframes checkmark1 {
+      from {
+        height: 0;
+        top: 40px;
+      }
+      to {
+        height: 20px;
+        top: 30px;
+      }
+    }
+
+    @keyframes checkmark2 {
+      from {
+        height: 0;
+        top: 40px;
+      }
+      to {
+        height: 12px;
+        top: 36px;
+      }
+    }
+
+    .success-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #27ae60;
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s ease 0.4s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-message {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s ease 0.6s both;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .success-details {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+      animation: fadeInUp 0.5s ease 0.8s both;
+      white-space: pre-line;
+    }
+
+    .product-modal-content {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease;
+      position: relative;
+    }
+
+    .product-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .product-modal-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .product-modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: var(--text-light);
+      cursor: pointer;
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .product-modal-close:hover {
+      background: var(--bg);
+      color: var(--text);
+      transform: rotate(90deg);
+    }
+
+    .product-modal-body {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .product-modal-image-container {
+      position: relative;
+    }
+
+    .product-modal-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .product-modal-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .product-modal-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .product-modal-price-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-modal-price {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .product-modal-original-price {
+      font-size: 20px;
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+
+    .product-modal-details {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+      background: var(--bg);
+      border-radius: var(--radius);
+    }
+
+    .product-modal-detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .product-modal-detail-item:last-child {
+      border-bottom: none;
+    }
+
+    .product-modal-detail-label {
+      font-weight: 600;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .product-modal-detail-value {
+      color: var(--text);
+      font-size: 14px;
+      text-align: right;
+      flex: 1;
+      margin-left: 20px;
+    }
+
+    .product-modal-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .product-modal-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--primary);
+      color: white;
+    }
+
+    .product-modal-badge.new {
+      background: var(--success);
+    }
+
+    .product-modal-badge.hot {
+      background: var(--danger);
+    }
+
+    .product-modal-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .product-modal-btn {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .product-modal-btn-cart {
+      background: var(--primary);
+      color: white;
+    }
+
+    .product-modal-btn-cart:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .product-modal-btn-buy {
+      background: var(--danger);
+      color: white;
+    }
+
+    .product-modal-btn-buy:hover {
+      background: #c53030;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(217, 83, 79, 0.3);
+    }
+
+    .product-modal-btn-favorite {
+      background: var(--bg);
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .product-modal-btn-favorite:hover {
+      background: var(--warning);
+      color: white;
+      border-color: var(--warning);
+      transform: translateY(-2px);
+    }
+
+    .product-modal-btn-favorite.active {
+      background: var(--warning);
+      color: white;
+      border-color: var(--warning);
+    }
+
+    .product-modal-btn-wishlist {
+      background: var(--bg);
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .product-modal-btn-wishlist:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .product-modal-btn-wishlist.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* 数量选择弹窗样式 */
+    .quantity-select-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10001;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .quantity-select-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .quantity-select-content {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease;
+      position: relative;
+    }
+
+    .quantity-select-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quantity-select-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .quantity-select-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: var(--text-light);
+      cursor: pointer;
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .quantity-select-close:hover {
+      background: var(--bg);
+      color: var(--text);
+      transform: rotate(90deg);
+    }
+
+    .quantity-select-body {
+      padding: 30px;
+    }
+
+    .quantity-select-product-info {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quantity-select-product-image {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .quantity-select-product-details {
+      flex: 1;
+    }
+
+    .quantity-select-product-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .quantity-select-product-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .quantity-select-option {
+      margin-bottom: 25px;
+    }
+
+    .quantity-select-option-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .quantity-select-variants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .quantity-select-variant {
+      padding: 10px 20px;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-sm);
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .quantity-select-variant:hover:not(.selected):not(.active) {
+      border-color: var(--primary-dark, #0056b3);
+      background: var(--primary-dark, #0056b3);
+      color: white;
+    }
+
+    .quantity-select-variant.selected,
+    .quantity-select-variant.active {
+      border-color: #000000 !important;
+      background: #000000 !important;
+      color: white !important;
+    }
+
+    .quantity-select-variant.selected:hover,
+    .quantity-select-variant.active:hover {
+      border-color: #000000 !important;
+      background: #000000 !important;
+      color: white !important;
+    }
+
+    .quantity-select-control {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 10px;
+    }
+
+    .quantity-select-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: var(--card-bg);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .quantity-select-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .quantity-select-input {
+      width: 80px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 600;
+      padding: 5px;
+    }
+
+    .quantity-select-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .quantity-select-confirm-btn {
+      flex: 1;
+      padding: 14px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quantity-select-confirm-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .quantity-select-cancel-btn {
+      flex: 1;
+      padding: 14px 24px;
+      background: var(--bg);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quantity-select-cancel-btn:hover {
+      background: var(--border);
+      transform: translateY(-2px);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .product-modal-body {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .product-modal-image {
+        height: 300px;
+      }
+
+      .product-modal-name {
+        font-size: 22px;
+      }
+
+      .product-modal-price {
+        font-size: 28px;
+      }
+
+      .product-modal-actions {
+        flex-direction: column;
+      }
+
+      .product-modal-btn {
+        width: 100%;
+      }
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .container {
+        padding: 10px;
+      }
+      
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+      }
+      
+      .category-sidebar {
+        order: 2;
+      }
+      
+      .content-area {
+        order: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 统一顶部导航栏 -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="CustomerMenu.html" class="logo-link">
+          <span class="logo-icon">📱</span>
+          <span class="logo-text">Smile &amp; Sunshine Toy Co. Ltd</span>
+        </a>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="platform-market.html" class="nav-item active" data-page="platform">Official Market</a>
+        <a href="customize.html" class="nav-item" data-page="customize">Toy Customization</a>
+        <a href="quote-history.html" class="nav-item" data-page="quote-history">Quote History</a>
+        <a href="wishlist.html" class="nav-item" data-page="wishlist">Wishlist</a>
+        <a href="my-orders.html" class="nav-item" data-page="orders">My Orders</a>
+        <a href="login.html" class="nav-item" data-page="login">Login</a>
+      </div>
+      
+      <div class="nav-user">
+        <a href="cart.html" class="cart-icon-link" title="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </a>
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">Please Login</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">Personal Center</a>
+            <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- search bar -->
+  <div class="search-bar-container">
+    <div class="search-bar">
+      <div class="search-container-main">
+        <input type="text" class="search-input-main" id="searchInput" placeholder="Search product name..." />
+        <button class="search-btn-main" id="searchBtn" onclick="performSearch()" title="Search">🔍 Search</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- main content -->
+    <div class="main-content">
+      <!-- left category nav -->
+      <div class="category-sidebar">
+        <h3 class="category-title">Official Categories</h3>
+        <ul class="category-list" id="categoryList">
+          <!-- categories are rendered by JS -->
+        </ul>
+      </div>
+
+      <!-- right content area -->
+      <div class="content-area">
+        <!-- promo carousel -->
+        <div class="promo-banner">
+          <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+              <!-- slide 1 -->
+              <div class="carousel-slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <!-- <img src="images/banner1.jpg" alt="Banner 1"> -->
+                <div class="placeholder-text">
+                  <h2>■ Official Marketplace Is Live!</h2>
+                  <p>Authentic toys, direct from the brand, trusted service.</p>
+                </div>
+              </div>
+              
+              <!-- slide 2 -->
+              <div class="carousel-slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <!-- <img src="images/banner2.jpg" alt="Banner 2"> -->
+                <div class="placeholder-text">
+                  <h2>★ Staff Picks & Best Sellers</h2>
+                  <p>Direct sales, authentic stock, limited-time deals.</p>
+                </div>
+              </div>
+              
+              <!-- slide 3 -->
+              <div class="carousel-slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <!-- <img src="images/banner3.jpg" alt="Banner 3"> -->
+                <div class="placeholder-text">
+                  <h2>● Quality Guaranteed</h2>
+                  <p>Authorized merchandise with 100% authenticity.</p>
+                </div>
+              </div>
+              
+              <!-- slide 4 -->
+              <div class="carousel-slide" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <!-- <img src="images/banner4.jpg" alt="Banner 4"> -->
+                <div class="placeholder-text">
+                  <h2>◆ Welcome Gift Pack</h2>
+                  <p>Register now to get coupons and save on your first order.</p>
+                </div>
+              </div>
+              
+              <!-- slide 5 -->
+              <div class="carousel-slide" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                <!-- <img src="images/banner5.jpg" alt="Banner 5"> -->
+                <div class="placeholder-text">
+                  <h2>▲ Limited Flash Deals</h2>
+                  <p>Daily 10 AM drops with huge savings. Don’t miss out!</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 导航按钮 -->
+            <button class="carousel-nav prev" onclick="carouselPrev()">‹</button>
+            <button class="carousel-nav next" onclick="carouselNext()">›</button>
+            
+            <!-- 指示器 -->
+            <div class="carousel-indicators">
+              <span class="indicator active" onclick="goToSlide(0)"></span>
+              <span class="indicator" onclick="goToSlide(1)"></span>
+              <span class="indicator" onclick="goToSlide(2)"></span>
+              <span class="indicator" onclick="goToSlide(3)"></span>
+              <span class="indicator" onclick="goToSlide(4)"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- trending tags -->
+        <div class="trending-tags">
+          <h3 class="tags-title">◈ Trending Tags</h3>
+          <div class="tags-grid" id="trendingTags">
+            <!-- tags rendered by JS -->
+          </div>
+        </div>
+
+        <!-- all products -->
+        <div class="products-section">
+          <h3 class="section-title">★ All Products</h3>
+          <div class="products-grid" id="allProducts">
+            <!-- products rendered by JS -->
+          </div>
+          <!-- pagination -->
+          <div class="pagination-container" id="paginationContainer">
+            <!-- buttons rendered by JS -->
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========== 轮播器功能 ==========
+    let currentSlide = 0;
+    const totalSlides = 5;
+    let autoPlayInterval;
+
+    // 切换到指定幻灯片
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarousel();
+    }
+
+    // 下一张
+    function carouselNext() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+      resetAutoPlay();
+    }
+
+    // 上一张
+    function carouselPrev() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+      resetAutoPlay();
+    }
+
+    // 更新轮播器显示
+    function updateCarousel() {
+      const track = document.getElementById('carouselTrack');
+      const indicators = document.querySelectorAll('.indicator');
+      
+      if (track) {
+        // 移动轨道
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        
+        // 更新指示器
+        indicators.forEach((indicator, index) => {
+          if (index === currentSlide) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    // 自动播放
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(() => {
+        carouselNext();
+      }, 4000); // 每4秒切换一次
+    }
+
+    // 重置自动播放
+    function resetAutoPlay() {
+      clearInterval(autoPlayInterval);
+      startAutoPlay();
+    }
+
+    // 页面加载时启动自动播放
+    document.addEventListener('DOMContentLoaded', function() {
+      startAutoPlay();
+      
+      // 鼠标悬停时暂停自动播放
+      const banner = document.querySelector('.promo-banner');
+      if (banner) {
+        banner.addEventListener('mouseenter', () => {
+          clearInterval(autoPlayInterval);
+        });
+        
+        banner.addEventListener('mouseleave', () => {
+          startAutoPlay();
+        });
+      }
+    });
+
+    // ========== 分类和商品数据 ==========
+    // 分类数据将从商品数据中动态生成，确保只显示有商品的分类
+
+    // map raw Chinese category/tag to simple English
+    function getCategoryLabel(raw) {
+      const map = {
+        "变形金刚": "Transformers",
+        "玩具枪": "Toy Guns",
+        "漫威系列": "Marvel Series",
+        "钢铁侠": "Iron Man",
+        "蝙蝠侠": "Batman",
+        "DC宇宙": "DC Universe",
+        "毛绒玩具": "Plush Toys",
+        "泰迪熊": "Teddy Bear",
+        "幼儿玩具": "Toddler Toys",
+        "恐龙模型": "Dinosaur Models",
+        "拼图益智": "Puzzle & Brain Games",
+        "乐高积木": "Building Blocks"
+      };
+      return map[raw] || raw;
+    }
+
+    // 从商品数据中动态生成热门标签（基于实际分类）
+    function getTrendingTagsFromProducts() {
+      const categories = getCategoriesFromProducts();
+      return categories.map(cat => cat.name);
+    }
+
+    // 模拟商品数据（玩具 JSON 数据 - 100个商品）
+    const productsData = [
+      {
+        id: 1,
+        title: "Transformers Optimus Prime",
+        price: 120,
+        originalPrice: 138,
+        image: "/images/toys/toy1.png",
+        sales: 51,
+        location: "Hong Kong Mong Kok",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 1 Floor 2",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 2,
+        title: "Transformers Bumblebee",
+        price: 140,
+        originalPrice: 161,
+        image: "/images/toys/toy2.png",
+        sales: 52,
+        location: "Hong Kong Central",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 2 Floor 3",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 3,
+        title: "Transformers Megatron",
+        price: 160,
+        originalPrice: 184,
+        image: "/images/toys/toy3.png",
+        sales: 53,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 3 Floor 4",
+        badge: "hot",
+        category: "Transformers"
+      },
+      {
+        id: 4,
+        title: "Transformers Starscream",
+        price: 180,
+        originalPrice: 206,
+        image: "/images/toys/toy4.png",
+        sales: 54,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 4 Floor 5",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 5,
+        title: "Transformers Soundwave",
+        price: 200,
+        originalPrice: 229,
+        image: "/images/toys/toy5.png",
+        sales: 55,
+        location: "Hong Kong Kwun Tong",
+        seller: "Puzzle House",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 5 Floor 6",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 6,
+        title: "Transformers Jazz",
+        price: 220,
+        originalPrice: 252,
+        image: "/images/toys/toy6.png",
+        sales: 56,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 6 Floor 7",
+        badge: "hot",
+        category: "Transformers"
+      },
+      {
+        id: 7,
+        title: "Transformers Ironhide",
+        price: 240,
+        originalPrice: 276,
+        image: "/images/toys/toy7.png",
+        sales: 57,
+        location: "Hong Kong Causeway Bay",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 7 Floor 8",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 8,
+        title: "Transformers Ratchet",
+        price: 260,
+        originalPrice: 299,
+        image: "/images/toys/toy8.png",
+        sales: 58,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 8 Floor 9",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 9,
+        title: "Transformers Crosshairs",
+        price: 280,
+        originalPrice: 322,
+        image: "/images/toys/toy9.png",
+        sales: 59,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 9 Floor 10",
+        badge: "hot",
+        category: "Transformers"
+      },
+      {
+        id: 10,
+        title: "Transformers Blurr",
+        price: 300,
+        originalPrice: 345,
+        image: "/images/toys/toy10.png",
+        sales: 60,
+        location: "Hong Kong Yuen Long",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 0 Floor 11",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 11,
+        title: "Transformers Grimlock",
+        price: 320,
+        originalPrice: 368,
+        image: "/images/toys/toy11.png",
+        sales: 61,
+        location: "Hong Kong Sha Tin",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 1 Floor 12",
+        badge: "new",
+        category: "Transformers"
+      },
+      {
+        id: 12,
+        title: "Toy Gun Water Blaster",
+        price: 350,
+        originalPrice: 402,
+        image: "/images/toys/toy12.png",
+        sales: 62,
+        location: "Hong Kong Mong Kok",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 2 Floor 13",
+        badge: "hot",
+        category: "Toy Guns"
+      },
+      {
+        id: 13,
+        title: "Toy Gun Soft Dart Gun",
+        price: 370,
+        originalPrice: 425,
+        image: "/images/toys/toy13.png",
+        sales: 63,
+        location: "Hong Kong Central",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 3 Floor 14",
+        badge: "new",
+        category: "Toy Guns"
+      },
+      {
+        id: 14,
+        title: "Toy Gun Laser Gun",
+        price: 390,
+        originalPrice: 448,
+        image: "/images/toys/toy14.png",
+        sales: 64,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 4 Floor 15",
+        badge: "new",
+        category: "Toy Guns"
+      },
+      {
+        id: 15,
+        title: "Toy Gun Sound & Light Gun",
+        price: 410,
+        originalPrice: 471,
+        image: "/images/toys/toy15.png",
+        sales: 65,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 5 Floor 16",
+        badge: "hot",
+        category: "Toy Guns"
+      },
+      {
+        id: 16,
+        title: "Toy Gun Racer Head Gun",
+        price: 430,
+        originalPrice: 494,
+        image: "/images/toys/toy16.png",
+        sales: 66,
+        location: "Hong Kong Kwun Tong",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 6 Floor 17",
+        badge: "new",
+        category: "Toy Guns"
+      },
+      {
+        id: 17,
+        title: "Toy Gun SMG",
+        price: 450, 
+        originalPrice: 517,
+        image: "/images/toys/toy17.png",
+        sales: 67,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "Puzzle House",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 7 Floor 18",
+        badge: "new",
+        category: "Toy Guns"
+      },
+      {
+        id: 18,
+        title: "Toy Gun Pistol",
+        price: 470,
+        originalPrice: 540,
+        image: "/images/toys/toy18.png",
+        sales: 68,
+        location: "Hong Kong Causeway Bay",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 8 Floor 19",
+        badge: "hot",
+        category: "Toy Guns"
+      },
+      {
+        id: 19,
+        title: "Toy Gun Four-Color Pistol",
+        price: 490,
+        originalPrice: 563,
+        image: "/images/toys/toy19.png",
+        sales: 69,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 9 Floor 20",
+        badge: "new",
+        category: "Toy Guns"
+      },
+      {
+        id: 20,
+        title: "Toy Gun Dino Assault Rifle",
+        price: 110,
+        originalPrice: 126,
+        image: "/images/toys/toy20.png",
+        sales: 70,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 0 Floor 1",
+        badge: "new",
+        category: "Toy Guns"
+      },
+      {
+        id: 21,
+        title: "Toy Gun SMG",
+        price: 130,
+        originalPrice: 149,
+        image: "/images/toys/toy21.png",
+        sales: 71,
+        location: "Hong Kong Yuen Long",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 1 Floor 2",
+        badge: "hot",
+        category: "Toy Guns"
+      },
+      {
+        id: 22,
+        title: "Toy Gun Strawberry Gatling",
+        price: 150,
+        originalPrice: 172,
+        image: "/images/toys/toy22.png",
+        sales: 72,
+        location: "Hong Kong Sha Tin",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 2 Floor 3",
+        badge: "new",
+        category: "Toy Guns"
+      },
+      {
+        id: 23,
+        title: "Marvel Bundle Iron Man & Captain America",
+        price: 180,
+        originalPrice: 206,
+        image: "/images/toys/gtx.png",
+        sales: 73,
+        location: "Hong Kong Mong Kok",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 3 Floor 4",
+        badge: "new",
+        category: "Marvel"
+      },
+      {
+        id: 24,
+        title: "Marvel Thor",
+        price: 200,
+        originalPrice: 229,
+        image: "/images/toys/leishen.png",
+        sales: 74,
+        location: "Hong Kong Central",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 4 Floor 5",
+        badge: "hot",
+        category: "Marvel"
+      },
+      {
+        id: 25,
+        title: "Marvel Hulk",
+        price: 220,
+        originalPrice: 252,
+        image: "/images/toys/ljren.png",
+        sales: 75,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 5 Floor 6",
+        badge: "new",
+        category: "Marvel"
+      },
+      {
+        id: 26,
+        title: "Marvel Captain America",
+        price: 240,
+        originalPrice: 276,
+        image: "/images/toys/mgdz.png",
+        sales: 76,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 6 Floor 7",
+        badge: "new",
+        category: "Marvel"
+      },
+      {
+        id: 27,
+        title: "Marvel Ant-Man",
+        price: 260,
+        originalPrice: 299,
+        image: "/images/toys/yiren.png",
+        sales: 77,
+        location: "Hong Kong Kwun Tong",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 7 Floor 8",
+        badge: "hot",
+        category: "Marvel"
+      },
+      {
+        id: 28,
+        title: "Marvel Iron Man Mark 42",
+        price: 280,
+        originalPrice: 322,
+        image: "/images/toys/toy28.jpg",
+        sales: 78,
+        location: "Wong Tai Sin, Hong Kong",
+        seller: "Dino Park Toys",
+        shippingAddress: "New Town Plaza, Wong Tai Sin, Hong Kong",
+        badge: "new",
+        category: "Marvel Series"
+      },
+      {
+        id: 29,
+        title: "Marvel Doctor Strange",
+        price: 300,
+        originalPrice: 345,
+        image: "/images/toys/toy29.jpg",
+        sales: 79,
+        location: "Causeway Bay, Hong Kong",
+        seller: "Puzzle House",
+        shippingAddress: "New Town Plaza, Causeway Bay, Hong Kong",
+        badge: "new",
+        category: "Marvel Series"
+      },
+      {
+        id: 30,
+        title: "Marvel Black Widow",
+        price: 320,
+        originalPrice: 368,
+        image: "/images/toys/toy30.jpg",
+        sales: 80,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 0 Floor 11",
+        badge: "hot",
+        category: "Marvel Series"
+      },
+      {
+        id: 31,
+        title: "Marvel Ant-Man Set 2",
+        price: 340,
+        originalPrice: 390,
+        image: "/images/toys/toy31.jpg",  
+        sales: 81,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 1 Floor 12",
+        badge: "new",
+        category: "Marvel Series"
+      },
+      {
+        id: 32,
+        title: "Marvel Captain Marvel",
+        price: 360,
+        originalPrice: 413,
+        image: "/images/toys/toy32.jpg",
+        sales: 82,
+        location: "Hong Kong Yuen Long",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 2 Floor 13",
+        badge: "new",
+        category: "Marvel Series"
+      },
+      {
+        id: 33,
+        title: "Marvel Deadpool",
+        price: 380,
+        originalPrice: 436,
+        image: "/images/toys/toy33.jpg",
+        sales: 83,
+        location: "Hong Kong Sha Tin",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 3 Floor 14",
+        badge: "hot",
+        category: "Marvel Series"
+      },
+      {
+        id: 34,
+        title: "DC Universe Arkham Knight",
+        price: 410,
+        originalPrice: 471,
+        image: "/images/toys/toy34.jpg",
+        sales: 84,
+        location: "Hong Kong Mong Kok",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 4 Floor 15",
+        badge: "new",
+        category: "DC Universe"
+      },
+      {
+        id: 35,
+        title: "DC Universe The Dark Knight Returns Batman",
+        price: 430,
+        originalPrice: 494,
+        image: "/images/toys/toy35.jpg",
+        sales: 85,
+        location: "Hong Kong Central",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 5 Floor 16",
+        badge: "new",
+        category: "DC Universe"
+      },
+      {
+        id: 36,
+        title: "DC Universe Year One Batman",
+        price: 450,
+        originalPrice: 517,
+        image: "/images/toys/toy36.jpg",
+        sales: 86,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 6 Floor 17",
+        badge: "hot",
+        category: "DC Universe"
+      },
+      {
+        id: 37,
+        title: "DC Universe The Flash",
+        price: 470,
+        originalPrice: 540,
+        image: "/images/toys/toy37.jpg",
+        sales: 87,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 7 Floor 18",
+        badge: "new",
+        category: "DC Universe"
+      },
+      {
+        id: 38,
+        title: "DC Universe Justice League Set 1",
+        price: 490,
+        originalPrice: 563,
+        image: "/images/toys/toy38.jpg",
+        sales: 88,
+        location: "Hong Kong Kwun Tong",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 8 Floor 19",
+        badge: "new",
+        category: "DC Universe"
+      },
+      {
+        id: 39,
+        title: "DC Universe Cyborg",
+        price: 510,
+        originalPrice: 586,
+        image: "/images/toys/toy39.jpg",
+        sales: 89,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 9 Floor 20",
+        badge: "hot",
+        category: "DC Universe"
+      },
+      {
+        id: 40,
+        title: "DC Universe Justice League Set 2",
+        price: 130,
+        originalPrice: 149,
+        image: "/images/toys/toy40.jpg",
+        sales: 90,
+        location: "Hong Kong Causeway Bay",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 0 Floor 1",
+        badge: "new",
+        category: "DC Universe"
+      },
+      {
+        id: 41,
+        title: "DC Universe Joker",
+        price: 150,
+        originalPrice: 172,
+        image: "/images/toys/toy41.jpg",
+        sales: 91,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Puzzle House",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 1 Floor 2",
+        badge: "new",
+        category: "DC Universe"
+      },
+      {
+        id: 42,
+        title: "DC Universe Harley Quinn",
+        price: 170,
+        originalPrice: 195,
+        image: "/images/toys/toy42.jpg",
+        sales: 92,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 2 Floor 3",
+        badge: "hot",
+        category: "DC Universe"
+      },
+      {
+        id: 43,
+        title: "Plush Pig",
+        price: 190,
+        originalPrice: 218,
+        image: "/images/toys/toy43.jpg",
+        sales: 93,
+        location: "Hong Kong Yuen Long",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 3 Floor 4",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 44,
+        title: "Plush Bear Robin",
+        price: 210,
+        originalPrice: 241,
+        image: "/images/toys/toy44.jpg",
+        sales: 94,
+        location: "Hong Kong Sha Tin",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 4 Floor 5",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 45,
+        title: "Plush My First Teddy",
+        price: 240,
+        originalPrice: 276,
+        image: "/images/toys/toy45.jpg",
+        sales: 95,
+        location: "Hong Kong Mong Kok",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 5 Floor 6",
+        badge: "hot",
+        category: "Plush Toys"
+      },
+      {
+        id: 46,
+        title: "Plush Bear Gold",
+        price: 260,
+        originalPrice: 299,
+        image: "/images/toys/toy46.jpg",
+        sales: 96,
+        location: "Hong Kong Central",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 6 Floor 7",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 47,
+        title: "Plush Brown Teddy",
+        price: 280,
+        originalPrice: 322,
+        image: "/images/toys/toy47.jpg",
+        sales: 97,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 7 Floor 8",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 48,
+        title: "Plush Yellow Teddy",
+        price: 300,
+        originalPrice: 345,
+        image: "/images/toys/toy48.jpg",
+        sales: 98,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 8 Floor 9",
+        badge: "hot",
+        category: "Plush Toys"
+      },
+      {
+        id: 49,
+        title: "Plush Christmas Teddy",
+        price: 320,
+        originalPrice: 368,
+        image: "/images/toys/toy49.jpg",
+        sales: 99,
+        location: "Hong Kong Kwun Tong",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 9 Floor 10",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 50,
+        title: "Plush Ted Movie Bear",
+        price: 340,
+        originalPrice: 390,
+        image: "/images/toys/toy50.jpg",
+        sales: 100,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 0 Floor 11",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 51,
+        title: "Plush I Miss You Bear",
+        price: 360,
+        originalPrice: 413,
+        image: "/images/toys/toy51.jpg",
+        sales: 101,
+        location: "Hong Kong Causeway Bay",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 1 Floor 12",
+        badge: "hot",
+        category: "Plush Toys"
+      },
+      {
+        id: 52,
+        title: "Plush Big-Eared Monkey",
+        price: 380,
+        originalPrice: 436,
+        image: "/images/toys/toy52.jpg",
+        sales: 102,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 2 Floor 13",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 53,
+        title: "Plush Lying Puppy",
+        price: 400,
+        originalPrice: 459,
+        image: "/images/toys/toy53.jpg",
+        sales: 103,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Puzzle House",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 3 Floor 14",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 54,
+        title: "Plush Easter Bunny",
+        price: 420,
+        originalPrice: 482,
+        image: "/images/toys/toy54.jpg",
+        sales: 104,
+        location: "Hong Kong Yuen Long",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 4 Floor 15",
+        badge: "hot",
+        category: "Plush Toys"
+      },
+      {
+        id: 55,
+        title: "Plush Tie Bear",
+        price: 440,
+        originalPrice: 505,
+        image: "/images/toys/toy55.jpg",
+        sales: 105,
+        location: "Hong Kong Sha Tin",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 5 Floor 16",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 56,
+        title: "Plush Poodle",
+        price: 470,
+        originalPrice: 540,
+        image: "/images/toys/toy56.jpg",
+        sales: 106,
+        location: "Hong Kong Mong Kok",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 6 Floor 17",
+        badge: "new",
+        category: "Plush Toys"
+      },
+      {
+        id: 57,
+        title: "Toddler Toy Excavator Set 1",
+        price: 490,
+        originalPrice: 563,
+        image: "/images/toys/toy57.jpg",
+        sales: 107,
+        location: "Hong Kong Central",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 7 Floor 18",
+        badge: "hot",
+        category: "Toddler Toys"
+      },
+      {
+        id: 58,
+        title: "Toddler Toy Stroller",
+        price: 510,
+        originalPrice: 586,
+        image: "/images/toys/toy58.jpg",
+        sales: 108,
+        location: "Hong Kong Tsuen Wan",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 8 Floor 19",
+        badge: "new",
+        category: "Toddler Toys"
+      },
+      {
+        id: 59,
+        title: "Toddler Toy Shape Puzzle",
+        price: 530,
+        originalPrice: 609,
+        image: "/images/toys/toy59.jpg",
+        sales: 109,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 9 Floor 20",
+        badge: "new",
+        category: "Toddler Toys"
+      },
+      {
+        id: 60,
+        title: "Toddler Toy Animal Set 1",
+        price: 150,
+        originalPrice: 172,
+        image: "/images/toys/toy60.jpg",
+        sales: 110,
+        location: "Hong Kong Kwun Tong",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 0 Floor 1",
+        badge: "hot",
+        category: "Toddler Toys"
+      },
+      {
+        id: 61,
+        title: "Toddler Toy Gift Set 2",
+        price: 170,
+        originalPrice: 195,
+        image: "/images/toys/toy61.jpg",
+        sales: 111,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 1 Floor 2",
+        badge: "new",
+        category: "Toddler Toys"
+      },
+      {
+        id: 62,
+        title: "Toddler Toy Fruit Set 1",
+        price: 190,
+        originalPrice: 218,
+        image: "/images/toys/toy62.jpg",
+        sales: 112,
+        location: "Hong Kong Causeway Bay",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 2 Floor 3",
+        badge: "new",
+        category: "Toddler Toys"
+      },
+      {
+        id: 63,
+        title: "Toddler Toy Brick Fort",
+        price: 210,
+        originalPrice: 241,
+        image: "/images/toys/toy63.jpg",
+        sales: 113,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 3 Floor 4",
+        badge: "hot",
+        category: "Toddler Toys"
+      },
+      {
+        id: 64,
+        title: "Toddler Toy Scooter",
+        price: 230,
+        originalPrice: 264,
+        image: "/images/toys/toy64.jpg",
+        sales: 114,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 4 Floor 5",
+        badge: "new",
+        category: "Toddler Toys"
+      },
+      {
+        id: 65,
+        title: "Toddler Toy Water Pool",
+        price: 250,
+        originalPrice: 287,
+        image: "/images/toys/toy65.jpg",
+        sales: 115,
+        location: "Hong Kong Yuen Long",
+        seller: "Puzzle House",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 5 Floor 6",
+        badge: "new",
+        category: "Toddler Toys"
+      },
+      {
+        id: 66,
+        title: "Toddler Toy Scooter 2",
+        price: 270,
+        originalPrice: 310,
+        image: "/images/toys/toy66.jpg",
+        sales: 116,
+        location: "Hong Kong Sha Tin",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 6 Floor 7",
+        badge: "hot",
+        category: "Toddler Toys"
+      },
+      {
+        id: 67,
+        title: "Dinosaur Model T-Rex",
+        price: 300,
+        originalPrice: 345,
+        image: "/images/toys/toy67.jpg",
+        sales: 117,
+        location: "Hong Kong Mong Kok",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 7 Floor 8",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 68,
+        title: "Dinosaur Model Brachiosaurus",
+        price: 320,
+        originalPrice: 368,
+        image: "/images/toys/toy68.jpg",
+        sales: 118,
+        location: "Hong Kong Central",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 8 Floor 9",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 69,
+        title: "Dinosaur Model Pack 1",
+        price: 340,
+        originalPrice: 390,
+        image: "/images/toys/toy69.jpg",
+        sales: 119,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 9 Floor 10",
+        badge: "hot",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 70,
+        title: "Dinosaur Model Pack 2",
+        price: 360,
+        originalPrice: 413,
+        image: "/images/toys/toy70.jpg",
+        sales: 120,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 0 Floor 11",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 71,
+        title: "Dinosaur Model Raptor Pack 1",
+        price: 380,
+        originalPrice: 436,
+        image: "/images/toys/toy71.jpg",
+        sales: 121,
+        location: "Hong Kong Kwun Tong",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 1 Floor 12",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 72,
+        title: "Dinosaur Model Spinosaurus",
+        price: 400,
+        originalPrice: 459,
+        image: "/images/toys/toy72.jpg",
+        sales: 122,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 2 Floor 13",
+        badge: "hot",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 73,
+        title: "Dinosaur Model Farm Pack 1",
+        price: 420,
+        originalPrice: 482,
+        image: "/images/toys/toy73.jpg",
+        sales: 123,
+        location: "Hong Kong Causeway Bay",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 3 Floor 14",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 74,
+        title: "Dinosaur Model Triceratops",
+        price: 440,
+        originalPrice: 505,
+        image: "/images/toys/toy74.jpg",
+        sales: 124,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 4 Floor 15",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 75,
+        title: "Dinosaur Model Dino Wars",
+        price: 460,
+        originalPrice: 529,
+        image: "/images/toys/toy75.jpg",
+        sales: 125,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 5 Floor 16",
+        badge: "hot",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 76,
+        title: "Dinosaur Model Jurassic Park Set",
+        price: 480,
+        originalPrice: 552,
+        image: "/images/toys/toy76.jpg",
+        sales: 126,
+        location: "Hong Kong Yuen Long",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 6 Floor 17",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 77,
+        title: "Dinosaur Model Allosaurus",
+        price: 500,
+        originalPrice: 575,
+        image: "/images/toys/toy77.jpg",
+        sales: 127,
+        location: "Hong Kong Sha Tin",
+        seller: "Puzzle House",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 7 Floor 18",
+        badge: "new",
+        category: "Dinosaur Models"
+      },
+      {
+        id: 78,
+        title: "Puzzle Peppa Pig",
+        price: 530,
+        originalPrice: 609,
+        image: "/images/toys/toy78.jpg",
+        sales: 128,
+        location: "Hong Kong Mong Kok",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 8 Floor 19",
+        badge: "hot",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 79,
+        title: "Puzzle Frog",
+        price: 550,
+        originalPrice: 632,
+        image: "/images/toys/toy79.jpg",
+        sales: 129,
+        location: "Hong Kong Central",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 9 Floor 20",
+        badge: "new",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 80,
+        title: "Puzzle Train",
+        price: 170,
+        originalPrice: 195,
+        image: "/images/toys/toy80.jpg",
+        sales: 130,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 0 Floor 1",
+        badge: "new",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 81,
+        title: "Puzzle Numbers",
+        price: 190,
+        originalPrice: 218,
+        image: "/images/toys/toy81.jpg",
+        sales: 131,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 1 Floor 2",
+        badge: "hot",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 82,
+        title: "Puzzle City",
+        price: 210,
+        originalPrice: 241,
+        image: "/images/toys/toy82.png",
+        sales: 132,
+        location: "Hong Kong Kwun Tong",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 2 Floor 3",
+        badge: "new",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 83,
+        title: "Puzzle Ocean",
+        price: 230,
+        originalPrice: 264,
+        image: "/images/toys/toy83.png",
+        sales: 133,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 3 Floor 4",
+        badge: "new",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 84,
+        title: "Puzzle Space",
+        price: 250,
+        originalPrice: 287,
+        image: "/images/toys/toy84.png",
+        sales: 134,
+        location: "Hong Kong Causeway Bay",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 4 Floor 5",
+        badge: "hot",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 85,
+        title: "Puzzle Stadium",
+        price: 270,
+        originalPrice: 310,
+        image: "/images/toys/toy85.png",
+        sales: 135,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Tsim Sha Tsui New Town Plaza Phase 5 Floor 6",
+        badge: "new",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 86,
+        title: "Puzzle Farm",
+        price: 290,
+        originalPrice: 333,
+        image: "/images/toys/toy86.png",
+        sales: 136,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 6 Floor 7",
+        badge: "new",
+        category: "Puzzles & Brain Games"
+      },
+      {
+        id: 87,
+        title: "Building Blocks Racer 1",
+        price: 310,
+        originalPrice: 356,
+        image: "/images/toys/toy87.png",
+        sales: 137,
+        location: "Hong Kong Yuen Long",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 7 Floor 8",
+        badge: "hot",
+        category: "Building Blocks"
+      },
+      {
+        id: 88,
+        title: "Building Blocks Castle",
+        price: 330,
+        originalPrice: 379,
+        image: "/images/toys/toy88.png",
+        sales: 138,
+        location: "Hong Kong Sha Tin",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 8 Floor 9",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 89,
+        title: "Building Blocks Rocket",
+        price: 360,
+        originalPrice: 413,
+        image: "/images/toys/toy89.png",
+        sales: 139,
+        location: "Hong Kong Mong Kok",
+        seller: "Puzzle House",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 9 Floor 10",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 90,
+        title: "Building Blocks City Racer",
+        price: 380,
+        originalPrice: 436,
+        image: "/images/toys/toy90.png",
+        sales: 140,
+        location: "Hong Kong Central",
+        seller: "Sweet Plush",
+        shippingAddress: "Hong Kong Central New Town Plaza Phase 0 Floor 11",
+        badge: "hot",
+        category: "Building Blocks"
+      },
+      {
+        id: 91,
+        title: "Building Blocks Raptor",
+        price: 400,
+        originalPrice: 459,
+        image: "/images/toys/toy91.png",
+        sales: 141,
+        location: "Hong Kong Tsuen Wan",
+        seller: "Baby Learn Toys",
+        shippingAddress: "Hong Kong Tsuen Wan New Town Plaza Phase 1 Floor 12",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 92,
+        title: "Building Blocks Racer",
+        price: 420,
+        originalPrice: 482,
+        image: "/images/toys/toy92.png",
+        sales: 142,
+        location: "Hong Kong Tseung Kwan O",
+        seller: "Transformers Shop",
+        shippingAddress: "Hong Kong Tseung Kwan O New Town Plaza Phase 2 Floor 13",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 93,
+        title: "Building Blocks Ninjago Kai",
+        price: 440,
+        originalPrice: 505,
+        image: "/images/toys/toy93.png",
+        sales: 143,
+        location: "Hong Kong Kwun Tong",
+        seller: "Action Figure Co",
+        shippingAddress: "Hong Kong Kwun Tong New Town Plaza Phase 3 Floor 14",
+        badge: "hot",
+        category: "Building Blocks"
+      },
+      {
+        id: 94,
+        title: "Building Blocks Ninjago Cole",
+        price: 460,
+        originalPrice: 529,
+        image: "/images/toys/toy94.png",
+        sales: 144,
+        location: "Hong Kong Wong Tai Sin",
+        seller: "LEGO Paradise",
+        shippingAddress: "Hong Kong Wong Tai Sin New Town Plaza Phase 4 Floor 15",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 95,
+        title: "Building Blocks Ninjago Lloyd",
+        price: 480,
+        originalPrice: 552,
+        image: "/images/toys/toy95.png",
+        sales: 145,
+        location: "Hong Kong Causeway Bay",
+        seller: "Comic Book Store",
+        shippingAddress: "Hong Kong Causeway Bay New Town Plaza Phase 5 Floor 16",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 96,
+        title: "Building Blocks Ninjago Jay",
+        price: 500,
+        originalPrice: 575,
+        image: "/images/toys/toy96.png",
+        sales: 146,
+        location: "Hong Kong Tsim Sha Tsui",
+        seller: "Toy Galaxy HK",
+        shippingAddress: "香港 尖沙咀新城市广场 6 期 17 楼",
+        badge: "hot",
+        category: "乐高积木"
+      },
+      {
+        id: 97,
+        title: "Building Blocks Ninjago Zane",
+        price: 520,
+        originalPrice: 598,
+        image: "/images/toys/toy97.png",
+        sales: 147,
+        location: "Hong Kong Kowloon Bay",
+        seller: "Marvel Fan Store",
+        shippingAddress: "Hong Kong Kowloon Bay New Town Plaza Phase 7 Floor 18",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 98,
+        title: "Building Blocks Ninjago Dragon",
+        price: 540,
+        originalPrice: 621,
+        image: "/images/toys/toy98.png",
+        sales: 148,
+        location: "Hong Kong Yuen Long",
+        seller: "Gotham Toys",
+        shippingAddress: "Hong Kong Yuen Long New Town Plaza Phase 8 Floor 19",
+        badge: "new",
+        category: "Building Blocks"
+      },
+      {
+        id: 99,
+        title: "Building Blocks Fire Dragon",
+        price: 560,
+        originalPrice: 644,
+        image: "/images/toys/toy99.png",
+        sales: 149,
+        location: "Hong Kong Sha Tin",
+        seller: "Brick World",
+        shippingAddress: "Hong Kong Sha Tin New Town Plaza Phase 9 Floor 20",
+        badge: "hot",
+        category: "Building Blocks"
+      },
+      {
+        id: 100,
+        title: "Building Blocks Ice Dragon",
+        price: 180,
+        originalPrice: 206,
+        image: "/images/toys/toy100.png",
+        sales: 150,
+        location: "Hong Kong Mong Kok",
+        seller: "Dino Park Toys",
+        shippingAddress: "Hong Kong Mong Kok New Town Plaza Phase 0 Floor 1",
+        badge: "new",
+        category: "Building Blocks"
+      }
+    ];
+
+    // 从商品数据中动态提取所有唯一的分类
+    function getCategoriesFromProducts() {
+      const categorySet = new Set();
+      productsData.forEach(product => {
+        if (product.category) {
+          categorySet.add(product.category);
+        }
+      });
+      // 转换为数组并按字母顺序排序（中文按拼音，英文按字母）
+      const categories = Array.from(categorySet).sort((a, b) => {
+        const labelA = getCategoryLabel(a);
+        const labelB = getCategoryLabel(b);
+        return labelA.localeCompare(labelB);
+      });
+      return categories.map((name, index) => ({ id: index + 1, name }));
+    }
+
+    // 渲染分类列表（基于实际商品数据）
+    function renderCategories() {
+      const categoryList = document.getElementById('categoryList');
+      // 从商品数据中获取分类
+      const categoriesData = getCategoriesFromProducts();
+      
+      // add "All Products" to the top
+      const allProductsItem = `
+        <li class="category-item">
+          <a href="#" class="category-link active" onclick="showAllProducts()">
+            All Products
+          </a>
+        </li>
+      `;
+      const categoryItems = categoriesData.map(category => `
+        <li class="category-item">
+          <a href="#" class="category-link" onclick="filterByCategory('${category.name}')">
+            ${getCategoryLabel(category.name)}
+          </a>
+        </li>
+      `).join('');
+      categoryList.innerHTML = allProductsItem + categoryItems;
+    }
+
+    // 渲染热门标签（基于实际商品分类）
+    function renderTrendingTags() {
+      const trendingTags = document.getElementById('trendingTags');
+      // 从商品数据中获取分类作为标签
+      const trendingTagsData = getTrendingTagsFromProducts();
+      
+      // add "All Products" tag at the beginning with special style
+      const allProductsTag = `<span class="tag tag-all-products active" onclick="showAllProducts()">All Products</span>`;
+      const otherTags = trendingTagsData.map(tag => `
+        <span class="tag" onclick="searchByTag('${tag}')">${getCategoryLabel(tag)}</span>
+      `).join('');
+      trendingTags.innerHTML = allProductsTag + otherTags;
+    }
+
+    // 分页相关变量
+    let currentPage = 1;
+    const itemsPerPage = 12;
+    let currentProducts = [];
+
+    // 生成占位图片（使用SVG data URI）- 确保每个商品都有不同的颜色
+    function generatePlaceholderImage(text, width = 280, height = 200) {
+      // 根据文本内容生成不同的颜色，确保每个商品都有不同的占位图
+      let hash = 0;
+      for (let i = 0; i < text.length; i++) {
+        hash = text.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      // 生成不同的蓝色调
+      const hue = Math.abs(hash % 60) + 200; // 200-260 蓝色范围
+      const saturation = 60 + (Math.abs(hash) % 20); // 60-80
+      const lightness = 40 + (Math.abs(hash) % 10); // 40-50
+      const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+      
+      const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100%" height="100%" fill="${color}"/>
+        <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" dominant-baseline="middle">${text}</text>
+      </svg>`;
+      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    }
+
+    // 备用图片URL列表（真实的玩具图片）
+    const fallbackImages = [
+      "https://cdn.pixabay.com/photo/2016/11/22/23/38/action-figure-1851273_640.jpg",
+      "https://cdn.pixabay.com/photo/2017/08/07/13/58/robot-2603009_640.jpg",
+      "https://cdn.pixabay.com/photo/2015/09/09/16/05/toy-932455_640.jpg",
+      "https://images.pexels.com/photos/1839919/pexels-photo-1839919.jpeg?auto=compress&cs=tinysrgb&w=280&h=200&fit=crop"
+    ];
+    
+    // image load error handler - simple version
+    function handleImageError(img, productTitle, retryCount = 0) {
+      // 最多重试2次，使用不同的备用图片
+      if (retryCount < 2 && retryCount < fallbackImages.length) {
+        img.onerror = function() {
+          handleImageError(img, productTitle, retryCount + 1);
+        };
+        // 使用不同的备用图片
+        img.src = fallbackImages[retryCount % fallbackImages.length];
+        return;
+      }
+      
+      // if all fallback images fail, use a generated placeholder (unique per product)
+      img.onerror = null; // avoid infinite loop
+      // use product title to generate unique placeholder
+      const shortTitle = productTitle.length > 6 ? productTitle.substring(0, 6) : productTitle;
+      // 添加商品ID确保唯一性
+      const productId = img.getAttribute('data-product-id') || Math.random().toString(36).substr(2, 9);
+      img.src = generatePlaceholderImage(shortTitle + productId);
+      img.style.backgroundColor = '#1e40af';
+    }
+
+    // map raw Chinese product title to simple English
+    const productTitleMap = {
+      "变形金刚 擎天柱": "Transformers Optimus Prime",
+      "变形金刚 大黄蜂": "Transformers Bumblebee",
+      "变形金刚 威震天": "Transformers Megatron",
+      "变形金刚 红蜘蛛": "Transformers Starscream",
+      "变形金刚 声波": "Transformers Soundwave",
+      "变形金刚 爵士": "Transformers Jazz",
+      "变形金刚 铁皮": "Transformers Ironhide",
+      "变形金刚 救护车": "Transformers Rescue Truck",
+      "变形金刚 横炮": "Transformers Sideswipe",
+      "变形金刚 飞毛腿": "Transformers Speed Car",
+      "变形金刚 钢锁": "Transformers Grimlock",
+      "玩具枪 水弹枪": "Toy Gun Water Blaster",
+      "玩具枪 软弹枪": "Toy Gun Soft Bullet Blaster",
+      "玩具枪 激光枪": "Toy Gun Laser Blaster",
+      "玩具枪 声光枪": "Toy Gun Sound & Light Blaster",
+      "玩具枪 赛车头枪": "Toy Gun Racing Car Blaster",
+      "玩具枪 冲锋枪": "Toy Gun Machine Gun",
+      "玩具枪 手枪": "Toy Gun Pistol",
+      "玩具枪 四星彩色手枪": "Toy Gun Color Pistol Set",
+      "玩具枪 暴龙头突击步枪": "Toy Gun Dino Assault Rifle",
+      "玩具枪 草莓机关枪": "Toy Gun Strawberry Machine Gun",
+      "漫威系列 钢铁侠和美国队长礼包": "Marvel Iron Man & Captain America Set",
+      "漫威系列 雷神": "Marvel Thor Figure",
+      "漫威系列 浩克": "Marvel Hulk Figure",
+      "漫威系列 美国队长": "Marvel Captain America Figure",
+      "漫威系列 蚁人": "Marvel Ant-Man Figure",
+      "漫威系列 马克42": "Marvel Iron Man Mark 42",
+      "漫威系列 奇异博士": "Marvel Doctor Strange",
+      "漫威系列 黑寡妇": "Marvel Black Widow",
+      "漫威系列 蚁人2号": "Marvel Ant-Man Suit 2",
+      "漫威系列 惊奇队长": "Marvel Captain Marvel",
+      "漫威系列 死侍": "Marvel Deadpool",
+      "DC宇宙 阿卡姆骑士": "DC Arkham Knight Batman",
+      "DC宇宙 黑暗骑士归来蝙蝠侠": "DC The Dark Knight Returns Batman",
+      "DC宇宙 元年蝙蝠侠": "DC Year One Batman",
+      "DC宇宙 闪电侠": "DC The Flash",
+      "DC宇宙 正义联盟礼包1号": "DC Justice League Set 1",
+      "DC宇宙 钢骨": "DC Cyborg",
+      "DC宇宙 正义联盟礼包2号": "DC Justice League Set 2",
+      "DC宇宙 小丑": "DC The Joker",
+      "DC宇宙 哈莉奎因": "DC Harley Quinn",
+      "毛绒玩具 小猪": "Plush Little Pig",
+      "毛绒玩具 小熊罗宾": "Plush Bear Robin",
+      "毛绒玩具 我的第一个泰迪熊": "My First Teddy Bear",
+      "毛绒玩具 金牌小熊": "Golden Teddy Bear",
+      "毛绒玩具 棕熊泰迪": "Brown Teddy Bear",
+      "毛绒玩具 黄熊泰迪": "Yellow Teddy Bear",
+      "毛绒玩具 圣诞特别版小熊": "Christmas Teddy Bear",
+      "毛绒玩具 《泰迪熊》电影同款泰迪熊": "Movie Teddy Bear Plush",
+      "毛绒玩具 I miss You 熊": "\"I Miss You\" Teddy Bear",
+      "毛绒玩具 大耳猴": "Big Ear Monkey Plush",
+      "毛绒玩具 趴趴狗": "Lying Puppy Plush",
+      "毛绒玩具 复活节兔子": "Easter Bunny Plush",
+      "毛绒玩具 领带熊": "Tie Bear Plush",
+      "毛绒玩具 贵宾狗": "Poodle Plush",
+      "幼儿玩具 铲车大礼包1号": "Toddler Truck Play Set 1",
+      "幼儿玩具 儿童推车": "Toddler Push Cart",
+      "幼儿玩具 图形拼图": "Shape Puzzle",
+      "幼儿玩具 动物模型礼包1号": "Animal Figure Set 1",
+      "幼儿玩具 儿童玩具礼包2号": "Kids Toy Set 2",
+      "幼儿玩具 水果玩具礼包1号": "Fruit Toy Set 1",
+      "幼儿玩具 积木炮台": "Block Cannon",
+      "幼儿玩具 滑板车": "Kids Scooter",
+      "幼儿玩具 水池": "Water Play Pool",
+      "幼儿玩具 滑板车2号": "Kids Scooter 2",
+      "恐龙模型 霸王龙": "T-Rex Dinosaur Model",
+      "恐龙模型 长颈龙": "Long Neck Dinosaur Model",
+      "恐龙模型 恐龙礼包1号": "Dinosaur Set 1",
+      "恐龙模型 恐龙礼包2号": "Dinosaur Set 2",
+      "恐龙模型 迅猛龙礼包1号": "Raptor Set 1",
+      "恐龙模型 脊背龙": "Spinosaurus Model",
+      "恐龙模型 农场恐龙礼包1号": "Farm Dinosaur Set 1",
+      "恐龙模型 三角龙": "Triceratops Model",
+      "恐龙模型 恐龙战争": "Dinosaur Battle Set",
+      "恐龙模型 侏罗纪公园礼包": "Jurassic Park Style Set",
+      "恐龙模型 异特龙": "Allosaurus Model",
+      "拼图益智 小猪佩奇": "Peppa Pig Puzzle",
+      "拼图益智 青蛙拼图": "Frog Puzzle",
+      "拼图益智 火车拼图": "Train Puzzle",
+      "拼图益智 数字拼图": "Number Puzzle",
+      "拼图益智 城市拼图": "City Puzzle",
+      "拼图益智 海洋拼图": "Ocean Puzzle",
+      "拼图益智 宇宙拼图": "Space Puzzle",
+      "拼图益智 运动场拼图": "Stadium Puzzle",
+      "拼图益智 农场": "Farm Puzzle",
+      "乐高积木 赛车1号": "Racing Car Blocks 1",
+      "乐高积木 城堡": "Castle Blocks",
+      "乐高积木 火箭": "Rocket Blocks",
+      "乐高积木 城市赛车": "City Racing Blocks",
+      "乐高积木 迅猛龙": "Raptor Blocks",
+      "乐高积木 赛车手": "Racer Blocks",
+      "乐高积木 幻影忍者 凯": "Ninja Kai Blocks",
+      "乐高积木 幻影忍者 寇": "Ninja Cole Blocks",
+      "乐高积木 幻影忍者 劳埃德": "Ninja Lloyd Blocks",
+      "乐高积木 幻影忍者 Jay": "Ninja Jay Blocks",
+      "乐高积木 幻影忍者 Zane": "Ninja Zane Blocks",
+      "乐高积木 幻影忍者巨龙": "Ninja Dragon Blocks",
+      "乐高积木 火龙": "Fire Dragon Blocks",
+      "乐高积木 冰龙": "Ice Dragon Blocks"
+    };
+
+    function getProductTitle(rawTitle) {
+      if (!rawTitle) return "";
+      return productTitleMap[rawTitle] || rawTitle;
+    }
+
+    // map Hong Kong location and warehouse strings to English labels
+    function getDistrictName(raw) {
+      if (!raw) return "";
+      if (raw.includes("旺角")) return "Mong Kok";
+      if (raw.includes("中环")) return "Central";
+      if (raw.includes("荃湾")) return "Tsuen Wan";
+      if (raw.includes("将军澳")) return "Tseung Kwan O";
+      if (raw.includes("观塘")) return "Kwun Tong";
+      if (raw.includes("黄大仙")) return "Wong Tai Sin";
+      if (raw.includes("铜锣湾")) return "Causeway Bay";
+      if (raw.includes("尖沙咀")) return "Tsim Sha Tsui";
+      if (raw.includes("九龙湾")) return "Kowloon Bay";
+      if (raw.includes("元朗")) return "Yuen Long";
+      if (raw.includes("沙田")) return "Sha Tin";
+      return "Hong Kong";
+    }
+
+    function getLocationLabel(rawLocation) {
+      if (!rawLocation) return "";
+      if (rawLocation.includes("香港")) {
+        const district = getDistrictName(rawLocation);
+        return `${district}, Hong Kong`;
+      }
+      return rawLocation;
+    }
+
+    function getWarehouseLabel(rawAddress) {
+      if (!rawAddress) return "";
+      if (rawAddress.includes("香港")) {
+        const district = getDistrictName(rawAddress);
+        return `New Town Plaza, ${district}, Hong Kong`;
+      }
+      return rawAddress;
+    }
+
+    // render product grid (show English product name and shipping info)
+    function renderProducts(containerId, products, title) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      container.innerHTML = products.map(product => {
+        const displayTitle = getProductTitle(product.title);
+        const displayLocation = getLocationLabel(product.location);
+        const displayWarehouse = getWarehouseLabel(product.shippingAddress);
+        const safeTitleForError = displayTitle.replace(/'/g, "\\'");
+
+        return `
+        <div class="product-card" onclick="viewProduct(${product.id})">
+          <div class="product-badge ${product.badge}">${product.badge === 'new' ? 'NEW' : 'HOT'}</div>
+          <img src="${product.image}" 
+               alt="${displayTitle}" 
+               class="product-image"
+               data-original-src="${product.image}"
+               data-product-id="${product.id}"
+               onerror="handleImageError(this, '${safeTitleForError}')"
+               loading="lazy">
+          <h4 class="product-title">${displayTitle}</h4>
+          <div class="product-price">
+            HK$${product.price.toLocaleString()}
+            <span class="product-original-price">HK$${product.originalPrice.toLocaleString()}</span>
+          </div>
+          <div class="product-meta">
+            <span class="product-sales">Seller: ${product.seller}</span>
+            <span class="product-location">Ships from: ${displayLocation}</span>
+          </div>
+          <div class="product-meta">
+            <span class="product-shipping">Warehouse: ${displayWarehouse}</span>
+            <span class="product-sales">Sold ${product.sales}</span>
+          </div>
+        </div>
+      `;
+      }).join('');
+    }
+
+    // 渲染分页控件
+    function renderPagination(totalItems, currentPageNum, itemsPerPageNum) {
+      const totalPages = Math.ceil(totalItems / itemsPerPageNum);
+      const container = document.getElementById('paginationContainer');
+      if (!container) return;
+
+      let html = '';
+      
+      // 上一页按钮
+      html += `<button class="pagination-btn ${currentPageNum === 1 ? 'disabled' : ''}" 
+                onclick="goToPage(${currentPageNum - 1})" ${currentPageNum === 1 ? 'disabled' : ''}>Prev</button>`;
+
+      // 页码按钮
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPageNum - Math.floor(maxVisible / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+      
+      if (endPage - startPage < maxVisible - 1) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+      }
+
+      if (startPage > 1) {
+        html += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`;
+        if (startPage > 2) {
+          html += `<span class="pagination-btn disabled">...</span>`;
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        html += `<button class="pagination-btn ${i === currentPageNum ? 'active' : ''}" 
+                  onclick="goToPage(${i})">${i}</button>`;
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          html += `<span class="pagination-btn disabled">...</span>`;
+        }
+        html += `<button class="pagination-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+      }
+
+      // 下一页按钮
+      html += `<button class="pagination-btn ${currentPageNum === totalPages ? 'disabled' : ''}" 
+                onclick="goToPage(${currentPageNum + 1})" ${currentPageNum === totalPages ? 'disabled' : ''}>Next</button>`;
+
+      // pagination info
+      html += `<span class="pagination-info">Page ${currentPageNum} / ${totalPages}, total ${totalItems} items</span>`;
+
+      container.innerHTML = html;
+    }
+
+    // 跳转到指定页面
+    function goToPage(page) {
+      const totalPages = Math.ceil(currentProducts.length / itemsPerPage);
+      if (page < 1 || page > totalPages) return;
+      
+      currentPage = page;
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageProducts = currentProducts.slice(start, end);
+      
+      renderProducts('allProducts', pageProducts);
+      renderPagination(currentProducts.length, currentPage, itemsPerPage);
+      
+      // 滚动到顶部
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 搜索商品
+    function performSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const searchTerm = searchInput ? searchInput.value.trim() : '';
+      
+      if (searchTerm === '') {
+        // 如果搜索框为空，显示所有商品
+        currentProducts = productsData;
+      } else {
+        // 根据商品名称搜索（不区分大小写）
+        const term = searchTerm.toLowerCase();
+        currentProducts = productsData.filter(product => {
+          const rawTitle = (product.title || '').toLowerCase();
+          const enTitle = (getProductTitle(product.title) || '').toLowerCase();
+          const categoryEn = (getCategoryLabel(product.category) || '').toLowerCase();
+          return rawTitle.includes(term) || enTitle.includes(term) || categoryEn.includes(term);
+        });
+      }
+      
+      currentPage = 1;
+      goToPage(1);
+      
+      // 如果搜索结果为空，显示提示
+      if (currentProducts.length === 0 && searchTerm !== '') {
+        const container = document.getElementById('allProducts');
+        if (container) {
+          container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-light);">
+              <p style="font-size: 18px; margin-bottom: 10px;">No products found</p>
+              <p style="font-size: 14px;">Try a different keyword.</p>
+            </div>
+          `;
+        }
+        // 隐藏分页控件
+        const paginationContainer = document.getElementById('paginationContainer');
+        if (paginationContainer) {
+          paginationContainer.innerHTML = '';
+        }
+      }
+    }
+
+    // 按分类筛选
+    // show all products
+    function showAllProducts() {
+      console.log('Show all products');
+      // 清空搜索框
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.value = '';
+      }
+      // 重置为所有商品
+      currentProducts = productsData;
+      currentPage = 1;
+      goToPage(1);
+      
+      // 更新分类链接的激活状态
+      updateCategoryActiveState('All Products');
+      
+      // 更新热门标签的激活状态
+      updateTagsActiveState('All Products');
+    }
+
+    function filterByCategory(category) {
+      console.log('Filter category:', category);
+      // 清空搜索框
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.value = '';
+      }
+      currentProducts = productsData.filter(product => product.category === category);
+      currentPage = 1;
+      goToPage(1);
+      
+      // 更新分类链接的激活状态（传入中文分类名）
+      updateCategoryActiveState(category);
+      
+      // 更新热门标签的激活状态（传入英文标签）
+      updateTagsActiveState(getCategoryLabel(category));
+    }
+    
+    // 更新分类链接的激活状态
+    function updateCategoryActiveState(activeCategory) {
+      const categoryLinks = document.querySelectorAll('.category-link');
+      categoryLinks.forEach(link => {
+        const linkText = link.textContent.trim();
+        let isActive = false;
+        
+        if (activeCategory === 'All Products' && linkText === 'All Products') {
+          isActive = true;
+        } else if (link.getAttribute('onclick')) {
+          // 从onclick属性中提取分类名
+          const onclick = link.getAttribute('onclick');
+          const match = onclick.match(/filterByCategory\('([^']+)'\)/);
+          if (match && match[1] === activeCategory) {
+            isActive = true;
+          }
+        }
+        
+        if (isActive) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+    
+    // 更新热门标签的激活状态
+    function updateTagsActiveState(activeTag) {
+      const allTags = document.querySelectorAll('.tag');
+      allTags.forEach(tag => {
+        const tagText = tag.textContent.trim();
+        let isActive = false;
+        
+        if (activeTag === 'All Products' && tagText === 'All Products') {
+          isActive = true;
+        } else if (tag.getAttribute('onclick')) {
+          // 从onclick属性中提取分类名并转换为标签
+          const onclick = tag.getAttribute('onclick');
+          const match = onclick.match(/searchByTag\('([^']+)'\)/);
+          if (match) {
+            const categoryName = match[1];
+            const categoryLabel = getCategoryLabel(categoryName);
+            if (categoryLabel === activeTag || categoryName === activeTag) {
+              isActive = true;
+            }
+          }
+        }
+        
+        if (isActive) {
+          tag.classList.add('active');
+        } else {
+          tag.classList.remove('active');
+        }
+      });
+    }
+
+    // 按标签搜索（English log + use English label in search box）
+    function searchByTag(tag) {
+      console.log('Search tag:', tag);
+      // 直接按分类筛选，而不是搜索
+      filterByCategory(tag);
+      
+      // 更新标签的激活状态
+      updateTagsActiveState(getCategoryLabel(tag));
+    }
+
+    // 当前查看的商品ID
+    let currentProductId = null;
+    
+    // 数量选择相关变量
+    let selectedVariant = null;
+    let selectedQuantity = 1;
+
+    // 查看商品详情（使用英文映射）
+    function viewProduct(productId) {
+      const product = productsData.find(p => p.id === productId);
+      if (!product) {
+        console.error('Product not found:', productId);
+        return;
+      }
+
+      currentProductId = productId;
+      
+      // Use English display values
+      const displayTitle = getProductTitle(product.title);
+      const displayLocation = getLocationLabel(product.location);
+      const displayWarehouse = getWarehouseLabel(product.shippingAddress);
+      const displayCategory = getCategoryLabel(product.category || '');
+
+      // 填充弹窗数据
+      const modalImage = document.getElementById('modalProductImage');
+      modalImage.src = product.image;
+      modalImage.alt = displayTitle;
+      modalImage.onerror = function() {
+        handleImageError(this, displayTitle);
+      };
+      document.getElementById('modalProductName').textContent = displayTitle;
+      document.getElementById('modalProductPrice').textContent = `HK$${product.price.toLocaleString()}`;
+      document.getElementById('modalProductOriginalPrice').textContent = `Original price: HK$${product.originalPrice.toLocaleString()}`;
+      document.getElementById('modalProductSeller').textContent = product.seller;
+      document.getElementById('modalProductLocation').textContent = displayLocation;
+      document.getElementById('modalProductShippingAddress').textContent = displayWarehouse;
+      document.getElementById('modalProductSales').textContent = `${product.sales} pcs`;
+      
+      // 读取库存数据
+      const inventory = JSON.parse(localStorage.getItem('inventory') || '{}');
+      const stockInfo = inventory[product.id];
+      const stock = stockInfo ? stockInfo.stock : 20; // default stock 20 pcs
+      const stockElement = document.getElementById('modalProductStock');
+      if (stock < 10) {
+        stockElement.textContent = `${stock} pcs (Low stock)`;
+        stockElement.style.color = '#d9534f'; // red warning
+      } else {
+        stockElement.textContent = `${stock} pcs`;
+        stockElement.style.color = '#5cb85c'; // green normal
+      }
+      
+      document.getElementById('modalProductCategory').textContent = displayCategory;
+
+      // 设置徽章（英文）
+      const badgesContainer = document.getElementById('modalProductBadges');
+      badgesContainer.innerHTML = '';
+      if (product.badge) {
+        const badge = document.createElement('span');
+        badge.className = `product-modal-badge ${product.badge}`;
+        badge.textContent = product.badge === 'new' ? 'NEW' : 'HOT';
+        badgesContainer.appendChild(badge);
+      }
+
+      // 检查收藏状态
+      updateFavoriteButton(productId);
+      
+      // 检查愿望清单状态
+      updateWishlistButton(productId);
+
+      // 显示弹窗
+      const modal = document.getElementById('productModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // prevent background scroll
+    }
+
+    // 关闭商品详情弹窗
+    function closeProductModal() {
+      const modal = document.getElementById('productModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; // 恢复滚动
+      currentProductId = null;
+    }
+
+    // 点击弹窗背景关闭
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('productModal');
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            closeProductModal();
+          }
+        });
+      }
+
+      const quantityModal = document.getElementById('quantitySelectModal');
+      if (quantityModal) {
+        quantityModal.addEventListener('click', function(e) {
+          if (e.target === quantityModal) {
+            closeQuantitySelectModal();
+          }
+        });
+      }
+
+      // ESC键关闭弹窗
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          const productModal = document.getElementById('productModal');
+          const quantityModal = document.getElementById('quantitySelectModal');
+          
+          if (quantityModal && quantityModal.classList.contains('active')) {
+            closeQuantitySelectModal();
+          } else if (productModal && productModal.classList.contains('active')) {
+            closeProductModal();
+          }
+        }
+      });
+    });
+
+    // 获取商品款式选项
+    function getProductVariants(product) {
+      // 根据商品分类生成不同的款式选项
+      const variantMap = {
+        'Transformers': ['Classic', 'Deluxe', 'Collector\'s', 'Limited'],
+        'Toy Guns': ['Standard', 'Sound & Light', 'Water Bullet', 'Soft Bullet'],
+        'Marvel Series': ['Regular', 'Deluxe', 'Limited', 'Signed'],
+        'DC Universe': ['Regular', 'Deluxe', 'Limited', 'Signed'],
+        'Plush Toys': ['Small', 'Medium', 'Large', 'Extra Large'],
+        'Toddler Toys': ['Basic', 'Advanced', 'Deluxe', 'Set'],
+        'Dinosaur Models': ['Standard', 'Electric', 'Sound & Light', 'Collector\'s'],
+        'Puzzle & Brain Games': ['Standard', 'Deluxe', 'Collector\'s', 'Limited'],
+        'Building Blocks': ['Basic', 'Extended', 'Deluxe', 'Limited']
+      };
+      
+      // Get English category name
+      const category = getCategoryLabel(product.category || '');
+      
+      return variantMap[category] || ['Standard', 'Deluxe', 'Limited'];
+    }
+
+    // 根据版本名称计算价格增量（每升级一个级别+70）
+    function getVariantPriceIncrement(variant, variants) {
+      if (!variant || !variants || variants.length === 0) return 0;
+      
+      // 找到版本在列表中的索引位置
+      const index = variants.indexOf(variant);
+      if (index === -1) return 0;
+      
+      // 每升级一个级别+70
+      return index * 70;
+    }
+
+    // 根据版本计算实际价格
+    function calculateVariantPrice(basePrice, variant, variants) {
+      const increment = getVariantPriceIncrement(variant, variants);
+      return basePrice + increment;
+    }
+
+    // 更新价格显示
+    function updatePriceDisplay(product, variant, variants, priceElementId) {
+      if (!product || !variant || !variants) return;
+      
+      const variantPrice = calculateVariantPrice(product.price, variant, variants);
+      const variantOriginalPrice = calculateVariantPrice(product.originalPrice || product.price, variant, variants);
+      
+      const priceElement = document.getElementById(priceElementId);
+      if (priceElement) {
+        priceElement.textContent = `HK$${variantPrice.toLocaleString()}`;
+      }
+      
+      // 如果有原价显示元素，也更新它
+      const originalPriceElement = document.getElementById(priceElementId.replace('Price', 'OriginalPrice'));
+      if (originalPriceElement) {
+        originalPriceElement.textContent = `Original: HK$${variantOriginalPrice.toLocaleString()}`;
+      }
+      
+      return variantPrice;
+    }
+
+    // 显示数量选择弹窗
+    function showQuantitySelectModal() {
+      if (!currentProductId) return;
+      
+      const product = productsData.find(p => p.id === currentProductId);
+      if (!product) return;
+
+      // 重置选择
+      selectedQuantity = 1;
+      selectedVariant = null;
+
+      // 填充商品信息
+      const selectImage = document.getElementById('selectProductImage');
+      selectImage.src = product.image;
+      selectImage.alt = product.title;
+      selectImage.onerror = function() {
+        handleImageError(this, product.title);
+      };
+      document.getElementById('selectProductName').textContent = product.title;
+      document.getElementById('selectQuantity').value = 1;
+
+      // 生成款式选项
+      const variants = getProductVariants(product);
+      const variantContainer = document.getElementById('variantOptions');
+      variantContainer.innerHTML = '';
+      
+      variants.forEach((variant, index) => {
+        const variantBtn = document.createElement('button');
+        variantBtn.className = 'quantity-select-variant';
+        variantBtn.textContent = variant;
+        variantBtn.onclick = function() {
+          // 移除其他选中状态
+          document.querySelectorAll('.quantity-select-variant').forEach(btn => {
+            btn.classList.remove('selected');
+          });
+          // 添加选中状态
+          variantBtn.classList.add('selected');
+          selectedVariant = variant;
+          // 更新价格显示
+          updatePriceDisplay(product, variant, variants, 'selectProductPrice');
+        };
+        variantContainer.appendChild(variantBtn);
+      });
+
+      // 默认选择第一个款式
+      if (variants.length > 0) {
+        const firstVariant = variantContainer.querySelector('.quantity-select-variant');
+        if (firstVariant) {
+          firstVariant.click();
+        }
+      }
+
+      // 显示弹窗
+      const modal = document.getElementById('quantitySelectModal');
+      modal.classList.add('active');
+    }
+
+    // 关闭数量选择弹窗
+    function closeQuantitySelectModal() {
+      const modal = document.getElementById('quantitySelectModal');
+      modal.classList.remove('active');
+    }
+
+    // 获取商品库存
+    function getProductStock(productId) {
+      const inventory = JSON.parse(localStorage.getItem('inventory') || '{}');
+      const stockInfo = inventory[productId];
+      return stockInfo ? stockInfo.stock : 20; // 默认库存20件
+    }
+
+    // 扣减商品库存
+    function deductProductStock(productId, quantity) {
+      const inventory = JSON.parse(localStorage.getItem('inventory') || '{}');
+      if (!inventory[productId]) {
+        inventory[productId] = { stock: 20 }; // 初始化默认库存
+      }
+      inventory[productId].stock = Math.max(0, inventory[productId].stock - quantity);
+      localStorage.setItem('inventory', JSON.stringify(inventory));
+      return inventory[productId].stock;
+    }
+
+    // 修改数量（限制最大数量为库存）
+    function changeQuantity(delta) {
+      const input = document.getElementById('selectQuantity');
+      let quantity = parseInt(input.value) || 1;
+      quantity += delta;
+      if (quantity < 1) quantity = 1;
+      
+      // 检查库存限制
+      if (currentProductId) {
+        const maxStock = getProductStock(currentProductId);
+        if (quantity > maxStock) {
+          quantity = maxStock;
+          alert(`Not enough stock. You can buy up to ${maxStock} pcs.`);
+        }
+      }
+      
+      input.value = quantity;
+      selectedQuantity = quantity;
+    }
+
+    // 验证数量（限制最大数量为库存）
+    function validateQuantity() {
+      const input = document.getElementById('selectQuantity');
+      let quantity = parseInt(input.value) || 1;
+      if (quantity < 1) quantity = 1;
+      
+      // 检查库存限制
+      if (currentProductId) {
+        const maxStock = getProductStock(currentProductId);
+        if (quantity > maxStock) {
+          quantity = maxStock;
+          alert(`Not enough stock. You can buy up to ${maxStock} pcs.`);
+        }
+      }
+      
+      input.value = quantity;
+      selectedQuantity = quantity;
+    }
+
+    // 确认加入购物车
+    function confirmAddToCart() {
+      if (!currentProductId) return;
+      
+      const product = productsData.find(p => p.id === currentProductId);
+      if (!product) return;
+
+      if (!selectedVariant) {
+        alert('Please select a variant.');
+        return;
+      }
+
+      // 从localStorage获取购物车
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      // 计算基于版本的实际价格
+      const variants = getProductVariants(product);
+      const variantPrice = calculateVariantPrice(product.price, selectedVariant, variants);
+      
+      // 检查商品是否已在购物车中（相同ID和款式）
+      const cartKey = `${currentProductId}_${selectedVariant}`;
+      const existingItem = cart.find(item => item.cartKey === cartKey);
+      
+      if (existingItem) {
+        existingItem.quantity += selectedQuantity;
+        // 更新价格为最新版本价格
+        existingItem.price = variantPrice;
+      } else {
+        cart.push({
+          id: product.id,
+          cartKey: cartKey,
+          title: product.title,
+          price: variantPrice,
+          image: product.image,
+          quantity: selectedQuantity,
+          variant: selectedVariant,
+          seller: product.seller
+        });
+      }
+
+      // 保存到localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // 更新购物车徽章
+      updateCartBadge();
+
+      // 关闭数量选择弹窗
+      closeQuantitySelectModal();
+
+      // 延迟显示成功弹窗，确保数量选择弹窗已关闭
+      setTimeout(() => {
+        const displayTitle = getProductTitle(product.title);
+        showSuccessModal('Added to Cart!', `"${displayTitle}"`, `Variant: ${selectedVariant}\nQuantity: ${selectedQuantity}`);
+      }, 100);
+    }
+
+    // 加入购物车（显示选择弹窗）
+    function addToCart() {
+      showQuantitySelectModal();
+    }
+
+    // 更新购物车徽章
+    function updateCartBadge() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'block' : 'none';
+      }
+    }
+
+    // 显示成功弹窗
+    function showSuccessModal(title, message, details = '') {
+      const modal = document.getElementById('successModal');
+      const titleEl = document.getElementById('successTitle');
+      const messageEl = document.getElementById('successMessage');
+      const detailsEl = document.getElementById('successDetails');
+      
+      if (!modal || !titleEl || !messageEl || !detailsEl) {
+        console.error('Success modal elements not found');
+        return;
+      }
+      
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      
+      if (details) {
+        detailsEl.textContent = details;
+        detailsEl.style.display = 'block';
+      } else {
+        detailsEl.style.display = 'none';
+      }
+      
+      // 确保弹窗在最上层
+      modal.style.zIndex = '20000';
+      modal.classList.add('show');
+      
+      // 自动关闭弹窗
+      setTimeout(() => {
+        modal.classList.remove('show');
+      }, 2500);
+    }
+
+    // 立即购买
+    // 支付弹窗内的款式 / 数量
+    let orderSelectedVariant = null;
+    let orderSelectedQuantity = 1;
+
+    // 立即购买：弹出确认订单弹窗（可选款式和数量）
+    function buyNow() {
+      if (!currentProductId) return;
+      
+      const product = productsData.find(p => p.id === currentProductId);
+      if (!product) return;
+
+      // 检查是否登录
+      const userInfo = sessionStorage.getItem('user_info');
+      if (!userInfo) {
+        if (confirm('You are not logged in. Go to the login page?')) {
+          window.location.href = '/login';
+        }
+        return;
+      }
+
+      // 填充弹窗基础信息
+      const orderImage = document.getElementById('orderConfirmImage');
+      orderImage.src = product.image;
+      orderImage.alt = product.title;
+      orderImage.onerror = function() {
+        handleImageError(this, product.title);
+      };
+      document.getElementById('orderConfirmName').textContent = product.title;
+
+      // 初始化款式和数量
+      orderSelectedQuantity = 1;
+      orderSelectedVariant = null;
+      const orderQuantityInput = document.getElementById('orderQuantity');
+      if (orderQuantityInput) orderQuantityInput.value = 1;
+
+      // 生成款式选项（与加入购物车逻辑保持一致）
+      const orderVariants = getProductVariants(product);
+      const orderVariantContainer = document.getElementById('orderVariantOptions');
+      if (orderVariantContainer) {
+        orderVariantContainer.innerHTML = '';
+        orderVariants.forEach(variant => {
+          const btn = document.createElement('button');
+          btn.className = 'quantity-select-variant';
+          btn.textContent = variant;
+          btn.onclick = function () {
+            // 清除本弹窗内其他选中状态
+            orderVariantContainer.querySelectorAll('.quantity-select-variant').forEach(b => {
+              b.classList.remove('selected');
+            });
+            btn.classList.add('selected');
+            orderSelectedVariant = variant;
+            // 更新价格显示
+            updatePriceDisplay(product, variant, orderVariants, 'orderConfirmPrice');
+          };
+          orderVariantContainer.appendChild(btn);
+        });
+
+        // 默认选中第一个款式
+        if (orderVariants.length > 0) {
+          const first = orderVariantContainer.querySelector('.quantity-select-variant');
+          if (first) first.click();
+        }
+      }
+
+      // 渲染地址选项（来自个人中心保存的 addresses）
+      const addressSelect = document.getElementById('orderAddressSelect');
+      const addresses = JSON.parse(localStorage.getItem('addresses') || '[]');
+      if (!addresses.length) {
+        addressSelect.innerHTML = '<option value="">Please add a shipping address in My Center first</option>';
+      } else {
+        addressSelect.innerHTML = addresses.map(addr => `
+          <option value="${addr.id}" ${addr.isDefault ? 'selected' : ''}>
+            ${addr.name} - ${addr.area} ${addr.detail}
+          </option>
+        `).join('');
+      }
+
+      // 渲染支付方式
+      const payments = [
+        { id: 'wechat', label: 'WeChat Pay' },
+        { id: 'alipay', label: 'Alipay' },
+        { id: 'visa', label: 'VISA' },
+        { id: 'mastercard', label: 'MasterCard' }
+      ];
+      const paymentContainer = document.getElementById('paymentOptions');
+      paymentContainer.innerHTML = payments.map(p => `
+        <button type="button" class="quantity-select-variant" data-payment="${p.id}"
+                onclick="selectPayment('${p.id}')">${p.label}</button>
+      `).join('');
+
+      // 渲染配送方式 / 快递公司
+      const shippings = [
+        { id: 'sf', label: 'SF Express' },
+        { id: 'sto', label: 'STO Express' },
+        { id: 'yto', label: 'YTO Express' },
+        { id: 'ems', label: 'EMS Standard' }
+      ];
+      const shippingContainer = document.getElementById('shippingOptions');
+      shippingContainer.innerHTML = shippings.map(s => `
+        <button type="button" class="quantity-select-variant" data-shipping="${s.id}"
+                onclick="selectShipping('${s.id}')">${s.label}</button>
+      `).join('');
+
+      // 默认选中第一个支付方式和快递公司
+      selectedPayment = payments[0].id;
+      selectedShipping = shippings[0].id;
+      document.querySelector(`[data-payment="${selectedPayment}"]`).classList.add('active');
+      document.querySelector(`[data-shipping="${selectedShipping}"]`).classList.add('active');
+
+      // 显示确认弹窗
+      const modal = document.getElementById('orderConfirmModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    // 记录当前选择的支付方式和配送方式
+    let selectedPayment = null;
+    let selectedShipping = null;
+
+    function selectPayment(id) {
+      selectedPayment = id;
+      document.querySelectorAll('#paymentOptions .quantity-select-variant').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-payment') === id);
+      });
+    }
+
+    function selectShipping(id) {
+      selectedShipping = id;
+      document.querySelectorAll('#shippingOptions .quantity-select-variant').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-shipping') === id);
+      });
+    }
+
+    function closeOrderConfirmModal() {
+      const modal = document.getElementById('orderConfirmModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    // 支付弹窗内修改数量（限制最大数量为库存）
+    function orderChangeQuantity(delta) {
+      const input = document.getElementById('orderQuantity');
+      if (!input) return;
+      let quantity = parseInt(input.value) || 1;
+      quantity += delta;
+      if (quantity < 1) quantity = 1;
+      
+      // 检查库存限制
+      if (currentProductId) {
+        const maxStock = getProductStock(currentProductId);
+        if (quantity > maxStock) {
+          quantity = maxStock;
+          alert(`Not enough stock. You can buy up to ${maxStock} pcs.`);
+        }
+      }
+      
+      input.value = quantity;
+      orderSelectedQuantity = quantity;
+    }
+
+    function orderValidateQuantity() {
+      const input = document.getElementById('orderQuantity');
+      if (!input) return;
+      let quantity = parseInt(input.value) || 1;
+      if (quantity < 1) quantity = 1;
+      
+      // 检查库存限制
+      if (currentProductId) {
+        const maxStock = getProductStock(currentProductId);
+        if (quantity > maxStock) {
+          quantity = maxStock;
+          alert(`Not enough stock. You can buy up to ${maxStock} pcs.`);
+        }
+      }
+      
+      input.value = quantity;
+      orderSelectedQuantity = quantity;
+    }
+
+    // 确认下单：创建订单并写入 localStorage.orders
+    function confirmBuyNow() {
+      if (!currentProductId) return;
+      const product = productsData.find(p => p.id === currentProductId);
+      if (!product) return;
+
+      if (!orderSelectedVariant) {
+        alert('Please select a variant.');
+        return;
+      }
+
+      const addressSelect = document.getElementById('orderAddressSelect');
+      const addressId = addressSelect ? addressSelect.value : '';
+      const addresses = JSON.parse(localStorage.getItem('addresses') || '[]');
+      const address = addresses.find(a => String(a.id) === String(addressId));
+
+      if (!address) {
+        alert('Please select a shipping address (add one in My Center first).');
+        return;
+      }
+
+      if (!selectedPayment) {
+        alert('Please select a payment method.');
+        return;
+      }
+
+      if (!selectedShipping) {
+        alert('Please select a shipping method.');
+        return;
+      }
+
+      // 确保数量有效
+      if (!orderSelectedQuantity || orderSelectedQuantity < 1) {
+        orderSelectedQuantity = 1;
+      }
+
+      // 检查库存
+      const currentStock = getProductStock(product.id);
+      if (orderSelectedQuantity > currentStock) {
+        alert(`Not enough stock. Current stock: ${currentStock} pcs, you selected ${orderSelectedQuantity} pcs.`);
+        return;
+      }
+
+      if (currentStock === 0) {
+        alert('This product is sold out.');
+        return;
+      }
+
+      // 计算基于版本的实际价格
+      const orderVariants = getProductVariants(product);
+      const variantPrice = calculateVariantPrice(product.price, orderSelectedVariant, orderVariants);
+
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const userId = userInfo ? (userInfo.id || userInfo.username) : null;
+
+      const order = {
+        id: Date.now(),
+        userId: userId, // 关联用户ID
+        username: userInfo ? userInfo.username : null, // 关联用户名
+        productId: product.id,
+        title: product.title,
+        price: variantPrice,
+        image: product.image,
+        seller: product.seller,
+        shippingAddress: product.shippingAddress,
+        quantity: orderSelectedQuantity,
+        // 总金额 = 单价 * 数量
+        total: variantPrice * orderSelectedQuantity,
+        status: 'pending',
+        logisticsStatus: 'pending',
+        variant: orderSelectedVariant,
+        paymentMethod: selectedPayment,
+        shippingMethod: selectedShipping,
+        receivingAddress: `${address.area} ${address.detail} (${address.name}, ${address.phone})`,
+        createTime: new Date().toISOString()
+      };
+
+      let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+
+      // 扣减库存
+      const remainingStock = deductProductStock(product.id, orderSelectedQuantity);
+      
+      // 更新商品详情弹窗中的库存显示（如果弹窗已打开且显示的是当前购买的商品）
+      const productModal = document.getElementById('productModal');
+      if (productModal && productModal.classList.contains('active') && currentProductId === product.id) {
+        const stockElement = document.getElementById('modalProductStock');
+        if (stockElement) {
+          // 重新从 localStorage 读取最新库存，确保显示正确
+          const inventory = JSON.parse(localStorage.getItem('inventory') || '{}');
+          const stockInfo = inventory[product.id];
+          const latestStock = stockInfo ? stockInfo.stock : 0;
+          
+          if (latestStock < 10) {
+            stockElement.textContent = `${latestStock} pcs (Low stock)`;
+            stockElement.style.color = '#d9534f'; // red warning
+          } else {
+            stockElement.textContent = `${latestStock} pcs`;
+            stockElement.style.color = '#5cb85c'; // green normal
+          }
+        }
+      }
+
+      const displayTitle = getProductTitle(product.title);
+      const details = `Product: ${displayTitle} (${orderSelectedVariant})\nPrice: HK$${variantPrice.toLocaleString()}\nPayment: ${order.paymentMethod}\nShipping: ${order.shippingMethod}`;
+      showSuccessModal('Order Placed Successfully!', 'Thank you for your purchase!', details);
+      closeOrderConfirmModal();
+    }
+
+    // 切换收藏状态
+    function toggleFavorite() {
+      if (!currentProductId) return;
+
+      const product = productsData.find(p => p.id === currentProductId);
+      if (!product) return;
+
+      // 从localStorage获取收藏列表
+      let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      
+      const favoriteIndex = favorites.findIndex(f => f.id === currentProductId);
+      const favoriteBtn = document.getElementById('favoriteBtn');
+
+      if (favoriteIndex > -1) {
+        // remove from favorites
+        favorites.splice(favoriteIndex, 1);
+        favoriteBtn.classList.remove('active');
+        favoriteBtn.innerHTML = '❤️ Favorite';
+        
+        // 保存到localStorage
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        
+        const displayTitle = getProductTitle(product.title);
+        showSuccessModal('Removed from Favorites', `"${displayTitle}"`, 'The item has been removed from your favorites.');
+      } else {
+        // add to favorites
+        favorites.push({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          seller: product.seller,
+          addTime: new Date().toISOString()
+        });
+        favoriteBtn.classList.add('active');
+        favoriteBtn.innerHTML = '❤️ Favorited';
+
+      // 保存到localStorage
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+        
+        const displayTitle = getProductTitle(product.title);
+        showSuccessModal('Added to Favorites!', `"${displayTitle}"`, 'You can find it in your favorites.');
+      }
+    }
+
+    // 更新收藏按钮状态
+    function updateFavoriteButton(productId) {
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const favoriteBtn = document.getElementById('favoriteBtn');
+      const isFavorited = favorites.some(f => f.id === productId);
+
+      if (isFavorited) {
+        favoriteBtn.classList.add('active');
+        favoriteBtn.innerHTML = '❤️ Favorited';
+      } else {
+        favoriteBtn.classList.remove('active');
+        favoriteBtn.innerHTML = '❤️ Favorite';
+      }
+    }
+
+    // 切换愿望清单状态
+    function toggleWishlist() {
+      if (!currentProductId) return;
+
+      const product = productsData.find(p => p.id === currentProductId);
+      if (!product) return;
+
+      // 从localStorage获取愿望清单
+      let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      
+      const wishlistIndex = wishlist.findIndex(w => w.id === currentProductId);
+      const wishlistBtn = document.getElementById('wishlistBtn');
+
+      if (wishlistIndex > -1) {
+        // remove from wishlist
+        wishlist.splice(wishlistIndex, 1);
+        wishlistBtn.classList.remove('active');
+        wishlistBtn.innerHTML = '🎁 Add to Wishlist';
+        const displayTitle = getProductTitle(product.title);
+        alert(`Removed "${displayTitle}" from wishlist.`);
+      } else {
+        // add to wishlist
+        const wishlistItem = {
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          seller: product.seller,
+          location: product.location,
+          addTime: new Date().toISOString()
+        };
+        wishlist.push(wishlistItem);
+        
+        // 保存到localStorage（在显示弹窗之前）
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        
+        wishlistBtn.classList.add('active');
+        wishlistBtn.innerHTML = '🎁 In Wishlist';
+        const displayTitle = getProductTitle(product.title);
+        showSuccessModal('Added to Wishlist!', `"${displayTitle}"`, 'You can find it in your wishlist.');
+      }
+
+      // 如果是移除，也要保存
+      if (wishlistIndex > -1) {
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      }
+    }
+
+    // 更新愿望清单按钮状态
+    function updateWishlistButton(productId) {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const wishlistBtn = document.getElementById('wishlistBtn');
+      if (!wishlistBtn) return;
+      
+      const isInWishlist = wishlist.some(w => w.id === productId);
+
+      if (isInWishlist) {
+        wishlistBtn.classList.add('active');
+        wishlistBtn.innerHTML = '🎁 In Wishlist';
+      } else {
+        wishlistBtn.classList.remove('active');
+        wishlistBtn.innerHTML = '🎁 Add to Wishlist';
+      }
+    }
+
+    // 更新用户信息显示（始终显示"Personal Center"，不显示数字ID）
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        const userInfo = sessionStorage.getItem('user_info');
+        if (userInfo) {
+          userIdElement.textContent = 'Personal Center';
+        } else {
+          userIdElement.textContent = 'Please Login';
+        }
+        userIdElement.style.cursor = 'pointer';
+        userIdElement.onclick = function() {
+          // 检查用户是否已登录
+          const userInfo = sessionStorage.getItem('user_info');
+          if (userInfo) {
+            // 已登录，跳转到个人中心页面
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/my-items';
+            } else {
+              window.location.href = 'my-items.html';
+            }
+          } else {
+            // 未登录，跳转到登录页面
+          if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+            window.location.href = '/login';
+          } else {
+            window.location.href = 'login.html';
+            }
+          }
+        };
+      }
+    }
+
+    // 退出登录
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        sessionStorage.removeItem('user_info');
+        updateUserInfo();
+        window.location.href = 'login.html';
+      }
+    }
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      renderCategories();
+      renderTrendingTags();
+      
+      // 初始化所有商品（使用分页）
+      currentProducts = productsData;
+      currentPage = 1;
+      goToPage(1);
+      
+      // 设置"全部商品"为默认激活状态
+      updateCategoryActiveState('全部商品');
+      updateTagsActiveState('全部商品');
+
+      // 将商品数据缓存到 localStorage，供 staff 补货页面使用
+      try {
+        localStorage.setItem('productsData', JSON.stringify(productsData));
+      } catch (e) {
+        console.warn('缓存商品数据到 localStorage 失败：', e);
+      }
+      
+      // 更新用户信息
+      updateUserInfo();
+      
+      // 更新购物车徽章
+      updateCartBadge();
+      
+      // 初始化搜索功能
+      const searchInput = document.getElementById('searchInput');
+      const searchBtn = document.getElementById('searchBtn');
+      
+      if (searchInput) {
+        // 按Enter键搜索
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            performSearch();
+          }
+        });
+        
+        // 实时搜索（可选，每输入500ms后自动搜索）
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            performSearch();
+          }, 500);
+        });
+      }
+      
+      if (searchBtn) {
+        searchBtn.addEventListener('click', performSearch);
+      }
+    });
+    
+    // 主题切换功能
+    function initializeThemeSwitch() {
+      const darkModeSwitch = document.getElementById('darkModeSwitch');
+      if (darkModeSwitch) {
+        // 设置初始状态
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        darkModeSwitch.checked = currentTheme === 'dark';
+        
+        // 绑定切换事件
+        darkModeSwitch.addEventListener('change', function() {
+          if (window.themeManager) {
+            window.themeManager.setTheme(this.checked ? 'dark' : 'light');
+          } else {
+            // 备用方案
+            const theme = this.checked ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            document.documentElement.setAttribute('data-theme', theme);
+            window.dispatchEvent(new CustomEvent('themeChanged', { 
+              detail: { theme: theme } 
+            }));
+          }
+        });
+      }
+    }
+    
+    // 页面加载完成后初始化主题切换
+    document.addEventListener('DOMContentLoaded', function() {
+      // 立即应用保存的主题
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      setTimeout(initializeThemeSwitch, 100);
+      
+      // 监听主题变化事件
+      window.addEventListener('themeChanged', function(e) {
+        const darkModeSwitch = document.getElementById('darkModeSwitch');
+        if (darkModeSwitch) {
+          darkModeSwitch.checked = e.detail.theme === 'dark';
+        }
+      });
+    });
+    
+    // 底部栏功能
+    document.addEventListener('DOMContentLoaded', function() {
+      // 更新用户名
+      const userInfo = sessionStorage.getItem('user_info');
+      const usernameBtn = document.getElementById('usernameBtn');
+      if (userInfo && usernameBtn) {
+        const user = JSON.parse(userInfo);
+        usernameBtn.textContent = user.id;
+      }
+      
+      // 底部栏深色模式切换功能
+      const bottomDarkModeSwitch = document.getElementById('bottomDarkModeSwitch');
+      if (bottomDarkModeSwitch) {
+        // 初始化开关状态
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        bottomDarkModeSwitch.checked = currentTheme === 'dark';
+        
+        // 绑定切换事件
+        bottomDarkModeSwitch.addEventListener('change', function() {
+          if (window.themeManager) {
+            window.themeManager.setTheme(this.checked ? 'dark' : 'light');
+          } else {
+            // 备用方案
+            const theme = this.checked ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            document.documentElement.setAttribute('data-theme', theme);
+            window.dispatchEvent(new CustomEvent('themeChanged', { 
+              detail: { theme: theme } 
+            }));
+          }
+        });
+      }
+      
+      // 监听主题变化事件
+      window.addEventListener('themeChanged', function(e) {
+        const bottomDarkModeSwitch = document.getElementById('bottomDarkModeSwitch');
+        const topDarkModeSwitch = document.getElementById('darkModeSwitch');
+        if (bottomDarkModeSwitch) {
+          bottomDarkModeSwitch.checked = e.detail.theme === 'dark';
+        }
+        if (topDarkModeSwitch) {
+          topDarkModeSwitch.checked = e.detail.theme === 'dark';
+        }
+      });
+    });
+  </script>
+  
+  <!-- 统一导航栏功能脚本 -->
+  <script>
+    // 统一导航栏功能脚本
+    document.addEventListener('DOMContentLoaded', function() {
+      // 更新用户信息显示
+      updateUserInfo();
+      
+      // 设置当前页面高亮
+      setActiveNavItem();
+
+      // 如果从“我的收藏”页面跳转并指定了商品ID，则自动打开商品详情
+      const openProductId = localStorage.getItem('openProductId');
+      if (openProductId) {
+        const idNum = parseInt(openProductId, 10);
+        if (!Number.isNaN(idNum)) {
+          try {
+            viewProduct(idNum);
+          } catch (e) {
+            console.error('自动打开收藏商品失败:', e);
+          }
+        }
+        localStorage.removeItem('openProductId');
+      }
+      
+      // 退出登录功能
+      setupLogoutHandler();
+    });
+
+    // 更新用户信息显示
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        const userInfo = sessionStorage.getItem('user_info');
+        if (userInfo) {
+          userIdElement.textContent = 'Personal Center';
+        } else {
+          userIdElement.textContent = 'Please Login';
+        }
+        userIdElement.style.cursor = 'pointer';
+        userIdElement.onclick = function() {
+          // 检查用户是否已登录
+          const userInfo = sessionStorage.getItem('user_info');
+          if (userInfo) {
+            // 已登录，跳转到个人中心页面
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/my-items';
+            } else {
+              window.location.href = 'my-items.html';
+            }
+          } else {
+            // 未登录，跳转到登录页面
+          if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+            window.location.href = '/login';
+          } else {
+            window.location.href = 'login.html';
+            }
+          }
+        };
+      }
+    }
+
+    // 设置当前页面导航高亮
+    function setActiveNavItem() {
+      const currentPath = window.location.pathname;
+      const currentFile = window.location.pathname.split('/').pop();
+      const navItems = document.querySelectorAll('.unified-top-nav .nav-item');
+      
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        const href = item.getAttribute('href');
+        const page = item.getAttribute('data-page');
+        
+        // 检查是否匹配当前页面
+        if (currentPath === href || 
+            currentFile === href ||
+            (currentFile === 'CustomerMenu.html' && page === 'home') ||
+            (currentFile === 'news.html' && page === 'news') ||
+            (currentFile === 'prices.html' && page === 'prices') ||
+            (currentFile === 'forum.html' && page === 'forum') ||
+            (currentFile === 'secondary.html' && page === 'secondary') ||
+            (currentFile === 'platform-market.html' && page === 'platform') ||
+            (currentFile === 'customize.html' && page === 'customize') ||
+            (currentFile === 'my-orders.html' && page === 'orders') ||
+            (currentFile === 'login.html' && page === 'login') ||
+            (currentFile === 'online-support.html' && page === 'support') ||
+            (currentFile === 'AI-Setup-Recommend.html' && page === 'ai') ||
+            (currentFile === 'friendlist.html' && page === 'friends')) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // 设置退出登录处理
+    function setupLogoutHandler() {
+      const logoutBtn = document.querySelector('.unified-top-nav .logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (confirm('Are you sure you want to logout?')) {
+            sessionStorage.removeItem('user_info');
+            window.location.href = '/login';
+          }
+        });
+      }
+    }
+  </script>
+  
+  <!-- 主题切换脚本 -->
+  <script src="js/theme.js"></script>
+  
+  <script>
+    // 处理用户登录按钮点击
+    function handleUserLogin() {
+      // 检查用户是否已登录
+      const userInfo = sessionStorage.getItem('user_info');
+      if (userInfo) {
+        // 已登录，跳转到个人中心
+        window.location.href = 'CustomerMenu.html';
+      } else {
+        // 未登录，跳转到登录页面
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
+
+  <!-- 商品详情弹窗 -->
+  <div class="product-modal" id="productModal">
+    <div class="product-modal-content">
+      <div class="product-modal-header">
+        <h2 class="product-modal-title">Product Details</h2>
+        <button class="product-modal-close" onclick="closeProductModal()">&times;</button>
+      </div>
+      <div class="product-modal-body">
+        <div class="product-modal-image-container">
+          <img id="modalProductImage" class="product-modal-image" src="" alt="Product Image">
+        </div>
+        <div class="product-modal-info">
+          <h3 class="product-modal-name" id="modalProductName"></h3>
+          <div class="product-modal-badges" id="modalProductBadges"></div>
+          <div class="product-modal-price-section">
+            <div class="product-modal-price" id="modalProductPrice"></div>
+            <div class="product-modal-original-price" id="modalProductOriginalPrice"></div>
+          </div>
+          <div class="product-modal-details">
+            <div class="product-modal-detail-item">
+              <span class="product-modal-detail-label">Seller:</span>
+              <span class="product-modal-detail-value" id="modalProductSeller"></span>
+            </div>
+            <div class="product-modal-detail-item">
+              <span class="product-modal-detail-label">Shipping Location:</span>
+              <span class="product-modal-detail-value" id="modalProductLocation"></span>
+            </div>
+            <div class="product-modal-detail-item">
+              <span class="product-modal-detail-label">Warehouse Address:</span>
+              <span class="product-modal-detail-value" id="modalProductShippingAddress"></span>
+            </div>
+            <div class="product-modal-detail-item">
+              <span class="product-modal-detail-label">Sold:</span>
+              <span class="product-modal-detail-value" id="modalProductSales"></span>
+            </div>
+            <div class="product-modal-detail-item">
+              <span class="product-modal-detail-label">Stock:</span>
+              <span class="product-modal-detail-value" id="modalProductStock"></span>
+            </div>
+            <div class="product-modal-detail-item">
+              <span class="product-modal-detail-label">Category:</span>
+              <span class="product-modal-detail-value" id="modalProductCategory"></span>
+            </div>
+          </div>
+          <div class="product-modal-actions">
+            <button class="product-modal-btn product-modal-btn-cart" onclick="addToCart()">
+              🛒 Add to Cart
+            </button>
+            <button class="product-modal-btn product-modal-btn-buy" onclick="buyNow()">
+              💳 Buy Now
+            </button>
+            <button class="product-modal-btn product-modal-btn-favorite" id="favoriteBtn" onclick="toggleFavorite()">
+              ❤️ Favorite
+            </button>
+            <button class="product-modal-btn product-modal-btn-wishlist" id="wishlistBtn" onclick="toggleWishlist()">
+              🎁 Add to Wishlist
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 数量选择弹窗 -->
+  <div class="quantity-select-modal" id="quantitySelectModal">
+    <div class="quantity-select-content">
+      <div class="quantity-select-header">
+        <h2 class="quantity-select-title">Select Options</h2>
+        <button class="quantity-select-close" onclick="closeQuantitySelectModal()">&times;</button>
+      </div>
+      <div class="quantity-select-body">
+        <div class="quantity-select-product-info">
+          <img id="selectProductImage" class="quantity-select-product-image" src="" alt="Product Image">
+          <div class="quantity-select-product-details">
+            <div class="quantity-select-product-name" id="selectProductName"></div>
+            <div class="quantity-select-product-price" id="selectProductPrice"></div>
+          </div>
+        </div>
+        
+        <div class="quantity-select-option">
+          <label class="quantity-select-option-label">Style:</label>
+          <div class="quantity-select-variants" id="variantOptions">
+            <!-- Variant options will be generated by JavaScript -->
+          </div>
+        </div>
+        
+        <div class="quantity-select-option">
+          <label class="quantity-select-option-label">Quantity:</label>
+          <div class="quantity-select-control">
+            <button class="quantity-select-btn" onclick="changeQuantity(-1)">−</button>
+            <input type="number" class="quantity-select-input" id="selectQuantity" value="1" min="1" onchange="validateQuantity()">
+            <button class="quantity-select-btn" onclick="changeQuantity(1)">+</button>
+          </div>
+        </div>
+        
+        <div class="quantity-select-actions">
+          <button class="quantity-select-cancel-btn" onclick="closeQuantitySelectModal()">Cancel</button>
+          <button class="quantity-select-confirm-btn" onclick="confirmAddToCart()">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order confirm modal: select variant / quantity / address / payment / shipping -->
+  <div class="quantity-select-modal" id="orderConfirmModal" style="display:none;">
+    <div class="quantity-select-content">
+      <div class="quantity-select-header">
+        <h2 class="quantity-select-title">Confirm Order Details</h2>
+        <button class="quantity-select-close" onclick="closeOrderConfirmModal()">&times;</button>
+      </div>
+      <div class="quantity-select-body">
+        <div class="quantity-select-product-info">
+          <img id="orderConfirmImage" class="quantity-select-product-image" src="" alt="商品图片">
+          <div class="quantity-select-product-details">
+            <div class="quantity-select-product-name" id="orderConfirmName"></div>
+            <div class="quantity-select-product-price" id="orderConfirmPrice"></div>
+          </div>
+        </div>
+
+        <!-- 支付弹窗里的款式选择 -->
+        <div class="quantity-select-option">
+          <label class="quantity-select-option-label">Variant:</label>
+          <div class="quantity-select-variants" id="orderVariantOptions">
+            <!-- 款式选项将通过 JavaScript 动态生成 -->
+          </div>
+        </div>
+
+        <!-- 支付弹窗里的数量选择 -->
+        <div class="quantity-select-option">
+          <label class="quantity-select-option-label">Quantity:</label>
+          <div class="quantity-select-control">
+            <button class="quantity-select-btn" onclick="orderChangeQuantity(-1)">−</button>
+            <input type="number" class="quantity-select-input" id="orderQuantity" value="1" min="1" onchange="orderValidateQuantity()">
+            <button class="quantity-select-btn" onclick="orderChangeQuantity(1)">+</button>
+          </div>
+        </div>
+
+        <div class="quantity-select-option">
+          <label class="quantity-select-option-label">Shipping Address:</label>
+          <select id="orderAddressSelect" class="quantity-select-input"></select>
+        </div>
+
+        <div class="quantity-select-option">
+          <label class="quantity-select-option-label">Payment Method:</label>
+          <div class="quantity-select-variants" id="paymentOptions"></div>
+        </div>
+
+        <div class="quantity-select-option">
+          <label class="quantity-select-option-label">Shipping Method:</label>
+          <div class="quantity-select-variants" id="shippingOptions"></div>
+        </div>
+
+        <div class="quantity-select-actions">
+          <button class="quantity-select-cancel-btn" onclick="closeOrderConfirmModal()">Cancel</button>
+          <button class="quantity-select-confirm-btn" onclick="confirmBuyNow()">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal">
+    <div class="success-modal-content">
+      <div class="success-icon">
+        <div class="success-icon-circle">
+          <div class="success-checkmark"></div>
+        </div>
+      </div>
+      <h2 class="success-title" id="successTitle">Success!</h2>
+      <p class="success-message" id="successMessage"></p>
+      <div class="success-details" id="successDetails" style="display: none;"></div>
+    </div>
+  </div>
+
+</body>
+</html>
+
+

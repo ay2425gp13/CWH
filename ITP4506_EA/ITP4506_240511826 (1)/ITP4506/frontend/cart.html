@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>购物车 - Smile & Sunshine Toy Co. Ltd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #3b82f6;
+      --accent: #60a5fa;
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --text-light: #666666;
+      --border: #e0e0e0;
+      --success: #5cb85c;
+      --warning: #f0ad4e;
+      --danger: #d9534f;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    
+    [data-theme="light"] {
+      --bg: #CFD7E2;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* 导航栏样式 */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .unified-top-nav .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      height: 100%;
+    }
+
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 15px;
+      flex-wrap: nowrap;
+      overflow: visible;
+      min-width: 0;
+    }
+
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 10px 10px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-size: 13px;
+      overflow: visible;
+    }
+
+    .unified-top-nav .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .unified-top-nav .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .unified-top-nav .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .unified-top-nav .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: block;
+    }
+
+    .unified-top-nav .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+    }
+
+    .unified-top-nav .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+
+    .unified-top-nav .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .unified-top-nav .logout-btn {
+      color: #ff4d4f !important;
+    }
+
+    /* 购物车图标 */
+    .cart-icon-link {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-size: 24px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .cart-icon-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--danger);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* 主容器 */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* 购物车内容 */
+    .cart-content {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 20px;
+    }
+
+    .cart-items {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .cart-section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item:hover {
+      background: var(--bg);
+    }
+
+    .cart-item-image {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cart-item-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .cart-item-seller {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .cart-item-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .cart-item-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 15px;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 5px;
+    }
+
+    .quantity-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--card-bg);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .quantity-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .quantity-input {
+      width: 60px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .remove-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .remove-btn:hover {
+      background: #c53030;
+      transform: translateY(-2px);
+    }
+
+    /* 购物车摘要 */
+    .cart-summary {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 80px;
+    }
+
+    .summary-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      font-size: 16px;
+      color: var(--text-light);
+    }
+
+    .summary-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .summary-total {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    }
+
+    .checkout-btn:disabled {
+      background: var(--border);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-cart-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+
+    .empty-cart-text {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    .continue-shopping-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .continue-shopping-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    /* 支付弹窗样式 */
+    .payment-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .payment-modal.active {
+      display: flex;
+    }
+
+    .payment-modal-content {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .payment-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .payment-modal-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .payment-modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: var(--text-light);
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .payment-modal-close:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .payment-section {
+      margin-bottom: 24px;
+    }
+
+    .payment-section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--bg);
+    }
+
+    .payment-option:hover {
+      border-color: var(--primary);
+      background: rgba(30, 64, 175, 0.05);
+    }
+
+    .payment-option.selected {
+      border-color: var(--primary);
+      background: rgba(30, 64, 175, 0.1);
+    }
+
+    .payment-option input[type="radio"] {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .payment-option-label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .payment-option-icon {
+      font-size: 24px;
+    }
+
+    .payment-option-text {
+      flex: 1;
+    }
+
+    .payment-option-name {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .payment-option-desc {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .shipping-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .shipping-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--bg);
+    }
+
+    .shipping-option:hover {
+      border-color: var(--primary);
+      background: rgba(30, 64, 175, 0.05);
+    }
+
+    .shipping-option.selected {
+      border-color: var(--primary);
+      background: rgba(30, 64, 175, 0.1);
+    }
+
+    .shipping-option input[type="radio"] {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .shipping-option-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .shipping-option-details {
+      flex: 1;
+    }
+
+    .shipping-option-name {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .shipping-option-desc {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .shipping-option-price {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 16px;
+    }
+
+    .payment-summary {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .payment-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .payment-summary-row:last-child {
+      border-bottom: none;
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border);
+    }
+
+    .payment-summary-label {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .payment-summary-value {
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .payment-summary-total {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .payment-modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .btn-cancel {
+      padding: 12px 24px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+      background: var(--border);
+    }
+
+    .btn-confirm-payment {
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-confirm-payment:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .btn-confirm-payment:disabled {
+      background: var(--border);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* 地址选择样式 */
+    .address-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .address-option {
+      display: flex;
+      align-items: flex-start;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--bg);
+      position: relative;
+    }
+
+    .address-option:hover {
+      border-color: var(--primary);
+      background: rgba(30, 64, 175, 0.05);
+    }
+
+    .address-option.selected {
+      border-color: var(--primary);
+      background: rgba(30, 64, 175, 0.1);
+    }
+
+    .address-option input[type="radio"] {
+      margin-right: 12px;
+      margin-top: 4px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .address-option-info {
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .address-option-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .address-option-name {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .address-option-phone {
+      color: var(--text-light);
+      font-size: 14px;
+      margin-left: 12px;
+    }
+
+    .address-option-tag {
+      background: var(--primary);
+      color: white;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    .address-option-detail {
+      color: var(--text-light);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .address-empty-tip {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border: 2px dashed var(--border);
+    }
+
+    .address-empty-tip-text {
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .btn-add-address {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-add-address:hover {
+      background: var(--secondary);
+    }
+
+    .address-form {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .address-form.active {
+      display: block;
+    }
+
+    .address-form-group {
+      margin-bottom: 12px;
+    }
+
+    .address-form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .address-form-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      color: var(--text);
+      background: var(--card-bg);
+    }
+
+    .address-form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .address-form-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+
+    .btn-save-address {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .btn-cancel-address {
+      padding: 8px 16px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 968px) {
+      .cart-content {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-summary {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .cart-item {
+        flex-direction: column;
+      }
+
+      .cart-item-image {
+        width: 100%;
+        height: 200px;
+      }
+
+      .cart-item-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="platform-market.html" class="logo-link">
+          <span class="logo-icon">📱</span>
+          <span class="logo-text">Smile & Sunshine Toy Co. Ltd</span>
+        </a>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="platform-market.html" class="nav-item" data-page="platform">Official Market</a>
+        <a href="customize.html" class="nav-item" data-page="customize">Toy Customization</a>
+        <a href="quote-history.html" class="nav-item" data-page="quote-history">Quote History</a>
+        <a href="wishlist.html" class="nav-item" data-page="wishlist">Wishlist</a>
+        <a href="my-orders.html" class="nav-item" data-page="orders">My Orders</a>
+        <a href="login.html" class="nav-item" data-page="login">Login</a>
+      </div>
+      
+      <div class="nav-user">
+        <a href="cart.html" class="cart-icon-link" title="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">Please Login</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">Personal Center</a>
+            <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">🛒 Shopping Cart</h1>
+
+    <div id="cartContent">
+      <!-- 购物车内容将通过 JavaScript 动态生成 -->
+    </div>
+  </div>
+
+  <!-- 支付弹窗 -->
+  <div class="payment-modal" id="paymentModal">
+    <div class="payment-modal-content">
+      <div class="payment-modal-header">
+        <h2 class="payment-modal-title">💳 Payment</h2>
+        <button class="payment-modal-close" onclick="closePaymentModal()">&times;</button>
+      </div>
+
+      <div class="payment-section">
+        <h3 class="payment-section-title">📍 Select Shipping Address</h3>
+        <div id="addressOptionsContainer">
+          <!-- 地址选项将通过 JavaScript 动态生成 -->
+        </div>
+        <div class="address-empty-tip" id="addressEmptyTip" style="display:none;">
+          <div class="address-empty-tip-text">You haven't added a shipping address yet</div>
+          <button class="btn-add-address" onclick="showAddressForm()">Add New Address</button>
+        </div>
+        <div class="address-form" id="addressForm">
+          <div class="address-form-group">
+            <label class="address-form-label">Recipient Name</label>
+            <input type="text" class="address-form-input" id="newAddrName" placeholder="e.g. John Smith">
+          </div>
+          <div class="address-form-group">
+            <label class="address-form-label">Phone Number</label>
+            <input type="text" class="address-form-input" id="newAddrPhone" placeholder="e.g. 9123 4567">
+          </div>
+          <div class="address-form-group">
+            <label class="address-form-label">Area</label>
+            <input type="text" class="address-form-input" id="newAddrArea" placeholder="e.g. Hong Kong, Sha Tin">
+          </div>
+          <div class="address-form-group">
+            <label class="address-form-label">Detailed Address</label>
+            <input type="text" class="address-form-input" id="newAddrDetail" placeholder="e.g. New Town Plaza Phase 3, 8/F, Room 803">
+          </div>
+          <div class="address-form-actions">
+            <button class="btn-cancel-address" onclick="hideAddressForm()">Cancel</button>
+            <button class="btn-save-address" onclick="saveNewAddress()">Save</button>
+          </div>
+        </div>
+        <div style="margin-top: 12px;">
+          <button class="btn-add-address" id="btnShowAddAddress" onclick="showAddressForm()" style="display:none;">+ Add New Address</button>
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <h3 class="payment-section-title">Select Payment Method</h3>
+        <div class="payment-options">
+          <label class="payment-option" onclick="selectPaymentMethod('alipay')">
+            <input type="radio" name="paymentMethod" value="alipay" checked>
+            <div class="payment-option-label">
+              <span class="payment-option-icon">💙</span>
+              <div class="payment-option-text">
+                <div class="payment-option-name">Alipay</div>
+                <div class="payment-option-desc">Safe and convenient payment method</div>
+              </div>
+            </div>
+          </label>
+          <label class="payment-option" onclick="selectPaymentMethod('wechat')">
+            <input type="radio" name="paymentMethod" value="wechat">
+            <div class="payment-option-label">
+              <span class="payment-option-icon">💚</span>
+              <div class="payment-option-text">
+                <div class="payment-option-name">WeChat Pay</div>
+                <div class="payment-option-desc">Fast and secure payment method</div>
+              </div>
+            </div>
+          </label>
+          <label class="payment-option" onclick="selectPaymentMethod('bank')">
+            <input type="radio" name="paymentMethod" value="bank">
+            <div class="payment-option-label">
+              <span class="payment-option-icon">🏦</span>
+              <div class="payment-option-text">
+                <div class="payment-option-name">Bank Card</div>
+                <div class="payment-option-desc">Supports major banks</div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <h3 class="payment-section-title">Select Shipping Method</h3>
+        <div class="shipping-options">
+          <label class="shipping-option" onclick="selectShippingMethod('standard')">
+            <input type="radio" name="shippingMethod" value="standard" checked>
+            <div class="shipping-option-info">
+              <div class="shipping-option-details">
+                <div class="shipping-option-name">Standard Delivery</div>
+                <div class="shipping-option-desc">3-5 business days</div>
+              </div>
+            </div>
+            <div class="shipping-option-price">HK$0</div>
+          </label>
+          <label class="shipping-option" onclick="selectShippingMethod('express')">
+            <input type="radio" name="shippingMethod" value="express">
+            <div class="shipping-option-info">
+              <div class="shipping-option-details">
+                <div class="shipping-option-name">Express Delivery</div>
+                <div class="shipping-option-desc">1-2 business days</div>
+              </div>
+            </div>
+            <div class="shipping-option-price">HK$15</div>
+          </label>
+          <label class="shipping-option" onclick="selectShippingMethod('pickup')">
+            <input type="radio" name="shippingMethod" value="pickup">
+            <div class="shipping-option-info">
+              <div class="shipping-option-details">
+                <div class="shipping-option-name">Store Pickup</div>
+                <div class="shipping-option-desc">Pick up in store, free shipping</div>
+              </div>
+            </div>
+            <div class="shipping-option-price">HK$0</div>
+          </label>
+        </div>
+      </div>
+
+      <div class="payment-summary" id="paymentSummary">
+        <!-- 支付摘要将通过 JavaScript 动态生成 -->
+      </div>
+
+      <div class="payment-modal-actions">
+        <button class="btn-cancel" onclick="closePaymentModal()">Cancel</button>
+        <button class="btn-confirm-payment" onclick="confirmPayment()">Confirm Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 翻译商品标题（中文转英文）
+    const productTitleMap = {
+      "变形金刚 擎天柱": "Transformers Optimus Prime",
+      "变形金刚 大黄蜂": "Transformers Bumblebee",
+      "变形金刚 威震天": "Transformers Megatron",
+      "变形金刚 红蜘蛛": "Transformers Starscream",
+      "变形金刚 声波": "Transformers Soundwave",
+      "变形金刚 爵士": "Transformers Jazz",
+      "变形金刚 铁皮": "Transformers Ironhide",
+      "变形金刚 救护车": "Transformers Rescue Truck",
+      "变形金刚 横炮": "Transformers Sideswipe",
+      "变形金刚 飞毛腿": "Transformers Speed Car",
+      "变形金刚 钢锁": "Transformers Grimlock",
+      "玩具枪 水弹枪": "Toy Gun Water Blaster",
+      "玩具枪 软弹枪": "Toy Gun Soft Bullet Blaster",
+      "玩具枪 激光枪": "Toy Gun Laser Blaster",
+      "玩具枪 声光枪": "Toy Gun Sound & Light Blaster",
+      "玩具枪 赛车头枪": "Toy Gun Racing Car Blaster",
+      "玩具枪 冲锋枪": "Toy Gun Machine Gun",
+      "玩具枪 手枪": "Toy Gun Pistol",
+      "玩具枪 四星彩色手枪": "Toy Gun Color Pistol Set",
+      "玩具枪 暴龙头突击步枪": "Toy Gun Dino Assault Rifle",
+      "玩具枪 草莓机关枪": "Toy Gun Strawberry Machine Gun",
+      "漫威系列 钢铁侠和美国队长礼包": "Marvel Iron Man & Captain America Set",
+      "漫威系列 雷神": "Marvel Thor Figure",
+      "漫威系列 浩克": "Marvel Hulk Figure",
+      "漫威系列 美国队长": "Marvel Captain America Figure",
+      "漫威系列 蚁人": "Marvel Ant-Man Figure",
+      "漫威系列 马克42": "Marvel Iron Man Mark 42",
+      "漫威系列 奇异博士": "Marvel Doctor Strange",
+      "漫威系列 黑寡妇": "Marvel Black Widow",
+      "漫威系列 蚁人2号": "Marvel Ant-Man Suit 2",
+      "漫威系列 惊奇队长": "Marvel Captain Marvel",
+      "漫威系列 死侍": "Marvel Deadpool",
+      "DC宇宙 阿卡姆骑士": "DC Arkham Knight Batman",
+      "DC宇宙 黑暗骑士归来蝙蝠侠": "DC The Dark Knight Returns Batman",
+      "DC宇宙 元年蝙蝠侠": "DC Year One Batman",
+      "DC宇宙 闪电侠": "DC The Flash",
+      "DC宇宙 正义联盟礼包1号": "DC Justice League Set 1",
+      "DC宇宙 钢骨": "DC Cyborg",
+      "DC宇宙 正义联盟礼包2号": "DC Justice League Set 2",
+      "DC宇宙 小丑": "DC The Joker",
+      "DC宇宙 哈莉奎因": "DC Harley Quinn",
+      "毛绒玩具 小猪": "Plush Little Pig",
+      "毛绒玩具 小熊罗宾": "Plush Bear Robin",
+      "毛绒玩具 我的第一个泰迪熊": "My First Teddy Bear",
+      "毛绒玩具 金牌小熊": "Golden Teddy Bear",
+      "毛绒玩具 棕熊泰迪": "Brown Teddy Bear",
+      "毛绒玩具 黄熊泰迪": "Yellow Teddy Bear",
+      "毛绒玩具 圣诞特别版小熊": "Christmas Teddy Bear",
+      "毛绒玩具 《泰迪熊》电影同款泰迪熊": "Movie Teddy Bear Plush",
+      "毛绒玩具 I miss You 熊": "\"I Miss You\" Teddy Bear",
+      "毛绒玩具 大耳猴": "Big Ear Monkey Plush",
+      "毛绒玩具 趴趴狗": "Lying Puppy Plush",
+      "毛绒玩具 复活节兔子": "Easter Bunny Plush",
+      "毛绒玩具 领带熊": "Tie Bear Plush",
+      "毛绒玩具 贵宾狗": "Poodle Plush",
+      "幼儿玩具 铲车大礼包1号": "Toddler Truck Play Set 1",
+      "幼儿玩具 儿童推车": "Toddler Push Cart",
+      "幼儿玩具 图形拼图": "Shape Puzzle",
+      "幼儿玩具 动物模型礼包1号": "Animal Figure Set 1",
+      "幼儿玩具 儿童玩具礼包2号": "Kids Toy Set 2",
+      "幼儿玩具 水果玩具礼包1号": "Fruit Toy Set 1",
+      "幼儿玩具 积木炮台": "Block Cannon",
+      "幼儿玩具 滑板车": "Kids Scooter",
+      "幼儿玩具 水池": "Water Play Pool",
+      "幼儿玩具 滑板车2号": "Kids Scooter 2",
+      "恐龙模型 霸王龙": "T-Rex Dinosaur Model",
+      "恐龙模型 长颈龙": "Long Neck Dinosaur Model",
+      "恐龙模型 恐龙礼包1号": "Dinosaur Set 1",
+      "恐龙模型 恐龙礼包2号": "Dinosaur Set 2",
+      "恐龙模型 迅猛龙礼包1号": "Raptor Set 1",
+      "恐龙模型 脊背龙": "Spinosaurus Model",
+      "恐龙模型 农场恐龙礼包1号": "Farm Dinosaur Set 1",
+      "恐龙模型 三角龙": "Triceratops Model",
+      "恐龙模型 恐龙战争": "Dinosaur Battle Set",
+      "恐龙模型 侏罗纪公园礼包": "Jurassic Park Style Set",
+      "恐龙模型 异特龙": "Allosaurus Model",
+      "拼图益智 小猪佩奇": "Peppa Pig Puzzle",
+      "拼图益智 青蛙拼图": "Frog Puzzle",
+      "拼图益智 火车拼图": "Train Puzzle",
+      "拼图益智 数字拼图": "Number Puzzle",
+      "拼图益智 城市拼图": "City Puzzle",
+      "拼图益智 海洋拼图": "Ocean Puzzle",
+      "拼图益智 宇宙拼图": "Space Puzzle",
+      "拼图益智 运动场拼图": "Stadium Puzzle",
+      "拼图益智 农场": "Farm Puzzle",
+      "乐高积木 赛车1号": "Racing Car Blocks 1",
+      "乐高积木 城堡": "Castle Blocks",
+      "乐高积木 火箭": "Rocket Blocks",
+      "乐高积木 城市赛车": "City Racing Blocks",
+      "乐高积木 迅猛龙": "Raptor Blocks",
+      "乐高积木 赛车手": "Racer Blocks",
+      "乐高积木 幻影忍者 凯": "Ninja Kai Blocks",
+      "乐高积木 幻影忍者 寇": "Ninja Cole Blocks",
+      "乐高积木 幻影忍者 劳埃德": "Ninja Lloyd Blocks",
+      "乐高积木 幻影忍者 Jay": "Ninja Jay Blocks",
+      "乐高积木 幻影忍者 Zane": "Ninja Zane Blocks",
+      "乐高积木 幻影忍者巨龙": "Ninja Dragon Blocks",
+      "乐高积木 火龙": "Fire Dragon Blocks",
+      "乐高积木 冰龙": "Ice Dragon Blocks"
+    };
+
+    function getProductTitle(rawTitle) {
+      if (!rawTitle) return "";
+      return productTitleMap[rawTitle] || rawTitle;
+    }
+
+    // 保持款式名称显示为英文（不翻译）
+    function translateVariant(variant) {
+      if (!variant) return '';
+      // 直接返回英文，不进行翻译
+      return variant;
+    }
+
+    // 获取购物车数据
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+
+    // 保存购物车数据
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+
+    // 更新购物车徽章
+    function updateCartBadge() {
+      const cart = getCart();
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'block' : 'none';
+      }
+    }
+
+    // 更新数量
+    function updateQuantity(itemKey, change) {
+      const cart = getCart();
+      const item = cart.find(i => (i.cartKey || `${i.id}_${cart.indexOf(i)}`) === itemKey);
+      
+      if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+          removeFromCart(itemKey);
+          return;
+        }
+        saveCart(cart);
+        renderCart();
+      }
+    }
+
+    // 设置数量
+    function setQuantity(itemKey, quantity) {
+      const cart = getCart();
+      const item = cart.find(i => (i.cartKey || `${i.id}_${cart.indexOf(i)}`) === itemKey);
+      
+      if (item) {
+        if (quantity <= 0) {
+          removeFromCart(itemKey);
+          return;
+        }
+        item.quantity = parseInt(quantity);
+        saveCart(cart);
+        renderCart();
+      }
+    }
+
+    // 从购物车删除
+    function removeFromCart(itemKey) {
+      if (confirm('Are you sure you want to remove this item?')) {
+        const cart = getCart();
+        const newCart = cart.filter((i, index) => (i.cartKey || `${i.id}_${index}`) !== itemKey);
+        saveCart(newCart);
+        renderCart();
+      }
+    }
+
+    // 计算总价
+    function calculateTotal() {
+      const cart = getCart();
+      return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    }
+
+    // 计算商品数量
+    function calculateItemCount() {
+      const cart = getCart();
+      return cart.reduce((count, item) => count + item.quantity, 0);
+    }
+
+    // 渲染购物车
+    function renderCart() {
+      const cart = getCart();
+      const container = document.getElementById('cartContent');
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="empty-cart">
+            <div class="empty-cart-icon">🛒</div>
+            <div class="empty-cart-text">Your cart is empty</div>
+            <a href="platform-market.html" class="continue-shopping-btn">Continue Shopping</a>
+          </div>
+        `;
+        return;
+      }
+
+      const total = calculateTotal();
+      const itemCount = calculateItemCount();
+
+      container.innerHTML = `
+        <div class="cart-content">
+          <div class="cart-items">
+            <h2 class="cart-section-title">Cart Items (${itemCount} items)</h2>
+            ${cart.map((item, index) => {
+              const itemKey = item.cartKey || `${item.id}_${index}`;
+              return `
+              <div class="cart-item">
+                <img src="${item.image}" alt="${item.title}" class="cart-item-image">
+                <div class="cart-item-info">
+                  <h3 class="cart-item-title">${getProductTitle(item.title)}${item.variant ? ' - ' + translateVariant(item.variant) : ''}</h3>
+                  <div class="cart-item-seller">Seller: ${item.seller}</div>
+                  <div class="cart-item-price">HK$${item.price.toLocaleString()}</div>
+                </div>
+                <div class="cart-item-actions">
+                  <div class="quantity-control">
+                    <button class="quantity-btn" onclick="updateQuantity('${itemKey}', -1)">−</button>
+                    <input type="number" class="quantity-input" value="${item.quantity}" 
+                           min="1" onchange="setQuantity('${itemKey}', this.value)">
+                    <button class="quantity-btn" onclick="updateQuantity('${itemKey}', 1)">+</button>
+                  </div>
+                  <div class="cart-item-price">Subtotal: HK$${(item.price * item.quantity).toLocaleString()}</div>
+                  <button class="remove-btn" onclick="removeFromCart('${itemKey}')">Delete</button>
+                </div>
+              </div>
+            `;
+            }).join('')}
+          </div>
+          <div class="cart-summary">
+            <h2 class="summary-title">Order Summary</h2>
+            <div class="summary-row">
+              <span class="summary-label">Item Quantity</span>
+              <span class="summary-value">${itemCount} items</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Subtotal</span>
+              <span class="summary-value">HK$${total.toLocaleString()}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Shipping Fee</span>
+              <span class="summary-value">HK$0</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Total</span>
+              <span class="summary-value summary-total">HK$${total.toLocaleString()}</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+          </div>
+        </div>
+      `;
+    }
+
+    // 获取商品库存
+    function getProductStock(productId) {
+      const inventory = JSON.parse(localStorage.getItem('inventory') || '{}');
+      const stockInfo = inventory[productId];
+      return stockInfo ? stockInfo.stock : 20; // 默认库存20件
+    }
+
+    // 扣减商品库存
+    function deductProductStock(productId, quantity) {
+      const inventory = JSON.parse(localStorage.getItem('inventory') || '{}');
+      if (!inventory[productId]) {
+        inventory[productId] = { stock: 20 }; // 初始化默认库存
+      }
+      inventory[productId].stock = Math.max(0, inventory[productId].stock - quantity);
+      localStorage.setItem('inventory', JSON.stringify(inventory));
+      return inventory[productId].stock;
+    }
+
+    // 地址管理
+    function loadAddresses() {
+      return JSON.parse(localStorage.getItem('addresses') || '[]');
+    }
+
+    function saveAddresses(addresses) {
+      localStorage.setItem('addresses', JSON.stringify(addresses));
+    }
+
+    // 渲染地址选项
+    function renderAddressOptions() {
+      const container = document.getElementById('addressOptionsContainer');
+      const emptyTip = document.getElementById('addressEmptyTip');
+      const btnShowAdd = document.getElementById('btnShowAddAddress');
+      const addresses = loadAddresses();
+
+      if (!addresses.length) {
+        container.innerHTML = '';
+        emptyTip.style.display = 'block';
+        btnShowAdd.style.display = 'none';
+        return;
+      }
+
+      emptyTip.style.display = 'none';
+      btnShowAdd.style.display = 'block';
+
+      container.innerHTML = addresses.map(addr => `
+        <label class="address-option">
+          <input type="radio" name="selectedAddress" value="${addr.id}" ${addr.isDefault ? 'checked' : ''} onchange="selectAddress(${addr.id})">
+          <div class="address-option-info">
+            <div class="address-option-header">
+              <div>
+                <span class="address-option-name">${addr.name}</span>
+                <span class="address-option-phone">${addr.phone}</span>
+                ${addr.isDefault ? '<span class="address-option-tag">Default</span>' : ''}
+              </div>
+            </div>
+            <div class="address-option-detail">${addr.area} ${addr.detail}</div>
+          </div>
+        </label>
+      `).join('');
+      
+      // 初始化选中状态
+      addresses.forEach(addr => {
+        const radio = document.querySelector(`input[value="${addr.id}"]`);
+        if (radio && radio.checked) {
+          selectAddress(addr.id);
+        }
+      });
+
+      // 默认选中默认地址
+      const defaultAddress = addresses.find(a => a.isDefault);
+      if (defaultAddress) {
+        selectAddress(defaultAddress.id);
+      } else if (addresses.length > 0) {
+        selectAddress(addresses[0].id);
+      }
+    }
+
+    // 选择地址
+    function selectAddress(addressId) {
+      document.querySelectorAll('.address-option').forEach(option => {
+        option.classList.remove('selected');
+        const radio = option.querySelector('input[type="radio"]');
+        if (radio && parseInt(radio.value) === addressId) {
+          radio.checked = true;
+          option.classList.add('selected');
+        }
+      });
+    }
+
+    // 显示地址表单
+    function showAddressForm() {
+      document.getElementById('addressForm').classList.add('active');
+      document.getElementById('btnShowAddAddress').style.display = 'none';
+    }
+
+    // 隐藏地址表单
+    function hideAddressForm() {
+      document.getElementById('addressForm').classList.remove('active');
+      document.getElementById('btnShowAddAddress').style.display = 'block';
+      // 清空表单
+      document.getElementById('newAddrName').value = '';
+      document.getElementById('newAddrPhone').value = '';
+      document.getElementById('newAddrArea').value = '';
+      document.getElementById('newAddrDetail').value = '';
+    }
+
+    // 保存新地址
+    function saveNewAddress() {
+      const name = document.getElementById('newAddrName').value.trim();
+      const phone = document.getElementById('newAddrPhone').value.trim();
+      const area = document.getElementById('newAddrArea').value.trim();
+      const detail = document.getElementById('newAddrDetail').value.trim();
+
+      if (!name || !phone || !area || !detail) {
+        alert('Please fill in all address information');
+        return;
+      }
+
+      const addresses = loadAddresses();
+      const newAddr = {
+        id: Date.now(),
+        name,
+        phone,
+        area,
+        detail,
+        isDefault: addresses.length === 0 // 第一个地址自动设为默认
+      };
+      addresses.push(newAddr);
+      saveAddresses(addresses);
+
+      hideAddressForm();
+      renderAddressOptions();
+    }
+
+    // 获取选中的地址
+    function getSelectedAddress() {
+      const selectedRadio = document.querySelector('input[name="selectedAddress"]:checked');
+      if (!selectedRadio) return null;
+      
+      const addressId = parseInt(selectedRadio.value);
+      const addresses = loadAddresses();
+      return addresses.find(a => a.id === addressId);
+    }
+
+    // 获取运费
+    function getShippingFee(shippingMethod) {
+      const fees = {
+        'standard': 0,
+        'express': 15,
+        'pickup': 0
+      };
+      return fees[shippingMethod] || 0;
+    }
+
+    // 获取支付方式名称
+    function getPaymentMethodName(method) {
+      const names = {
+        'alipay': 'Alipay',
+        'wechat': 'WeChat Pay',
+        'bank': 'Bank Card'
+      };
+      return names[method] || 'Unknown';
+    }
+
+    // 获取运输方式名称
+    function getShippingMethodName(method) {
+      const names = {
+        'standard': 'Standard Delivery',
+        'express': 'Express Delivery',
+        'pickup': 'Store Pickup'
+      };
+      return names[method] || 'Unknown';
+    }
+
+    // 选择支付方式
+    function selectPaymentMethod(method) {
+      document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+        const radio = option.querySelector('input[type="radio"]');
+        if (radio && radio.value === method) {
+          radio.checked = true;
+          option.classList.add('selected');
+        }
+      });
+      updatePaymentSummary();
+    }
+
+    // 选择运输方式
+    function selectShippingMethod(method) {
+      document.querySelectorAll('.shipping-option').forEach(option => {
+        option.classList.remove('selected');
+        const radio = option.querySelector('input[type="radio"]');
+        if (radio && radio.value === method) {
+          radio.checked = true;
+          option.classList.add('selected');
+        }
+      });
+      updatePaymentSummary();
+    }
+
+    // 更新支付摘要
+    function updatePaymentSummary() {
+      const cart = getCart();
+      const subtotal = calculateTotal();
+      const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+      const shippingFee = getShippingFee(shippingMethod);
+      const total = subtotal + shippingFee;
+
+      const summaryHTML = `
+        <div class="payment-summary-row">
+          <span class="payment-summary-label">Subtotal</span>
+          <span class="payment-summary-value">HK$${subtotal.toLocaleString()}</span>
+        </div>
+        <div class="payment-summary-row">
+          <span class="payment-summary-label">Shipping Fee</span>
+          <span class="payment-summary-value">HK$${shippingFee.toLocaleString()}</span>
+        </div>
+        <div class="payment-summary-row">
+          <span class="payment-summary-label">Total</span>
+          <span class="payment-summary-value payment-summary-total">HK$${total.toLocaleString()}</span>
+        </div>
+      `;
+
+      document.getElementById('paymentSummary').innerHTML = summaryHTML;
+    }
+
+    // 打开支付弹窗
+    function openPaymentModal() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert('购物车是空的！');
+        return;
+      }
+
+      // 检查是否登录
+      const userInfo = sessionStorage.getItem('user_info');
+      if (!userInfo) {
+        if (confirm('You are not logged in. Go to the login page?')) {
+          window.location.href = '/login';
+        }
+        return;
+      }
+
+      // 检查库存
+      const outOfStockItems = [];
+      for (const item of cart) {
+        const currentStock = getProductStock(item.id);
+        if (item.quantity > currentStock) {
+          outOfStockItems.push({
+            title: item.title,
+            requested: item.quantity,
+            available: currentStock
+          });
+        }
+      }
+
+      if (outOfStockItems.length > 0) {
+        let message = 'The following items are out of stock:\n';
+        outOfStockItems.forEach(item => {
+          message += `\n${item.title}: Need ${item.requested} items, but only ${item.available} available`;
+        });
+        alert(message);
+        return;
+      }
+
+      // 初始化支付方式选择
+      document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      document.querySelector('.payment-option').classList.add('selected');
+
+      // 初始化运输方式选择
+      document.querySelectorAll('.shipping-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      document.querySelector('.shipping-option').classList.add('selected');
+
+      // 渲染地址选项
+      renderAddressOptions();
+
+      // 更新支付摘要
+      updatePaymentSummary();
+
+      // 显示弹窗
+      document.getElementById('paymentModal').classList.add('active');
+    }
+
+    // 关闭支付弹窗
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.remove('active');
+    }
+
+    // 确认支付
+    function confirmPayment() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert('购物车是空的！');
+        return;
+      }
+
+      // 检查是否选择了地址
+      const selectedAddress = getSelectedAddress();
+      if (!selectedAddress) {
+        alert('Please select a shipping address!');
+        return;
+      }
+
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+      const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+      const subtotal = calculateTotal();
+      const shippingFee = getShippingFee(shippingMethod);
+      const total = subtotal + shippingFee;
+
+      // 扣减库存
+      for (const item of cart) {
+        deductProductStock(item.id, item.quantity);
+      }
+
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const userId = userInfo ? (userInfo.id || userInfo.username) : null;
+
+      // 创建订单
+      const order = {
+        id: Date.now(),
+        userId: userId, // 关联用户ID
+        username: userInfo ? userInfo.username : null, // 关联用户名
+        items: cart,
+        subtotal: subtotal,
+        shippingFee: shippingFee,
+        total: total,
+        paymentMethod: paymentMethod,
+        paymentMethodName: getPaymentMethodName(paymentMethod),
+        shippingMethod: shippingMethod,
+        shippingMethodName: getShippingMethodName(shippingMethod),
+        status: 'pending',
+        logisticsStatus: 'pending',
+        shippingAddress: 'Smile & Sunshine Toy Co. Ltd 香港物流中心',
+        receivingAddress: {
+          name: selectedAddress.name,
+          phone: selectedAddress.phone,
+          area: selectedAddress.area,
+          detail: selectedAddress.detail,
+          fullAddress: `${selectedAddress.area} ${selectedAddress.detail}`
+        },
+        createTime: new Date().toISOString()
+      };
+
+      // 保存订单
+      let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+
+      // 清空购物车
+      saveCart([]);
+
+      // 关闭弹窗
+      closePaymentModal();
+
+      alert(`Order created successfully!\nShipping Address: ${order.receivingAddress.fullAddress}\nRecipient: ${order.receivingAddress.name} ${order.receivingAddress.phone}\nPayment Method: ${order.paymentMethodName}\nShipping Method: ${order.shippingMethodName}\nTotal: HK$${order.total.toLocaleString()}`);
+      
+      // 重新渲染
+      renderCart();
+    }
+
+    // 结算（打开支付弹窗）
+    function checkout() {
+      openPaymentModal();
+    }
+
+    // 点击弹窗外部关闭
+    document.addEventListener('click', function(event) {
+      const modal = document.getElementById('paymentModal');
+      if (event.target === modal) {
+        closePaymentModal();
+      }
+    });
+
+    // 更新用户信息
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        const userInfo = sessionStorage.getItem('user_info');
+        if (userInfo) {
+          userIdElement.textContent = 'Personal Center';
+          userIdElement.style.cursor = 'pointer';
+          userIdElement.onclick = function() {
+            // 已登录，跳转到个人中心页面
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/my-items';
+            } else {
+              window.location.href = 'my-items.html';
+            }
+          };
+        } else {
+          userIdElement.textContent = 'Login';
+          userIdElement.style.cursor = 'pointer';
+          userIdElement.onclick = function() {
+            // 未登录，跳转到登录页面
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/login';
+            } else {
+              window.location.href = 'login.html';
+            }
+          };
+        }
+      }
+    }
+
+    // 退出登录功能
+    function setupLogoutHandler() {
+      const logoutBtn = document.querySelector('.logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (confirm('Are you sure you want to logout?')) {
+            sessionStorage.removeItem('user_info');
+            updateUserInfo();
+            window.location.href = 'login.html';
+          }
+        });
+      }
+    }
+
+    // 页面加载时执行
+    document.addEventListener('DOMContentLoaded', function() {
+      updateUserInfo();
+      updateCartBadge();
+      renderCart();
+      setupLogoutHandler();
+    });
+  </script>
+  
+  <script src="js/theme.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Restock Center - Second-hand Toy Platform</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* shared unified top nav styles (same as staff dashboard) */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+    .unified-top-nav .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 100%;
+    }
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+    .unified-top-nav .logo-link:hover {
+      transform: scale(1.05);
+    }
+    .unified-top-nav .logo-icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+    .unified-top-nav .logo-text {
+      color: white;
+    }
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 20px;
+      flex-direction: row;
+    }
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      font-size: 14px;
+      display: inline-block;
+    }
+    .unified-top-nav .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transform: translateY(-1px);
+    }
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: 600;
+    }
+    .unified-top-nav .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background: white;
+      border-radius: 1px;
+    }
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      flex-direction: row;
+    }
+    .unified-top-nav .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+    .unified-top-nav .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .unified-top-nav .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: block;
+    }
+    .unified-top-nav .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+      font-size: 14px;
+    }
+    .unified-top-nav .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+    .unified-top-nav .dropdown-item:last-child {
+      border-bottom: none;
+    }
+    .unified-top-nav .logout-btn {
+      color: #ff4d4f !important;
+    }
+
+    .staff-main {
+      max-width: 1100px;
+      margin: 24px auto 40px;
+      padding: 18px 20px 24px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
+    .staff-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+    }
+    .staff-title-row h1 {
+      font-size: 1.4rem;
+      color: var(--text);
+    }
+    .staff-title-row span {
+      font-size: .85rem;
+      color: var(--text-muted);
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: .85rem;
+    }
+    .filter-bar label {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      cursor: pointer;
+    }
+    .low-stock-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: .75rem;
+      margin-left: 6px;
+    }
+    .low-stock-summary {
+      margin-bottom: 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: #fff;
+      padding: 16px 18px;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+    }
+    .low-stock-summary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: .85rem;
+      color: #6b7280;
+    }
+    .low-stock-summary-header strong {
+      font-size: 1rem;
+      color: #111827;
+      margin-right: .35rem;
+    }
+    .low-stock-summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+    .low-stock-summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .5rem .65rem;
+      border-radius: .75rem;
+      border: 1px solid #fecaca;
+      background: #fef2f2;
+      font-size: .85rem;
+    }
+    .low-stock-summary-main {
+      display: flex;
+      flex-direction: column;
+      gap: .1rem;
+    }
+    .low-stock-summary-title {
+      font-weight: 600;
+      color: #b91c1c;
+    }
+    .low-stock-summary-sub {
+      color: #6b7280;
+      font-size: .75rem;
+    }
+    .low-stock-summary-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: .15rem;
+    }
+    .low-stock-summary-count {
+      font-weight: 600;
+      color: #b91c1c;
+    }
+
+    .restock-log {
+      max-height: 240px;
+      overflow-y: auto;
+      margin-top: .4rem;
+      padding-top: .35rem;
+      border-top: 1px dashed #e5e7eb;
+      font-size: .78rem;
+    }
+    .restock-item {
+      padding: .2rem 0;
+      border-bottom: 1px dashed #e5e7eb;
+    }
+    .restock-item:last-child {
+      border-bottom: none;
+    }
+
+    .panel {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 12px 14px 14px;
+      border: 1px solid #e5e7eb;
+      margin-top: 20px;
+    }
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .65rem;
+      font-size: .95rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    .panel-title span {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .panel-title small {
+      font-size: .75rem;
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    .restock-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: flex-end;
+      font-size: .85rem;
+    }
+    .restock-form > div {
+      min-width: 220px;
+      flex: 1;
+    }
+    .restock-form label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 500;
+      color: #374151;
+    }
+    .restock-form input {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: .85rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow-main);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      background: #111827;
+    }
+    .product-body {
+      padding: 10px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .product-title {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .product-meta {
+      font-size: .8rem;
+      color: var(--text-muted);
+    }
+    .stock-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      font-size: .8rem;
+    }
+    .stock-count {
+      font-weight: 600;
+    }
+    .stock-normal {
+      color: #16a34a;
+    }
+    .stock-low {
+      color: #dc2626;
+    }
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+    .btn-sm {
+      padding: .25rem .6rem;
+      font-size: .75rem;
+      border-radius: .5rem;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+      transition: background .15s ease, transform .1s ease;
+    }
+    .btn-sm:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .empty-tip {
+      padding: 32px 0;
+      text-align: center;
+      font-size: .9rem;
+      color: var(--text-muted);
+    }
+
+    /* restock modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-dialog {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px 18px 18px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: var(--shadow-main-hover);
+      border: 1px solid var(--border);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .modal-header h2 {
+      font-size: 1rem;
+      margin: 0;
+    }
+    .modal-close {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: .85rem;
+    }
+    .modal-body label {
+      font-weight: 500;
+      margin-bottom: 2px;
+      display: block;
+    }
+    .modal-body input,
+    .modal-body select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: .85rem;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-secondary {
+      padding: .25rem .6rem;
+      font-size: .75rem;
+      border-radius: .5rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .btn-primary {
+      padding: .25rem .6rem;
+      font-size: .75rem;
+      border-radius: .5rem;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Staff navigation -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="staff-dashboard.html" class="logo-link">
+          <span class="logo-icon">📦</span>
+          <span class="logo-text">Staff Restock Center</span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="staff-dashboard.html" class="nav-item" data-page="staff-orders">Order Management</a>
+        <a href="staff-restock.html" class="nav-item active" data-page="staff-restock">Restock Center</a>
+        <a href="staff-quote.html" class="nav-item" data-page="staff-quote">Quotes</a>
+        <a href="login.html" class="nav-item" data-page="login">Login</a>
+      </div>
+      <div class="nav-user">
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">My Center</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">My Center</a>
+            <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="staff-main">
+    <div class="staff-title-row">
+      <h1>Restock Alerts / Inventory</h1>
+      <span>When a toy has less than 10 pieces, it will be flagged as "Need Restock".</span>
+    </div>
+    <div class="filter-bar">
+      <div>
+        <label>
+          <input type="checkbox" id="onlyLowStock" checked>
+          Show only items with stock below 10
+        </label>
+      </div>
+      <div id="productCountInfo"></div>
+    </div>
+
+    <section class="low-stock-summary">
+      <div class="low-stock-summary-header">
+        <div>
+          <strong>Low Stock Restock Suggestions</strong>
+          <small>(Stock lower than 10)</small>
+        </div>
+        <span id="lowStockSummaryInfo"></span>
+      </div>
+      <div id="lowStockSummaryList" class="low-stock-summary-list"></div>
+    </section>
+
+    <div id="productsContainer"></div>
+
+    <section class="panel" style="margin-top: 16px;">
+      <div class="panel-title">
+        <span>Check Inventory <small>(Enter toy name or ID to check current stock)</small></span>
+      </div>
+      <div class="restock-form">
+        <div>
+          <label for="queryProductName">Product Name / ID</label>
+          <input id="queryProductName" type="text" placeholder="e.g. Optimus Prime, ID: 1">
+        </div>
+        <button id="queryStockBtn" class="btn-sm" type="button">Check Stock</button>
+      </div>
+      <div class="restock-log" id="queryResult"></div>
+    </section>
+  </main>
+
+  <!-- Restock modal -->
+  <div class="modal-backdrop" id="restockModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2>Restock Settings</h2>
+        <button class="modal-close" type="button" onclick="closeRestockModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label>Product</label>
+          <div id="restockProductName" style="font-weight:600;"></div>
+        </div>
+        <div>
+          <label for="restockVariant">Variant</label>
+          <select id="restockVariant"></select>
+        </div>
+        <div>
+          <label for="restockQuantity">Restock Quantity</label>
+          <input id="restockQuantity" type="number" min="1" value="10">
+        </div>
+        <div>
+          <label for="restockSupplier">Supplier / Warehouse</label>
+          <input id="restockSupplier" type="text" placeholder="e.g. Official Warehouse A">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" type="button" onclick="closeRestockModal()">Cancel</button>
+        <button class="btn-primary" type="button" onclick="confirmRestock()">Confirm Restock</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // user info & logout logic
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        userIdElement.textContent = 'My Center';
+        userIdElement.style.cursor = 'pointer';
+        userIdElement.onclick = function() {
+          // check login status
+          const userInfo = sessionStorage.getItem('user_info');
+          if (userInfo) {
+            // logged in, go to center
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/my-items';
+            } else {
+              window.location.href = 'my-items.html';
+            }
+          } else {
+            // not logged in, go to login
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/login';
+            } else {
+              window.location.href = 'login.html';
+            }
+          }
+        };
+      }
+    }
+
+    function setupLogoutHandler() {
+      const logoutBtn = document.querySelector('.unified-top-nav .logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (confirm('Are you sure you want to log out?')) {
+            sessionStorage.removeItem('user_info');
+            window.location.href = '/login';
+          }
+        });
+      }
+    }
+
+    // read products from localStorage
+    function loadProducts() {
+      try {
+        const raw = localStorage.getItem('productsData');
+        if (!raw) return [];
+        return JSON.parse(raw);
+      } catch (e) {
+        console.error('Failed to read product data', e);
+        return [];
+      }
+    }
+
+    // inventory structure: inventory[productId] = { stock: number }
+    function loadInventory() {
+      try {
+        return JSON.parse(localStorage.getItem('inventory') || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveInventory(inv) {
+      localStorage.setItem('inventory', JSON.stringify(inv));
+    }
+
+    // get product variants (aligned with marketplace logic)
+    function getProductVariants(product) {
+      const map = {
+        '变形金刚': ['Classic', 'Deluxe', 'Collector', 'Limited'],
+        'Transformers': ['Classic', 'Deluxe', 'Collector', 'Limited'],
+        '玩具枪': ['Standard', 'Light & Sound', 'Water Blaster', 'Soft Dart'],
+        'Toy Guns': ['Standard', 'Light & Sound', 'Water Blaster', 'Soft Dart'],
+        '漫威系列': ['Standard Edition', 'Deluxe Edition', 'Limited Edition', 'Signed Edition'],
+        'Marvel Series': ['Standard Edition', 'Deluxe Edition', 'Limited Edition', 'Signed Edition'],
+        'DC宇宙': ['Standard Edition', 'Deluxe Edition', 'Limited Edition', 'Signed Edition'],
+        'DC Universe': ['Standard Edition', 'Deluxe Edition', 'Limited Edition', 'Signed Edition'],
+        '毛绒玩具': ['Small', 'Medium', 'Large', 'Extra Large'],
+        'Plush Toys': ['Small', 'Medium', 'Large', 'Extra Large'],
+        '幼儿玩具': ['Basic', 'Advanced', 'Deluxe', 'Bundle'],
+        'Toddler Toys': ['Basic', 'Advanced', 'Deluxe', 'Bundle'],
+        '恐龙模型': ['Standard', 'Motorized', 'Light & Sound', 'Collector'],
+        'Dinosaur Models': ['Standard', 'Motorized', 'Light & Sound', 'Collector'],
+        '拼图益智': ['Standard Edition', 'Deluxe Edition', 'Collector\'s Edition', 'Limited Edition'],
+        'Puzzle & Educational': ['Standard Edition', 'Deluxe Edition', 'Collector\'s Edition', 'Limited Edition'],
+        '乐高积木': ['Starter', 'Expansion', 'Deluxe', 'Limited'],
+        'Lego Sets': ['Starter', 'Expansion', 'Deluxe', 'Limited']
+      };
+      return map[product.category] || ['Standard', 'Deluxe', 'Collector'];
+    }
+
+    function getCategoryLabel(raw) {
+      const map = {
+        '变形金刚': 'Transformers',
+        'Transformers': 'Transformers',
+        '玩具枪': 'Toy Guns',
+        'Toy Guns': 'Toy Guns',
+        '漫威系列': 'Marvel Series',
+        'Marvel Series': 'Marvel Series',
+        'DC宇宙': 'DC Universe',
+        'DC Universe': 'DC Universe',
+        '毛绒玩具': 'Plush Toys',
+        'Plush Toys': 'Plush Toys',
+        '幼儿玩具': 'Toddler Toys',
+        'Toddler Toys': 'Toddler Toys',
+        '恐龙模型': 'Dinosaur Models',
+        'Dinosaur Models': 'Dinosaur Models',
+        '拼图益智': 'Puzzle & Educational',
+        'Puzzle & Educational': 'Puzzle & Educational',
+        '乐高积木': 'Lego Sets',
+        'Lego Sets': 'Lego Sets'
+      };
+      return map[raw] || raw || 'Toy';
+    }
+
+    let products = [];
+    let inventory = {};
+    let currentRestockProduct = null;
+
+    // 翻译商品标题（中文转英文）
+    const productTitleMap = {
+      "变形金刚 擎天柱": "Transformers Optimus Prime",
+      "变形金刚 大黄蜂": "Transformers Bumblebee",
+      "变形金刚 威震天": "Transformers Megatron",
+      "变形金刚 红蜘蛛": "Transformers Starscream",
+      "变形金刚 声波": "Transformers Soundwave",
+      "变形金刚 爵士": "Transformers Jazz",
+      "变形金刚 铁皮": "Transformers Ironhide",
+      "变形金刚 救护车": "Transformers Rescue Truck",
+      "变形金刚 横炮": "Transformers Sideswipe",
+      "变形金刚 飞毛腿": "Transformers Speed Car",
+      "变形金刚 钢锁": "Transformers Grimlock",
+      "玩具枪 水弹枪": "Toy Gun Water Blaster",
+      "玩具枪 软弹枪": "Toy Gun Soft Bullet Blaster",
+      "玩具枪 激光枪": "Toy Gun Laser Blaster",
+      "玩具枪 声光枪": "Toy Gun Sound & Light Blaster",
+      "玩具枪 赛车头枪": "Toy Gun Racing Car Blaster",
+      "玩具枪 冲锋枪": "Toy Gun Machine Gun",
+      "玩具枪 手枪": "Toy Gun Pistol",
+      "玩具枪 四星彩色手枪": "Toy Gun Color Pistol Set",
+      "玩具枪 暴龙头突击步枪": "Toy Gun Dino Assault Rifle",
+      "玩具枪 草莓机关枪": "Toy Gun Strawberry Machine Gun",
+      "漫威系列 钢铁侠和美国队长礼包": "Marvel Iron Man & Captain America Set",
+      "漫威系列 雷神": "Marvel Thor Figure",
+      "漫威系列 浩克": "Marvel Hulk Figure",
+      "漫威系列 美国队长": "Marvel Captain America Figure",
+      "漫威系列 蚁人": "Marvel Ant-Man Figure",
+      "漫威系列 马克42": "Marvel Iron Man Mark 42",
+      "漫威系列 奇异博士": "Marvel Doctor Strange",
+      "漫威系列 黑寡妇": "Marvel Black Widow",
+      "漫威系列 蚁人2号": "Marvel Ant-Man Suit 2",
+      "漫威系列 惊奇队长": "Marvel Captain Marvel",
+      "漫威系列 死侍": "Marvel Deadpool",
+      "DC宇宙 阿卡姆骑士": "DC Arkham Knight Batman",
+      "DC宇宙 黑暗骑士归来蝙蝠侠": "DC The Dark Knight Returns Batman",
+      "DC宇宙 元年蝙蝠侠": "DC Year One Batman",
+      "DC宇宙 闪电侠": "DC The Flash",
+      "DC宇宙 正义联盟礼包1号": "DC Justice League Set 1",
+      "DC宇宙 钢骨": "DC Cyborg",
+      "DC宇宙 正义联盟礼包2号": "DC Justice League Set 2",
+      "DC宇宙 小丑": "DC The Joker",
+      "DC宇宙 哈莉奎因": "DC Harley Quinn",
+      "毛绒玩具 小猪": "Plush Little Pig",
+      "毛绒玩具 小熊罗宾": "Plush Bear Robin",
+      "毛绒玩具 我的第一个泰迪熊": "My First Teddy Bear",
+      "毛绒玩具 金牌小熊": "Golden Teddy Bear",
+      "毛绒玩具 棕熊泰迪": "Brown Teddy Bear",
+      "毛绒玩具 黄熊泰迪": "Yellow Teddy Bear",
+      "毛绒玩具 圣诞特别版小熊": "Christmas Teddy Bear",
+      "毛绒玩具 《泰迪熊》电影同款泰迪熊": "Movie Teddy Bear Plush",
+      "毛绒玩具 I miss You 熊": "\"I Miss You\" Teddy Bear",
+      "毛绒玩具 大耳猴": "Big Ear Monkey Plush",
+      "毛绒玩具 趴趴狗": "Lying Puppy Plush",
+      "毛绒玩具 复活节兔子": "Easter Bunny Plush",
+      "毛绒玩具 领带熊": "Tie Bear Plush",
+      "毛绒玩具 贵宾狗": "Poodle Plush",
+      "幼儿玩具 铲车大礼包1号": "Toddler Truck Play Set 1",
+      "幼儿玩具 儿童推车": "Toddler Push Cart",
+      "幼儿玩具 图形拼图": "Shape Puzzle",
+      "幼儿玩具 动物模型礼包1号": "Animal Figure Set 1",
+      "幼儿玩具 儿童玩具礼包2号": "Kids Toy Set 2",
+      "幼儿玩具 水果玩具礼包1号": "Fruit Toy Set 1",
+      "幼儿玩具 积木炮台": "Block Cannon",
+      "幼儿玩具 滑板车": "Kids Scooter",
+      "幼儿玩具 水池": "Water Play Pool",
+      "幼儿玩具 滑板车2号": "Kids Scooter 2",
+      "恐龙模型 霸王龙": "T-Rex Dinosaur Model",
+      "恐龙模型 长颈龙": "Long Neck Dinosaur Model",
+      "恐龙模型 恐龙礼包1号": "Dinosaur Set 1",
+      "恐龙模型 恐龙礼包2号": "Dinosaur Set 2",
+      "恐龙模型 迅猛龙礼包1号": "Raptor Set 1",
+      "恐龙模型 脊背龙": "Spinosaurus Model",
+      "恐龙模型 农场恐龙礼包1号": "Farm Dinosaur Set 1",
+      "恐龙模型 三角龙": "Triceratops Model",
+      "恐龙模型 恐龙战争": "Dinosaur Battle Set",
+      "恐龙模型 侏罗纪公园礼包": "Jurassic Park Style Set",
+      "恐龙模型 异特龙": "Allosaurus Model",
+      "拼图益智 小猪佩奇": "Peppa Pig Puzzle",
+      "拼图益智 青蛙拼图": "Frog Puzzle",
+      "拼图益智 火车拼图": "Train Puzzle",
+      "拼图益智 数字拼图": "Number Puzzle",
+      "拼图益智 城市拼图": "City Puzzle",
+      "拼图益智 海洋拼图": "Ocean Puzzle",
+      "拼图益智 宇宙拼图": "Space Puzzle",
+      "拼图益智 运动场拼图": "Stadium Puzzle",
+      "拼图益智 农场": "Farm Puzzle",
+      "乐高积木 赛车1号": "Racing Car Blocks 1",
+      "乐高积木 城堡": "Castle Blocks",
+      "乐高积木 火箭": "Rocket Blocks",
+      "乐高积木 城市赛车": "City Racing Blocks",
+      "乐高积木 迅猛龙": "Raptor Blocks",
+      "乐高积木 赛车手": "Racer Blocks",
+      "乐高积木 幻影忍者 凯": "Ninja Kai Blocks",
+      "乐高积木 幻影忍者 寇": "Ninja Cole Blocks",
+      "乐高积木 幻影忍者 劳埃德": "Ninja Lloyd Blocks",
+      "乐高积木 幻影忍者 Jay": "Ninja Jay Blocks",
+      "乐高积木 幻影忍者 Zane": "Ninja Zane Blocks",
+      "乐高积木 幻影忍者巨龙": "Ninja Dragon Blocks",
+      "乐高积木 火龙": "Fire Dragon Blocks",
+      "乐高积木 冰龙": "Ice Dragon Blocks"
+    };
+
+    function getProductTitle(rawTitle) {
+      if (!rawTitle) return "";
+      return productTitleMap[rawTitle] || rawTitle;
+    }
+    const LOW_STOCK_THRESHOLD = 10;
+
+    function getProductStockList() {
+      const list = [];
+      const seen = new Set();
+
+      // include products that have full info first
+      (products || []).forEach(p => {
+        if (!p) return;
+        const id = String(p.id);
+        const inv = (inventory && inventory[id]) || inventory[p.id] || { stock: 20 };
+        const stock = typeof inv.stock === 'number' ? inv.stock : 20;
+        list.push({ product: p, stock });
+        seen.add(id);
+      });
+
+      // then add inventory-only items that lack product data
+      if (inventory && typeof inventory === 'object') {
+        Object.keys(inventory).forEach(id => {
+          if (seen.has(id)) return;
+          const inv = inventory[id] || {};
+          const stock = typeof inv.stock === 'number' ? inv.stock : 20;
+          const fallbackProduct = {
+            id: id,
+            title: `Product ID ${id}`,
+            category: 'Toy',
+            seller: inv.seller || 'Unknown'
+          };
+          list.push({ product: fallbackProduct, stock });
+        });
+      }
+
+      return list;
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('productsContainer');
+      const onlyLowStock = document.getElementById('onlyLowStock').checked;
+      const info = document.getElementById('productCountInfo');
+      const stockList = getProductStockList();
+
+      if (!stockList.length) {
+        container.innerHTML = '<div class="empty-tip">No product data found yet. Please open the marketplace page once to initialize products and place at least one order.</div>';
+        info.textContent = '';
+        renderLowStockSummary(stockList);
+        return;
+      }
+
+      const filtered = stockList.filter(item => !onlyLowStock || item.stock < LOW_STOCK_THRESHOLD);
+      info.textContent = `${filtered.length} products ${onlyLowStock ? '(below 10 in stock)' : ''}`;
+
+      if (!filtered.length) {
+        container.innerHTML = '<div class="empty-tip">No items need restocking right now.</div>';
+        renderLowStockSummary(stockList);
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="products-grid">
+          ${filtered.map(item => {
+            const p = item.product;
+            const stock = item.stock;
+            const low = stock < LOW_STOCK_THRESHOLD;
+            return `
+              <div class="product-card">
+                <img src="${p.image}" alt="${getProductTitle(p.title)}" class="product-img">
+                <div class="product-body">
+                  <div class="product-title">${getProductTitle(p.title)}</div>
+                  <div class="product-meta">${getCategoryLabel(p.category)} ｜ Seller: ${p.seller || 'Official'}</div>
+                  <div class="product-meta">Price: HK$${(p.price || 0).toLocaleString()}</div>
+                  <div class="stock-row">
+                    <div class="stock-count ${low ? 'stock-low' : 'stock-normal'}">
+                      Stock: ${stock} pcs
+                    </div>
+                    ${low ? '<span class="low-stock-tag">Below 10 pcs • Need restock</span>' : ''}
+                  </div>
+                  <div class="card-actions">
+                    <button class="btn-sm" onclick="openRestockModal(${p.id})">Restock</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      renderLowStockSummary(stockList);
+    }
+
+    function renderLowStockSummary(stockList) {
+      const listEl = document.getElementById('lowStockSummaryList');
+      const infoEl = document.getElementById('lowStockSummaryInfo');
+      if (!listEl || !infoEl) return;
+
+      if (!stockList || !stockList.length) {
+        infoEl.textContent = '';
+        listEl.innerHTML = '<div class="empty-tip">No inventory records yet. If you just placed an order, please refresh later.</div>';
+        return;
+      }
+
+      const lowItems = stockList.filter(item => item.stock < LOW_STOCK_THRESHOLD);
+
+      if (!lowItems.length) {
+        infoEl.textContent = 'All items currently have enough stock.';
+        listEl.innerHTML = '<div class="empty-tip">Everything looks healthy. Keep selling!</div>';
+        return;
+      }
+
+      infoEl.textContent = `${lowItems.length} items have stock below 10`;
+      listEl.innerHTML = lowItems.map(item => `
+        <div class="low-stock-summary-item">
+          <div class="low-stock-summary-main">
+            <span class="low-stock-summary-title">${getProductTitle(item.product.title) || 'Toy'}</span>
+            <span class="low-stock-summary-sub">ID: ${item.product.id ?? '-'} ｜ Category: ${getCategoryLabel(item.product.category)}</span>
+          </div>
+          <div class="low-stock-summary-right">
+            <span class="low-stock-summary-count">${item.stock} pcs left</span>
+            <span class="low-stock-tag">Need restock</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openRestockModal(productId) {
+      const p = products.find(x => x.id === productId);
+      if (!p) return;
+      currentRestockProduct = p;
+
+      document.getElementById('restockProductName').textContent = getProductTitle(p.title);
+
+      const variants = getProductVariants(p);
+      const variantSelect = document.getElementById('restockVariant');
+      variantSelect.innerHTML = variants.map(v => `<option value="${v}">${v}</option>`).join('');
+
+      document.getElementById('restockQuantity').value = 10;
+      document.getElementById('restockSupplier').value = p.seller || '';
+
+      document.getElementById('restockModal').classList.add('active');
+    }
+
+    function closeRestockModal() {
+      document.getElementById('restockModal').classList.remove('active');
+      currentRestockProduct = null;
+    }
+
+    function confirmRestock() {
+      if (!currentRestockProduct) return;
+      const qtyInput = document.getElementById('restockQuantity');
+      let qty = parseInt(qtyInput.value, 10) || 0;
+      if (qty < 1) {
+        alert('Restock quantity must be greater than 0.');
+        return;
+      }
+      const variant = document.getElementById('restockVariant').value || '';
+      const supplier = document.getElementById('restockSupplier').value.trim() || 'Unknown supplier';
+
+      const inv = inventory[currentRestockProduct.id] || { stock: 20 };
+      inv.stock = (inv.stock || 0) + qty;
+      inventory[currentRestockProduct.id] = inv;
+      saveInventory(inventory);
+
+      // write restock log for staff dashboard
+      const logs = JSON.parse(localStorage.getItem('restockLogs') || '[]');
+      logs.push({
+        product: `${getProductTitle(currentRestockProduct.title)} (${variant})`,
+        quantity: qty,
+        supplier,
+        time: Date.now()
+      });
+      localStorage.setItem('restockLogs', JSON.stringify(logs));
+
+      alert('Restock saved and inventory updated.');
+      closeRestockModal();
+      renderProducts();
+    }
+
+    // restock logs live in localStorage.restockLogs
+    function loadRestockLogs() {
+      return JSON.parse(localStorage.getItem('restockLogs') || '[]');
+    }
+
+    function saveRestockLogs(logs) {
+      localStorage.setItem('restockLogs', JSON.stringify(logs));
+    }
+
+    function renderRestockLogs() {
+      const logs = loadRestockLogs().sort((a, b) => b.time - a.time);
+      const box = document.getElementById('restockLog');
+      if (!box) return;
+      if (!logs.length) {
+        box.innerHTML = '<div class="empty-tip">No restock records yet.</div>';
+        return;
+      }
+      box.innerHTML = logs.map(log => `
+        <div class="restock-item">
+          <div>${new Date(log.time).toLocaleString()}</div>
+          <div>Product: ${log.product}</div>
+          <div>Quantity: ${log.quantity}</div>
+        </div>
+      `).join('');
+    }
+
+    function queryProductStock() {
+      const productInput = document.getElementById('queryProductName');
+      const resultEl = document.getElementById('queryResult');
+      if (!productInput || !resultEl) return;
+
+      const query = productInput.value.trim();
+      if (!query) {
+        resultEl.innerHTML = '<div class="empty-tip" style="color: #d9534f;">Please enter a product name or ID.</div>';
+        return;
+      }
+
+      const stockList = getProductStockList();
+      const results = [];
+
+      // match by ID first
+      const queryId = parseInt(query, 10);
+      if (!isNaN(queryId)) {
+        const foundById = stockList.find(item => item.product.id === queryId || String(item.product.id) === String(queryId));
+        if (foundById) {
+          results.push(foundById);
+        }
+      }
+
+      // then fuzzy match by name
+      const queryLower = query.toLowerCase();
+      stockList.forEach(item => {
+        const title = (item.product.title || '').toLowerCase();
+        const titleEn = getProductTitle(item.product.title || '').toLowerCase();
+        if ((title.includes(queryLower) || titleEn.includes(queryLower)) && !results.find(r => r.product.id === item.product.id)) {
+          results.push(item);
+        }
+      });
+
+      if (!results.length) {
+        resultEl.innerHTML = '<div class="empty-tip">No matching products. Please double-check the name or ID.</div>';
+        return;
+      }
+
+      resultEl.innerHTML = results.map(item => {
+        const p = item.product;
+        const stock = item.stock;
+        const low = stock < LOW_STOCK_THRESHOLD;
+        return `
+          <div class="restock-item" style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 8px; background: ${low ? '#fef2f2' : '#f9fafb'};">
+            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 6px;">${getProductTitle(p.title) || `Product ID ${p.id}`}</div>
+            <div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 4px;">
+              ID: ${p.id ?? '-'} ｜ Category: ${getCategoryLabel(p.category)} ｜ Seller: ${p.seller || 'Unknown'}
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+              <span style="font-weight: 600; font-size: 0.9rem; color: ${low ? '#dc2626' : '#16a34a'};">
+                Current stock: ${stock} pcs
+              </span>
+              ${low ? '<span class="low-stock-tag">Below 10 pcs • Need restock</span>' : '<span style="color: #16a34a; font-size: 0.8rem;">✓ Stock OK</span>'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateUserInfo();
+      setupLogoutHandler();
+
+      products = loadProducts();
+      inventory = loadInventory();
+
+      const onlyLowStock = document.getElementById('onlyLowStock');
+      onlyLowStock.addEventListener('change', renderProducts);
+
+      renderProducts();
+
+      const queryBtn = document.getElementById('queryStockBtn');
+      if (queryBtn) {
+        queryBtn.addEventListener('click', queryProductStock);
+      }
+
+      // allow pressing Enter to query
+      const queryInput = document.getElementById('queryProductName');
+      if (queryInput) {
+        queryInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            queryProductStock();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

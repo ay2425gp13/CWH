@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Reset - FYP Marketplace</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-main);
+            border: 1px solid var(--border);
+        }
+
+        .header h1 {
+            color: var(--text);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .action-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-main);
+            border: 1px solid var(--border);
+        }
+
+        .action-section h2 {
+            color: var(--text);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-section h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-main-hover);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #4cae4c;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-main-hover);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #ec971f;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-main-hover);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-main-hover);
+        }
+
+        .status-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .status-box h3 {
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .status-box p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .success {
+            border-left: 4px solid var(--success);
+        }
+
+        .warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .info {
+            border-left: 4px solid var(--info);
+        }
+
+        .current-theme {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+
+        .theme-light {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .theme-dark {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        .instructions {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .instructions h3 {
+            color: var(--text);
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            color: var(--text-muted);
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+        }
+
+        .code {
+            background: var(--border);
+            color: var(--text);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Theme Reset Tool</h1>
+            <p>If the page theme is not displaying correctly as light theme, please use this tool to reset theme settings</p>
+            <div class="current-theme theme-light" id="currentTheme">Current Theme: Light</div>
+        </div>
+
+        <div class="action-section">
+            <h2>🎨 Theme Operations</h2>
+            <div style="text-align: center;">
+                <button class="btn btn-success" onclick="forceLightTheme()">Force Light Theme</button>
+                <button class="btn btn-warning" onclick="clearThemeCache()">Clear Theme Cache</button>
+                <button class="btn btn-primary" onclick="resetAllThemes()">Reset All Themes</button>
+            </div>
+        </div>
+
+        <div class="status-box success">
+            <h3>✅ Recommended Actions</h3>
+            <p>1. Click the "Force Light Theme" button</p>
+            <p>2. If the problem persists, click "Clear Theme Cache"</p>
+            <p>3. Refresh the page or visit other pages to verify the effect</p>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Manual Operation Steps</h3>
+            <ol>
+                <li>Press <span class="code">F12</span> to open developer tools</li>
+                <li>Switch to <span class="code">Application</span> or <span class="code">Storage</span> tab</li>
+                <li>Find <span class="code">Local Storage</span> on the left</li>
+                <li>Delete the <span class="code">theme</span> item</li>
+                <li>Refresh the page</li>
+            </ol>
+        </div>
+
+        <div class="action-section">
+            <h2>🔗 Quick Links</h2>
+            <div style="text-align: center;">
+                <a href="secondary.html" class="btn btn-primary">Second-hand Market</a>
+                <a href="CustomerMenu.html" class="btn btn-primary">Main Menu</a>
+                <a href="theme-test.html" class="btn btn-primary">Theme Test</a>
+                <a href="theme-demo.html" class="btn btn-primary">Theme Demo</a>
+            </div>
+        </div>
+
+        <div class="status-box info">
+            <h3>ℹ️ Instructions</h3>
+            <p>• Light theme: Blue navigation bar + White background</p>
+            <p>• Dark theme: Blue navigation bar + Dark background</p>
+            <p>• Theme settings are automatically saved to browser local storage</p>
+            <p>• Use shortcut key <span class="code">Ctrl/Cmd + Shift + T</span> to quickly switch themes</p>
+        </div>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script>
+        // Force light theme
+        function forceLightTheme() {
+            // Set force light theme flag
+            sessionStorage.setItem('forceLightTheme', 'true');
+            
+            // Force apply light theme
+            if (window.themeManager) {
+                window.themeManager.forceLightTheme();
+            }
+            
+            // Update display
+            updateThemeDisplay();
+            
+            // Show success message
+            showMessage('Light theme has been forcibly applied!', 'success');
+            
+            // Auto redirect to second-hand market page after 3 seconds
+            setTimeout(() => {
+                window.location.href = 'secondary.html';
+            }, 2000);
+        }
+
+        // Clear theme cache
+        function clearThemeCache() {
+            if (window.themeManager) {
+                window.themeManager.clearThemeCache();
+            }
+            
+            // Update display
+            updateThemeDisplay();
+            
+            // Show success message
+            showMessage('Theme cache has been cleared!', 'success');
+        }
+
+        // Reset all themes
+        function resetAllThemes() {
+            // Clear all storage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Reinitialize theme manager
+            if (window.themeManager) {
+                window.themeManager.currentTheme = 'light';
+                window.themeManager.applyTheme('light');
+            }
+            
+            // Update display
+            updateThemeDisplay();
+            
+            // Show success message
+            showMessage('All theme settings have been reset!', 'success');
+        }
+
+        // Update theme display
+        function updateThemeDisplay() {
+            const currentTheme = window.themeManager ? window.themeManager.getCurrentTheme() : 'light';
+            const themeIndicator = document.getElementById('currentTheme');
+            
+            if (currentTheme === 'dark') {
+                themeIndicator.textContent = 'Current Theme: Dark';
+                themeIndicator.className = 'current-theme theme-dark';
+            } else {
+                themeIndicator.textContent = 'Current Theme: Light';
+                themeIndicator.className = 'current-theme theme-light';
+            }
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            // Create message element
+            const messageEl = document.createElement('div');
+            messageEl.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                messageEl.style.background = '#5cb85c';
+            } else if (type === 'error') {
+                messageEl.style.background = '#d9534f';
+            } else {
+                messageEl.style.background = '#5bc0de';
+            }
+            
+            messageEl.textContent = message;
+            document.body.appendChild(messageEl);
+            
+            // Remove message after 3 seconds
+            setTimeout(() => {
+                messageEl.remove();
+            }, 3000);
+        }
+
+        // Initialize after page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateThemeDisplay();
+            
+            // Listen for theme changes
+            window.addEventListener('themeChanged', (e) => {
+                updateThemeDisplay();
+                console.log('Theme has been switched to:', e.detail.theme);
+            });
+        });
+
+        // Add shortcut key support
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+                switch(e.key) {
+                    case 'T':
+                        e.preventDefault();
+                        if (window.themeManager) {
+                            window.themeManager.toggleTheme();
+                        }
+                        break;
+                    case 'L':
+                        e.preventDefault();
+                        forceLightTheme();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

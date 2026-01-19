@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Consistency Test - FYP Marketplace</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .test-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .test-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .test-link {
+            display: block;
+            padding: 15px;
+            background: #CFD7E2;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+        
+        .test-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-link-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .test-link-desc {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-success {
+            background: #28a745;
+        }
+        
+        .status-warning {
+            background: #ffc107;
+        }
+        
+        .status-info {
+            background: #17a2b8;
+        }
+        
+        .nav-info {
+            background: #e7f3ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .nav-info h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .nav-info p {
+            margin-bottom: 0;
+            color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 统一顶部导航栏 -->
+    <nav class="unified-top-nav">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <a href="CustomerMenu.html" class="logo-link">
+            <span class="logo-icon">📱</span>
+            <span class="logo-text">FYP Marketplace</span>
+          </a>
+        </div>
+        
+        <div class="nav-menu">
+          <a href="CustomerMenu.html" class="nav-item" data-page="home">首页</a>
+          <a href="news.html" class="nav-item" data-page="news">新闻中心</a>
+          <a href="prices.html" class="nav-item" data-page="prices">价格资讯</a>
+          <a href="forum.html" class="nav-item" data-page="forum">讨论区</a>
+          <a href="secondary.html" class="nav-item" data-page="secondary">二手市场</a>
+          <a href="platform-market.html" class="nav-item" data-page="platform">平台市场</a>
+          <a href="online-support.html" class="nav-item" data-page="support">在线客服</a>
+          <a href="AI-Setup-Recommend.html" class="nav-item" data-page="ai">AI Recommend</a>
+          <a href="friendlist.html" class="nav-item" data-page="friends">Trade Chat</a>
+        </div>
+        
+        <div class="nav-user">
+          <div class="user-info" id="userInfo">
+            <span class="user-id" id="userId">Please Login</span>
+            <div class="user-dropdown">
+              <a href="my-items.html" class="dropdown-item">My Items</a>
+              <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+              <a href="my-reviews.html" class="dropdown-item">My Reviews</a>
+              <a href="search-notifications.html" class="dropdown-item">Search Notifications</a>
+              <a href="#" class="dropdown-item logout-btn">Logout</a>
+            </div>
+          </div>
+          <a href="#" class="nav-icon" title="Trade Chat">💬</a>
+          <a href="#" class="nav-icon" title="Messages">✉️</a>
+          <a href="secondary.html" class="nav-button">Free Listing</a>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="test-container">
+        <h1 class="test-title">🧪 Navigation Consistency Test</h1>
+        
+        <div class="nav-info">
+            <h3>✅ Unified Navigation Completed</h3>
+            <p>All pages now use the same 9 navigation items, ensuring navigation bar length and content are completely consistent.</p>
+        </div>
+        
+        <div class="test-description">
+            <p>This page is used to test the display consistency of the unified navigation bar across different pages. Please click the links below to test each page and observe whether the navigation bar text position and length remain consistent.</p>
+            
+            <p><strong>Fixed Pages:</strong></p>
+            <ul>
+                <li><span class="status-indicator status-success"></span>✅ news.html - Updated to unified navigation</li>
+                <li><span class="status-indicator status-success"></span>✅ forum.html - Updated to unified navigation</li>
+                <li><span class="status-indicator status-success"></span>✅ AI-Setup-Recommend.html - Updated to unified navigation</li>
+                <li><span class="status-indicator status-success"></span>✅ prices.html - Updated to unified navigation</li>
+                <li><span class="status-indicator status-success"></span>✅ secondary.html - Updated to unified navigation</li>
+                <li><span class="status-indicator status-success"></span>✅ online-support.html - Updated to unified navigation</li>
+            </ul>
+            
+            <p><strong>Test Points:</strong></p>
+            <ul>
+                <li><span class="status-indicator status-success"></span>Navigation bar height consistency (60px)</li>
+                <li><span class="status-indicator status-success"></span>Navigation item count consistency (9 items)</li>
+                <li><span class="status-indicator status-success"></span>Navigation item text alignment</li>
+                <li><span class="status-indicator status-success"></span>Current page highlighting correctness</li>
+                <li><span class="status-indicator status-success"></span>Responsive layout normal</li>
+            </ul>
+        </div>
+        
+        <div class="test-links">
+            <a href="CustomerMenu.html" class="test-link">
+                <div class="test-link-title">🏠 Home (CustomerMenu)</div>
+                <div class="test-link-desc">Test home page navigation display - 9 navigation items</div>
+            </a>
+            
+            <a href="news.html" class="test-link">
+                <div class="test-link-title">📰 News Center</div>
+                <div class="test-link-desc">Test news center page navigation - 9 navigation items</div>
+            </a>
+            
+            <a href="prices.html" class="test-link">
+                <div class="test-link-title">💰 Price Info</div>
+                <div class="test-link-desc">Test price info page navigation - 9 navigation items</div>
+            </a>
+            
+            <a href="secondary.html" class="test-link">
+                <div class="test-link-title">🔄 Marketplace</div>
+                <div class="test-link-desc">Test marketplace page navigation - 9 navigation items</div>
+            </a>
+            
+            <a href="platform-market.html" class="test-link">
+                <div class="test-link-title">🛒 Platform Market</div>
+                <div class="test-link-desc">Test platform market page navigation - 9 navigation items</div>
+            </a>
+            
+            <a href="online-support.html" class="test-link">
+                <div class="test-link-title">💬 Online Support</div>
+                <div class="test-link-desc">Test online support page navigation - 9 navigation items</div>
+            </a>
+            
+            <a href="friendlist.html" class="test-link">
+                <div class="test-link-title">👥 Trade Chat</div>
+                <div class="test-link-desc">Test trade chat page navigation - 9 navigation items</div>
+            </a>
+            
+            <a href="AI-Setup-Recommend.html" class="test-link">
+                <div class="test-link-title">🤖 AI Recommend</div>
+                <div class="test-link-desc">Test AI recommend page navigation - 9 navigation items</div>
+            </a>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #d4edda; border-radius: 6px; border-left: 4px solid #28a745;">
+            <h3 style="margin-top: 0; color: #155724;">✅ Optimization Completed</h3>
+            <p style="margin-bottom: 0; color: #155724;">
+                Successfully unified navigation bars across all pages, ensuring each page displays the same 9 navigation items:
+                Home, News Center, Price Info, Forum, Marketplace, Platform Market, Online Support, AI Recommend, Trade Chat.
+                Now all pages have completely consistent navigation bar length, content, and positioning.
+            </p>
+        </div>
+    </div>
+    
+    <!-- 统一导航栏样式 -->
+    <style>
+        /* 统一顶部导航栏样式 */
+        .unified-top-nav {
+          background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+          color: white;
+          box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+          height: 60px;
+        }
+
+        .unified-top-nav .nav-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          height: 100%;
+        }
+
+        .unified-top-nav .nav-logo {
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+        }
+
+        .unified-top-nav .logo-link {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          color: white;
+          font-weight: bold;
+          font-size: 18px;
+          transition: all 0.3s ease;
+        }
+
+        .unified-top-nav .logo-link:hover {
+          transform: scale(1.05);
+        }
+
+        .unified-top-nav .logo-icon {
+          font-size: 24px;
+          margin-right: 8px;
+        }
+
+        .unified-top-nav .logo-text {
+          color: white;
+        }
+
+        .unified-top-nav .nav-menu {
+          display: flex;
+          align-items: center;
+          gap: 0;
+          flex: 1;
+          justify-content: center;
+          margin: 0 20px;
+        }
+
+        .unified-top-nav .nav-item {
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 500;
+          padding: 12px 16px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          position: relative;
+          white-space: nowrap;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .nav-item:hover {
+          background: rgba(255, 255, 255, 0.15);
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .nav-item.active {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          font-weight: 600;
+        }
+
+        .unified-top-nav .nav-item.active::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 20px;
+          height: 2px;
+          background: white;
+          border-radius: 1px;
+        }
+
+        .unified-top-nav .nav-user {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-shrink: 0;
+        }
+
+        .unified-top-nav .user-info {
+          position: relative;
+          cursor: pointer;
+        }
+
+        .unified-top-nav .user-id {
+          padding: 10px 16px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 6px;
+          font-weight: 500;
+          color: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          font-size: 14px;
+        }
+
+        .unified-top-nav .user-id:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .user-dropdown {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background: white;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          min-width: 180px;
+          display: none;
+          z-index: 1001;
+          margin-top: 5px;
+        }
+
+        .unified-top-nav .user-info:hover .user-dropdown {
+          display: block;
+        }
+
+        .unified-top-nav .dropdown-item {
+          display: block;
+          padding: 12px 16px;
+          text-decoration: none;
+          color: #333;
+          border-bottom: 1px solid #f0f0f0;
+          transition: background 0.3s;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .dropdown-item:hover {
+          background: #f5f5f5;
+        }
+
+        .unified-top-nav .dropdown-item:last-child {
+          border-bottom: none;
+        }
+
+        .unified-top-nav .logout-btn {
+          color: #ff4d4f !important;
+        }
+
+        .unified-top-nav .nav-icon {
+          font-size: 18px;
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.8);
+          padding: 10px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+        }
+
+        .unified-top-nav .nav-icon:hover {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .nav-button {
+          background: white;
+          color: #1e3a8a;
+          text-decoration: none;
+          padding: 10px 16px;
+          border-radius: 6px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          border: 2px solid white;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .nav-button:hover {
+          background: rgba(255, 255, 255, 0.9);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+          .unified-top-nav .nav-menu {
+            gap: 0;
+          }
+          
+          .unified-top-nav .nav-item {
+            padding: 10px 12px;
+            font-size: 13px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .unified-top-nav .nav-container {
+            padding: 0 15px;
+          }
+          
+          .unified-top-nav .nav-menu {
+            display: none;
+          }
+          
+          .unified-top-nav .nav-user {
+            gap: 8px;
+          }
+          
+          .unified-top-nav .nav-button {
+            padding: 8px 12px;
+            font-size: 13px;
+          }
+          
+          .unified-top-nav .nav-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .unified-top-nav .nav-container {
+            padding: 0 10px;
+          }
+          
+          .unified-top-nav .logo-text {
+            display: none;
+          }
+          
+          .unified-top-nav .nav-user {
+            gap: 6px;
+          }
+          
+          .unified-top-nav .nav-button {
+            padding: 6px 10px;
+            font-size: 12px;
+          }
+        }
+    </style>
+    
+    <!-- Unified navigation bar functionality script -->
+    <script>
+      // Unified navigation bar functionality script
+      document.addEventListener('DOMContentLoaded', function() {
+        // Update user info display
+        updateUserInfo();
+        
+        // Set current page highlight
+        setActiveNavItem();
+        
+        // Logout functionality
+        setupLogoutHandler();
+      });
+
+      // Update user info display
+      function updateUserInfo() {
+        const userInfo = sessionStorage.getItem('user_info');
+        const userIdElement = document.getElementById('userId');
+        
+        if (userInfo && userIdElement) {
+          const user = JSON.parse(userInfo);
+          userIdElement.textContent = user.id;
+        } else if (userIdElement) {
+          userIdElement.textContent = 'Please Login';
+          userIdElement.style.cursor = 'pointer';
+          userIdElement.onclick = function() {
+            // Check if accessed via server
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/login';
+            } else {
+              // If file opened directly, redirect to server address
+              window.location.href = 'login.html';
+            }
+          };
+        }
+      }
+
+      // Set current page navigation highlight
+      function setActiveNavItem() {
+        const currentPath = window.location.pathname;
+        const currentFile = window.location.pathname.split('/').pop();
+        const navItems = document.querySelectorAll('.unified-top-nav .nav-item');
+        
+        navItems.forEach(item => {
+          item.classList.remove('active');
+          const href = item.getAttribute('href');
+          const page = item.getAttribute('data-page');
+          
+          // Check if matches current page
+          if (currentPath === href || 
+              currentFile === href ||
+              (currentFile === 'CustomerMenu.html' && page === 'home') ||
+              (currentFile === 'news.html' && page === 'news') ||
+              (currentFile === 'prices.html' && page === 'prices') ||
+              (currentFile === 'forum.html' && page === 'forum') ||
+              (currentFile === 'secondary.html' && page === 'secondary') ||
+              (currentFile === 'platform-market.html' && page === 'platform') ||
+              (currentFile === 'online-support.html' && page === 'support') ||
+              (currentFile === 'AI-Setup-Recommend.html' && page === 'ai') ||
+              (currentFile === 'friendlist.html' && page === 'friends')) {
+            item.classList.add('active');
+          }
+        });
+      }
+
+      // Set up logout handler
+      function setupLogoutHandler() {
+        const logoutBtn = document.querySelector('.unified-top-nav .logout-btn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to log out?')) {
+              sessionStorage.removeItem('user_info');
+              window.location.href = '/login';
+            }
+          });
+        }
+      }
+    </script>
+</body>
+</html>

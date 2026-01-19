@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Center - Smile & Sunshine Toy Co. Ltd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #3b82f6;
+      --accent: #60a5fa;
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --text-light: #666666;
+      --border: #e0e0e0;
+      --success: #22c55e;
+      --warning: #facc15;
+      --danger: #ef4444;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    
+    [data-theme="light"] {
+      --bg: #CFD7E2;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* top navigation */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .unified-top-nav .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 100%;
+    }
+
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .unified-top-nav .logo-icon {
+      margin-right: 8px;
+    }
+
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 20px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .unified-top-nav .nav-item:hover,
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-icon-link {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-size: 24px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .cart-icon-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--danger);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+
+    .user-info:hover .user-dropdown {
+      display: block;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+    }
+
+    .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .logout-btn {
+      color: #ff4d4f !important;
+    }
+
+    /* page layout */
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 30px 20px 40px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 24px;
+    }
+    
+    .center-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 968px) {
+      .center-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* helper to make panels span both columns */
+    #userContent .panel.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* left side panel */
+    .panel {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+    
+    .panel-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      }
+      
+    .panel-subtitle {
+        font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+      }
+      
+    .form-label {
+      display: block;
+        font-size: 13px;
+      margin-bottom: 4px;
+      color: var(--text-light);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      font-size: 14px;
+      }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.6);
+      }
+      
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+        gap: 6px;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    
+    .btn-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-1px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+    
+    .btn-danger-outline {
+      border-color: rgba(239,68,68,0.6);
+      color: #fecaca;
+    }
+    
+    .btn-danger-outline:hover {
+      border-color: #ef4444;
+      color: #fee2e2;
+      background: rgba(239,68,68,0.14);
+    }
+
+    .address-list {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    
+    .address-card {
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+        padding: 10px 12px;
+      background: #ffffff;
+        font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .address-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .address-recipient {
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .address-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(34,197,94,0.12);
+      color: #4ade80;
+    }
+
+    .address-phone {
+      color: var(--text-light);
+    }
+
+    .address-detail {
+      color: var(--text-light);
+    }
+    
+    .address-actions {
+      margin-top: 4px;
+      display: flex;
+        gap: 8px;
+      justify-content: flex-end;
+    }
+    
+    /* right side orders */
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .order-card {
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      background: #ffffff;
+        font-size: 13px;
+      display: grid;
+      grid-template-columns: 2.8fr 1.5fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .order-card {
+        grid-template-columns: 1fr;
+        align-items: flex-start;
+      }
+    }
+
+    .order-main {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .order-id {
+      color: var(--text-light);
+      font-size: 12px;
+    }
+    
+    .order-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .order-meta {
+      color: var(--text-light);
+        font-size: 12px;
+    }
+    
+    .order-amount {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    .status-pending {
+      background: rgba(250,204,21,0.15);
+      color: #facc15;
+    }
+
+    .status-shipping {
+      background: rgba(59,130,246,0.15);
+      color: #60a5fa;
+    }
+    
+    .status-delivered {
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+    }
+    
+    .status-cancelled {
+      background: rgba(148,163,184,0.15);
+      color: #e5e7eb;
+    }
+
+    .empty-tip {
+      text-align: center;
+      color: var(--text-light);
+      padding: 30px 0 10px;
+      font-size: 14px;
+    }
+
+    /* staff info styles */
+    .staff-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    
+    .staff-info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 10px;
+    }
+
+    .staff-info-item:last-child {
+      border-bottom: none;
+    }
+    
+    .staff-info-label {
+      font-size: 14px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    
+    .staff-info-value {
+      font-size: 15px;
+      color: var(--text);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .staff-info-edit {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .staff-info-item .btn {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    
+    /* work stats styles */
+    .staff-stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+    
+    .stat-card {
+      background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(148,163,184,0.3);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      }
+      
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Success Modal Styles */
+    #successModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #successModal.show {
+      display: flex;
+    }
+
+    .success-modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-width: 450px;
+      width: 90%;
+      animation: slideUpSuccess 0.4s ease;
+      position: relative;
+    }
+
+    @keyframes slideUpSuccess {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      position: relative;
+      animation: scaleIn 0.5s ease 0.2s both;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0) rotate(-180deg);
+      }
+      to {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    /* Smiley Animation (for cancel) */
+    .success-icon-circle.smiley {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      position: relative;
+      animation: bounce 1s ease 0.5s, pulse 2s ease 1.5s infinite;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .smiley-face {
+      width: 60px;
+      height: 60px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .smiley-face::before {
+      content: '😊';
+      font-size: 60px;
+      display: block;
+      animation: smileRotate 0.6s ease 0.7s both;
+    }
+
+    @keyframes smileRotate {
+      from {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .success-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #27ae60;
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s ease 0.4s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-message {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s ease 0.6s both;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .success-details {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+      animation: fadeInUp 0.5s ease 0.8s both;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    .success-details strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- top navigation -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="platform-market.html" class="logo-link">
+          <span class="logo-icon">🎮</span>
+          <span class="logo-text">Smile & Sunshine Toy Co. Ltd</span>
+        </a>
+      </div>
+      
+      <div class="nav-menu">
+        <!-- client nav -->
+        <a href="platform-market.html" class="nav-item user-only-nav" data-page="platform">Official Market</a>
+        <a href="customize.html" class="nav-item user-only-nav" data-page="customize">Toy Customize</a>
+        <a href="my-orders.html" class="nav-item user-only-nav" data-page="orders">My Orders</a>
+        <a href="login.html" class="nav-item user-only-nav" data-page="login">Login</a>
+        <!-- staff nav -->
+        <a href="staff-dashboard.html" class="nav-item staff-only-nav" data-page="staff-orders">Order Management</a>
+        <a href="staff-restock.html" class="nav-item staff-only-nav" data-page="staff-restock">Restock Center</a>
+        <a href="staff-quote.html" class="nav-item staff-only-nav" data-page="staff-quote">Quotes</a>
+        <a href="login.html" class="nav-item staff-only-nav" data-page="login">Login</a>
+      </div>
+      
+      <div class="nav-user">
+        <a href="cart.html" class="cart-icon-link user-only-nav" title="Cart">
+          🛒
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">My Center</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">My Center</a>
+            <a href="my-favorites.html" class="dropdown-item user-only-nav">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item user-only-nav">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">👤 My Center</h1>
+    <div class="page-subtitle" id="pageSubtitle">Manage your addresses and check or cancel orders.</div>
+
+    <!-- normal user content -->
+    <div id="userContent" class="center-layout" style="display:none;">
+      <!-- account info -->
+      <div class="panel full-width" id="addressPanel">
+        <div class="panel-title">👤 Account Info</div>
+        <div class="panel-subtitle">Here you can update your email and phone.</div>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label">Registered Email</label>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div id="accountEmailDisplay" style="min-width:140px;color:#333;">Not set</div>
+            <button class="btn btn-outline" type="button" id="editAccountEmailBtn" onclick="editAccountEmail()" style="padding:4px 10px;font-size:12px;min-width:auto;">Edit</button>
+            <div id="accountEmailEdit" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;">
+              <input id="accountEmailInput" type="text" class="form-input" style="width:220px;padding:6px 10px;font-size:13px;" placeholder="example@mail.com">
+              <button class="btn btn-primary" type="button" onclick="saveAccountEmail()" style="padding:6px 12px;font-size:12px;min-width:auto;">Save</button>
+              <button class="btn btn-outline" type="button" onclick="cancelEditAccountEmail()" style="padding:6px 12px;font-size:12px;min-width:auto;">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 8px;">
+          <label class="form-label">Phone Number</label>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div id="accountPhoneDisplay" style="min-width:140px;color:#333;">Not set</div>
+            <button class="btn btn-outline" type="button" id="editAccountPhoneBtn" onclick="editAccountPhone()" style="padding:4px 10px;font-size:12px;min-width:auto;">Edit</button>
+            <div id="accountPhoneEdit" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;">
+              <input id="accountPhoneInput" type="text" class="form-input" style="width:220px;padding:6px 10px;font-size:13px;" placeholder="+852 9123 4567">
+              <button class="btn btn-primary" type="button" onclick="saveAccountPhone()" style="padding:6px 12px;font-size:12px;min-width:auto;">Save</button>
+              <button class="btn btn-outline" type="button" onclick="cancelEditAccountPhone()" style="padding:6px 12px;font-size:12px;min-width:auto;">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="accountContactError" style="min-height:18px;font-size:12px;color:#c0392b;display:none;"></div>
+    </div>
+    
+      <!-- change password -->
+      <div class="panel full-width">
+        <div class="panel-title">🔒 Change Password</div>
+        <div class="panel-subtitle">Changing your password often can help keep your account safe.</div>
+        
+        <div id="changePasswordForm">
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <input id="oldPasswordInput" type="password" class="form-input" placeholder="Please enter current password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input id="newPasswordInput" type="password" class="form-input" placeholder="Please enter new password (min 6 characters)">
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label">Confirm New Password</label>
+            <input id="confirmPasswordInput" type="password" class="form-input" placeholder="Please type new password again">
+          </div>
+          <div id="changePasswordError" style="min-height:18px;font-size:12px;color:#c0392b;display:none;margin-bottom:8px;"></div>
+          <button class="btn btn-primary" type="button" onclick="changePassword()">Change Password</button>
+        </div>
+        </div>
+        
+      <!-- address management -->
+      <div class="panel">
+        <div class="panel-title">📍 Address Book</div>
+        <div class="panel-subtitle">Add / delete addresses and set a default address.</div>
+
+        <div id="addressForm">
+          <div class="form-group">
+            <label class="form-label">Receiver Name</label>
+            <input id="addrName" type="text" class="form-input" placeholder="e.g. Mr. Chan">
+        </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input id="addrPhone" type="text" class="form-input" placeholder="e.g. 9123 4567">
+      </div>
+          <div class="form-group">
+            <label class="form-label">Area</label>
+            <input id="addrArea" type="text" class="form-input" placeholder="e.g. Hong Kong Sha Tin District">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Detailed Address</label>
+            <input id="addrDetail" type="text" class="form-input" placeholder="e.g. New Town Plaza Phase 3, 8/F, Flat 803">
+          </div>
+          <button class="btn btn-primary" type="button" onclick="addAddress()">Add Address</button>
+        </div>
+        
+        <div class="address-list" id="addressList"></div>
+        <div class="empty-tip" id="addressEmptyTip" style="display:none;">No address yet. Please add one.</div>
+      </div>
+      
+      <!-- order preview -->
+      <div class="panel">
+        <div class="panel-title">📦 My Orders</div>
+        <div class="panel-subtitle">Check order status here and cancel orders if needed.</div>
+        <div id="orderList" class="order-list"></div>
+        <div class="empty-tip" id="orderEmptyTip" style="display:none;">No orders yet.</div>
+      </div>
+        </div>
+        
+    <!-- staff content -->
+    <div id="staffContent" class="center-layout" style="display:none;">
+      <!-- staff info -->
+      <div class="panel">
+        <div class="panel-title">👔 Staff Info</div>
+        <div class="panel-subtitle">View and manage your staff information.</div>
+
+        <div class="staff-info-section">
+          <div class="staff-info-item">
+            <div class="staff-info-label">Staff ID</div>
+            <div class="staff-info-value" id="staffId">ST-0001</div>
+        </div>
+          <div class="staff-info-item">
+            <div class="staff-info-label">Name</div>
+            <div class="staff-info-value" id="staffName">Staff Name</div>
+      </div>
+          <div class="staff-info-item">
+            <div class="staff-info-label">Branch</div>
+            <div class="staff-info-value" id="staffBranch">Mong Kok Branch, Hong Kong</div>
+          </div>
+          <div class="staff-info-item">
+            <div class="staff-info-label">Department</div>
+            <div class="staff-info-value" id="staffDepartment">Inventory Department</div>
+          </div>
+          <div class="staff-info-item">
+            <div class="staff-info-label">Position</div>
+            <div class="staff-info-value" id="staffPosition">Inventory Staff</div>
+          </div>
+          <div class="staff-info-item">
+            <div class="staff-info-label">Email</div>
+            <div style="display:flex; align-items:center; gap:8px; flex:1; justify-content:flex-start; flex-wrap:wrap;">
+              <div class="staff-info-value" id="staffEmailDisplay">Not set</div>
+              <button class="btn btn-outline" id="editStaffEmailBtn" onclick="editStaffEmail()" style="padding:4px 10px; font-size:12px; min-width:auto;">Edit</button>
+            </div>
+            <div class="staff-info-edit" id="staffEmailEdit" style="display:none; flex:1; justify-content:flex-start; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+              <input type="text" id="staffEmailInput" class="form-input" style="width: 220px; max-width:100%; padding: 6px 10px; font-size: 13px;" placeholder="example@mail.com">
+              <button class="btn btn-primary" onclick="saveStaffEmail()" style="padding: 6px 12px; font-size: 12px; min-width: auto;">Save</button>
+              <button class="btn btn-outline" onclick="cancelEditStaffEmail()" style="padding: 6px 12px; font-size: 12px; min-width: auto;">Cancel</button>
+            </div>
+          </div>
+          <div class="staff-info-item">
+            <div class="staff-info-label">Phone</div>
+            <div style="display:flex; align-items:center; gap:8px; flex:1; justify-content:flex-start; flex-wrap:wrap;">
+              <div class="staff-info-value" id="staffPhoneDisplay">+852 9123 4567</div>
+              <button class="btn btn-outline" id="editPhoneBtn" onclick="editStaffPhone()" style="padding: 4px 10px; font-size: 12px; min-width: auto;">Edit</button>
+            </div>
+            <div class="staff-info-edit" id="staffPhoneEdit" style="display:none; flex:1; justify-content:flex-start; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+              <input type="text" id="staffPhoneInput" class="form-input" style="width: 180px; max-width:100%; padding: 6px 10px; font-size: 13px;" placeholder="+852 9123 4567">
+              <button class="btn btn-primary" onclick="saveStaffPhone()" style="padding: 6px 12px; font-size: 12px; min-width: auto;">Save</button>
+              <button class="btn btn-outline" onclick="cancelEditPhone()" style="padding: 6px 12px; font-size: 12px; min-width: auto;">Cancel</button>
+            </div>
+          </div>
+          <div id="staffContactError" style="min-height:18px;font-size:12px;color:#c0392b;margin-top:4px;"></div>
+          <div class="staff-info-item">
+            <div class="staff-info-label">Join Date</div>
+            <div class="staff-info-value" id="staffJoinDate">2024-01-15</div>
+          </div>
+    </div>
+        </div>
+        
+      <!-- staff change password -->
+      <div class="panel">
+        <div class="panel-title">🔒 Change Password</div>
+        <div class="panel-subtitle">Changing your password often can help keep your account safe.</div>
+        
+        <div id="staffChangePasswordForm">
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <input id="staffOldPasswordInput" type="password" class="form-input" placeholder="Please enter current password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input id="staffNewPasswordInput" type="password" class="form-input" placeholder="Please enter new password (min 6 characters)">
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label">Confirm New Password</label>
+            <input id="staffConfirmPasswordInput" type="password" class="form-input" placeholder="Please type new password again">
+          </div>
+          <div id="staffChangePasswordError" style="min-height:18px;font-size:12px;color:#c0392b;display:none;margin-bottom:8px;"></div>
+          <button class="btn btn-primary" type="button" onclick="changePassword(true)">Change Password</button>
+        </div>
+        </div>
+        
+      <!-- work statistics -->
+      <div class="panel">
+        <div class="panel-title">📊 Work Statistics</div>
+        <div class="panel-subtitle">View your work data and statistics.</div>
+
+        <div class="staff-stats-section">
+          <div class="stat-card">
+            <div class="stat-label">Restock This Month</div>
+            <div class="stat-value" id="restockCount">0</div>
+        </div>
+          <div class="stat-card">
+            <div class="stat-label">Shipped Orders This Month</div>
+            <div class="stat-value" id="shippedOrders">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pending Orders</div>
+            <div class="stat-value" id="pendingOrders">0</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+          <a href="staff-dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+          <a href="staff-restock.html" class="btn btn-primary" style="margin-left: 10px;">Go to Restock</a>
+        </div>
+      </div>
+      
+      <!-- restock history -->
+      <div class="panel">
+        <div class="panel-title">📝 Restock History</div>
+        <div class="panel-subtitle">View your restock operation history.</div>
+        <div id="restockRecordList" class="order-list" style="max-height: 400px; overflow-y: auto;"></div>
+        <div class="empty-tip" id="restockRecordEmptyTip" style="display:none;">No restock record yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // backend base url, fallback to localhost when using file://
+  const BACKEND_BASE = (window.location.protocol === 'file:'
+    ? 'http://127.0.0.1:5000'
+    : (window.location.origin || 'http://127.0.0.1:5000'));
+    // cart badge
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+
+    function updateCartBadge() {
+      const cart = getCart();
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'block' : 'none';
+      }
+    }
+
+    // address management
+    function loadAddresses() {
+      return JSON.parse(localStorage.getItem('addresses') || '[]');
+      }
+
+    function saveAddresses(addresses) {
+      localStorage.setItem('addresses', JSON.stringify(addresses));
+    }
+
+    function renderAddresses() {
+      const list = document.getElementById('addressList');
+      const emptyTip = document.getElementById('addressEmptyTip');
+      const addresses = loadAddresses();
+
+      if (!addresses.length) {
+        list.innerHTML = '';
+        emptyTip.style.display = 'block';
+        return;
+      }
+      emptyTip.style.display = 'none';
+
+      list.innerHTML = addresses.map(addr => `
+        <div class="address-card">
+          <div class="address-header">
+            <div>
+              <div class="address-recipient">${addr.name}</div>
+              <div class="address-phone">${addr.phone}</div>
+          </div>
+            ${addr.isDefault ? '<span class="address-tag">Default</span>' : ''}
+          </div>
+          <div class="address-detail">${addr.area} ${addr.detail}</div>
+          <div class="address-actions">
+            ${addr.isDefault ? '' : `<button class="btn btn-outline" onclick="setDefaultAddress(${addr.id})">Set as Default</button>`}
+            <button class="btn btn-danger-outline" onclick="deleteAddress(${addr.id})">Delete</button>
+          </div>
+        </div>
+      `).join('');
+      }
+
+    function addAddress() {
+      const name = document.getElementById('addrName').value.trim();
+      const phone = document.getElementById('addrPhone').value.trim();
+      const area = document.getElementById('addrArea').value.trim();
+      const detail = document.getElementById('addrDetail').value.trim();
+
+      if (!name || !phone || !area || !detail) {
+        alert('Please fill all address fields.');
+        return;
+      }
+
+      const addresses = loadAddresses();
+      const newAddr = {
+        id: Date.now(),
+        name,
+        phone,
+        area,
+        detail,
+        isDefault: addresses.length === 0 // first address becomes default
+      };
+      addresses.push(newAddr);
+      saveAddresses(addresses);
+
+      document.getElementById('addrName').value = '';
+      document.getElementById('addrPhone').value = '';
+      document.getElementById('addrArea').value = '';
+      document.getElementById('addrDetail').value = '';
+
+      renderAddresses();
+      }
+      
+    function deleteAddress(id) {
+      if (!confirm('Are you sure you want to delete this address?')) return;
+      let addresses = loadAddresses();
+      addresses = addresses.filter(a => a.id !== id);
+
+      // if default removed, make the first one default
+      if (!addresses.some(a => a.isDefault) && addresses.length > 0) {
+        addresses[0].isDefault = true;
+      }
+
+      saveAddresses(addresses);
+      renderAddresses();
+      }
+      
+    function setDefaultAddress(id) {
+      const addresses = loadAddresses();
+      addresses.forEach(a => {
+        a.isDefault = (a.id === id);
+      });
+      saveAddresses(addresses);
+      renderAddresses();
+    }
+
+    // order preview
+    function getAllOrders() {
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const currentUserId = userInfo ? (userInfo.id || userInfo.username) : null;
+      const currentUsername = userInfo ? userInfo.username : null;
+
+      const allNormalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const allCustomOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+
+      // 只获取当前用户的订单
+      const normalOrders = currentUserId 
+        ? allNormalOrders.filter(o => o.userId === currentUserId || o.username === currentUsername)
+        : [];
+      
+      const customOrders = currentUserId
+        ? allCustomOrders.filter(o => o.userId === currentUserId || o.username === currentUsername)
+        : [];
+
+      const mappedNormal = normalOrders.map(o => ({
+        type: 'normal',
+        id: o.id,
+        createTime: o.createTime,
+        total: o.total,
+        items: o.items || [],
+        logisticsStatus: o.logisticsStatus || 'pending'
+      }));
+
+      const mappedCustom = customOrders.map(o => ({
+        type: 'custom',
+        id: o.id,
+        createTime: o.createTime,
+        total: o.price,
+        items: [{
+          title: o.productName || (o.toyType + ' Custom'),
+          detail: `${o.toyType || ''}｜${o.variant || ''}｜${o.size || ''}｜${o.color ? o.color.name : ''}`
+        }],
+        logisticsStatus: o.logisticsStatus || 'pending'
+      }));
+
+      return [...mappedNormal, ...mappedCustom].sort((a, b) => b.id - a.id);
+    }
+
+    function getStatusInfo(status) {
+      switch (status) {
+        case 'shipping':
+          return { text: 'In Transit', cls: 'status-shipping' };
+        case 'delivered':
+          return { text: 'Delivered', cls: 'status-delivered' };
+        case 'cancelled':
+          return { text: 'Cancelled', cls: 'status-cancelled' };
+        default:
+          return { text: 'Pending Shipment', cls: 'status-pending' };
+      }
+    }
+
+    function renderOrders() {
+      const container = document.getElementById('orderList');
+      const emptyTip = document.getElementById('orderEmptyTip');
+      const orders = getAllOrders();
+
+      if (!orders.length) {
+        container.innerHTML = '';
+        emptyTip.style.display = 'block';
+        return;
+      }
+      emptyTip.style.display = 'none';
+
+      container.innerHTML = orders.map(order => {
+        const statusInfo = getStatusInfo(order.logisticsStatus);
+        const mainItem = order.items[0] || {};
+        const itemCount = order.items.reduce((s, it) => s + (it.quantity || 1), 0);
+        const canCancel = order.logisticsStatus === 'pending';
+        const canDelete = order.logisticsStatus === 'cancelled';
+        return `
+          <div class="order-card">
+            <div class="order-main">
+              <div class="order-id">Order No: ${order.id}</div>
+              <div class="order-title">${mainItem.title || 'Toy Order'}</div>
+              ${mainItem.detail ? `<div class="order-meta">${mainItem.detail}</div>` : ''}
+              ${itemCount > 1 ? `<div class="order-meta">and ${itemCount} items</div>` : ''}
+              <div class="order-meta">${new Date(order.createTime).toLocaleString()}</div>
+            </div>
+            <div>
+              <div class="order-amount">Total: HK$${(order.total || 0).toLocaleString()}</div>
+              <div style="margin-top:6px;">
+                <span class="status-badge ${statusInfo.cls}">${statusInfo.text}</span>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <button class="btn btn-outline" onclick="goToOrdersPage()">View in Orders Page</button>
+              ${canCancel ? `<button class="btn btn-danger-outline" style="margin-top:6px;" onclick="cancelOrder(${order.id})">Cancel Order</button>` : ''}
+              ${canDelete ? `<button class="btn btn-danger-outline" style="margin-top:6px; margin-left:6px;" onclick="deleteOrder(${order.id})">Delete Order</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function goToOrdersPage() {
+      window.location.href = 'my-orders.html';
+      }
+      
+    function cancelOrder(orderId) {
+      if (!confirm('Are you sure you want to cancel this order?')) return;
+
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const currentUserId = userInfo ? (userInfo.id || userInfo.username) : null;
+      const currentUsername = userInfo ? userInfo.username : null;
+
+      const normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+
+      let changed = false;
+
+      normalOrders.forEach(o => {
+        // 只允许取消当前用户的订单
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        if (isUserOrder && o.id === orderId && (o.logisticsStatus || 'pending') === 'pending') {
+          o.logisticsStatus = 'cancelled';
+          changed = true;
+        }
+      });
+
+      customOrders.forEach(o => {
+        // 只允许取消当前用户的订单
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        if (isUserOrder && o.id === orderId && (o.logisticsStatus || 'pending') === 'pending') {
+          o.logisticsStatus = 'cancelled';
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        renderOrders();
+        showSuccessModal('smiley', 'Order Cancelled!', 'Your order has been cancelled successfully.', 'The order status has been updated. You can delete it from the order list if needed.');
+      } else {
+        alert('This order cannot be cancelled now.');
+      }
+      }
+      
+    // delete cancelled orders
+    function deleteOrder(orderId) {
+      if (!confirm('Delete this order? This cannot be undone.')) return;
+
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const currentUserId = userInfo ? (userInfo.id || userInfo.username) : null;
+      const currentUsername = userInfo ? userInfo.username : null;
+
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+
+      const beforeNormal = normalOrders.length;
+      const beforeCustom = customOrders.length;
+
+      // 只允许删除当前用户的订单
+      normalOrders = normalOrders.filter(o => {
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        return !(isUserOrder && o.id === orderId && (o.logisticsStatus || 'pending') === 'cancelled');
+      });
+      customOrders = customOrders.filter(o => {
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        return !(isUserOrder && o.id === orderId && (o.logisticsStatus || 'pending') === 'cancelled');
+      });
+        
+      if (normalOrders.length !== beforeNormal || customOrders.length !== beforeCustom) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        renderOrders();
+        alert('Order deleted.');
+        } else {
+        alert('Only cancelled orders can be deleted.');
+      }
+    }
+
+    // get user role
+    function getUserRole() {
+      try {
+        const userInfo = sessionStorage.getItem('user_info');
+        if (userInfo) {
+          const info = JSON.parse(userInfo);
+          return info.role || 'user';
+        }
+      } catch (e) {
+        console.error('Failed to read user info', e);
+      }
+      return 'user';
+    }
+
+    // 翻译商品标题（中文转英文）
+    const productTitleMap = {
+      "变形金刚 擎天柱": "Transformers Optimus Prime",
+      "变形金刚 大黄蜂": "Transformers Bumblebee",
+      "变形金刚 威震天": "Transformers Megatron",
+      "变形金刚 红蜘蛛": "Transformers Starscream",
+      "变形金刚 声波": "Transformers Soundwave",
+      "变形金刚 爵士": "Transformers Jazz",
+      "变形金刚 铁皮": "Transformers Ironhide",
+      "变形金刚 救护车": "Transformers Rescue Truck",
+      "变形金刚 横炮": "Transformers Sideswipe",
+      "变形金刚 飞毛腿": "Transformers Speed Car",
+      "变形金刚 钢锁": "Transformers Grimlock",
+      "玩具枪 水弹枪": "Toy Gun Water Blaster",
+      "玩具枪 软弹枪": "Toy Gun Soft Bullet Blaster",
+      "玩具枪 激光枪": "Toy Gun Laser Blaster",
+      "玩具枪 声光枪": "Toy Gun Sound & Light Blaster",
+      "玩具枪 赛车头枪": "Toy Gun Racing Car Blaster",
+      "玩具枪 冲锋枪": "Toy Gun Machine Gun",
+      "玩具枪 手枪": "Toy Gun Pistol",
+      "玩具枪 四星彩色手枪": "Toy Gun Color Pistol Set",
+      "玩具枪 暴龙头突击步枪": "Toy Gun Dino Assault Rifle",
+      "玩具枪 草莓机关枪": "Toy Gun Strawberry Machine Gun",
+      "漫威系列 钢铁侠和美国队长礼包": "Marvel Iron Man & Captain America Set",
+      "漫威系列 雷神": "Marvel Thor Figure",
+      "漫威系列 浩克": "Marvel Hulk Figure",
+      "漫威系列 美国队长": "Marvel Captain America Figure",
+      "漫威系列 蚁人": "Marvel Ant-Man Figure",
+      "漫威系列 马克42": "Marvel Iron Man Mark 42",
+      "漫威系列 奇异博士": "Marvel Doctor Strange",
+      "漫威系列 黑寡妇": "Marvel Black Widow",
+      "漫威系列 蚁人2号": "Marvel Ant-Man Suit 2",
+      "漫威系列 惊奇队长": "Marvel Captain Marvel",
+      "漫威系列 死侍": "Marvel Deadpool",
+      "DC宇宙 阿卡姆骑士": "DC Arkham Knight Batman",
+      "DC宇宙 黑暗骑士归来蝙蝠侠": "DC The Dark Knight Returns Batman",
+      "DC宇宙 元年蝙蝠侠": "DC Year One Batman",
+      "DC宇宙 闪电侠": "DC The Flash",
+      "DC宇宙 正义联盟礼包1号": "DC Justice League Set 1",
+      "DC宇宙 钢骨": "DC Cyborg",
+      "DC宇宙 正义联盟礼包2号": "DC Justice League Set 2",
+      "DC宇宙 小丑": "DC The Joker",
+      "DC宇宙 哈莉奎因": "DC Harley Quinn",
+      "毛绒玩具 小猪": "Plush Little Pig",
+      "毛绒玩具 小熊罗宾": "Plush Bear Robin",
+      "毛绒玩具 我的第一个泰迪熊": "My First Teddy Bear",
+      "毛绒玩具 金牌小熊": "Golden Teddy Bear",
+      "毛绒玩具 棕熊泰迪": "Brown Teddy Bear",
+      "毛绒玩具 黄熊泰迪": "Yellow Teddy Bear",
+      "毛绒玩具 圣诞特别版小熊": "Christmas Teddy Bear",
+      "毛绒玩具 《泰迪熊》电影同款泰迪熊": "Movie Teddy Bear Plush",
+      "毛绒玩具 I miss You 熊": "\"I Miss You\" Teddy Bear",
+      "毛绒玩具 大耳猴": "Big Ear Monkey Plush",
+      "毛绒玩具 趴趴狗": "Lying Puppy Plush",
+      "毛绒玩具 复活节兔子": "Easter Bunny Plush",
+      "毛绒玩具 领带熊": "Tie Bear Plush",
+      "毛绒玩具 贵宾狗": "Poodle Plush",
+      "幼儿玩具 铲车大礼包1号": "Toddler Truck Play Set 1",
+      "幼儿玩具 儿童推车": "Toddler Push Cart",
+      "幼儿玩具 图形拼图": "Shape Puzzle",
+      "幼儿玩具 动物模型礼包1号": "Animal Figure Set 1",
+      "幼儿玩具 儿童玩具礼包2号": "Kids Toy Set 2",
+      "幼儿玩具 水果玩具礼包1号": "Fruit Toy Set 1",
+      "幼儿玩具 积木炮台": "Block Cannon",
+      "幼儿玩具 滑板车": "Kids Scooter",
+      "幼儿玩具 水池": "Water Play Pool",
+      "幼儿玩具 滑板车2号": "Kids Scooter 2",
+      "恐龙模型 霸王龙": "T-Rex Dinosaur Model",
+      "恐龙模型 长颈龙": "Long Neck Dinosaur Model",
+      "恐龙模型 恐龙礼包1号": "Dinosaur Set 1",
+      "恐龙模型 恐龙礼包2号": "Dinosaur Set 2",
+      "恐龙模型 迅猛龙礼包1号": "Raptor Set 1",
+      "恐龙模型 脊背龙": "Spinosaurus Model",
+      "恐龙模型 农场恐龙礼包1号": "Farm Dinosaur Set 1",
+      "恐龙模型 三角龙": "Triceratops Model",
+      "恐龙模型 恐龙战争": "Dinosaur Battle Set",
+      "恐龙模型 侏罗纪公园礼包": "Jurassic Park Style Set",
+      "恐龙模型 异特龙": "Allosaurus Model",
+      "拼图益智 小猪佩奇": "Peppa Pig Puzzle",
+      "拼图益智 青蛙拼图": "Frog Puzzle",
+      "拼图益智 火车拼图": "Train Puzzle",
+      "拼图益智 数字拼图": "Number Puzzle",
+      "拼图益智 城市拼图": "City Puzzle",
+      "拼图益智 海洋拼图": "Ocean Puzzle",
+      "拼图益智 宇宙拼图": "Space Puzzle",
+      "拼图益智 运动场拼图": "Stadium Puzzle",
+      "拼图益智 农场": "Farm Puzzle",
+      "乐高积木 赛车1号": "Racing Car Blocks 1",
+      "乐高积木 城堡": "Castle Blocks",
+      "乐高积木 火箭": "Rocket Blocks",
+      "乐高积木 城市赛车": "City Racing Blocks",
+      "乐高积木 迅猛龙": "Raptor Blocks",
+      "乐高积木 赛车手": "Racer Blocks",
+      "乐高积木 幻影忍者 凯": "Ninja Kai Blocks",
+      "乐高积木 幻影忍者 寇": "Ninja Cole Blocks",
+      "乐高积木 幻影忍者 劳埃德": "Ninja Lloyd Blocks",
+      "乐高积木 幻影忍者 Jay": "Ninja Jay Blocks",
+      "乐高积木 幻影忍者 Zane": "Ninja Zane Blocks",
+      "乐高积木 幻影忍者巨龙": "Ninja Dragon Blocks",
+      "乐高积木 火龙": "Fire Dragon Blocks",
+      "乐高积木 冰龙": "Ice Dragon Blocks"
+    };
+
+    function getProductTitle(rawTitle) {
+      if (!rawTitle) return "";
+      // 处理包含变体信息的商品名称，如 "变形金刚 擎天柱1号(经典版)"
+      // 先尝试完整匹配
+      if (productTitleMap[rawTitle]) {
+        return productTitleMap[rawTitle];
+      }
+      // 尝试提取基础商品名称（去掉变体信息）
+      const baseMatch = rawTitle.match(/^([^0-9(]+)/);
+      if (baseMatch) {
+        const baseTitle = baseMatch[1].trim();
+        if (productTitleMap[baseTitle]) {
+          // 提取变体信息（如 "1号(经典版)"）
+          const variantMatch = rawTitle.match(/(\d+号\([^)]+\)|\([^)]+\))/);
+          const variant = variantMatch ? variantMatch[1] : '';
+          return productTitleMap[baseTitle] + (variant ? ' ' + variant : '');
+        }
+      }
+      return rawTitle;
+    }
+
+    // load staff info
+    // Translate Chinese staff info to English
+    function translateStaffInfo(staffInfo) {
+      if (!staffInfo) return staffInfo;
+      
+      // Translate branch
+      const branchMap = {
+        '香港旺角分店': 'Mong Kok Branch, Hong Kong',
+        '香港中环分店': 'Central Branch, Hong Kong',
+        '香港荃湾分店': 'Tsuen Wan Branch, Hong Kong',
+        'Mong Kok Branch, Hong Kong': 'Mong Kok Branch, Hong Kong',
+        'Central Branch, Hong Kong': 'Central Branch, Hong Kong',
+        'Tsuen Wan Branch, Hong Kong': 'Tsuen Wan Branch, Hong Kong'
+      };
+      
+      // Translate department
+      const departmentMap = {
+        '库存管理部': 'Inventory Department',
+        '销售部': 'Sales Department',
+        '客服部': 'Customer Service Department',
+        '采购部': 'Procurement Department',
+        'Inventory Department': 'Inventory Department',
+        'Sales Department': 'Sales Department',
+        'Customer Service Department': 'Customer Service Department',
+        'Procurement Department': 'Procurement Department'
+      };
+      
+      // Translate position
+      const positionMap = {
+        '库存管理员': 'Inventory Staff',
+        '库存经理': 'Inventory Manager',
+        '销售员': 'Sales Staff',
+        '销售经理': 'Sales Manager',
+        '客服': 'Customer Service',
+        '客服经理': 'Customer Service Manager',
+        '采购员': 'Procurement Staff',
+        '采购经理': 'Procurement Manager',
+        'Inventory Staff': 'Inventory Staff',
+        'Inventory Manager': 'Inventory Manager',
+        'Sales Staff': 'Sales Staff',
+        'Sales Manager': 'Sales Manager',
+        'Customer Service': 'Customer Service',
+        'Customer Service Manager': 'Customer Service Manager',
+        'Procurement Staff': 'Procurement Staff',
+        'Procurement Manager': 'Procurement Manager'
+      };
+      
+      return {
+        ...staffInfo,
+        branch: branchMap[staffInfo.branch] || staffInfo.branch || 'Mong Kok Branch, Hong Kong',
+        department: departmentMap[staffInfo.department] || staffInfo.department || 'Inventory Department',
+        position: positionMap[staffInfo.position] || staffInfo.position || 'Inventory Staff'
+      };
+    }
+
+    function loadStaffInfo() {
+      // read staff info from localStorage, create default if not exist
+      let staffInfo = JSON.parse(localStorage.getItem('staffInfo') || '{}');
+      
+      // Translate Chinese values to English
+      staffInfo = translateStaffInfo(staffInfo);
+      
+      // if info not complete, create defaults
+      if (!staffInfo.id || !staffInfo.name) {
+        // try to read username from sessionStorage
+        let username = '';
+        try {
+          const userInfo = sessionStorage.getItem('user_info');
+          if (userInfo) {
+            const info = JSON.parse(userInfo);
+            username = info.username || '';
+          }
+        } catch (e) {
+          console.error('Failed to read user info', e);
+        }
+
+        staffInfo = {
+          id: staffInfo.id || 'ST-' + String(Math.floor(Math.random() * 9000) + 1000).padStart(4, '0'),
+          name: staffInfo.name || username || 'Staff Name',
+          branch: staffInfo.branch || 'Mong Kok Branch, Hong Kong',
+          department: staffInfo.department || 'Inventory Department',
+          position: staffInfo.position || 'Inventory Staff',
+          phone: staffInfo.phone || '+852 9123 4567',
+          joinDate: staffInfo.joinDate || new Date().toISOString().split('T')[0]
+        };
+        
+        // save default info (with English translations)
+        saveStaffInfo(staffInfo);
+      } else {
+        // Save translated info back to localStorage
+        saveStaffInfo(staffInfo);
+      }
+      
+      return staffInfo;
+    }
+
+    // save staff info
+    function saveStaffInfo(info) {
+      localStorage.setItem('staffInfo', JSON.stringify(info));
+    }
+
+    // ===== account email / phone (shared by client & staff) =====
+    async function fetchUserContact() {
+      try {
+        const resp = await fetch(`${BACKEND_BASE}/api/user/contact`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        if (!resp.ok) {
+          throw new Error('Cannot get contact info');
+        }
+        const data = await resp.json();
+        if (!data.success) {
+          throw new Error(data.message || 'Failed to get contact info');
+        }
+        const emailText = data.email || 'Not set';
+        const phoneText = data.phone || 'Not set';
+
+        const accountEmailDisplay = document.getElementById('accountEmailDisplay');
+        const accountPhoneDisplay = document.getElementById('accountPhoneDisplay');
+        const staffEmailDisplay = document.getElementById('staffEmailDisplay');
+        const staffPhoneDisplay = document.getElementById('staffPhoneDisplay');
+
+        if (accountEmailDisplay) accountEmailDisplay.textContent = emailText;
+        if (accountPhoneDisplay) accountPhoneDisplay.textContent = phoneText;
+        if (staffEmailDisplay) staffEmailDisplay.textContent = emailText;
+        if (staffPhoneDisplay && data.phone) staffPhoneDisplay.textContent = phoneText;
+      } catch (err) {
+        console.error('Failed to get contact info', err);
+        const accountEmailDisplay = document.getElementById('accountEmailDisplay');
+        const accountPhoneDisplay = document.getElementById('accountPhoneDisplay');
+        if (accountEmailDisplay) {
+          accountEmailDisplay.textContent = 'Not set';
+      }
+        if (accountPhoneDisplay) {
+          accountPhoneDisplay.textContent = 'Not set';
+        }
+      }
+    }
+
+    function setAccountContactError(msg) {
+      const el = document.getElementById('accountContactError');
+      if (!el) return;
+      if (msg) {
+        el.textContent = msg;
+        el.style.display = 'block';
+      } else {
+        el.textContent = '';
+        el.style.display = 'none';
+      }
+    }
+
+    async function updateUserContact(payload, fromStaff = false) {
+      try {
+        const resp = await fetch(`${BACKEND_BASE}/api/user/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        const data = await resp.json();
+        if (!resp.ok || data.success === false) {
+          const msg = data.message || 'Update failed, please try again later.';
+          if (fromStaff) {
+            const el = document.getElementById('staffContactError');
+            if (el) {
+              el.textContent = msg;
+            } else {
+              alert(msg);
+            }
+          } else {
+            setAccountContactError(msg);
+          }
+          throw new Error(msg);
+        }
+        // sync display
+        await fetchUserContact();
+        if (fromStaff) {
+          const el = document.getElementById('staffContactError');
+          if (el) el.textContent = '';
+        } else {
+          setAccountContactError('');
+        }
+        // success tip
+        alert('Contact info saved.');
+        return true;
+      } catch (err) {
+        console.error('Failed to update contact info', err);
+        return false;
+      }
+    }
+
+    // ===== normal user: change email / phone =====
+    function editAccountEmail() {
+      const displayEl = document.getElementById('accountEmailDisplay');
+      const editEl = document.getElementById('accountEmailEdit');
+      const btn = document.getElementById('editAccountEmailBtn');
+      const input = document.getElementById('accountEmailInput');
+      if (displayEl && editEl && btn && input) {
+        editEl.style.display = 'flex';
+        btn.style.display = 'none';
+        input.value = (displayEl.textContent || '').trim().replace('Not set', '');
+        input.focus();
+      }
+    }
+
+    function cancelEditAccountEmail() {
+      const editEl = document.getElementById('accountEmailEdit');
+      const btn = document.getElementById('editAccountEmailBtn');
+      if (editEl && btn) {
+        editEl.style.display = 'none';
+        btn.style.display = 'inline-block';
+      }
+      setAccountContactError('');
+    }
+
+    async function saveAccountEmail() {
+      const input = document.getElementById('accountEmailInput');
+      if (!input) return;
+      const value = input.value.trim();
+      if (!value) {
+        setAccountContactError('Please enter a new email address.');
+        input.focus();
+        return;
+      }
+      const ok = await updateUserContact({ email: value });
+      if (ok) {
+        cancelEditAccountEmail();
+      }
+    }
+
+    function editAccountPhone() {
+      const displayEl = document.getElementById('accountPhoneDisplay');
+      const editEl = document.getElementById('accountPhoneEdit');
+      const btn = document.getElementById('editAccountPhoneBtn');
+      const input = document.getElementById('accountPhoneInput');
+      if (displayEl && editEl && btn && input) {
+        editEl.style.display = 'flex';
+        btn.style.display = 'none';
+        input.value = (displayEl.textContent || '').trim().replace('Not set', '');
+        input.focus();
+      }
+    }
+
+    function cancelEditAccountPhone() {
+      const editEl = document.getElementById('accountPhoneEdit');
+      const btn = document.getElementById('editAccountPhoneBtn');
+      if (editEl && btn) {
+        editEl.style.display = 'none';
+        btn.style.display = 'inline-block';
+      }
+      setAccountContactError('');
+      }
+
+    async function saveAccountPhone() {
+      const input = document.getElementById('accountPhoneInput');
+      if (!input) return;
+      const value = input.value.trim();
+      if (!value) {
+        setAccountContactError('Please enter a new phone number.');
+        input.focus();
+        return;
+      }
+      const ok = await updateUserContact({ phone: value });
+      if (ok) {
+        cancelEditAccountPhone();
+      }
+    }
+
+    // ===== change password (client & staff) =====
+    function setChangePasswordError(msg, isStaff = false) {
+      const el = document.getElementById(isStaff ? 'staffChangePasswordError' : 'changePasswordError');
+      if (!el) return;
+      if (msg) {
+        el.textContent = msg;
+        el.style.display = 'block';
+      } else {
+        el.textContent = '';
+        el.style.display = 'none';
+      }
+    }
+
+    async function changePassword(isStaff = false) {
+      const oldPasswordInput = document.getElementById(isStaff ? 'staffOldPasswordInput' : 'oldPasswordInput');
+      const newPasswordInput = document.getElementById(isStaff ? 'staffNewPasswordInput' : 'newPasswordInput');
+      const confirmPasswordInput = document.getElementById(isStaff ? 'staffConfirmPasswordInput' : 'confirmPasswordInput');
+      
+      if (!oldPasswordInput || !newPasswordInput || !confirmPasswordInput) {
+        alert('Page elements not found. Please refresh and try again.');
+        return;
+      }
+
+      const oldPassword = oldPasswordInput.value.trim();
+      const newPassword = newPasswordInput.value.trim();
+      const confirmPassword = confirmPasswordInput.value.trim();
+
+      // validate input
+      if (!oldPassword || !newPassword || !confirmPassword) {
+        setChangePasswordError('Please fill all password fields.', isStaff);
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        setChangePasswordError('New password must be at least 6 characters.', isStaff);
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        setChangePasswordError('The two new passwords do not match.', isStaff);
+        return;
+      }
+
+      if (oldPassword === newPassword) {
+        setChangePasswordError('New password cannot be the same as old password.', isStaff);
+        return;
+      }
+
+      // clear previous error
+      setChangePasswordError('', isStaff);
+
+      try {
+        const resp = await fetch(`${BACKEND_BASE}/api/user/change-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            oldPassword: oldPassword,
+            newPassword: newPassword
+          })
+        });
+
+        const data = await resp.json();
+
+        if (!resp.ok || data.success === false) {
+          const msg = data.message || 'Change password failed. Please try again later.';
+          setChangePasswordError(msg, isStaff);
+          return;
+        }
+
+        // success
+        alert('Password changed successfully.');
+        // clear inputs
+        oldPasswordInput.value = '';
+        newPasswordInput.value = '';
+        confirmPasswordInput.value = '';
+        setChangePasswordError('', isStaff);
+      } catch (err) {
+        console.error('Error while changing password', err);
+        setChangePasswordError('Network error, please try again later.', isStaff);
+      }
+    }
+
+    // ===== staff: change registered email (sync with backend) =====
+    function editStaffEmail() {
+      const displayEl = document.getElementById('staffEmailDisplay');
+      const editEl = document.getElementById('staffEmailEdit');
+      const btn = document.getElementById('editStaffEmailBtn');
+      const input = document.getElementById('staffEmailInput');
+      if (displayEl && editEl && btn && input) {
+        displayEl.style.display = 'none';
+        editEl.style.display = 'flex';
+        btn.style.display = 'none';
+        input.value = (displayEl.textContent || '').trim().replace('Not set', '');
+        input.focus();
+      }
+    }
+
+    function cancelEditStaffEmail() {
+      const editEl = document.getElementById('staffEmailEdit');
+      const btn = document.getElementById('editStaffEmailBtn');
+      const displayEl = document.getElementById('staffEmailDisplay');
+      if (editEl && btn && displayEl) {
+        editEl.style.display = 'none';
+        btn.style.display = 'inline-block';
+        displayEl.style.display = '';
+      }
+      const errEl = document.getElementById('staffContactError');
+      if (errEl) errEl.textContent = '';
+        }
+
+    async function saveStaffEmail() {
+      const input = document.getElementById('staffEmailInput');
+      if (!input) return;
+      const value = input.value.trim();
+      if (!value) {
+        const errEl = document.getElementById('staffContactError');
+        if (errEl) errEl.textContent = 'Please enter a new email address.';
+        input.focus();
+        return;
+      }
+      const ok = await updateUserContact({ email: value }, true);
+      if (ok) {
+        cancelEditStaffEmail();
+      }
+    }
+
+    // render staff info
+    function renderStaffInfo() {
+      try {
+        const info = loadStaffInfo();
+        const staffIdEl = document.getElementById('staffId');
+        const staffNameEl = document.getElementById('staffName');
+        const staffBranchEl = document.getElementById('staffBranch');
+        const staffDepartmentEl = document.getElementById('staffDepartment');
+        const staffPositionEl = document.getElementById('staffPosition');
+        const staffPhoneDisplayEl = document.getElementById('staffPhoneDisplay');
+        const staffJoinDateEl = document.getElementById('staffJoinDate');
+        
+        if (staffIdEl) staffIdEl.textContent = info.id;
+        if (staffNameEl) staffNameEl.textContent = info.name;
+        if (staffBranchEl) staffBranchEl.textContent = info.branch;
+        if (staffDepartmentEl) staffDepartmentEl.textContent = info.department;
+        if (staffPositionEl) staffPositionEl.textContent = info.position;
+        if (staffPhoneDisplayEl) staffPhoneDisplayEl.textContent = info.phone;
+        if (staffJoinDateEl) staffJoinDateEl.textContent = info.joinDate;
+      } catch (error) {
+        console.error('Error when rendering staff info:', error);
+      }
+    }
+
+    // edit staff phone
+    function editStaffPhone() {
+      const info = loadStaffInfo();
+      const displayEl = document.getElementById('staffPhoneDisplay');
+      const editEl = document.getElementById('staffPhoneEdit');
+      const inputEl = document.getElementById('staffPhoneInput');
+      const editBtn = document.getElementById('editPhoneBtn');
+      
+      if (displayEl && editEl && inputEl && editBtn) {
+        displayEl.style.display = 'none';
+        editBtn.style.display = 'none';
+        editEl.style.display = 'flex';
+        inputEl.value = info.phone || '';
+        inputEl.focus();
+      }
+    }
+
+    // save staff phone
+    function saveStaffPhone() {
+      const inputEl = document.getElementById('staffPhoneInput');
+      if (!inputEl) return;
+      
+      const newPhone = inputEl.value.trim();
+      if (!newPhone) {
+        alert('Please enter phone number.');
+        return;
+      }
+      // staff phone will also be synced to backend user table
+      updateUserContact({ phone: newPhone }, true).then(ok => {
+        if (ok) {
+          const info = loadStaffInfo();
+          info.phone = newPhone;
+          saveStaffInfo(info);
+          renderStaffInfo();
+          cancelEditPhone();
+          alert('Phone number updated.');
+        }
+      });
+    }
+
+    // cancel edit staff phone
+    function cancelEditPhone() {
+      const displayEl = document.getElementById('staffPhoneDisplay');
+      const editEl = document.getElementById('staffPhoneEdit');
+      const editBtn = document.getElementById('editPhoneBtn');
+      
+      if (displayEl && editEl && editBtn) {
+        displayEl.style.display = 'block';
+        editBtn.style.display = 'inline-block';
+        editEl.style.display = 'none';
+      }
+    }
+
+    // render restock record list
+    function renderRestockRecords() {
+      const container = document.getElementById('restockRecordList');
+      const emptyTip = document.getElementById('restockRecordEmptyTip');
+      if (!container) return;
+
+      try {
+        const logs = JSON.parse(localStorage.getItem('restockLogs') || '[]');
+        
+        // sort by time (newest first)
+        const sortedLogs = logs.sort((a, b) => (b.time || 0) - (a.time || 0));
+
+        if (!sortedLogs.length) {
+          container.innerHTML = '';
+          if (emptyTip) emptyTip.style.display = 'block';
+          return;
+        }
+
+        if (emptyTip) emptyTip.style.display = 'none';
+
+        container.innerHTML = sortedLogs.map(log => {
+          const time = log.time ? new Date(log.time).toLocaleString() : 'Unknown time';
+          // Translate product name from Chinese to English
+          const productName = log.product ? getProductTitle(log.product) : 'Unknown Product';
+          return `
+            <div class="order-card">
+              <div class="order-main">
+                <div class="order-title">${productName}</div>
+                <div class="order-meta">Supplier: ${log.supplier || 'Unknown Supplier'}</div>
+                <div class="order-meta">${time}</div>
+              </div>
+              <div>
+                <div class="order-amount">Restock Qty: ${log.quantity || 0}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Error when rendering restock records:', error);
+        container.innerHTML = '';
+        if (emptyTip) emptyTip.style.display = 'block';
+      }
+    }
+
+    // calculate work statistics
+    function calculateStaffStats() {
+      try {
+        // restock count this month
+        const restockLogs = JSON.parse(localStorage.getItem('restockLogs') || '[]');
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        const monthlyRestocks = restockLogs.filter(log => {
+          if (!log.time) return false;
+          const logDate = new Date(log.time);
+          return logDate.getMonth() === currentMonth && logDate.getFullYear() === currentYear;
+        });
+        const restockCountEl = document.getElementById('restockCount');
+        if (restockCountEl) restockCountEl.textContent = monthlyRestocks.length;
+
+        // shipped orders this month
+        const allOrders = getAllOrders();
+        const monthlyShipped = allOrders.filter(order => {
+          if (!order.createTime) return false;
+          const orderDate = new Date(order.createTime);
+          return orderDate.getMonth() === currentMonth && 
+                 orderDate.getFullYear() === currentYear &&
+                 (order.logisticsStatus === 'shipping' || order.logisticsStatus === 'delivered');
+        });
+        const shippedOrdersEl = document.getElementById('shippedOrders');
+        if (shippedOrdersEl) shippedOrdersEl.textContent = monthlyShipped.length;
+
+        // pending orders - count orders with pending logisticsStatus (both normal and custom orders)
+        const allNormalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+        const allCustomOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+        const pendingNormal = allNormalOrders.filter(order => order.logisticsStatus === 'pending');
+        const pendingCustom = allCustomOrders.filter(order => order.logisticsStatus === 'pending');
+        const pendingTotal = pendingNormal.length + pendingCustom.length;
+        const pendingOrdersEl = document.getElementById('pendingOrders');
+        if (pendingOrdersEl) pendingOrdersEl.textContent = pendingTotal;
+      } catch (error) {
+        console.error('Error when calculating work statistics:', error);
+        }
+    }
+
+    // show or hide nav items based on role
+    function updateNavByRole() {
+      const role = getUserRole();
+      const userOnlyNavs = document.querySelectorAll('.user-only-nav');
+      const staffOnlyNavs = document.querySelectorAll('.staff-only-nav');
+      
+      if (role === 'staff') {
+        // staff: hide client nav, show staff nav
+        userOnlyNavs.forEach(item => {
+          item.style.display = 'none';
+        });
+        staffOnlyNavs.forEach(item => {
+          item.style.display = '';
+        });
+      } else {
+        // normal: show client nav, hide staff nav
+        userOnlyNavs.forEach(item => {
+          item.style.display = '';
+        });
+        staffOnlyNavs.forEach(item => {
+          item.style.display = 'none';
+        });
+      }
+    }
+
+    // render different content by role
+    function renderContentByRole() {
+      try {
+        const role = getUserRole();
+        const userContent = document.getElementById('userContent');
+        const staffContent = document.getElementById('staffContent');
+        const pageSubtitle = document.getElementById('pageSubtitle');
+
+        if (!userContent || !staffContent || !pageSubtitle) {
+          console.error('Page elements not found, please check HTML structure');
+          return;
+        }
+
+        if (role === 'staff') {
+          // staff
+          userContent.style.display = 'none';
+          staffContent.style.display = 'grid';
+          if (pageSubtitle) {
+            pageSubtitle.textContent = 'View staff info and work statistics.';
+          }
+          renderStaffInfo();
+          calculateStaffStats();
+          renderRestockRecords();
+        } else {
+          // normal user
+          userContent.style.display = 'grid';
+          staffContent.style.display = 'none';
+          if (pageSubtitle) {
+            pageSubtitle.textContent = 'Manage addresses and view or cancel orders.';
+          }
+          renderAddresses();
+          renderOrders();
+        }
+        
+        // update nav by role
+        updateNavByRole();
+      } catch (error) {
+        console.error('Error when rendering content:', error);
+        // default show normal user content
+        const userContent = document.getElementById('userContent');
+        const staffContent = document.getElementById('staffContent');
+        if (userContent) userContent.style.display = 'grid';
+        if (staffContent) staffContent.style.display = 'none';
+      }
+    }
+
+    // user info display (always "My Center" here)
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        userIdElement.textContent = 'My Center';
+        // on this page, remove click navigation
+        const newElement = userIdElement.cloneNode(true);
+        userIdElement.parentNode.replaceChild(newElement, userIdElement);
+        // prevent click
+        newElement.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        };
+        newElement.style.cursor = 'default';
+      }
+    }
+
+    // page init
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        updateUserInfo();
+        updateCartBadge();
+        // fetch current email & phone
+        fetchUserContact();
+        
+        // Calculate work statistics on page load
+        calculateStaffStats();
+        
+        // Listen for localStorage changes to update work statistics in real-time
+        window.addEventListener('storage', function(e) {
+          if (e.key === 'orders' || e.key === 'customOrders') {
+            calculateStaffStats();
+          }
+        });
+
+        // Also listen for custom events (for same-tab updates)
+        window.addEventListener('customStorageUpdate', function(e) {
+          if (e.detail && (e.detail.key === 'orders' || e.detail.key === 'customOrders')) {
+            calculateStaffStats();
+          }
+        });
+        
+        // small delay to ensure elements are ready
+        setTimeout(() => {
+          renderContentByRole();
+          // ensure we keep our click behavior
+          updateUserInfo();
+        }, 200);
+      } catch (error) {
+        console.error('Error during page init:', error);
+        // fallback: show normal user view
+        const userContent = document.getElementById('userContent');
+        const staffContent = document.getElementById('staffContent');
+        if (userContent) userContent.style.display = 'grid';
+        if (staffContent) staffContent.style.display = 'none';
+      }
+    });
+    
+    // after window load, check again
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        updateUserInfo();
+      }, 100);
+    });
+
+    // listen to localStorage change, auto refresh restock records
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'restockLogs') {
+        const role = getUserRole();
+        if (role === 'staff') {
+          renderRestockRecords();
+          calculateStaffStats();
+        }
+      }
+    });
+
+    // when page visible again, refresh for staff
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        const role = getUserRole();
+        if (role === 'staff') {
+          renderRestockRecords();
+          calculateStaffStats();
+        }
+      }
+    });
+  </script>
+
+  <!-- Success Modal -->
+  <div id="successModal">
+    <div class="success-modal-content">
+      <div class="success-icon">
+        <div class="success-icon-circle" id="successIconCircle">
+          <div id="successIconContent"></div>
+        </div>
+      </div>
+      <h2 class="success-title" id="successTitle">Success!</h2>
+      <p class="success-message" id="successMessage"></p>
+      <div class="success-details" id="successDetails" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    // 显示成功弹窗
+    function showSuccessModal(type, title, message, details = '') {
+      const modal = document.getElementById('successModal');
+      const titleEl = document.getElementById('successTitle');
+      const messageEl = document.getElementById('successMessage');
+      const detailsEl = document.getElementById('successDetails');
+      const iconCircle = document.getElementById('successIconCircle');
+      const iconContent = document.getElementById('successIconContent');
+      
+      if (!modal || !titleEl || !messageEl || !detailsEl || !iconCircle || !iconContent) {
+        console.error('Success modal elements not found');
+        return;
+      }
+      
+      // 设置图标类型
+      iconCircle.className = 'success-icon-circle';
+      iconContent.innerHTML = '';
+      
+      if (type === 'smiley') {
+        iconCircle.classList.add('smiley');
+        iconContent.innerHTML = '<div class="smiley-face"></div>';
+      }
+      
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      
+      if (details) {
+        detailsEl.innerHTML = details.split('\n').map(line => {
+          if (line.includes(':')) {
+            const [key, ...valueParts] = line.split(':');
+            return `<strong>${key.trim()}:</strong> ${valueParts.join(':').trim()}`;
+          }
+          return line;
+        }).join('<br>');
+        detailsEl.style.display = 'block';
+      } else {
+        detailsEl.style.display = 'none';
+      }
+      
+      // 确保弹窗在最上层
+      modal.style.zIndex = '20000';
+      modal.classList.add('show');
+      
+      // 自动关闭弹窗
+      setTimeout(() => {
+        modal.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+
+  <script src="js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Smile & Sunshine Toy Co. Ltd</title>
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+      /* Success Modal Styles */
+      #successModal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 20000;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+      }
+
+      #successModal.show {
+        display: flex;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .success-modal-content {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 40px 30px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        max-width: 450px;
+        width: 90%;
+        animation: slideUpSuccess 0.4s ease;
+        position: relative;
+      }
+
+      @keyframes slideUpSuccess {
+        from {
+          transform: translateY(30px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .success-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 20px;
+        position: relative;
+        animation: scaleIn 0.5s ease 0.2s both;
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0) rotate(-180deg);
+        }
+        to {
+          transform: scale(1) rotate(0deg);
+        }
+      }
+
+      /* Checkmark Animation */
+      .success-icon-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #22c55e 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        position: relative;
+        animation: bounce 1s ease 0.5s, pulse 2s ease 1.5s infinite;
+        box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+      }
+
+      @keyframes bounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+          box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 6px 30px rgba(34, 197, 94, 0.6);
+        }
+      }
+
+      .success-checkmark {
+        width: 40px;
+        height: 40px;
+        position: relative;
+      }
+
+      .success-checkmark::before {
+        content: '';
+        position: absolute;
+        width: 3px;
+        height: 20px;
+        background: #fff;
+        left: 18px;
+        top: 30px;
+        transform: rotate(45deg);
+        animation: checkmark1 0.3s ease 0.7s both;
+      }
+
+      .success-checkmark::after {
+        content: '';
+        position: absolute;
+        width: 3px;
+        height: 12px;
+        background: #fff;
+        left: 10px;
+        top: 36px;
+        transform: rotate(-45deg);
+        animation: checkmark2 0.3s ease 0.9s both;
+      }
+
+      @keyframes checkmark1 {
+        from {
+          height: 0;
+          top: 40px;
+        }
+        to {
+          height: 20px;
+          top: 30px;
+        }
+      }
+
+      @keyframes checkmark2 {
+        from {
+          height: 0;
+          top: 40px;
+        }
+        to {
+          height: 12px;
+          top: 36px;
+        }
+      }
+
+      .success-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #27ae60;
+        margin-bottom: 10px;
+        animation: fadeInUp 0.5s ease 0.4s both;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .success-message {
+        font-size: 16px;
+        color: #666666;
+        margin-bottom: 10px;
+        animation: fadeInUp 0.5s ease 0.6s both;
+        line-height: 1.5;
+        white-space: pre-line;
+      }
+
+      .success-details {
+        font-size: 14px;
+        color: #666666;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #e0e0e0;
+        animation: fadeInUp 0.5s ease 0.8s both;
+        white-space: pre-line;
+        text-align: left;
+      }
+
+      .success-details strong {
+        color: #333333;
+        font-weight: 600;
+      }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <div class="brand"><div class="logo"></div> Smile & Sunshine Toy Co. Ltd</div>
+        </div>
+        <h2>Register</h2>
+        <p class="subtitle">Please fill in the following information to create an account</p>
+        <form id="registerForm" class="loginForm">
+            <div class="form-group">
+                <label for="reg_userType">Register As</label>
+                <select id="reg_userType" class="form-select" required>
+                    <option value="user">Customer</option>
+                    <option value="staff">Staff</option>
+                </select>
+            </div>
+            <div class="form-group" id="nameGroup" style="display: none;">
+                <label for="reg_name">Name <span style="color: red;">*</span></label>
+                <input id="reg_name" type="text" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="reg_username">Username</label>
+                <input id="reg_username" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_email">Email</label>
+                <input id="reg_email" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_phone">Phone Number</label>
+                <input id="reg_phone" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_password">Password</label>
+                <input id="reg_password" type="password" required>
+                <div class="help-text">At least 6 characters, including at least two of uppercase letters, lowercase letters, numbers, and special characters</div>
+                <div class="strength-meter" id="strength"><div></div></div>
+            </div>
+            <div class="form-group">
+                <label for="reg_confirm">Confirm Password</label>
+                <input id="reg_confirm" type="password" required>
+            </div>
+            <button type="submit" class="login-btn">Submit Registration</button>
+            <div id="msg" style="margin-top:1rem;color:#555;"></div>
+            <div class="form-footer">
+                <a href="/login">Back to Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    const BACKEND_BASE = (window.location.protocol === 'file:'
+      ? 'http://localhost:3000'
+      : (window.location.origin || 'http://localhost:3000'));
+    function setMessage(text, isError = false) {
+        const msg = document.getElementById('msg');
+        msg.style.color = isError ? '#c0392b' : '#2c3e50';
+        msg.textContent = text;
+    }
+    function setFieldState(id, ok, message) {
+        const group = id.closest('.form-group');
+        group.classList.remove('error', 'success');
+        if (ok === true) {
+            group.classList.add('success');
+            const err = group.querySelector('.error-text');
+            if (err) err.textContent = '';
+        } else if (ok === false) {
+            group.classList.add('error');
+            let err = group.querySelector('.error-text');
+            if (!err) {
+                err = document.createElement('div');
+                err.className = 'error-text';
+                group.appendChild(err);
+            }
+            err.textContent = message || 'Invalid input';
+        }
+    }
+    // 用户类型切换：显示/隐藏名字字段
+    const userTypeSelect = document.getElementById('reg_userType');
+    const nameGroup = document.getElementById('nameGroup');
+    const nameInput = document.getElementById('reg_name');
+    
+    userTypeSelect.addEventListener('change', function() {
+        if (this.value === 'staff') {
+            nameGroup.style.display = 'block';
+            nameInput.setAttribute('required', 'required');
+        } else {
+            nameGroup.style.display = 'none';
+            nameInput.removeAttribute('required');
+            nameInput.value = '';
+        }
+    });
+
+    // 密码强度提示
+    const passwordElRef = document.getElementById('reg_password');
+    const strengthBar = document.querySelector('#strength > div');
+    passwordElRef.addEventListener('input', () => {
+        const v = passwordElRef.value;
+        const lengthScore = v.length >= 8 ? 1 : v.length >= 6 ? 0.5 : 0;
+        const hasLower = /[a-z]/.test(v);
+        const hasUpper = /[A-Z]/.test(v);
+        const hasNum = /\d/.test(v);
+        const hasSpec = /[^A-Za-z0-9]/.test(v);
+        const variety = [hasLower, hasUpper, hasNum, hasSpec].filter(Boolean).length;
+        const varietyScore = Math.min(1, variety / 3);
+        const score = Math.min(1, 0.4 * lengthScore + 0.6 * varietyScore);
+        strengthBar.style.width = `${Math.max(0.1, score) * 100}%`;
+        strengthBar.style.backgroundColor = score < 0.4 ? '#ff6b6b' : score < 0.7 ? '#f7b731' : '#28a745';
+    });
+
+    const submitBtn = document.querySelector('.login-btn');
+    let submitting = false;
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (submitting) return;
+        const userTypeEl = document.getElementById('reg_userType');
+        const nameEl = document.getElementById('reg_name');
+        const usernameEl = document.getElementById('reg_username');
+        const emailEl = document.getElementById('reg_email');
+        const phoneEl = document.getElementById('reg_phone');
+        const passwordEl = document.getElementById('reg_password');
+        const confirmEl = document.getElementById('reg_confirm');
+        const userType = userTypeEl.value;
+        const name = nameEl.value.trim();
+        const username = usernameEl.value.trim();
+        const email = emailEl.value.trim();
+        const phone = phoneEl.value.trim();
+        const password = passwordEl.value;
+        const confirm = confirmEl.value;
+        let hasError = false;
+        
+        // 如果是staff，验证名字字段
+        if (userType === 'staff') {
+            if (!name) { setFieldState(nameEl, false, 'Please enter your name'); hasError = true; } else { setFieldState(nameEl, true); }
+        }
+        
+        if (!username) { setFieldState(usernameEl, false, 'Please enter username'); hasError = true; } else { setFieldState(usernameEl, true); }
+        const emailOk = /.+@.+\..+/.test(email);
+        if (!emailOk) { setFieldState(emailEl, false, 'Please enter a valid email'); hasError = true; } else { setFieldState(emailEl, true); }
+        const phoneOk = /^\d{6,15}$/.test(phone);
+        if (!phoneOk) { setFieldState(phoneEl, false, 'Please enter a 6-15 digit phone number'); hasError = true; } else { setFieldState(phoneEl, true); }
+        if (password.length < 6) { setFieldState(passwordEl, false, 'Password must be at least 6 characters'); hasError = true; } else { setFieldState(passwordEl, true); }
+        if (password !== confirm) { setFieldState(confirmEl, false, 'Passwords do not match'); hasError = true; } else { setFieldState(confirmEl, true); }
+        if (hasError) { setMessage('Please correct the errors in the form', true); return; }
+        try {
+            const requestBody = { username, email, password, userType };
+            if (userType === 'staff' && name) {
+                requestBody.name = name;
+            }
+            
+            const resp = await fetch(`${BACKEND_BASE}/api/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+            const data = await resp.json().catch(() => ({ success:false, message: 'Response is not JSON' }));
+            if (!resp.ok || data.success === false) {
+                const msg = data.message || data.error || 'Registration failed';
+                setFieldState(usernameEl, false, msg);
+                setMessage(msg, true);
+                return;
+            }
+            // 显示成功弹窗
+            showSuccessModal('Registration Successful!', 'Your account has been created successfully!', `Username: ${username}\nEmail: ${email}\nUser Type: ${userType === 'staff' ? 'Staff' : 'Customer'}`);
+            
+            // 延迟跳转到登录页面
+            setTimeout(() => { 
+              if (window.location.protocol === 'file:') {
+                window.location.href = 'login.html';
+              } else {
+                window.location.href = '/login';
+              }
+            }, 3000);
+        } catch (err) {
+            setMessage('Request failed: ' + err.message, true);
+        } finally {
+            submitting = false; submitBtn.removeAttribute('disabled');
+        }
+    });
+
+    // 显示成功弹窗
+    function showSuccessModal(title, message, details = '') {
+      const modal = document.getElementById('successModal');
+      const titleEl = document.getElementById('successTitle');
+      const messageEl = document.getElementById('successMessage');
+      const detailsEl = document.getElementById('successDetails');
+      
+      if (!modal || !titleEl || !messageEl || !detailsEl) {
+        console.error('Success modal elements not found');
+        return;
+      }
+      
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      
+      if (details) {
+        detailsEl.innerHTML = details.split('\n').map(line => {
+          if (line.includes(':')) {
+            const [key, ...valueParts] = line.split(':');
+            return `<strong>${key.trim()}:</strong> ${valueParts.join(':').trim()}`;
+          }
+          return line;
+        }).join('<br>');
+        detailsEl.style.display = 'block';
+      } else {
+        detailsEl.style.display = 'none';
+      }
+      
+      // 确保弹窗在最上层
+      modal.style.zIndex = '20000';
+      modal.classList.add('show');
+    }
+    </script>
+
+    <!-- Success Modal -->
+    <div id="successModal">
+      <div class="success-modal-content">
+        <div class="success-icon">
+          <div class="success-icon-circle">
+            <div class="success-checkmark"></div>
+          </div>
+        </div>
+        <h2 class="success-title" id="successTitle">Success!</h2>
+        <p class="success-message" id="successMessage"></p>
+        <div class="success-details" id="successDetails" style="display: none;"></div>
+      </div>
+    </div>
+</body>
+</html>
+
+
+

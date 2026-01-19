@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Bar Consistency Test - FYP Marketplace</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .test-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .test-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .test-link {
+            display: block;
+            padding: 15px;
+            background: #CFD7E2;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+        
+        .test-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-link-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .test-link-desc {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-success {
+            background: #28a745;
+        }
+        
+        .status-warning {
+            background: #ffc107;
+        }
+        
+        .status-info {
+            background: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Top Navigation Bar -->
+    <div id="unified-nav-container"></div>
+    
+    <div class="test-container">
+        <h1 class="test-title">🧪 Navigation Bar Consistency Test</h1>
+        
+        <div class="test-description">
+            <p>This page is used to test the display consistency of the unified navigation bar across different pages. Please click the links below to test each page and observe if the navigation bar text positions remain consistent.</p>
+            
+            <p><strong>Test Points:</strong></p>
+            <ul>
+                <li><span class="status-indicator status-success"></span>Navigation bar height consistency (60px)</li>
+                <li><span class="status-indicator status-success"></span>Navigation item text alignment</li>
+                <li><span class="status-indicator status-success"></span>Current page highlighting correctness</li>
+                <li><span class="status-indicator status-success"></span>Responsive layout functionality</li>
+            </ul>
+        </div>
+        
+        <div class="test-links">
+            <a href="CustomerMenu.html" class="test-link">
+                <div class="test-link-title">🏠 Home (CustomerMenu)</div>
+                <div class="test-link-desc">Test home page navigation bar display</div>
+            </a>
+            
+            <a href="friendlist.html" class="test-link">
+                <div class="test-link-title">👥 Trade Chat</div>
+                <div class="test-link-desc">Test trade chat page navigation bar</div>
+            </a>
+            
+            <a href="platform-market.html" class="test-link">
+                <div class="test-link-title">🛒 Platform Market</div>
+                <div class="test-link-desc">Test platform market page navigation bar</div>
+            </a>
+            
+            <a href="news.html" class="test-link">
+                <div class="test-link-title">📰 News Center</div>
+                <div class="test-link-desc">Test news center page navigation bar</div>
+            </a>
+            
+            <a href="secondary.html" class="test-link">
+                <div class="test-link-title">🔄 Second-hand Market</div>
+                <div class="test-link-desc">Test second-hand market page navigation bar</div>
+            </a>
+            
+            <a href="online-support.html" class="test-link">
+                <div class="test-link-title">💬 Online Support</div>
+                <div class="test-link-desc">Test online support page navigation bar</div>
+            </a>
+            
+            <a href="AI-Setup-Recommend.html" class="test-link">
+                <div class="test-link-title">🤖 AI Recommendations</div>
+                <div class="test-link-desc">Test AI recommendations page navigation bar</div>
+            </a>
+            
+            <a href="forum.html" class="test-link">
+                <div class="test-link-title">💭 Discussion Forum</div>
+                <div class="test-link-desc">Test discussion forum page navigation bar</div>
+            </a>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #e7f3ff; border-radius: 6px; border-left: 4px solid #2196f3;">
+            <h3 style="margin-top: 0; color: #1976d2;">✅ Optimization Completed</h3>
+            <p style="margin-bottom: 0; color: #1565c0;">
+                A unified navigation bar component has been created to ensure consistent navigation bar text positioning across all pages.
+                Key improvements include: fixed height, unified spacing, responsive design, and current page highlighting.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Load Unified Navigation Bar -->
+    <script>
+        // Load unified navigation bar component
+        fetch('components/unified-top-nav.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('unified-nav-container').innerHTML = html;
+                // Reinitialize navigation bar functionality
+                if (typeof updateUserInfo === 'function') {
+                    updateUserInfo();
+                }
+                if (typeof setActiveNavItem === 'function') {
+                    setActiveNavItem();
+                }
+                if (typeof setupLogoutHandler === 'function') {
+                    setupLogoutHandler();
+                }
+            })
+            .catch(error => {
+                console.error('Failed to load navigation bar:', error);
+                // Fallback: display simple navigation bar
+                document.getElementById('unified-nav-container').innerHTML = `
+                    <nav style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3); z-index: 1000;">
+                        <a href="CustomerMenu.html" style="font-size: 18px; font-weight: bold; color: white; text-decoration: none;">FYP Marketplace</a>
+                        <div style="display: flex; gap: 20px;">
+                            <a href="test-nav.html" style="color: rgba(255,255,255,0.9); text-decoration: none; padding: 8px 12px; border-radius: 6px; background: rgba(255,255,255,0.2);">Test Page</a>
+                            <a href="login.html" style="color: rgba(255,255,255,0.9); text-decoration: none; padding: 8px 12px; border-radius: 6px;">Login</a>
+                        </div>
+                    </nav>
+                `;
+            });
+    </script>
+</body>
+</html>
+
+

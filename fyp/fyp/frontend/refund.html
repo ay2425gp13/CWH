@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Refund - FYP Marketplace</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        :root {
+            --primary: #1b2838;
+            --secondary: #2a475e;
+            --accent: #66c0f4;
+            --gold: #ffc82c;
+            --silver: #c7d5e0;
+            --bronze: #cd7f32;
+            --bg: #1e2329;
+            --card-bg: #16181d;
+            --text: #c7d5e0;
+            --text-light: #8f98a0;
+            --border: #3c4043;
+            --success: #5cb85c;
+            --warning: #f0ad4e;
+            --danger: #d9534f;
+            --info: #5bc0de;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --refund-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Top navigation */
+        .top-nav {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: var(--secondary);
+            color: var(--accent);
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Page title */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 20px;
+            background: var(--refund-gradient);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main content area */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Refund Request Form */
+        .refund-form-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-label {
+            display: block;
+            padding: 12px 15px;
+            background: var(--secondary);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-label:hover {
+            border-color: var(--accent);
+            background: var(--bg);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #4cae4c;
+            transform: translateY(-2px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .status-processing {
+            background: var(--info);
+            color: white;
+        }
+
+        .status-approved {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-rejected {
+            background: var(--danger);
+            color: white;
+        }
+
+        .status-pending {
+            background: var(--warning);
+            color: var(--primary);
+        }
+
+        /* Refund records */
+        .refund-history {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            background: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .history-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--refund-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .history-info {
+            flex: 1;
+        }
+
+        .history-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .history-details {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .history-amount {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Help tips */
+        .help-tips {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+        }
+
+        .tip-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .tip-content {
+            flex: 1;
+        }
+
+        .tip-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .tip-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .refund-form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <a href="CustomerMenu.html" class="logo">
+                💰 FYP Marketplace
+            </a>
+            <div class="nav-links">
+                <a href="secondary.html">Second-hand Market</a>
+                <a href="platform-market.html">Platform Market</a>
+                <a href="news.html">News Center</a>
+                <a href="friendlist.html">Trade Chat</a>
+                <a href="gift-box.html">Gift Box</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="login.html" class="logo">Login</a>
+        </div>
+    </nav>
+
+    <!-- Main container -->
+    <div class="container">
+        <!-- Page title -->
+        <div class="page-header">
+            <h1 class="page-title">💰 Request Refund</h1>
+            <p class="page-subtitle">We are committed to providing you with high-quality refund services</p>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Refund Request Form -->
+            <div class="refund-form-section">
+                <h2 class="section-title">
+                    📝 Refund Request Form
+                </h2>
+                <form id="refundForm">
+                    <div class="form-group">
+                        <label class="form-label">Order Number *</label>
+                        <input type="text" class="form-input" id="orderNumber" placeholder="Please enter order number" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Product Name *</label>
+                            <input type="text" class="form-input" id="productName" placeholder="Please enter product name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Refund Amount *</label>
+                            <input type="number" class="form-input" id="refundAmount" placeholder="0.00" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Refund Reason *</label>
+                        <select class="form-select" id="refundReason" required>
+                            <option value="">Please select refund reason</option>
+                            <option value="quality">Product quality issue</option>
+                            <option value="description">Product does not match description</option>
+                            <option value="damage">Product damaged</option>
+                            <option value="wrong">Wrong product sent</option>
+                            <option value="delay">Shipping delay</option>
+                            <option value="other">Other reasons</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Detailed Description *</label>
+                        <textarea class="form-textarea" id="description" placeholder="Please describe the refund reason in detail..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload Evidence Images</label>
+                        <div class="file-upload">
+                            <input type="file" class="file-input" id="evidence" multiple accept="image/*">
+                            <label for="evidence" class="file-label">
+                                📷 Click to upload image evidence (multiple supported)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Contact Phone *</label>
+                            <input type="tel" class="form-input" id="phone" placeholder="Please enter contact phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contact Email</label>
+                            <input type="email" class="form-input" id="email" placeholder="Please enter contact email">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Refund Request</button>
+                </form>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Refund Policy -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">📋 Refund Policy</h3>
+                    <div class="info-item">
+                        <span class="info-label">Processing Time</span>
+                        <span class="info-value">1-3 business days</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Refund Method</span>
+                        <span class="info-value">Original payment</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Refund Period</span>
+                        <span class="info-value">3-7 business days</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Customer Service</span>
+                        <span class="info-value">400-123-4567</span>
+                    </div>
+                </div>
+
+                <!-- Refund Progress -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">🔄 Refund Progress</h3>
+                    <div class="info-item">
+                        <span class="info-label">Submit Application</span>
+                        <span class="status-badge status-approved">✓ Completed</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Under Review</span>
+                        <span class="status-badge status-processing">Processing</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Refund Processing</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Refund Completed</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refund Records -->
+        <div class="refund-history">
+            <h2 class="section-title">
+                📊 My Refund Records
+            </h2>
+            <div id="refundHistoryList">
+                <!-- Refund records will be dynamically generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Help Tips -->
+        <div class="help-tips">
+            <h2 class="section-title">
+                💡 Refund Tips
+            </h2>
+            <div class="tip-item">
+                <div class="tip-icon">📸</div>
+                <div class="tip-content">
+                    <div class="tip-title">Upload clear evidence images</div>
+                    <div class="tip-description">Please upload clear images of the product issue to help speed up the review process</div>
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon">📝</div>
+                <div class="tip-content">
+                    <div class="tip-title">Describe the problem in detail</div>
+                    <div class="tip-description">Please describe the problem you encountered in detail, including time and specific circumstances</div>
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon">📞</div>
+                <div class="tip-content">
+                    <div class="tip-title">Keep contact information available</div>
+                    <div class="tip-description">Ensure contact phone and email are correct so we can contact you promptly</div>
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon">⏰</div>
+                <div class="tip-content">
+                    <div class="tip-title">Monitor refund progress</div>
+                    <div class="tip-description">You can check refund progress at any time, contact customer service if you have questions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Refund records data
+        const refundHistoryData = [
+            {
+                id: 1,
+                orderNumber: "FYP202401001",
+                productName: "iPhone 13 Pro Max",
+                amount: 6999,
+                reason: "Product quality issue",
+                status: "approved",
+                date: "2024-01-15",
+                processDate: "2024-01-18"
+            },
+            {
+                id: 2,
+                orderNumber: "FYP202401002",
+                productName: "MacBook Air M2",
+                amount: 8999,
+                reason: "Product does not match description",
+                status: "processing",
+                date: "2024-01-20",
+                processDate: null
+            },
+            {
+                id: 3,
+                orderNumber: "FYP202401003",
+                productName: "AirPods Pro 2",
+                amount: 1899,
+                reason: "Wrong product sent",
+                status: "rejected",
+                date: "2024-01-10",
+                processDate: "2024-01-12"
+            }
+        ];
+
+        // DOM elements
+        const refundForm = document.getElementById('refundForm');
+        const refundHistoryList = document.getElementById('refundHistoryList');
+        const fileInput = document.getElementById('evidence');
+        const fileLabel = document.querySelector('.file-label');
+
+        // Render refund records
+        function renderRefundHistory() {
+            refundHistoryList.innerHTML = '';
+            
+            if (refundHistoryData.length === 0) {
+                refundHistoryList.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">No refund records</p>';
+                return;
+            }
+
+            refundHistoryData.forEach(record => {
+                let statusText = '';
+                let statusClass = '';
+                
+                switch (record.status) {
+                    case 'approved':
+                        statusText = 'Approved';
+                        statusClass = 'status-approved';
+                        break;
+                    case 'processing':
+                        statusText = 'Processing';
+                        statusClass = 'status-processing';
+                        break;
+                    case 'rejected':
+                        statusText = 'Rejected';
+                        statusClass = 'status-rejected';
+                        break;
+                    default:
+                        statusText = 'Pending';
+                        statusClass = 'status-pending';
+                }
+
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-icon">💰</div>
+                    <div class="history-info">
+                        <div class="history-title">${record.productName}</div>
+                        <div class="history-details">
+                            Order #: ${record.orderNumber} · ${record.reason} · Application Date: ${record.date}
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="history-amount">¥${record.amount.toLocaleString()}</div>
+                        <div class="status-badge ${statusClass}">${statusText}</div>
+                    </div>
+                `;
+                refundHistoryList.appendChild(historyItem);
+            });
+        }
+
+        // Handle file upload
+        fileInput.addEventListener('change', function() {
+            const files = this.files;
+            if (files.length > 0) {
+                fileLabel.textContent = `Selected ${files.length} files`;
+                fileLabel.style.color = 'var(--success)';
+            } else {
+                fileLabel.textContent = '📷 Click to upload image evidence (multiple supported)';
+                fileLabel.style.color = '';
+            }
+        });
+
+        // Handle form submission
+        refundForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                orderNumber: document.getElementById('orderNumber').value,
+                productName: document.getElementById('productName').value,
+                refundAmount: parseFloat(document.getElementById('refundAmount').value),
+                refundReason: document.getElementById('refundReason').value,
+                description: document.getElementById('description').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                evidence: fileInput.files
+            };
+
+            // Validate required fields
+            if (!formData.orderNumber || !formData.productName || !formData.refundAmount || 
+                !formData.refundReason || !formData.description || !formData.phone) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+
+            // Validate refund amount
+            if (formData.refundAmount <= 0) {
+                alert('Refund amount must be greater than 0!');
+                return;
+            }
+
+            // Validate phone number format
+            const phoneRegex = /^1[3-9]\d{9}$/;
+            if (!phoneRegex.test(formData.phone)) {
+                alert('Please enter a valid phone number!');
+                return;
+            }
+
+            // Simulate submission
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                // Add to refund records
+                const newRecord = {
+                    id: refundHistoryData.length + 1,
+                    orderNumber: formData.orderNumber,
+                    productName: formData.productName,
+                    amount: formData.refundAmount,
+                    reason: getReasonText(formData.refundReason),
+                    status: 'processing',
+                    date: new Date().toISOString().split('T')[0],
+                    processDate: null
+                };
+
+                refundHistoryData.unshift(newRecord);
+                renderRefundHistory();
+
+                // Reset form
+                refundForm.reset();
+                fileLabel.textContent = '📷 Click to upload image evidence (multiple supported)';
+                fileLabel.style.color = '';
+
+                submitBtn.textContent = 'Submit Refund Request';
+                submitBtn.disabled = false;
+
+                alert('Refund request submitted successfully! We will process your application within 1-3 business days.');
+            }, 2000);
+        });
+
+        // Get refund reason text
+        function getReasonText(reason) {
+            const reasonMap = {
+                'quality': 'Product quality issue',
+                'description': 'Product does not match description',
+                'damage': 'Product damaged',
+                'wrong': 'Wrong product sent',
+                'delay': 'Shipping delay',
+                'other': 'Other reasons'
+            };
+            return reasonMap[reason] || 'Other reasons';
+        }
+
+        // Auto fill order info (simulation)
+        document.getElementById('orderNumber').addEventListener('blur', function() {
+            const orderNumber = this.value;
+            if (orderNumber === 'FYP202401004') {
+                document.getElementById('productName').value = 'iPad Pro 11 inch';
+                document.getElementById('refundAmount').value = '5999';
+            }
+        });
+
+        // Initialize
+        renderRefundHistory();
+    </script>
+    
+    <!-- Theme switching script -->
+    <script src="js/theme.js"></script>
+</body>
+</html>
+

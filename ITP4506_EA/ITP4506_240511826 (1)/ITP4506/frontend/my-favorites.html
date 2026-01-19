@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>My Collection - Smile & Sunshine Toy Co. Ltd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #3b82f6;
+      --accent: #60a5fa;
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --text-light: #666666;
+      --border: #e0e0e0;
+      --danger: #ef4444;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    
+    [data-theme="light"] {
+      --bg: #CFD7E2;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* 顶部导航，与其他页面保持一致 */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .unified-top-nav .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      height: 100%;
+    }
+
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .unified-top-nav .logo-icon { margin-right: 8px; }
+
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 20px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .unified-top-nav .nav-item:hover,
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-icon-link {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-size: 24px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .cart-icon-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--danger);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+
+    .user-info:hover .user-dropdown { display: block; }
+
+    .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+    }
+
+    .dropdown-item:last-child { border-bottom: none; }
+
+    .dropdown-item:hover { background: #f5f5f5; }
+    
+    .logout-btn { color: #ff4d4f !important; }
+
+    /* 页面内容 */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px 40px;
+    }
+    
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 24px;
+    }
+    
+    .favorites-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 1024px) {
+      .favorites-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 768px) {
+      .favorites-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      .favorites-grid { grid-template-columns: 1fr; }
+    }
+
+    .favorite-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.35);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .favorite-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: #111827;
+    }
+    
+    .favorite-body {
+      padding: 12px 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+    
+    .favorite-title {
+      font-size: 14px;
+      font-weight: 600;
+      min-height: 40px;
+    }
+    
+    .favorite-seller {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    
+    .favorite-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+    
+    .favorite-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .favorite-time {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    
+    .btn-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-1px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+    }
+    
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+    
+    .btn-danger-outline {
+      border-color: rgba(239,68,68,0.7);
+      color: #fecaca;
+    }
+    
+    .btn-danger-outline:hover {
+      border-color: #ef4444;
+      background: rgba(239,68,68,0.14);
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: var(--text-light);
+      padding: 80px 20px 40px;
+    }
+    
+    .empty-icon {
+      font-size: 72px;
+      margin-bottom: 16px;
+    }
+
+    .empty-text {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    
+    .empty-sub {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="platform-market.html" class="logo-link">
+          <span class="logo-icon">⭐</span>
+          <span class="logo-text">Smile & Sunshine Toy Co. Ltd</span>
+        </a>
+      </div>
+      
+      <div class="nav-menu">
+        <a href="platform-market.html" class="nav-item" data-page="platform">Official Market</a>
+        <a href="customize.html" class="nav-item" data-page="customize">Toy Customization</a>
+        <a href="quote-history.html" class="nav-item" data-page="quote-history">Quote History</a>
+        <a href="wishlist.html" class="nav-item" data-page="wishlist">Wishlist</a>
+        <a href="my-orders.html" class="nav-item" data-page="orders">My Orders</a>
+        <a href="login.html" class="nav-item" data-page="login">Login</a>
+      </div>
+      
+      <div class="nav-user">
+        <a href="cart.html" class="cart-icon-link" title="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">Please Login</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">Personal Center</a>
+            <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">💖 My Collection</h1>
+    <div class="page-subtitle">Here you can view and manage the toys you have collected in the mall.</div>
+        
+    <div id="favoritesContent"></div>
+  </div>
+
+  <script>
+    // Product title translation map (same as platform-market.html)
+    const productTitleMap = {
+      "变形金刚 擎天柱": "Transformers Optimus Prime",
+      "变形金刚 大黄蜂": "Transformers Bumblebee",
+      "变形金刚 威震天": "Transformers Megatron",
+      "变形金刚 红蜘蛛": "Transformers Starscream",
+      "变形金刚 声波": "Transformers Soundwave",
+      "变形金刚 爵士": "Transformers Jazz",
+      "变形金刚 铁皮": "Transformers Ironhide",
+      "变形金刚 救护车": "Transformers Rescue Truck",
+      "变形金刚 横炮": "Transformers Sideswipe",
+      "变形金刚 飞毛腿": "Transformers Speed Car",
+      "变形金刚 钢锁": "Transformers Grimlock",
+      "玩具枪 水弹枪": "Toy Gun Water Blaster",
+      "玩具枪 软弹枪": "Toy Gun Soft Bullet Blaster",
+      "玩具枪 激光枪": "Toy Gun Laser Blaster",
+      "玩具枪 声光枪": "Toy Gun Sound & Light Blaster",
+      "玩具枪 赛车头枪": "Toy Gun Racing Car Blaster",
+      "玩具枪 冲锋枪": "Toy Gun Machine Gun",
+      "玩具枪 手枪": "Toy Gun Pistol",
+      "玩具枪 四星彩色手枪": "Toy Gun Color Pistol Set",
+      "玩具枪 暴龙头突击步枪": "Toy Gun Dino Assault Rifle",
+      "玩具枪 草莓机关枪": "Toy Gun Strawberry Machine Gun",
+      "漫威系列 钢铁侠和美国队长礼包": "Marvel Iron Man & Captain America Set",
+      "漫威系列 雷神": "Marvel Thor Figure",
+      "漫威系列 浩克": "Marvel Hulk Figure",
+      "漫威系列 美国队长": "Marvel Captain America Figure",
+      "漫威系列 蚁人": "Marvel Ant-Man Figure",
+      "漫威系列 马克42": "Marvel Iron Man Mark 42",
+      "漫威系列 奇异博士": "Marvel Doctor Strange",
+      "漫威系列 黑寡妇": "Marvel Black Widow",
+      "漫威系列 蚁人2号": "Marvel Ant-Man Suit 2",
+      "漫威系列 惊奇队长": "Marvel Captain Marvel",
+      "漫威系列 死侍": "Marvel Deadpool",
+      "DC宇宙 阿卡姆骑士": "DC Arkham Knight Batman",
+      "DC宇宙 黑暗骑士归来蝙蝠侠": "DC The Dark Knight Returns Batman",
+      "DC宇宙 元年蝙蝠侠": "DC Year One Batman",
+      "DC宇宙 闪电侠": "DC The Flash",
+      "DC宇宙 正义联盟礼包1号": "DC Justice League Set 1",
+      "DC宇宙 钢骨": "DC Cyborg",
+      "DC宇宙 正义联盟礼包2号": "DC Justice League Set 2",
+      "DC宇宙 小丑": "DC The Joker",
+      "DC宇宙 哈莉奎因": "DC Harley Quinn",
+      "毛绒玩具 小猪": "Plush Little Pig",
+      "毛绒玩具 小熊罗宾": "Plush Bear Robin",
+      "毛绒玩具 我的第一个泰迪熊": "My First Teddy Bear",
+      "毛绒玩具 金牌小熊": "Golden Teddy Bear",
+      "毛绒玩具 棕熊泰迪": "Brown Teddy Bear",
+      "毛绒玩具 黄熊泰迪": "Yellow Teddy Bear",
+      "毛绒玩具 圣诞特别版小熊": "Christmas Teddy Bear",
+      "毛绒玩具 《泰迪熊》电影同款泰迪熊": "Movie Teddy Bear Plush",
+      "毛绒玩具 I miss You 熊": "\"I Miss You\" Teddy Bear",
+      "毛绒玩具 大耳猴": "Big Ear Monkey Plush",
+      "毛绒玩具 趴趴狗": "Lying Puppy Plush",
+      "毛绒玩具 复活节兔子": "Easter Bunny Plush",
+      "毛绒玩具 领带熊": "Tie Bear Plush",
+      "毛绒玩具 贵宾狗": "Poodle Plush",
+      "幼儿玩具 铲车大礼包1号": "Toddler Truck Play Set 1",
+      "幼儿玩具 儿童推车": "Toddler Push Cart",
+      "幼儿玩具 图形拼图": "Shape Puzzle",
+      "幼儿玩具 动物模型礼包1号": "Animal Figure Set 1",
+      "幼儿玩具 儿童玩具礼包2号": "Kids Toy Set 2",
+      "幼儿玩具 水果玩具礼包1号": "Fruit Toy Set 1",
+      "幼儿玩具 积木炮台": "Block Cannon",
+      "幼儿玩具 滑板车": "Kids Scooter",
+      "幼儿玩具 水池": "Water Play Pool",
+      "幼儿玩具 滑板车2号": "Kids Scooter 2",
+      "恐龙模型 霸王龙": "T-Rex Dinosaur Model",
+      "恐龙模型 长颈龙": "Long Neck Dinosaur Model",
+      "恐龙模型 恐龙礼包1号": "Dinosaur Set 1",
+      "恐龙模型 恐龙礼包2号": "Dinosaur Set 2",
+      "恐龙模型 迅猛龙礼包1号": "Raptor Set 1",
+      "恐龙模型 脊背龙": "Spinosaurus Model",
+      "恐龙模型 农场恐龙礼包1号": "Farm Dinosaur Set 1",
+      "恐龙模型 三角龙": "Triceratops Model",
+      "恐龙模型 恐龙战争": "Dinosaur Battle Set",
+      "恐龙模型 侏罗纪公园礼包": "Jurassic Park Style Set",
+      "恐龙模型 异特龙": "Allosaurus Model",
+      "拼图益智 小猪佩奇": "Peppa Pig Puzzle",
+      "拼图益智 青蛙拼图": "Frog Puzzle",
+      "拼图益智 火车拼图": "Train Puzzle",
+      "拼图益智 数字拼图": "Number Puzzle",
+      "拼图益智 城市拼图": "City Puzzle",
+      "拼图益智 海洋拼图": "Ocean Puzzle",
+      "拼图益智 宇宙拼图": "Space Puzzle",
+      "拼图益智 运动场拼图": "Stadium Puzzle",
+      "拼图益智 农场": "Farm Puzzle",
+      "乐高积木 赛车1号": "Racing Car Blocks 1",
+      "乐高积木 城堡": "Castle Blocks",
+      "乐高积木 火箭": "Rocket Blocks",
+      "乐高积木 城市赛车": "City Racing Blocks",
+      "乐高积木 迅猛龙": "Raptor Blocks",
+      "乐高积木 赛车手": "Racer Blocks",
+      "乐高积木 幻影忍者 凯": "Ninja Kai Blocks",
+      "乐高积木 幻影忍者 寇": "Ninja Cole Blocks",
+      "乐高积木 幻影忍者 劳埃德": "Ninja Lloyd Blocks",
+      "乐高积木 幻影忍者 Jay": "Ninja Jay Blocks",
+      "乐高积木 幻影忍者 Zane": "Ninja Zane Blocks",
+      "乐高积木 幻影忍者巨龙": "Ninja Dragon Blocks",
+      "乐高积木 火龙": "Fire Dragon Blocks",
+      "乐高积木 冰龙": "Ice Dragon Blocks"
+    };
+
+    // Get product title in English
+    function getProductTitle(rawTitle) {
+      if (!rawTitle) return "";
+      return productTitleMap[rawTitle] || rawTitle;
+    }
+
+    // 购物车徽章
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+
+    function updateCartBadge() {
+      const cart = getCart();
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'block' : 'none';
+      }
+    }
+
+    // User info display (unified as "Personal Center")
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        userIdElement.textContent = 'Personal Center';
+      }
+    }
+
+    // 获取收藏列表
+    function getFavorites() {
+      return JSON.parse(localStorage.getItem('favorites') || '[]');
+      }
+
+    function saveFavorites(list) {
+      localStorage.setItem('favorites', JSON.stringify(list));
+    }
+
+    // 渲染收藏夹
+    function renderFavorites() {
+      const container = document.getElementById('favoritesContent');
+      const favorites = getFavorites();
+      
+      if (!favorites.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">💤</div>
+            <div class="empty-text">Collection is empty</div>
+            <div class="empty-sub">Go to the Official Market page, click the "Favorite" button in the product details, and it will appear here.</div>
+            <button class="btn btn-primary" onclick="goToMarket()">Go to Market</button>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = `
+        <div class="favorites-grid">
+          ${favorites.map((item, index) => `
+        <div class="favorite-card">
+              <img src="${item.image}" alt="${getProductTitle(item.title)}" class="favorite-image">
+              <div class="favorite-body">
+                <div class="favorite-title">${getProductTitle(item.title)}</div>
+                <div class="favorite-seller">Seller: ${item.seller || 'Store'}</div>
+                <div class="favorite-footer">
+                  <div>
+                    <div class="favorite-price">HK$${(item.price || 0).toLocaleString()}</div>
+                    <div class="favorite-time">${formatTime(item.addTime)}</div>
+          </div>
+                  <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+                    <button class="btn btn-outline" onclick="openInMarket(${item.id})">View in Market</button>
+                    <button class="btn btn-danger-outline" onclick="removeFavorite(${index})">Remove from Favorites</button>
+              </div>
+              </div>
+            </div>
+            </div>
+          `).join('')}
+          </div>
+      `;
+    }
+
+    function formatTime(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return '';
+      return d.toLocaleString();
+    }
+
+    function goToMarket() {
+      window.location.href = 'platform-market.html';
+    }
+
+    // 在商城中查看对应商品：记录要打开的商品ID，然后跳转
+    function openInMarket(productId) {
+      if (!productId) {
+        goToMarket();
+        return;
+      }
+      localStorage.setItem('openProductId', String(productId));
+      goToMarket();
+    }
+
+    function removeFavorite(index) {
+      const favorites = getFavorites();
+      const item = favorites[index];
+      if (!item) return;
+      if (!confirm(`Are you sure you want to remove "${getProductTitle(item.title)}" from favorites?`)) return;
+            favorites.splice(index, 1);
+      saveFavorites(favorites);
+            renderFavorites();
+          }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      updateUserInfo();
+      updateCartBadge();
+          renderFavorites();
+    });
+  </script>
+  
+  <script src="js/theme.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Quote History - Smile & Sunshine Toy Co. Ltd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #3b82f6;
+      --accent: #60a5fa;
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --text-light: #666666;
+      --border: #e0e0e0;
+      --success: #22c55e;
+      --warning: #facc15;
+      --danger: #ef4444;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 40px;
+    }
+
+    /* 导航栏 */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .unified-top-nav .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      height: 100%;
+    }
+
+    .unified-top-nav .nav-logo .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 15px;
+      flex-wrap: nowrap;
+      overflow: visible;
+      min-width: 0;
+    }
+
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 10px 10px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-size: 13px;
+      overflow: visible;
+    }
+
+    .unified-top-nav .nav-item:hover,
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .unified-top-nav .cart-icon-link {
+      position: relative;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 6px 8px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .unified-top-nav .cart-badge {
+      position: absolute;
+      top: 0;
+      right: -6px;
+      background: #ff4d4f;
+      color: #fff;
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .unified-top-nav .user-info {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .unified-top-nav .user-id {
+      font-size: 14px;
+    }
+
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #ffffff;
+      color: #1f2937;
+      border-radius: 8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      min-width: 170px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1200;
+    }
+
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: flex;
+    }
+
+    .unified-top-nav .dropdown-item {
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #1f2937;
+      font-size: 14px;
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .unified-top-nav .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .unified-top-nav .dropdown-item:hover {
+      background: #f3f4f6;
+      color: #1a237e;
+    }
+
+    .unified-top-nav .logout-btn {
+      color: #ef4444 !important;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      color: var(--text-light);
+      margin-bottom: 30px;
+    }
+
+    /* 筛选器 */
+    .filter-section {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* 报价卡片 */
+    .quote-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .quote-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .quote-card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .quote-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quote-id {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .quote-date {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .quote-status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .quote-status-badge.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .quote-status-badge.reviewing {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .quote-status-badge.quoted {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .quote-status-badge.rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .quote-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .quote-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quote-item-label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .quote-item-value {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .quote-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1e3a8a;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    /* 报价单详情模态框 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+
+    .close-btn:hover {
+      color: var(--text);
+    }
+
+    .sketch-preview {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: var(--radius-sm);
+      margin-top: 10px;
+    }
+
+    /* 报价单样式 */
+    .quote-sheet {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 30px;
+    }
+
+    .quote-sheet-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .quote-sheet-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .quote-sheet-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .quote-sheet-section {
+      margin-bottom: 30px;
+    }
+
+    .quote-sheet-section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quote-sheet-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .quote-sheet-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quote-sheet-item-label {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+
+    .quote-sheet-item-value {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .price-breakdown {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+
+    .price-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .price-item:last-child {
+      border-bottom: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-top: 10px;
+      padding-top: 15px;
+      border-top: 2px solid var(--primary);
+    }
+
+    .quote-sheet-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border);
+      justify-content: center;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #1a8f3e;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-warning:hover {
+      background: #d4a017;
+    }
+
+    .validity-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #d1fae5;
+      color: #065f46;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      margin-left: 10px;
+    }
+
+    .validity-badge.expired {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="platform-market.html" class="logo-link">
+          <span>🎁</span>
+          <span style="margin-left: 8px;">Smile & Sunshine</span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="platform-market.html" class="nav-item" data-page="platform">Official Market</a>
+        <a href="customize.html" class="nav-item" data-page="customize">Toy Customization</a>
+        <a href="quote-history.html" class="nav-item active" data-page="quote-history">Quote History</a>
+        <a href="wishlist.html" class="nav-item" data-page="wishlist">Wishlist</a>
+        <a href="my-orders.html" class="nav-item" data-page="orders">My Orders</a>
+        <a href="login.html" class="nav-item" data-page="login">Login</a>
+      </div>
+      
+      <div class="nav-user">
+        <a href="cart.html" class="cart-icon-link" title="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </a>
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">Please Login</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">Personal Center</a>
+            <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">📋 Quote History</h1>
+    <p class="page-subtitle">View all your submitted quote applications and their processing status</p>
+
+    <!-- 筛选器 -->
+    <div class="filter-section">
+      <div class="filter-group">
+        <span class="filter-label">Status Filter:</span>
+        <button class="filter-btn active" data-filter="all" onclick="filterQuotes('all')">All</button>
+        <button class="filter-btn" data-filter="pending" onclick="filterQuotes('pending')">Pending Review</button>
+        <button class="filter-btn" data-filter="reviewing" onclick="filterQuotes('reviewing')">Quoting</button>
+        <button class="filter-btn" data-filter="quoted" onclick="filterQuotes('quoted')">Quote Generated</button>
+        <button class="filter-btn" data-filter="accepted" onclick="filterQuotes('accepted')">Accepted</button>
+        <button class="filter-btn" data-filter="rejected" onclick="filterQuotes('rejected')">Rejected</button>
+        <button class="filter-btn" onclick="debugLocalStorage()" style="background: #f59e0b; color: white; margin-left: 10px;">🔍 Debug Data</button>
+      </div>
+    </div>
+
+    <!-- 报价列表 -->
+    <div class="quote-list" id="quoteList">
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <div>Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 报价单详情模态框 -->
+  <div class="modal" id="quoteDetailModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Quote Details</h2>
+        <button class="close-btn" onclick="closeQuoteDetail()">&times;</button>
+      </div>
+      <div id="quoteDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- 报价单查看模态框 -->
+  <div class="modal" id="quoteSheetModal">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <h2 class="modal-title">📄 Official Quote Sheet</h2>
+        <button class="close-btn" onclick="closeQuoteSheet()">&times;</button>
+      </div>
+      <div id="quoteSheetContent"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentFilter = 'all';
+    let allQuotes = [];
+
+    // Load quote history
+    function loadQuoteHistory() {
+      // Get current user ID
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const userId = userInfo ? (userInfo.id || userInfo.username) : null;
+      
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      
+      // Debug: log data
+      console.log('Current userId:', userId);
+      console.log('Total customOrders:', customOrders.length);
+      console.log('All customOrders:', customOrders);
+      
+      // First, show all orders with quoteStatus (for debugging)
+      const allWithStatus = customOrders.filter(o => {
+        const hasStatus = o.quoteStatus !== undefined && o.quoteStatus !== null;
+        console.log(`Order ${o.id}: hasStatus=${hasStatus}, quoteStatus=${o.quoteStatus}, userId=${o.userId}, currentUserId=${userId}`);
+        return hasStatus;
+      });
+      console.log('Orders with quoteStatus:', allWithStatus.length, allWithStatus);
+      
+      allQuotes = allWithStatus
+        .filter(order => {
+          // Filter by user ID if logged in
+          if (userId) {
+            // If order has userId, it must match current user
+            if (order.userId && order.userId !== userId) {
+              console.log(`Filtering out order ${order.id}: userId mismatch (${order.userId} !== ${userId})`);
+              return false;
+            }
+            // If order doesn't have userId, still show it (might be old data or test data)
+            if (!order.userId) {
+              console.log(`Including order ${order.id}: no userId (old data)`);
+            }
+          } else {
+            // Not logged in - show all orders with status
+            console.log(`Not logged in, including order ${order.id}`);
+          }
+          
+          return true;
+        })
+        .sort((a, b) => {
+          const dateA = new Date(a.createTime || 0);
+          const dateB = new Date(b.createTime || 0);
+          return dateB - dateA;
+        });
+      
+      console.log('Filtered quotes:', allQuotes.length);
+      console.log('All quotes:', allQuotes);
+      
+      // If still no quotes found but we have orders with status, show them anyway (for debugging)
+      if (allQuotes.length === 0 && allWithStatus.length > 0) {
+        console.warn('No quotes after userId filter, but found orders with status. Showing all orders with status:');
+        allQuotes = allWithStatus.sort((a, b) => {
+          const dateA = new Date(a.createTime || 0);
+          const dateB = new Date(b.createTime || 0);
+          return dateB - dateA;
+        });
+        console.log('Temporarily showing all quotes:', allQuotes.length);
+      }
+      
+      filterQuotes(currentFilter);
+    }
+
+    // 筛选报价
+    function filterQuotes(filter) {
+      currentFilter = filter;
+      
+      // 更新按钮状态
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === filter) {
+          btn.classList.add('active');
+        }
+      });
+
+      // 筛选报价
+      let filteredQuotes = allQuotes;
+      if (filter !== 'all') {
+        filteredQuotes = allQuotes.filter(quote => quote.quoteStatus === filter);
+      }
+
+      renderQuotes(filteredQuotes);
+    }
+
+    // 渲染报价列表
+    function renderQuotes(quotes) {
+      const container = document.getElementById('quoteList');
+      
+      if (quotes.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <div>No quote applications yet</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = quotes.map(quote => {
+        const statusText = {
+          'pending': 'Pending Review',
+          'reviewing': 'Quoting',
+          'quoted': 'Quote Generated',
+          'accepted': 'Accepted',
+          'rejected': 'Rejected'
+        };
+
+        const date = new Date(quote.createTime).toLocaleString('en-US');
+        
+        return `
+          <div class="quote-card">
+            <div class="quote-header">
+              <div>
+                <div class="quote-id">Order ID: ${quote.id}</div>
+                <div class="quote-date">${date}</div>
+              </div>
+              <span class="quote-status-badge ${quote.quoteStatus}">${statusText[quote.quoteStatus] || 'Unknown'}</span>
+            </div>
+            <div class="quote-content">
+              <div class="quote-item">
+                <span class="quote-item-label">Product Name</span>
+                <span class="quote-item-value">${quote.productName || '-'}</span>
+              </div>
+              <div class="quote-item">
+                <span class="quote-item-label">Style</span>
+                <span class="quote-item-value">${quote.variant || '-'}</span>
+              </div>
+              <div class="quote-item">
+                <span class="quote-item-label">Dimensions</span>
+                <span class="quote-item-value">${quote.dimensions || '-'}</span>
+              </div>
+              <div class="quote-item">
+                <span class="quote-item-label">Material</span>
+                <span class="quote-item-value">${quote.material || '-'}</span>
+              </div>
+              <div class="quote-item">
+                <span class="quote-item-label">Quantity</span>
+                <span class="quote-item-value">${quote.quantity || 1}</span>
+              </div>
+              <div class="quote-item">
+                <span class="quote-item-label">Price</span>
+                <span class="quote-item-value">HK$${(quote.price || 0).toLocaleString()}</span>
+              </div>
+            </div>
+            <div class="quote-actions">
+              <button class="btn btn-primary" onclick="viewQuoteDetail(${quote.id})">View Details</button>
+              ${quote.quoteStatus === 'quoted' && quote.quote ? 
+                `<button class="btn btn-outline" onclick="viewQuoteSheet(${quote.id})">View Quote Sheet</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 查看报价详情
+    function viewQuoteDetail(quoteId) {
+      const quote = allQuotes.find(q => q.id === quoteId);
+      if (!quote) return;
+
+      const modal = document.getElementById('quoteDetailModal');
+      const content = document.getElementById('quoteDetailContent');
+      
+      const statusText = {
+        'pending': 'Pending Review',
+        'reviewing': 'Quoting',
+        'quoted': 'Quote Generated',
+        'accepted': 'Accepted',
+        'rejected': 'Rejected'
+      };
+
+      content.innerHTML = `
+        <div style="display: grid; gap: 20px;">
+          <div>
+            <h3 style="margin-bottom: 15px; color: var(--text);">Basic Information</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+              <div><strong>Order ID:</strong> ${quote.id}</div>
+              <div><strong>Submitted:</strong> ${new Date(quote.createTime).toLocaleString('en-US')}</div>
+              <div><strong>Status:</strong> <span class="quote-status-badge ${quote.quoteStatus}">${statusText[quote.quoteStatus] || 'Unknown'}</span></div>
+              <div><strong>Product Name:</strong> ${quote.productName || '-'}</div>
+              <div><strong>Style:</strong> ${quote.variant || '-'}</div>
+              <div><strong>Size:</strong> ${quote.size || '-'}</div>
+              <div><strong>Color:</strong> ${quote.color ? (quote.color.name || quote.color) : '-'}</div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 style="margin-bottom: 15px; color: var(--text);">Customization Requirements</h3>
+            <div style="display: grid; gap: 10px;">
+              <div><strong>Dimensions:</strong> ${quote.dimensions || '-'}</div>
+              <div><strong>Material:</strong> ${quote.material || '-'}</div>
+              <div><strong>Quantity:</strong> ${quote.quantity || 1}</div>
+              <div><strong>Pantone Color Code:</strong> ${quote.pantone || '-'}</div>
+              <div><strong>Material Specifications:</strong> ${quote.materialSpec || '-'}</div>
+              <div><strong>Other Requirements:</strong> ${quote.notes || '-'}</div>
+              <div><strong>Price:</strong> HK$${(quote.price || 0).toLocaleString()}</div>
+            </div>
+          </div>
+
+          ${quote.sketch ? `
+            <div>
+              <h3 style="margin-bottom: 15px; color: var(--text);">Design Sketch</h3>
+              <img src="${quote.sketch}" alt="Design Sketch" class="sketch-preview">
+            </div>
+          ` : ''}
+
+          ${quote.quoteStatus === 'quoted' && quote.quote ? `
+            <div>
+              <h3 style="margin-bottom: 15px; color: var(--text);">Quote Information</h3>
+              <div style="display: grid; gap: 10px;">
+                <div><strong>Quote Date:</strong> ${quote.quoteDate ? new Date(quote.quoteDate).toLocaleString('en-US') : '-'}</div>
+                <div><strong>Estimated Delivery:</strong> ${quote.estimatedDelivery || '-'}</div>
+                <div><strong>Total Price:</strong> HK$${(quote.quote.total || 0).toLocaleString()}</div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      modal.classList.add('active');
+    }
+
+    // 查看报价单
+    function viewQuoteSheet(quoteId) {
+      const quote = allQuotes.find(q => q.id === quoteId);
+      if (!quote || !quote.quote) {
+        alert('报价单不存在');
+        return;
+      }
+
+      const modal = document.getElementById('quoteSheetModal');
+      const content = document.getElementById('quoteSheetContent');
+      const quoteData = quote.quote;
+
+      // 计算有效期（假设报价单有效期为7天）
+      const quoteDate = new Date(quote.quoteDate || quote.createTime);
+      const validUntil = new Date(quoteDate);
+      validUntil.setDate(validUntil.getDate() + 7);
+      const isExpired = new Date() > validUntil;
+
+      // 计算预计生产周期（天）
+      const deliveryDate = quote.estimatedDelivery ? new Date(quote.estimatedDelivery) : null;
+      const productionDays = deliveryDate ? Math.ceil((deliveryDate - quoteDate) / (1000 * 60 * 60 * 24)) : '-';
+
+      content.innerHTML = `
+        <div class="quote-sheet">
+          <!-- Quote Sheet Header -->
+          <div class="quote-sheet-header">
+            <div class="quote-sheet-title">Official Quote Sheet</div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+              Smile & Sunshine Toy Co. Ltd
+            </div>
+          </div>
+
+          <!-- Basic Information -->
+          <div class="quote-sheet-section">
+            <div class="quote-sheet-section-title">📋 Basic Information</div>
+            <div class="quote-sheet-info">
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Quote Number</span>
+                <span class="quote-sheet-item-value">QT-${quoteData.id || quote.id}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Generated Time</span>
+                <span class="quote-sheet-item-value">${new Date(quote.quoteDate || quote.createTime).toLocaleString('en-US')}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Valid Until</span>
+                <span class="quote-sheet-item-value">
+                  ${validUntil.toLocaleDateString('en-US')}
+                  <span class="validity-badge ${isExpired ? 'expired' : ''}">${isExpired ? 'Expired' : 'Valid'}</span>
+                </span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Quote Status</span>
+                <span class="quote-sheet-item-value">
+                  <span class="quote-status-badge ${quote.quoteStatus}">${quote.quoteStatus === 'quoted' ? 'Quote Generated' : 'Pending Confirmation'}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customization Requirements Review -->
+          <div class="quote-sheet-section">
+            <div class="quote-sheet-section-title">🎨 Customization Requirements Review</div>
+            <div class="quote-sheet-grid">
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Product Name</span>
+                <span class="quote-sheet-item-value">${quote.productName || '-'}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Style</span>
+                <span class="quote-sheet-item-value">${quote.variant || '-'}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Dimensions (L×W×H)</span>
+                <span class="quote-sheet-item-value">${quote.dimensions || quoteData.size || '-'}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Material</span>
+                <span class="quote-sheet-item-value">${quote.material || quoteData.material || '-'}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Quantity</span>
+                <span class="quote-sheet-item-value">${quote.quantity || quoteData.quantity || 1} pcs</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Pantone Color Code</span>
+                <span class="quote-sheet-item-value">${quote.pantone || quoteData.pantone || '-'}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Color</span>
+                <span class="quote-sheet-item-value">${quote.color ? (quote.color.name || quote.color) : '-'}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Size</span>
+                <span class="quote-sheet-item-value">${quote.size || '-'}</span>
+              </div>
+            </div>
+            ${quote.materialSpec ? `
+              <div style="margin-top: 15px;">
+                <span class="quote-sheet-item-label">Material Specifications</span>
+                <div style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 6px; color: var(--text);">
+                  ${quote.materialSpec}
+                </div>
+              </div>
+            ` : ''}
+            ${quote.notes ? `
+              <div style="margin-top: 15px;">
+                <span class="quote-sheet-item-label">Other Requirements</span>
+                <div style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 6px; color: var(--text);">
+                  ${quote.notes}
+                </div>
+              </div>
+            ` : ''}
+            ${quote.sketch ? `
+              <div style="margin-top: 15px;">
+                <span class="quote-sheet-item-label">Design Sketch / Reference Image</span>
+                <div style="margin-top: 10px;">
+                  <img src="${quote.sketch}" alt="Design Sketch" class="sketch-preview" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 1px solid var(--border);">
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="quote-sheet-section">
+            <div class="quote-sheet-section-title">💰 Price Breakdown</div>
+            <div class="price-breakdown">
+              <div class="price-item">
+                <span>Material Cost</span>
+                <span>HK$${(quoteData.priceMaterial || 0).toFixed(2)}</span>
+              </div>
+              <div class="price-item">
+                <span>Processing Fee / Labor Cost</span>
+                <span>HK$${(quoteData.priceCraft || 0).toFixed(2)}</span>
+              </div>
+              ${quoteData.priceDesign > 0 ? `
+                <div class="price-item">
+                  <span>Copyright Fee</span>
+                  <span>HK$${quoteData.priceDesign.toFixed(2)}</span>
+                </div>
+              ` : ''}
+              <div class="price-item">
+                <span>Quantity</span>
+                <span>${quoteData.quantity || quote.quantity || 1} pcs</span>
+              </div>
+              ${quoteData.discount > 0 ? `
+                <div class="price-item">
+                  <span>Quantity Discount (${quoteData.discountQuantity || 0}%)</span>
+                  <span style="color: var(--success);">-HK$${quoteData.discount.toFixed(2)}</span>
+                </div>
+              ` : ''}
+              <div class="price-item">
+                <span>Total Quote Amount</span>
+                <span>HK$${(quoteData.total || quote.price || 0).toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery & Payment Information -->
+          <div class="quote-sheet-section">
+            <div class="quote-sheet-section-title">📦 Delivery & Payment Information</div>
+            <div class="quote-sheet-grid">
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Estimated Production Period</span>
+                <span class="quote-sheet-item-value">${productionDays}${productionDays !== '-' ? ' days' : ''}</span>
+              </div>
+              <div class="quote-sheet-item">
+                <span class="quote-sheet-item-label">Estimated Delivery Date</span>
+                <span class="quote-sheet-item-value">${quote.estimatedDelivery ? new Date(quote.estimatedDelivery).toLocaleDateString('en-US') : '-'}</span>
+              </div>
+              <div class="quote-sheet-item" style="grid-column: 1 / -1;">
+                <span class="quote-sheet-item-label">Payment Method</span>
+                <div style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 6px; color: var(--text);">
+                  ${quoteData.paymentMethod || 'Pending Confirmation'}
+                  ${quoteData.paymentNote ? `<br><small style="color: var(--text-light);">${quoteData.paymentNote}</small>` : ''}
+                </div>
+              </div>
+              ${quoteData.confirmation ? `
+                <div class="quote-sheet-item" style="grid-column: 1 / -1;">
+                  <span class="quote-sheet-item-label">Customization Requirements Confirmation</span>
+                  <div style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 6px; color: var(--text);">
+                    ${quoteData.confirmation}
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="quote-sheet-actions">
+          ${!isExpired && quote.quoteStatus !== 'accepted' && quote.quoteStatus !== 'rejected' ? `
+              <button class="btn btn-success" onclick="acceptQuote(${quote.id})">✓ Accept Quote</button>
+              <button class="btn btn-warning" onclick="raiseObjection(${quote.id})">✉ Raise Objection</button>
+              <button class="btn btn-danger" onclick="rejectQuote(${quote.id})">✗ Reject Quote</button>
+            ` : ''}
+            <button class="btn btn-outline" onclick="downloadQuoteSheet(${quote.id})">📥 Download Quote Sheet</button>
+          </div>
+        </div>
+      `;
+
+      modal.classList.add('active');
+    }
+
+    // 关闭报价单模态框
+    function closeQuoteSheet() {
+      document.getElementById('quoteSheetModal').classList.remove('active');
+    }
+
+    // Accept quote
+    function acceptQuote(quoteId) {
+      if (!confirm('Confirm to accept this quote? A formal order will be generated after acceptance.')) {
+        return;
+      }
+
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const order = customOrders.find(o => o.id === quoteId);
+      
+      if (order) {
+        // Update order status to accepted
+        order.quoteStatus = 'accepted';
+        order.acceptedAt = new Date().toISOString();
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        
+        alert('Quote accepted! We will arrange production for you as soon as possible.');
+        closeQuoteSheet();
+        loadQuoteHistory(); // Reload list
+      }
+    }
+
+    // Raise objection
+    function raiseObjection(quoteId) {
+      const objection = prompt('Please describe your objection or modification requirements (e.g., adjust material, price, etc.):');
+      if (objection && objection.trim()) {
+        const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+        const order = customOrders.find(o => o.id === quoteId);
+        
+        if (order) {
+          // Save objection information
+          if (!order.objections) {
+            order.objections = [];
+          }
+          order.objections.push({
+            message: objection.trim(),
+            date: new Date().toISOString()
+          });
+          order.quoteStatus = 'reviewing'; // Return to quoting status
+          localStorage.setItem('customOrders', JSON.stringify(customOrders));
+          
+          alert('Your objection has been submitted. Sales staff will contact you as soon as possible.');
+          closeQuoteSheet();
+          loadQuoteHistory();
+        }
+      }
+    }
+
+    // Reject quote
+    function rejectQuote(quoteId) {
+      if (!confirm('Are you sure you want to reject this quote? After rejection, this quote will be marked as "Rejected".')) {
+        return;
+      }
+
+      const reason = prompt('You can fill in the rejection reason (optional):');
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const order = customOrders.find(o => o.id === quoteId);
+
+      if (order) {
+        order.quoteStatus = 'rejected';
+        order.rejectedAt = new Date().toISOString();
+        if (reason && reason.trim()) {
+          order.rejectedReason = reason.trim();
+        }
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+
+        alert('Quote rejected. If you need to customize again in the future, you can submit a new customization request.');
+        closeQuoteSheet();
+        loadQuoteHistory();
+      }
+    }
+
+    // Download quote sheet
+    function downloadQuoteSheet(quoteId) {
+      const quote = allQuotes.find(q => q.id === quoteId);
+      if (!quote || !quote.quote) {
+        alert('Quote sheet does not exist');
+        return;
+      }
+
+      // 创建报价单HTML内容
+      const quoteData = quote.quote;
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>报价单 QT-${quoteData.id || quote.id}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .title { font-size: 24px; font-weight: bold; color: #1A319F; }
+            .section { margin-bottom: 25px; }
+            .section-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+            .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+            .info-item { margin-bottom: 10px; }
+            .label { color: #666; font-size: 0.9rem; }
+            .value { font-weight: bold; }
+            .price-breakdown { background: #f8f9fa; padding: 15px; border-radius: 8px; }
+            .price-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+            .price-item:last-child { border-bottom: none; font-weight: bold; font-size: 1.1rem; color: #1A319F; margin-top: 10px; padding-top: 15px; border-top: 2px solid #1A319F; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="title">Official Quote Sheet</div>
+            <div>Smile & Sunshine Toy Co. Ltd</div>
+          </div>
+          <div class="section">
+            <div class="section-title">Basic Information</div>
+            <div class="info-grid">
+              <div class="info-item"><span class="label">Quote Number:</span><span class="value">QT-${quoteData.id || quote.id}</span></div>
+              <div class="info-item"><span class="label">Generated Time:</span><span class="value">${new Date(quote.quoteDate || quote.createTime).toLocaleString('en-US')}</span></div>
+              <div class="info-item"><span class="label">Product Name:</span><span class="value">${quote.productName || '-'}</span></div>
+              <div class="info-item"><span class="label">Quantity:</span><span class="value">${quote.quantity || quoteData.quantity || 1} pcs</span></div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="section-title">Price Breakdown</div>
+            <div class="price-breakdown">
+              <div class="price-item"><span>Material Cost</span><span>HK$${(quoteData.priceMaterial || 0).toFixed(2)}</span></div>
+              <div class="price-item"><span>Processing Fee / Labor Cost</span><span>HK$${(quoteData.priceCraft || 0).toFixed(2)}</span></div>
+              ${quoteData.priceDesign > 0 ? `<div class="price-item"><span>Copyright Fee</span><span>HK$${quoteData.priceDesign.toFixed(2)}</span></div>` : ''}
+              <div class="price-item"><span>Total Quote Amount</span><span>HK$${(quoteData.total || quote.price || 0).toLocaleString()}</span></div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="section-title">Delivery Information</div>
+            <div class="info-item"><span class="label">Estimated Delivery Date:</span><span class="value">${quote.estimatedDelivery ? new Date(quote.estimatedDelivery).toLocaleDateString('en-US') : '-'}</span></div>
+            <div class="info-item"><span class="label">Payment Method:</span><span class="value">${quoteData.paymentMethod || 'Pending Confirmation'}</span></div>
+          </div>
+        </body>
+        </html>
+      `;
+
+      // 创建Blob并下载
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Quote-QT-${quoteData.id || quote.id}-${new Date().toISOString().split('T')[0]}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      alert('Quote sheet downloaded');
+    }
+
+    // 点击报价单模态框外部关闭
+    document.getElementById('quoteSheetModal')?.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeQuoteSheet();
+      }
+    });
+
+    // 关闭详情模态框
+    function closeQuoteDetail() {
+      document.getElementById('quoteDetailModal').classList.remove('active');
+    }
+
+    // 点击模态框外部关闭
+    document.getElementById('quoteDetailModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeQuoteDetail();
+      }
+    });
+
+    // Debug function to check localStorage data
+    function debugLocalStorage() {
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const userId = userInfo ? (userInfo.id || userInfo.username) : null;
+      
+      console.log('=== DEBUG INFO ===');
+      console.log('Current userId:', userId);
+      console.log('User info:', userInfo);
+      console.log('Total customOrders in localStorage:', customOrders.length);
+      console.log('All customOrders:', customOrders);
+      
+      const withStatus = customOrders.filter(o => o.quoteStatus !== undefined && o.quoteStatus !== null);
+      console.log('Orders with quoteStatus:', withStatus.length, withStatus);
+      
+      const withUserId = customOrders.filter(o => o.userId);
+      console.log('Orders with userId:', withUserId.length, withUserId);
+      
+      const matchingUserId = customOrders.filter(o => o.userId === userId);
+      console.log('Orders matching current userId:', matchingUserId.length, matchingUserId);
+      
+      alert(`Debug Info:\n\nTotal Orders: ${customOrders.length}\nWith Status: ${withStatus.length}\nWith UserId: ${withUserId.length}\nMatching UserId: ${matchingUserId.length}\n\nCheck console for details.`);
+    }
+
+    // 更新用户信息显示
+    function updateUserInfo() {
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userIdElement = document.getElementById('userId');
+      
+      if (userInfoStr && userIdElement) {
+        try {
+          const userInfo = JSON.parse(userInfoStr);
+          userIdElement.textContent = 'Personal Center';
+          userIdElement.style.cursor = 'pointer';
+          userIdElement.onclick = function() {
+            window.location.href = 'my-items.html';
+          };
+        } catch (e) {
+          console.error('Error parsing user info:', e);
+          userIdElement.textContent = 'Please Login';
+          userIdElement.onclick = function() {
+            window.location.href = 'login.html';
+          };
+        }
+      } else if (userIdElement) {
+        userIdElement.textContent = 'Please Login';
+        userIdElement.onclick = function() {
+          window.location.href = 'login.html';
+        };
+      }
+    }
+
+    // 更新购物车徽章
+    function updateCartBadge() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'block' : 'none';
+      }
+    }
+
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      updateUserInfo();
+      updateCartBadge();
+      loadQuoteHistory();
+    });
+  </script>
+</body>
+</html>
+

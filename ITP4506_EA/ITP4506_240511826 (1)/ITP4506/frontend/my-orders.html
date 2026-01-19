@@ -1,0 +1,2468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>My Orders - Smile & Sunshine Toy Co. Ltd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #3b82f6;
+      --accent: #60a5fa;
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --text-light: #666666;
+      --border: #e0e0e0;
+      --success: #22c55e;
+      --warning: #facc15;
+      --danger: #ef4444;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    [data-theme="light"] {
+      --bg: #CFD7E2;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* 顶部导航栏，与购物车/定制页保持一致 */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .unified-top-nav .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      height: 100%;
+    }
+
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .unified-top-nav .logo-icon {
+      margin-right: 8px;
+    }
+
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 15px;
+      flex-wrap: nowrap;
+      overflow: visible;
+      min-width: 0;
+    }
+
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 10px 10px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-size: 13px;
+      overflow: visible;
+    }
+
+    .unified-top-nav .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .unified-top-nav .cart-icon-link {
+      position: relative;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 6px 8px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .unified-top-nav .cart-badge {
+      position: absolute;
+      top: 0;
+      right: -6px;
+      background: #ff4d4f;
+      color: #fff;
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .unified-top-nav .user-info {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .unified-top-nav .user-id {
+      font-size: 14px;
+    }
+
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #ffffff;
+      color: #1f2937;
+      border-radius: 8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      min-width: 170px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1200;
+    }
+
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: flex;
+    }
+
+    .unified-top-nav .dropdown-item {
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #1f2937;
+      font-size: 14px;
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .unified-top-nav .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .unified-top-nav .dropdown-item:hover {
+      background: #f3f4f6;
+      color: #1a237e;
+    }
+
+    .unified-top-nav .logout-btn {
+      color: #ef4444 !important;
+      font-weight: 600;
+    }
+
+    .unified-top-nav .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .unified-top-nav .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .unified-top-nav .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: block;
+    }
+
+    .unified-top-nav .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+    }
+
+    .unified-top-nav .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+
+    .unified-top-nav .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .unified-top-nav .logout-btn {
+      color: #ff4d4f !important;
+    }
+
+    .cart-icon-link {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-size: 24px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .cart-icon-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--danger);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* 页面布局 */
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 30px 20px 40px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 24px;
+    }
+
+    /* 筛选 Tabs */
+    .order-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .order-tab {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.6);
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .order-tab:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+
+    .order-tab.active {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+
+    /* 订单列表 */
+    .orders-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+    }
+
+    .orders-empty-icon {
+      font-size: 80px;
+      margin-bottom: 16px;
+    }
+
+    .orders-empty-text {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .btn-primary-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary-link:hover {
+      background: var(--secondary);
+      transform: translateY(-1px);
+    }
+
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .order-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 2.5fr 1.8fr 1.5fr;
+      gap: 24px;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    @media (max-width: 968px) {
+      .order-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .order-id {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .order-time {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    .order-type-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(249, 115, 22, 0.15);
+      color: #f97316;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .order-items {
+      margin-top: 4px;
+    }
+
+    .order-item-detail {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      display: flex;
+      gap: 12px;
+    }
+
+    .order-item-detail:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .order-item-image {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--border);
+      border: 1px solid rgba(148,163,184,0.2);
+    }
+
+    .order-item-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .order-item-sketch {
+      margin-top: 8px;
+      padding: 8px;
+      border: 1px dashed rgba(148,163,184,0.6);
+      border-radius: 8px;
+      background: rgba(59,130,246,0.05);
+    }
+    .order-item-sketch-title {
+      font-size: 12px;
+      color: #1d4ed8;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .order-item-sketch img {
+      max-width: 140px;
+      max-height: 140px;
+      border-radius: 6px;
+      border: 1px solid rgba(148,163,184,0.4);
+      display: block;
+    }
+
+    .order-item-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .order-item-info {
+      font-size: 13px;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .order-item-label {
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .order-item-value {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .order-item-separator {
+      color: var(--text-light);
+      margin: 0 4px;
+      opacity: 0.5;
+    }
+
+    .order-item-sub {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .order-total {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    /* 物流状态 */
+    .logistics-section-title {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: rgba(250, 204, 21, 0.12);
+      color: #facc15;
+    }
+
+    .status-shipping {
+      background: rgba(59, 130, 246, 0.12);
+      color: #60a5fa;
+    }
+
+    .status-delivered {
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+    }
+
+    .status-reviewing {
+      background: rgba(96, 165, 250, 0.15);
+      color: #60a5fa;
+    }
+
+    .status-cancelled {
+      background: rgba(248, 113, 113, 0.15);
+      color: #f87171;
+    }
+
+    .status-return-requested {
+      background: rgba(249, 115, 22, 0.15);
+      color: #f97316;
+    }
+
+    .status-returned {
+      background: rgba(107, 114, 128, 0.15);
+      color: #6b7280;
+    }
+
+    .status-completed {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .btn-danger-outline {
+      border-color: rgba(239,68,68,0.6);
+      color: #ef4444;
+      background: transparent;
+    }
+    
+    .btn-danger-outline:hover {
+      border-color: #ef4444;
+      background: rgba(239,68,68,0.1);
+    }
+
+    .btn-success-outline {
+      border-color: rgba(34,197,94,0.6);
+      color: #22c55e;
+      background: transparent;
+    }
+    
+    .btn-success-outline:hover {
+      border-color: #22c55e;
+      background: rgba(34,197,94,0.1);
+    }
+
+    .logistics-steps {
+      display: flex;
+      margin-top: 10px;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .logistics-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logistics-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: 2px solid var(--border);
+    }
+
+    .logistics-dot.active {
+      border-color: var(--secondary);
+      background: var(--secondary);
+    }
+
+    .logistics-dot.completed {
+      border-color: rgba(29, 78, 216, 0.3);
+      background: rgba(29, 78, 216, 0.3);
+    }
+
+    /* 地址信息 */
+    .address-block {
+      background: #ffffff;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .address-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .address-label {
+      min-width: 64px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .address-value {
+      flex: 1;
+      color: var(--text);
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-outline {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-light);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+    
+    /* 弹窗通用样式（支付 & 报价单查看） */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 18px;
+      width: 90%;
+      max-width: 460px;
+      padding: 24px;
+      box-shadow: 0 25px 70px rgba(15, 23, 42, 0.3);
+      animation: fadeIn 0.25s ease;
+    }
+    .modal h3 {
+      margin: 0 0 16px;
+      font-size: 20px;
+      color: var(--text);
+    }
+    .modal-section {
+      margin-bottom: 16px;
+    }
+    .modal-section label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--text-light);
+      letter-spacing: 0.01em;
+    }
+    .modal-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .modal-option {
+      flex: 1;
+      min-width: 120px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      background: #f8fafc;
+    }
+    .modal-option.address-option {
+      width: 100%;
+      min-width: unset;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+    .modal-option.address-option strong {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .modal-option.address-option span {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .address-default-tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #2563eb;
+      margin-left: 6px;
+    }
+    .modal-option.active {
+      border-color: var(--primary);
+      background: rgba(30, 64, 175, 0.08);
+      color: var(--primary);
+      font-weight: 600;
+      box-shadow: 0 6px 15px rgba(30, 64, 175, 0.2);
+    }
+    .modal-summary {
+      background: rgba(15, 23, 42, 0.04);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .modal-btn {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .modal-btn.cancel {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .modal-btn.primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Success Modal Styles */
+    #successModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #successModal.show {
+      display: flex;
+    }
+
+    .success-modal-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-width: 450px;
+      width: 90%;
+      animation: slideUpSuccess 0.4s ease;
+      position: relative;
+    }
+
+    @keyframes slideUpSuccess {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      position: relative;
+      animation: scaleIn 0.5s ease 0.2s both;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0) rotate(-180deg);
+      }
+      to {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    /* Checkmark Animation (for receipt confirmation) */
+    .success-icon-circle.checkmark {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #22c55e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      position: relative;
+      animation: bounce 1s ease 0.5s, pulse 2s ease 1.5s infinite;
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+    }
+
+    .success-checkmark {
+      width: 40px;
+      height: 40px;
+      position: relative;
+    }
+
+    .success-checkmark::before {
+      content: '';
+      position: absolute;
+      width: 3px;
+      height: 20px;
+      background: #fff;
+      left: 18px;
+      top: 30px;
+      transform: rotate(45deg);
+      animation: checkmark1 0.3s ease 0.7s both;
+    }
+
+    .success-checkmark::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      height: 12px;
+      background: #fff;
+      left: 10px;
+      top: 36px;
+      transform: rotate(-45deg);
+      animation: checkmark2 0.3s ease 0.9s both;
+    }
+
+    @keyframes checkmark1 {
+      from {
+        height: 0;
+        top: 40px;
+      }
+      to {
+        height: 20px;
+        top: 30px;
+      }
+    }
+
+    @keyframes checkmark2 {
+      from {
+        height: 0;
+        top: 40px;
+      }
+      to {
+        height: 12px;
+        top: 36px;
+      }
+    }
+
+    /* Smiley Animation (for cancel and return) */
+    .success-icon-circle.smiley {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      position: relative;
+      animation: bounce 1s ease 0.5s, pulse 2s ease 1.5s infinite;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .smiley-face {
+      width: 60px;
+      height: 60px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .smiley-face::before {
+      content: '😊';
+      font-size: 60px;
+      display: block;
+      animation: smileRotate 0.6s ease 0.7s both;
+    }
+
+    @keyframes smileRotate {
+      from {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .success-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #27ae60;
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s ease 0.4s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-message {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s ease 0.6s both;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .success-details {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+      animation: fadeInUp 0.5s ease 0.8s both;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    .success-details strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="platform-market.html" class="logo-link">
+          <span class="logo-icon">📦</span>
+          <span class="logo-text">Smile & Sunshine Toy Co. Ltd</span>
+        </a>
+      </div>
+
+      <div class="nav-menu">
+        <a href="platform-market.html" class="nav-item" data-page="platform">Official Market</a>
+        <a href="customize.html" class="nav-item" data-page="customize">Toy Customization</a>
+        <a href="quote-history.html" class="nav-item" data-page="quote-history">Quote History</a>
+        <a href="wishlist.html" class="nav-item" data-page="wishlist">Wishlist</a>
+        <a href="my-orders.html" class="nav-item active" data-page="orders">My Orders</a>
+        <a href="login.html" class="nav-item" data-page="login">Login</a>
+      </div>
+
+      <div class="nav-user">
+        <a href="cart.html" class="cart-icon-link" title="Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <div class="user-info" id="userInfo">
+          <span class="user-id" id="userId">Please Login</span>
+          <div class="user-dropdown">
+            <a href="my-items.html" class="dropdown-item">Personal Center</a>
+            <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+            <a href="my-orders.html" class="dropdown-item">My Orders</a>
+            <a href="#" class="dropdown-item logout-btn">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">📦 My Orders</h1>
+    <div class="page-subtitle">View order details, shipping address, delivery address, and shipping status for store orders and custom orders.</div>
+
+    <div class="order-tabs">
+      <button class="order-tab active" data-filter="all">All Orders</button>
+      <button class="order-tab" data-filter="normal">Store Orders</button>
+      <button class="order-tab" data-filter="custom">Custom Orders</button>
+    </div>
+
+    <div id="ordersContainer">
+      <!-- 订单列表由 JavaScript 渲染 -->
+    </div>
+  </div>
+
+  <!-- 支付弹窗 -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal">
+      <h3>Confirm Payment</h3>
+      <div class="modal-section">
+        <label>Payment Method</label>
+        <div class="modal-options" id="paymentOptions">
+          <div class="modal-option" data-option="payment" data-value="wechat">WeChat Pay</div>
+          <div class="modal-option" data-option="payment" data-value="alipay">Alipay</div>
+          <div class="modal-option" data-option="payment" data-value="fps">FPS</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <label>Shipping Method</label>
+        <div class="modal-options" id="shippingOptions">
+          <div class="modal-option" data-option="shipping" data-value="express">Express Delivery</div>
+          <div class="modal-option" data-option="shipping" data-value="pickup">Store Pickup</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <label>Delivery Address</label>
+        <div class="modal-options" id="addressOptions">
+          <!-- Address options will be rendered dynamically -->
+        </div>
+      </div>
+      <div class="modal-summary">
+        <span>Total Amount</span>
+        <strong id="paymentSummaryAmount">HK$0.00</strong>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closePaymentModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="confirmCustomPayment()">Confirm Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 报价单查看弹窗 -->
+  <div class="modal-overlay" id="quoteDetailModal">
+    <div class="modal">
+      <h3>Quote Details</h3>
+      <div id="quoteDetailBody" class="modal-section" style="max-height: 340px; overflow-y: auto;">
+        <!-- Quote content will be injected by JavaScript -->
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeQuoteDetail()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 退货申请弹窗 -->
+  <div class="modal-overlay" id="returnRequestModal">
+    <div class="modal">
+      <h3>Request Return</h3>
+      <div class="modal-section">
+        <label>Please select return reason</label>
+        <div class="modal-options" id="returnReasonOptions">
+          <div class="modal-option" data-reason="Quality Issue">Product has quality issue</div>
+          <div class="modal-option" data-reason="Not as Described">Product does not match description</div>
+          <div class="modal-option" data-reason="Wrong Size">Size is not suitable</div>
+          <div class="modal-option" data-reason="Wrong Color">Color is not satisfactory</div>
+          <div class="modal-option" data-reason="No Longer Needed">No longer needed</div>
+          <div class="modal-option" data-reason="Other">Other reason</div>
+        </div>
+      </div>
+      <div class="modal-section" id="customReasonSection" style="display:none;">
+        <label>Please enter specific reason</label>
+        <textarea id="customReturnReason" class="form-input" rows="3" placeholder="Please describe the return reason in detail..." style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);font-size:14px;resize:vertical;"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeReturnRequestModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="submitReturnRequest()">Submit Return Request</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Product & attribute translation maps
+    const productTitleMap = {
+      '变形金刚 擎天柱': 'Transformers Optimus Prime',
+      '变形金刚 大黄蜂': 'Transformers Bumblebee',
+      '毛绒玩具 金牌小熊': 'Plush Bear Gold',
+      '毛绒玩具 蓝色小熊': 'Plush Bear Blue',
+      '毛绒玩具 粉色小熊': 'Plush Bear Pink',
+      '遥控赛车 红色': 'RC Race Car Red',
+      '遥控赛车 蓝色': 'RC Race Car Blue',
+      '乐高积木 城市系列': 'Lego City Set',
+      '乐高积木 太空系列': 'Lego Space Set',
+      '芭比娃娃 经典款': 'Barbie Classic',
+      '芭比娃娃 豪华款': 'Barbie Deluxe',
+      '拼装高达 RX-78': 'Gundam RX-78',
+      '拼装高达 独角兽': 'Gundam Unicorn',
+      '超级英雄 蜘蛛侠': 'Superhero Spider-Man',
+      '超级英雄 钢铁侠': 'Superhero Iron Man',
+      '木质火车套装': 'Wooden Train Set',
+      '儿童积木桶装': 'Kids Blocks (Bucket)',
+      '儿童画板': 'Kids Drawing Board',
+      '太空人盲盒': 'Astronaut Blind Box',
+      '变形金刚 玩具枪': 'Transformers Toy Gun',
+      '水弹枪': 'Gel Blaster',
+      '毛绒公仔 企鹅': 'Plush Penguin',
+      '毛绒公仔 狐狸': 'Plush Fox',
+      '乐高风积木 城堡': 'Brick Castle Set',
+      '合金工程车套装': 'Alloy Construction Set'
+    };
+
+    const categoryNameMap = {
+      '变形金刚': 'Transformers',
+      '毛绒玩具': 'Plush Toys',
+      '玩具枪': 'Toy Guns',
+      '积木': 'Blocks',
+      '乐高': 'Lego',
+      '拼装高达': 'Gundam',
+      '超级英雄': 'Superhero',
+      '工程车': 'Construction Vehicles',
+      '盲盒': 'Blind Box',
+      '定制玩具': 'Custom Toys'
+    };
+
+    const variantNameMap = {
+      '普通版': 'Regular',
+      '标准版': 'Standard',
+      '豪华版': 'Deluxe',
+      '收藏家版': "Collector's",
+      '旗舰版': 'Flagship',
+      '限定版': 'Limited',
+      '基础款': 'Basic',
+      '进阶款': 'Advanced',
+      '经典款': 'Classic',
+      '大黄蜂': 'Bumblebee'
+    };
+
+    const sizeNameMap = {
+      '大号': 'Large',
+      '中号': 'Medium',
+      '小号': 'Small'
+    };
+
+    // Color name translation map
+    const colorNameMap = {
+      '红色': 'Red',
+      '蓝色': 'Blue',
+      '绿色': 'Green',
+      '黄色': 'Yellow',
+      '紫色': 'Purple',
+      '橙色': 'Orange',
+      '粉色': 'Pink',
+      '黑色': 'Black',
+      '白色': 'White',
+      '灰色': 'Gray',
+      '金色': 'Gold',
+      '银色': 'Silver'
+    };
+
+    function getProductTitle(title) {
+      return productTitleMap[title] || title || '';
+    }
+
+    function getCategoryEn(name) {
+      return categoryNameMap[name] || name || '';
+    }
+
+    function getVariantNameEn(name) {
+      return variantNameMap[name] || name || '';
+    }
+
+    function getSizeNameEn(name) {
+      return sizeNameMap[name] || name || '';
+    }
+
+    const addressMap = {
+      '香港': 'Hong Kong',
+      '九龙': 'Kowloon',
+      '九龍': 'Kowloon',
+      '旺角': 'Mong Kok',
+      '新世纪广场': 'New Century Plaza',
+      '新世紀廣場': 'New Century Plaza',
+      '屯门': 'Tuen Mun',
+      '屯門': 'Tuen Mun',
+      '荃湾': 'Tsuen Wan',
+      '荃灣': 'Tsuen Wan',
+      '中心': 'Center',
+      '廣場': 'Plaza',
+      '广场': 'Plaza',
+      '深圳': 'Shenzhen',
+      '中環': 'Central',
+      '中环': 'Central',
+      '觀塘': 'Kwun Tong',
+      '观塘': 'Kwun Tong'
+    };
+
+    function translateAddress(text) {
+      if (!text) return '-';
+      let result = text;
+      Object.keys(addressMap).forEach(k => {
+        result = result.replace(new RegExp(k, 'g'), addressMap[k]);
+      });
+      // remove residual Chinese characters
+      result = result.replace(/[\u4e00-\u9fa5]+/g, '').trim();
+      // collapse extra spaces
+      result = result.replace(/\s{2,}/g, ' ');
+      return result || '-';
+    }
+
+    function sanitizeDetail(text) {
+      if (!text) return '';
+      let t = text;
+      Object.keys(productTitleMap).forEach(k => {
+        t = t.replace(new RegExp(k, 'g'), productTitleMap[k]);
+      });
+      Object.keys(variantNameMap).forEach(k => {
+        t = t.replace(new RegExp(k, 'g'), variantNameMap[k]);
+      });
+      Object.keys(sizeNameMap).forEach(k => {
+        t = t.replace(new RegExp(k, 'g'), sizeNameMap[k]);
+      });
+      Object.keys(colorNameMap).forEach(k => {
+        t = t.replace(new RegExp(k, 'g'), colorNameMap[k]);
+      });
+      // strip remaining Chinese
+      t = t.replace(/[\u4e00-\u9fa5]+/g, '').trim();
+      return t;
+    }
+
+    // Get color name in English
+    function getColorNameEn(colorName) {
+      if (!colorName) return '-';
+      if (typeof colorName === 'object' && colorName.name) {
+        return colorNameMap[colorName.name] || colorName.name || colorName;
+      }
+      return colorNameMap[colorName] || colorName;
+    }
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+
+    function updateCartBadge() {
+      const cart = getCart();
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'block' : 'none';
+      }
+    }
+
+    // 更新用户信息（始终显示"Personal Center"文字，不显示数字ID）
+    function updateUserInfo() {
+      const userIdElement = document.getElementById('userId');
+      if (userIdElement) {
+        const userInfo = sessionStorage.getItem('user_info');
+        if (userInfo) {
+          userIdElement.textContent = 'Personal Center';
+        } else {
+          userIdElement.textContent = 'Please Login';
+        }
+      }
+    }
+
+    function getCustomerAddresses(defaultAddressText) {
+      const profileAddresses = JSON.parse(localStorage.getItem('addresses') || '[]');
+      if (Array.isArray(profileAddresses) && profileAddresses.length > 0) {
+        const mapped = profileAddresses.map((addr, idx) => ({
+          id: addr.id || `addr-${idx}`,
+          label: `${addr.name || 'Recipient'} ${addr.phone ? `(${addr.phone})` : ''}`,
+          detail: `${addr.area || ''} ${addr.detail || ''}`.trim() || defaultAddressText || '(Address not filled)',
+          isDefault: !!addr.isDefault
+        }));
+        mapped.sort((a, b) => (a.isDefault === b.isDefault) ? 0 : (a.isDefault ? -1 : 1));
+        return mapped;
+      }
+      const fallback = defaultAddressText || 'User default delivery address (can be configured in My Account)';
+      return [
+        {
+          id: 'default-address',
+          label: 'Default Delivery Address',
+          detail: fallback,
+          isDefault: true
+        },
+        {
+          id: 'store-pickup',
+          label: 'Smile & Sunshine Custom Workshop Pickup',
+          detail: '5/F, Building 19, Shing Yip Street, Kwun Tong, Kowloon, Hong Kong (Weekdays 10:00-18:00)',
+          isDefault: false
+        }
+      ];
+    }
+
+    function renderAddressOptions() {
+      const container = document.getElementById('addressOptions');
+      if (!container) return;
+      if (!currentAddressOptions.length) {
+        container.innerHTML = '<div class="modal-option address-option">No address available</div>';
+        return;
+      }
+      container.innerHTML = currentAddressOptions.map(addr => `
+        <div class="modal-option address-option ${selectedAddressId === addr.id ? 'active' : ''}" data-address-id="${addr.id}">
+          <div style="display:flex; align-items:center; gap:4px;">
+            <strong>${addr.label}</strong>
+            ${addr.isDefault ? '<span class="address-default-tag">Default</span>' : ''}
+          </div>
+          <span>${addr.detail}</span>
+        </div>
+      `).join('');
+      container.querySelectorAll('.modal-option').forEach(option => {
+        option.addEventListener('click', () => {
+          const addressId = option.getAttribute('data-address-id');
+          selectAddressOption(addressId);
+        });
+      });
+    }
+
+    function selectAddressOption(addressId) {
+      selectedAddressId = addressId;
+      renderAddressOptions();
+    }
+
+    let paymentModalOrderId = null;
+    let selectedPaymentMethod = 'wechat';
+    let selectedShippingMethod = 'express';
+    let currentAddressOptions = [];
+    let selectedAddressId = null;
+
+    function getAllOrders() {
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const currentUserId = userInfo ? (userInfo.id || userInfo.username) : null;
+      const currentUsername = userInfo ? userInfo.username : null;
+
+      const allNormalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const allCustomOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      
+      // 只获取当前用户的订单
+      const normalOrders = currentUserId 
+        ? allNormalOrders.filter(o => o.userId === currentUserId || o.username === currentUsername)
+        : [];
+      const customOrders = currentUserId
+        ? allCustomOrders.filter(o => o.userId === currentUserId || o.username === currentUsername)
+        : [];
+      
+      // 尝试从localStorage获取商品数据，用于获取category等信息
+      let productsData = [];
+      try {
+        const productsDataStr = localStorage.getItem('productsData');
+        if (productsDataStr) {
+          productsData = JSON.parse(productsDataStr);
+        }
+      } catch (e) {
+        console.warn('Unable to read product data', e);
+      }
+
+      const mappedNormal = normalOrders.map(o => {
+        // 如果订单有items数组（购物车结算），补充category信息
+        if (o.items && o.items.length > 0) {
+          return {
+            type: 'normal',
+            id: o.id,
+            createTime: o.createTime,
+            total: o.total,
+            items: o.items.map(item => {
+              // 如果item没有category，尝试从productsData中查找
+              let category = item.category;
+              let image = item.image;
+              if (item.id) {
+                const product = productsData.find(p => p.id === item.id);
+                if (product) {
+                  if (!category) category = product.category;
+                  if (!image) image = product.image;
+                }
+              }
+              return {
+                title: item.title || 'Toy',
+                quantity: item.quantity || 1,
+                variant: item.variant || 'Standard',
+                category: category || 'Toy',
+                price: item.price || 0,
+                image: image || item.image || ''
+              };
+            }),
+            logisticsStatus: o.logisticsStatus || 'pending',
+            shippingAddress: o.shippingAddress || 'Smile & Sunshine Toy Co. Ltd Hong Kong Logistics Center',
+            receivingAddress: (typeof o.receivingAddress === 'object' && o.receivingAddress !== null) 
+              ? (o.receivingAddress.fullAddress || `${o.receivingAddress.area || ''} ${o.receivingAddress.detail || ''} (${o.receivingAddress.name || ''}, ${o.receivingAddress.phone || ''})`.trim())
+              : (o.receivingAddress || 'User default delivery address (can be configured in real system)'),
+            returnStatus: o.returnStatus || 'none',
+            returnReason: o.returnReason || '',
+            rejectReason: o.rejectReason || '',
+            isCompleted: o.isCompleted || false
+          };
+        }
+        
+        // 如果是立即购买订单（没有items数组），转换为items格式
+        const product = productsData.find(p => p.id === o.productId || p.title === o.title);
+        return {
+          type: 'normal',
+          id: o.id,
+          createTime: o.createTime,
+          total: o.total,
+          items: [{
+            title: o.title || 'Toy Order',
+            quantity: o.quantity || 1,
+            variant: o.variant || 'Standard',
+            category: product ? product.category : (o.category || 'Toy'),
+            price: o.price || 0,
+            image: product ? product.image : (o.image || '')
+          }],
+          logisticsStatus: o.logisticsStatus || 'pending',
+          shippingAddress: o.shippingAddress || 'Smile & Sunshine Toy Co. Ltd Hong Kong Logistics Center',
+          receivingAddress: (typeof o.receivingAddress === 'object' && o.receivingAddress !== null) 
+            ? (o.receivingAddress.fullAddress || `${o.receivingAddress.area || ''} ${o.receivingAddress.detail || ''} (${o.receivingAddress.name || ''}, ${o.receivingAddress.phone || ''})`.trim())
+            : (o.receivingAddress || 'User default delivery address (can be configured in real system)'),
+          returnStatus: o.returnStatus || 'none',
+          returnReason: o.returnReason || '',
+          rejectReason: o.rejectReason || '',
+          isCompleted: o.isCompleted || false
+        };
+      });
+
+      const mappedCustom = customOrders.map(o => {
+        const quote = quotes.find(q => String(q.orderId) === String(o.id));
+        const sketchImage = o.sketch || '';
+        const productImage = o.productImage || '';
+        return {
+          type: 'custom',
+          id: o.id,
+          createTime: o.createTime,
+          total: o.price,
+          quoteStatus: o.quoteStatus || 'pending',
+          quoteTotal: quote ? quote.total : (o.price || 0),
+          items: [{
+            title: o.productName || (o.toyType + ' Custom'),
+            detail: `${o.toyType || ''}｜${o.variant || ''}｜${o.size || ''}｜${o.color ? o.color.name : ''}`,
+            image: productImage || '',
+            sketch: sketchImage
+          }],
+          logisticsStatus: o.logisticsStatus || 'pending',
+          shippingAddress: o.shippingAddress || 'Smile & Sunshine Toy Co. Ltd Custom Workshop',
+          receivingAddress: (typeof o.receivingAddress === 'object' && o.receivingAddress !== null) 
+            ? (o.receivingAddress.fullAddress || `${o.receivingAddress.area || ''} ${o.receivingAddress.detail || ''} (${o.receivingAddress.name || ''}, ${o.receivingAddress.phone || ''})`.trim())
+            : (o.receivingAddress || 'User default delivery address (can be configured in real system)'),
+          returnStatus: o.returnStatus || 'none',
+          returnReason: o.returnReason || '',
+          rejectReason: o.rejectReason || '',
+          isCompleted: o.isCompleted || false,
+          customSketch: sketchImage,
+          productImage: productImage
+        };
+      });
+
+      return [...mappedNormal, ...mappedCustom].sort((a, b) => b.id - a.id);
+    }
+
+    function getStatusInfo(order) {
+      const logisticsStatus = order.logisticsStatus || 'pending';
+      const returnStatus = order.returnStatus || 'none';
+
+      // 如果订单已经被取消，直接返回取消状态
+      if (logisticsStatus === 'cancelled') {
+        return {
+          text: 'Cancelled',
+          cls: 'status-cancelled',
+          step: 1,
+          sectionTitle: order.type === 'custom' ? 'Order Status' : 'Shipping Status',
+          labels: ['Order Cancelled']
+        };
+      }
+
+      // 如果订单已完成，显示已完成状态
+      if (order.isCompleted) {
+        return {
+          text: 'Completed',
+          cls: 'status-completed',
+          step: 3,
+          sectionTitle: 'Order Status',
+          labels: ['Pending Shipment', 'In Transit', 'Delivered', 'Completed']
+        };
+      }
+
+      // 先检查物流状态，确保已送达的订单正确显示
+      const logisticsLabels = ['Pending Shipment', 'In Transit', 'Delivered'];
+      
+      if (order.type === 'custom') {
+        const quoteStatus = order.quoteStatus || 'pending';
+        const quoteLabels = ['Pending Review', 'Quoting', 'Waiting for Customer Confirmation'];
+
+        if (quoteStatus === 'pending') {
+          return { text: 'Pending Review', cls: 'status-pending', step: 1, sectionTitle: 'Quote Progress', labels: quoteLabels };
+        }
+        if (quoteStatus === 'reviewing') {
+          return { text: 'Quoting', cls: 'status-reviewing', step: 2, sectionTitle: 'Quote Progress', labels: quoteLabels };
+        }
+        if (quoteStatus === 'quoted') {
+          return { text: 'Waiting for Customer Confirmation', cls: 'status-pending', step: 3, sectionTitle: 'Quote Progress', labels: quoteLabels };
+        }
+        if (quoteStatus === 'rejected') {
+          return { text: 'Customer Rejected', cls: 'status-cancelled', step: 3, sectionTitle: 'Quote Progress', labels: quoteLabels };
+        }
+      }
+
+      // Enter shipping phase (Store orders / Custom orders accepted by customer)
+      // Set step and text strictly based on logisticsStatus
+      let baseStatus = null;
+      if (logisticsStatus === 'shipping') {
+        baseStatus = { text: 'In Transit', cls: 'status-shipping', step: 2, sectionTitle: 'Shipping Status', labels: logisticsLabels };
+      } else if (logisticsStatus === 'delivered') {
+        baseStatus = { text: 'Delivered', cls: 'status-delivered', step: 3, sectionTitle: 'Shipping Status', labels: logisticsLabels };
+      } else {
+        baseStatus = { text: 'Pending Shipment', cls: 'status-pending', step: 1, sectionTitle: 'Shipping Status', labels: logisticsLabels };
+      }
+
+      // If order has return request, overlay return info on base status, but keep correct step
+      if (returnStatus === 'requested') {
+        return {
+          text: 'Return Requested',
+          cls: 'status-return-requested',
+          step: baseStatus.step, // Strictly use base status step
+          sectionTitle: 'Order Status',
+          labels: logisticsStatus === 'delivered' 
+            ? ['Pending Shipment', 'In Transit', 'Delivered', 'Return Requested']
+            : (logisticsStatus === 'shipping' 
+              ? ['Pending Shipment', 'In Transit', 'Return Requested']
+              : ['Pending Shipment', 'Return Requested'])
+        };
+      }
+
+      if (returnStatus === 'approved') {
+        return {
+          text: 'Return Approved',
+          cls: 'status-returned',
+          step: baseStatus.step, // Strictly use base status step
+          sectionTitle: 'Order Status',
+          labels: logisticsStatus === 'delivered'
+            ? ['Pending Shipment', 'In Transit', 'Delivered', 'Return Approved']
+            : (logisticsStatus === 'shipping'
+              ? ['Pending Shipment', 'In Transit', 'Return Approved']
+              : ['Pending Shipment', 'Return Approved'])
+        };
+      }
+
+      if (returnStatus === 'rejected') {
+        return {
+          text: 'Return Rejected',
+          cls: 'status-cancelled',
+          step: baseStatus.step, // Strictly use base status step
+          sectionTitle: 'Order Status',
+          labels: logisticsStatus === 'delivered'
+            ? ['Pending Shipment', 'In Transit', 'Delivered', 'Return Rejected']
+            : (logisticsStatus === 'shipping'
+              ? ['Pending Shipment', 'In Transit', 'Return Rejected']
+              : ['Pending Shipment', 'Return Rejected'])
+        };
+      }
+
+      // No return status, return base shipping status directly
+      return baseStatus;
+    }
+
+    function renderOrders(filter = 'all') {
+      const container = document.getElementById('ordersContainer');
+      const orders = getAllOrders().filter(o => {
+        if (filter === 'normal') return o.type === 'normal';
+        if (filter === 'custom') return o.type === 'custom';
+        return true;
+      });
+
+      if (orders.length === 0) {
+        container.innerHTML = `
+          <div class="orders-empty">
+            <div class="orders-empty-icon">📭</div>
+            <div class="orders-empty-text">No order records found</div>
+            <a href="platform-market.html" class="btn-primary-link">Go Shopping</a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="order-list">
+          ${orders.map(order => {
+            const statusInfo = getStatusInfo(order);
+            const mainItem = order.items[0] || {};
+            const itemCount = order.items.reduce((s, it) => s + (it.quantity || 1), 0);
+            const canDelete = order.logisticsStatus === 'cancelled' || order.isCompleted;
+            const orderTotal = order.type === 'custom'
+              ? (typeof order.quoteTotal === 'number' ? order.quoteTotal : (order.total || 0))
+              : (order.total || 0);
+            // Show quote action buttons for custom orders that have a quote (status: 'quoted')
+            // Also show if order has quoteStatus 'quoted' or if there's a quote in localStorage
+            const hasQuote = getQuoteByOrderId(order.id);
+            const showQuoteActions = order.type === 'custom' && (order.quoteStatus === 'quoted' || (order.quoteStatus === 'reviewing' && hasQuote));
+            const steps = statusInfo.labels || ['Pending Shipment', 'In Transit', 'Delivered'];
+            // Translate addresses to English and strip Chinese
+            const shippingAddress = translateAddress(order.shippingAddress);
+            const receivingAddress = translateAddress(order.receivingAddress);
+            
+            // Ensure status display consistency: Force correct status info based on logisticsStatus
+            const logisticsStatus = order.logisticsStatus || 'pending';
+            const returnStatus = order.returnStatus || 'none';
+            
+            // If no return status and not completed, force status to match logisticsStatus
+            if (returnStatus === 'none' && !order.isCompleted) {
+              if (logisticsStatus === 'delivered') {
+                // Delivered order: Must show "Delivered", step=3, only activate first three dots
+                statusInfo.text = 'Delivered';
+                statusInfo.cls = 'status-delivered';
+                statusInfo.step = 3;
+                statusInfo.sectionTitle = 'Shipping Status';
+                statusInfo.labels = ['Pending Shipment', 'In Transit', 'Delivered'];
+              } else if (logisticsStatus === 'shipping') {
+                // In transit order: Must show "In Transit", step=2, only activate first two dots
+                statusInfo.text = 'In Transit';
+                statusInfo.cls = 'status-shipping';
+                statusInfo.step = 2;
+                statusInfo.sectionTitle = 'Shipping Status';
+                statusInfo.labels = ['Pending Shipment', 'In Transit', 'Delivered'];
+              } else if (logisticsStatus === 'pending') {
+                // Pending shipment order: Must show "Pending Shipment", step=1, only activate first dot
+                statusInfo.text = 'Pending Shipment';
+                statusInfo.cls = 'status-pending';
+                statusInfo.step = 1;
+                statusInfo.sectionTitle = 'Shipping Status';
+                statusInfo.labels = ['Pending Shipment', 'In Transit', 'Delivered'];
+              }
+            }
+            
+            // Delivered orders can confirm receipt or request return
+            const isDelivered = logisticsStatus === 'delivered';
+            const canConfirmReceipt = isDelivered && returnStatus === 'none' && !order.isCompleted;
+            // Both in transit and delivered orders can request return, regardless of receipt confirmation
+            const canRequestReturn = (logisticsStatus === 'shipping' || logisticsStatus === 'delivered') && returnStatus === 'none' && logisticsStatus !== 'cancelled';
+            const showReturnRequested = returnStatus === 'requested';
+            const showReturned = returnStatus === 'approved' || returnStatus === 'rejected';
+            return `
+              <div class="order-card">
+                <div>
+                  <div class="order-header">
+                    <div>
+                      <div class="order-id">Order No: ${order.id}</div>
+                      <div class="order-time">${new Date(order.createTime).toLocaleString()}</div>
+                    </div>
+                    <div class="order-type-tag">
+                      ${order.type === 'normal' ? 'Store Order' : 'Custom Order'}
+                    </div>
+                  </div>
+                  <div class="order-items">
+                    ${order.items.map(item => {
+                      // 生成图片URL或使用占位符
+                      const imageUrl = item.image || '';
+                      // 翻译商品名称/属性
+                      const rawTitle = item.title || 'Product';
+                      const title = getProductTitle(rawTitle);
+                      const displayCategory = getCategoryEn(item.category) || getProductTitle(item.category || 'Toy');
+                      const displayVariant = getVariantNameEn(item.variant || 'Standard');
+                      const displaySize = getSizeNameEn(item.size);
+                      const displayColor = getColorNameEn(item.colorName || (item.color && item.color.name) || item.color);
+                      const detailText = sanitizeDetail(item.detail || [displayVariant, displaySize, displayColor].filter(Boolean).join(' | '));
+                      // 根据商品标题生成唯一的占位符颜色
+                      let hash = 0;
+                      for (let i = 0; i < title.length; i++) {
+                        hash = title.charCodeAt(i) + ((hash << 5) - hash);
+                      }
+                      const hue = Math.abs(hash % 360);
+                      const saturation = 60 + (Math.abs(hash) % 20);
+                      const lightness = 40 + (Math.abs(hash) % 15);
+                      const placeholderColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                      const placeholderImage = `data:image/svg+xml,${encodeURIComponent(`
+                        <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="80" height="80" fill="${placeholderColor}"/>
+                          <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" dy=".3em" font-weight="bold">${title.substring(0, 2)}</text>
+                        </svg>
+                      `)}`;
+                      return `
+                      <div class="order-item-detail">
+                        <img src="${imageUrl || placeholderImage}" 
+                             alt="${title}" 
+                             class="order-item-image"
+                             onerror="this.onerror=null; this.src='${placeholderImage}'" />
+                        <div class="order-item-content">
+                          <div class="order-item-title">${title}</div>
+                          <div class="order-item-info">
+                            <span class="order-item-label">Quantity: </span>
+                            <span class="order-item-value">${item.quantity || 1} pcs</span>
+                            <span class="order-item-separator">|</span>
+                            <span class="order-item-label">Category: </span>
+                            <span class="order-item-value">${displayCategory || 'Toy'}</span>
+                            <span class="order-item-separator">|</span>
+                            <span class="order-item-label">Variant: </span>
+                            <span class="order-item-value">${displayVariant || 'Standard'}</span>
+                          </div>
+                          ${detailText ? `<div class="order-item-sub">${detailText}</div>` : ''}
+                          ${item.sketch ? `
+                            <div class="order-item-sketch">
+                              <div class="order-item-sketch-title">Customer Design Sketch</div>
+                              <img src="${item.sketch}" alt="Customer Design Sketch" />
+                            </div>
+                          ` : ''}
+                        </div>
+                      </div>
+                    `;
+                    }).join('')}
+                    <div class="order-total">Total: HK$${(orderTotal || 0).toLocaleString()}</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="logistics-section-title">${statusInfo.sectionTitle || 'Shipping Status'}</div>
+                  <div class="status-badge ${statusInfo.cls}">
+                    <span>${statusInfo.text}</span>
+                  </div>
+                  <div class="logistics-steps">
+                    ${steps.map((label, idx) => {
+                      // 只高亮当前步骤，而不是所有已完成的步骤
+                      // 如果状态是"已送达"（step=3），只高亮"已送达"这个点
+                      // 如果状态是"运输途中"（step=2），只高亮"运输途中"这个点
+                      const isCurrentStep = statusInfo.step === (idx + 1);
+                      // 对于已完成的步骤，使用较浅的颜色表示已完成
+                      const isCompleted = statusInfo.step > (idx + 1);
+                      return `
+                      <div class="logistics-step">
+                        <span class="logistics-dot ${isCurrentStep ? 'active' : (isCompleted ? 'completed' : '')}"></span>
+                        <span>${label}</span>
+                      </div>
+                    `;
+                    }).join('')}
+                  </div>
+                </div>
+                <div>
+                  <div class="logistics-section-title">Address Information</div>
+                  <div class="address-block">
+                    <div class="address-row">
+                      <span class="address-label">Shipping Address</span>
+                      <span class="address-value">${shippingAddress}</span>
+                    </div>
+                    <div class="address-row">
+                      <span class="address-label">Delivery Address</span>
+                      <span class="address-value">${receivingAddress}</span>
+                    </div>
+                  </div>
+                  <div class="order-actions">
+                    ${showQuoteActions ? `
+                      <button class="btn-outline" onclick="viewQuoteDetail(${order.id})">View Quote</button>
+                      <button class="btn-outline" onclick="acceptQuote(${order.id})">Accept Quote</button>
+                      <button class="btn-outline" onclick="rejectQuote(${order.id})">Reject Quote</button>
+                    ` : ''}
+                    ${canConfirmReceipt ? `
+                      <button class="btn-success-outline" onclick="confirmReceipt(${order.id})">Confirm Receipt</button>
+                    ` : ''}
+                    ${canRequestReturn ? `
+                      <button class="btn-danger-outline" onclick="requestReturn(${order.id})">Request Return</button>
+                    ` : ''}
+                    ${showReturnRequested ? `
+                      <div style="margin-bottom:4px;">
+                        <span class="status-badge status-return-requested">Return Requested, Waiting for Processing</span>
+                      </div>
+                      ${order.returnReason ? `<div style="font-size:12px;color:#6b7280;margin-top:4px;">Return Reason: ${order.returnReason}</div>` : ''}
+                    ` : ''}
+                    ${showReturned ? `
+                      <div style="margin-bottom:4px;">
+                        <span class="status-badge ${returnStatus === 'approved' ? 'status-returned' : 'status-cancelled'}">
+                          ${returnStatus === 'approved' ? 'Return Approved' : 'Return Rejected'}
+                        </span>
+                      </div>
+                      ${order.returnReason ? `<div style="font-size:12px;color:#6b7280;margin-top:4px;">Return Reason: ${order.returnReason}</div>` : ''}
+                      ${order.rejectReason ? `<div style="font-size:12px;color:#dc2626;margin-top:4px;">Rejection Reason: ${order.rejectReason}</div>` : ''}
+                    ` : ''}
+                    ${order.isCompleted ? `
+                      <span class="status-badge status-completed">Receipt Confirmed</span>
+                    ` : ''}
+                    <button class="btn-outline" onclick="simulateNextStatus(${order.id})">Simulate Update Shipping</button>
+                    ${canDelete ? `<button class="btn-danger-outline" style="margin-left:8px;" onclick="deleteOrder(${order.id})">Delete Order</button>` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function simulateNextStatus(orderId) {
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const currentUserId = userInfo ? (userInfo.id || userInfo.username) : null;
+      const currentUsername = userInfo ? userInfo.username : null;
+
+      const normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+
+      let updated = false;
+
+      normalOrders.forEach(o => {
+        // 只允许更新当前用户的订单
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        if (isUserOrder && o.id === orderId) {
+          const current = o.logisticsStatus || 'pending';
+          o.logisticsStatus = current === 'pending' ? 'shipping' : (current === 'shipping' ? 'delivered' : 'delivered');
+          updated = true;
+        }
+      });
+
+      let blockedCustom = false;
+      customOrders.forEach(o => {
+        // 只允许更新当前用户的订单
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        if (isUserOrder && o.id === orderId) {
+          if ((o.quoteStatus || 'pending') !== 'accepted') {
+            blockedCustom = true;
+            return;
+          }
+          const current = o.logisticsStatus || 'pending';
+          o.logisticsStatus = current === 'pending' ? 'shipping' : (current === 'shipping' ? 'delivered' : 'delivered');
+          updated = true;
+        }
+      });
+
+      if (blockedCustom) {
+        alert('Customer has not accepted the quote yet. Cannot update shipping status.');
+        return;
+      }
+
+      if (updated) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        renderOrders(getCurrentFilter());
+      }
+    }
+
+    // 删除已取消的订单（从本地存储中移除）
+    function deleteOrder(orderId) {
+      if (!confirm('Are you sure you want to delete this order? This cannot be undone.')) return;
+
+      // 获取当前用户信息
+      const userInfoStr = sessionStorage.getItem('user_info');
+      const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
+      const currentUserId = userInfo ? (userInfo.id || userInfo.username) : null;
+      const currentUsername = userInfo ? userInfo.username : null;
+
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+
+      const beforeNormal = normalOrders.length;
+      const beforeCustom = customOrders.length;
+
+      // 只允许删除当前用户的订单
+      normalOrders = normalOrders.filter(o => {
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        const canDelete = (o.logisticsStatus || 'pending') === 'cancelled' || o.isCompleted;
+        return !(isUserOrder && o.id === orderId && canDelete);
+      });
+      customOrders = customOrders.filter(o => {
+        const isUserOrder = o.userId === currentUserId || o.username === currentUsername;
+        const canDelete = (o.logisticsStatus || 'pending') === 'cancelled' || o.isCompleted;
+        return !(isUserOrder && o.id === orderId && canDelete);
+      });
+
+      if (normalOrders.length !== beforeNormal || customOrders.length !== beforeCustom) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        renderOrders(getCurrentFilter());
+        alert('Order deleted');
+      } else {
+        alert('Only cancelled or completed orders can be deleted');
+      }
+    }
+
+    // 确认收货
+    function confirmReceipt(orderId) {
+      if (!confirm('Confirm that you have received the product? This will complete the order.')) return;
+
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let changed = false;
+
+      normalOrders.forEach(o => {
+        if (o.id === orderId && o.logisticsStatus === 'delivered' && !o.isCompleted) {
+          o.isCompleted = true;
+          changed = true;
+        }
+      });
+
+      customOrders.forEach(o => {
+        if (o.id === orderId && o.logisticsStatus === 'delivered' && !o.isCompleted) {
+          o.isCompleted = true;
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        showSuccessModal('checkmark', 'Receipt Confirmed!', 'Order completed. Thank you for your purchase!', 'Your order has been successfully completed.');
+        renderOrders(getCurrentFilter());
+      } else {
+        alert('This order cannot be confirmed at its current status');
+      }
+    }
+
+    // 当前处理的退货订单ID
+    let currentReturnOrderId = null;
+    let selectedReturnReason = '';
+
+    // 打开退货申请弹窗
+    function requestReturn(orderId) {
+      const order = getAllOrders().find(o => o.id === orderId);
+      
+      // 检查订单是否存在
+      if (!order) {
+        alert('Order does not exist');
+        return;
+      }
+      
+      // 检查订单状态：运输途中或已送达的订单可以申请退货
+      // returnStatus 为 'none' 表示没有退货申请，可以申请
+      const returnStatus = order.returnStatus || 'none';
+      if (returnStatus !== 'none' || order.logisticsStatus === 'cancelled') {
+        alert('This order cannot request return at its current status');
+        return;
+      }
+      
+      if (order.logisticsStatus !== 'shipping' && order.logisticsStatus !== 'delivered') {
+        alert('Only orders in transit or delivered can request return');
+        return;
+      }
+      
+      // If order is already confirmed receipt, prompt user
+      if (order.isCompleted) {
+        if (!confirm('This order is already completed. Are you sure you want to continue requesting return?')) {
+          return;
+        }
+      }
+
+      currentReturnOrderId = orderId;
+      selectedReturnReason = '';
+      document.getElementById('customReturnReason').value = '';
+      document.getElementById('customReasonSection').style.display = 'none';
+      
+      // 重置选项
+      document.querySelectorAll('#returnReasonOptions .modal-option').forEach(opt => {
+        opt.classList.remove('active');
+      });
+
+      const modal = document.getElementById('returnRequestModal');
+      if (modal) {
+        modal.classList.add('active');
+      }
+    }
+
+    // 关闭退货申请弹窗
+    function closeReturnRequestModal() {
+      const modal = document.getElementById('returnRequestModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+      currentReturnOrderId = null;
+      selectedReturnReason = '';
+      document.getElementById('customReturnReason').value = '';
+      document.getElementById('customReasonSection').style.display = 'none';
+    }
+
+    // 选择退货理由
+    function selectReturnReason(reason) {
+      selectedReturnReason = reason;
+      document.querySelectorAll('#returnReasonOptions .modal-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.reason === reason);
+      });
+
+      // 如果选择"其他"，显示自定义输入框
+      if (reason === 'Other') {
+        document.getElementById('customReasonSection').style.display = 'block';
+      } else {
+        document.getElementById('customReasonSection').style.display = 'none';
+        document.getElementById('customReturnReason').value = '';
+      }
+    }
+
+    // 提交退货申请
+    function submitReturnRequest() {
+      if (!currentReturnOrderId) return;
+
+      let reason = selectedReturnReason;
+      if (reason === 'Other') {
+        reason = document.getElementById('customReturnReason').value.trim();
+        if (!reason) {
+          alert('Please enter specific return reason');
+          return;
+        }
+        reason = 'Other: ' + reason;
+      }
+
+      if (!reason) {
+        alert('Please select or enter return reason');
+        return;
+      }
+
+      let normalOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      let customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let changed = false;
+
+      normalOrders.forEach(o => {
+        const returnStatus = o.returnStatus || 'none';
+        if (o.id === currentReturnOrderId && (o.logisticsStatus === 'shipping' || o.logisticsStatus === 'delivered') && returnStatus === 'none') {
+          o.returnStatus = 'requested';
+          o.returnRequestTime = Date.now();
+          o.returnReason = reason;
+          changed = true;
+        }
+      });
+
+      customOrders.forEach(o => {
+        const returnStatus = o.returnStatus || 'none';
+        if (o.id === currentReturnOrderId && (o.logisticsStatus === 'shipping' || o.logisticsStatus === 'delivered') && returnStatus === 'none') {
+          o.returnStatus = 'requested';
+          o.returnRequestTime = Date.now();
+          o.returnReason = reason;
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        localStorage.setItem('orders', JSON.stringify(normalOrders));
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        closeReturnRequestModal();
+        showSuccessModal('smiley', 'Return Request Submitted!', 'Your return request has been submitted successfully.', 'Please wait for merchant review. We will process your request as soon as possible.');
+        renderOrders(getCurrentFilter());
+      } else {
+        alert('This order cannot request return at its current status');
+      }
+    }
+
+    function getQuoteByOrderId(orderId) {
+      const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      return quotes.find(q => String(q.orderId) === String(orderId));
+    }
+
+    function openPaymentModal(orderId) {
+      paymentModalOrderId = orderId;
+      selectedPaymentMethod = 'wechat';
+      selectedShippingMethod = 'express';
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const order = customOrders.find(o => String(o.id) === String(orderId));
+      currentAddressOptions = getCustomerAddresses(order ? order.receivingAddress : null);
+      const defaultAddr = currentAddressOptions.find(addr => addr.isDefault);
+      selectedAddressId = defaultAddr ? defaultAddr.id : (currentAddressOptions[0] ? currentAddressOptions[0].id : null);
+      renderAddressOptions();
+      
+      document.querySelectorAll('.modal-option[data-option]').forEach(option => {
+        option.classList.remove('active');
+        if (option.dataset.option === 'payment' && option.dataset.value === selectedPaymentMethod) {
+          option.classList.add('active');
+        }
+        if (option.dataset.option === 'shipping' && option.dataset.value === selectedShippingMethod) {
+          option.classList.add('active');
+        }
+      });
+
+      updatePaymentSummary();
+      const modal = document.getElementById('paymentModal');
+      if (modal) {
+        modal.classList.add('active');
+      }
+    }
+
+    function closePaymentModal() {
+      const modal = document.getElementById('paymentModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+      paymentModalOrderId = null;
+      currentAddressOptions = [];
+      selectedAddressId = null;
+      const addressContainer = document.getElementById('addressOptions');
+      if (addressContainer) {
+        addressContainer.innerHTML = '';
+      }
+    }
+
+    function selectModalOption(type, value) {
+      if (type === 'payment') {
+        selectedPaymentMethod = value;
+      } else {
+        selectedShippingMethod = value;
+      }
+      document.querySelectorAll(`.modal-option[data-option="${type}"]`).forEach(option => {
+        option.classList.toggle('active', option.dataset.value === value);
+      });
+      updatePaymentSummary();
+    }
+
+    function updatePaymentSummary() {
+      if (!paymentModalOrderId) return;
+      const quote = getQuoteByOrderId(paymentModalOrderId);
+      const amount = quote ? quote.total : 0;
+      const summary = document.getElementById('paymentSummaryAmount');
+      if (summary) {
+        summary.textContent = `HK$${(amount || 0).toFixed(2)}`;
+      }
+    }
+
+    function acceptQuote(orderId) {
+      const quote = getQuoteByOrderId(orderId);
+      if (!quote) {
+        alert('This order does not have a quote yet.');
+        return;
+      }
+      openPaymentModal(orderId);
+    }
+
+    function confirmCustomPayment() {
+      if (!paymentModalOrderId) return;
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      const order = customOrders.find(o => String(o.id) === String(paymentModalOrderId));
+      const quote = quotes.find(q => String(q.orderId) === String(paymentModalOrderId));
+      if (!order || !quote) {
+        alert('Order information missing');
+        return;
+      }
+      const selectedAddress = currentAddressOptions.find(addr => addr.id === selectedAddressId);
+      order.quoteStatus = 'accepted';
+      order.logisticsStatus = 'pending';
+      order.price = quote.total;
+      // 根据配送方式写入不同的地址信息
+      if (selectedShippingMethod === 'pickup') {
+        order.receivingAddress = 'Smile & Sunshine Custom Workshop Pickup: 5/F, Building 19, Shing Yip Street, Kwun Tong, Kowloon, Hong Kong (Weekdays 10:00-18:00)';
+      } else if (selectedAddress) {
+        order.receivingAddress = `${selectedAddress.label}：${selectedAddress.detail}`;
+      }
+      order.paymentInfo = {
+        method: selectedPaymentMethod,
+        shipping: selectedShippingMethod,
+        paidAt: new Date().toISOString()
+      };
+      localStorage.setItem('customOrders', JSON.stringify(customOrders));
+      closePaymentModal();
+      alert('Payment successful. Order is now pending shipment.');
+      renderOrders(getCurrentFilter());
+    }
+
+    function rejectQuote(orderId) {
+      if (!confirm('Are you sure you want to reject this quote?')) return;
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      const order = customOrders.find(o => o.id === orderId);
+      if (!order) {
+        alert('Order does not exist');
+        return;
+      }
+      
+      // 确保报价单数据保留（即使被拒绝）
+      const quote = quotes.find(q => String(q.orderId) === String(orderId));
+      if (quote) {
+        // 更新报价单状态为 rejected，但保留数据
+        quote.status = 'rejected';
+        quote.rejectedAt = new Date().toISOString();
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+      }
+      
+      order.quoteStatus = 'rejected';
+      order.logisticsStatus = 'cancelled';
+      localStorage.setItem('customOrders', JSON.stringify(customOrders));
+      alert('You have rejected this quote');
+      renderOrders(getCurrentFilter());
+    }
+
+    // 打开报价单详情弹窗
+    function viewQuoteDetail(orderId) {
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      const order = customOrders.find(o => String(o.id) === String(orderId));
+      const quote = quotes.find(q => String(q.orderId) === String(orderId));
+
+      if (!order || !quote) {
+        alert('This order does not have a quote yet');
+        return;
+      }
+
+      const body = document.getElementById('quoteDetailBody');
+      const createTime = order.createTime ? new Date(order.createTime).toLocaleString('en-US') : '-';
+      const quoteTime = quote.createdAt ? new Date(quote.createdAt).toLocaleString('en-US')
+                        : (order.quoteDate ? new Date(order.quoteDate).toLocaleString('en-US') : '-');
+      const material = quote.material || order.material || order.materialDescription || '-';
+      const quantity = quote.quantity || order.quantity || 1;
+      const priceMaterial = quote.priceMaterial || 0;
+      const priceCraft = quote.priceCraft || 0;
+      const priceDesign = quote.priceDesign || 0;
+      const total = quote.total || order.quoteTotal || 0;
+
+      // 获取客户的额外需求（优先从报价单中获取，如果没有则从订单中获取）
+      const notes = quote.notes || order.notes || '';
+      const dimensions = quote.dimensions || order.dimensions || '';
+      const pantone = quote.pantone || order.pantone || '';
+      const materialSpec = quote.materialSpec || order.materialSpec || '';
+
+      body.innerHTML = `
+        <div style="display:grid; gap:14px; font-size:14px; color:#111827;">
+          <div>
+            <div style="font-weight:600; margin-bottom:6px;">Basic Information</div>
+            <div>Order No: ${order.id}</div>
+            <div>Submit Time: ${createTime}</div>
+            <div>Quote Generated Time: ${quoteTime}</div>
+            <div>Product Name: ${order.productName || (order.toyType || 'Custom Product')}</div>
+            ${order.quoteStatus === 'rejected' ? `<div style="color: #dc2626; font-weight: 600; margin-top: 6px;">Status: Rejected</div>` : ''}
+          </div>
+          <div>
+            <div style="font-weight:600; margin-bottom:6px;">Customization Requirements</div>
+            <div>Material: ${material}</div>
+            <div>Quantity: ${quantity} pcs</div>
+            ${order.size || quote.size ? `<div>Size: ${order.size || quote.size}</div>` : ''}
+            ${order.color && order.color.name ? `<div>Color: ${getColorNameEn(order.color.name)}</div>` : (quote.color ? `<div>Color: ${getColorNameEn(quote.color)}</div>` : '')}
+            ${order.variant || quote.variant ? `<div>Style: ${order.variant || quote.variant}</div>` : ''}
+            ${dimensions ? `<div>Dimensions: ${dimensions}</div>` : ''}
+            ${pantone ? `<div>Pantone Color Code: ${pantone}</div>` : ''}
+            ${materialSpec ? `<div>Material Specifications: ${materialSpec}</div>` : ''}
+            ${notes ? `<div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #1A319F;">
+              <div style="font-weight:600; margin-bottom:4px;">Additional Requirements:</div>
+              <div style="white-space: pre-wrap; color: #374151;">${notes}</div>
+            </div>` : ''}
+          </div>
+          <div>
+            <div style="font-weight:600; margin-bottom:6px;">Price Details (HK$)</div>
+            <div>Material Cost: ${priceMaterial.toFixed ? priceMaterial.toFixed(2) : Number(priceMaterial).toFixed(2)}</div>
+            <div>Processing Fee / Labor Cost: ${priceCraft.toFixed ? priceCraft.toFixed(2) : Number(priceCraft).toFixed(2)}</div>
+            <div>Copyright Fee: ${priceDesign.toFixed ? priceDesign.toFixed(2) : Number(priceDesign).toFixed(2)}</div>
+            <div style="margin-top:6px; padding-top:6px; border-top:1px solid #e5e7eb; font-weight:600;">
+              Total Quote Amount: HK$${(total || 0).toLocaleString()}
+            </div>
+          </div>
+        </div>
+      `;
+
+      const modal = document.getElementById('quoteDetailModal');
+      if (modal) {
+        modal.classList.add('active');
+      }
+    }
+
+    function closeQuoteDetail() {
+      const modal = document.getElementById('quoteDetailModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+
+    function getCurrentFilter() {
+      const active = document.querySelector('.order-tab.active');
+      return active ? active.getAttribute('data-filter') : 'all';
+    }
+
+    function setupTabs() {
+      document.querySelectorAll('.order-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+          document.querySelectorAll('.order-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          renderOrders(this.getAttribute('data-filter'));
+        });
+      });
+    }
+
+    function setupNavActive() {
+      const path = window.location.pathname;
+      const page = path.endsWith('customize.html') ? 'customize' :
+                   path.endsWith('platform-market.html') ? 'platform' : '';
+      if (page) {
+        const activeItem = document.querySelector(`.nav-item[data-page="${page}"]`);
+        if (activeItem) {
+          activeItem.classList.add('active');
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      updateUserInfo();
+      updateCartBadge();
+      setupTabs();
+      setupNavActive();
+      renderOrders('all');
+      document.querySelectorAll('.modal-option').forEach(option => {
+        option.addEventListener('click', () => {
+          selectModalOption(option.dataset.option, option.dataset.value);
+        });
+      });
+      
+      // 绑定退货理由选项的点击事件
+      document.querySelectorAll('#returnReasonOptions .modal-option').forEach(option => {
+        option.addEventListener('click', () => {
+          selectReturnReason(option.dataset.reason);
+        });
+      });
+    });
+
+    // 显示成功弹窗
+    function showSuccessModal(type, title, message, details = '') {
+      const modal = document.getElementById('successModal');
+      const titleEl = document.getElementById('successTitle');
+      const messageEl = document.getElementById('successMessage');
+      const detailsEl = document.getElementById('successDetails');
+      const iconCircle = document.getElementById('successIconCircle');
+      const iconContent = document.getElementById('successIconContent');
+      
+      if (!modal || !titleEl || !messageEl || !detailsEl || !iconCircle || !iconContent) {
+        console.error('Success modal elements not found');
+        return;
+      }
+      
+      // 设置图标类型
+      iconCircle.className = 'success-icon-circle';
+      iconContent.innerHTML = '';
+      
+      if (type === 'checkmark') {
+        iconCircle.classList.add('checkmark');
+        iconContent.innerHTML = '<div class="success-checkmark"></div>';
+      } else if (type === 'smiley') {
+        iconCircle.classList.add('smiley');
+        iconContent.innerHTML = '<div class="smiley-face"></div>';
+      }
+      
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      
+      if (details) {
+        detailsEl.innerHTML = details.split('\n').map(line => {
+          if (line.includes(':')) {
+            const [key, ...valueParts] = line.split(':');
+            return `<strong>${key.trim()}:</strong> ${valueParts.join(':').trim()}`;
+          }
+          return line;
+        }).join('<br>');
+        detailsEl.style.display = 'block';
+      } else {
+        detailsEl.style.display = 'none';
+      }
+      
+      // 确保弹窗在最上层
+      modal.style.zIndex = '20000';
+      modal.classList.add('show');
+      
+      // 自动关闭弹窗
+      setTimeout(() => {
+        modal.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+
+  <!-- Success Modal -->
+  <div id="successModal">
+    <div class="success-modal-content">
+      <div class="success-icon">
+        <div class="success-icon-circle" id="successIconCircle">
+          <div id="successIconContent"></div>
+        </div>
+      </div>
+      <h2 class="success-title" id="successTitle">Success!</h2>
+      <p class="success-message" id="successMessage"></p>
+      <div class="success-details" id="successDetails" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script src="js/theme.js"></script>
+</body>
+</html>

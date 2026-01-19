@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Second-hand Trading Platform</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <div class="brand"><div class="logo"></div> Second-hand Trading Platform</div>
+            <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
+        </div>
+        <h2>Register</h2>
+        <p class="subtitle">Please fill in the following information to create an account</p>
+        <form id="registerForm" class="loginForm">
+            <div class="form-group">
+                <label for="reg_username">Username</label>
+                <input id="reg_username" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_email">Email</label>
+                <input id="reg_email" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_phone">Phone Number</label>
+                <input id="reg_phone" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_password">Password</label>
+                <input id="reg_password" type="password" required>
+                <div class="help-text">At least 6 characters, containing any two or more of uppercase letters, lowercase letters, numbers, and special characters</div>
+                <div class="strength-meter" id="strength"><div></div></div>
+            </div>
+            <div class="form-group">
+                <label for="reg_confirm">Confirm Password</label>
+                <input id="reg_confirm" type="password" required>
+            </div>
+            <button type="submit" class="login-btn">Submit Registration</button>
+            <div id="msg" style="margin-top:1rem;color:#555;"></div>
+            <div class="form-footer">
+                <a href="/login">Back to Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    const BACKEND_BASE = (window.location.protocol === 'file:'
+      ? 'http://localhost:3000'
+      : (window.location.origin || 'http://localhost:3000'));
+    function setMessage(text, isError = false) {
+        const msg = document.getElementById('msg');
+        msg.classList.remove('show', 'success', 'error');
+        msg.style.color = isError ? '#c0392b' : '#2c3e50';
+        msg.textContent = text;
+        msg.classList.add('show');
+        if (!isError) {
+            msg.classList.add('success');
+        } else {
+            msg.classList.add('error');
+        }
+    }
+    function setFieldState(id, ok, message) {
+        const group = id.closest('.form-group');
+        group.classList.remove('error', 'success');
+        if (ok === true) {
+            group.classList.add('success');
+            const err = group.querySelector('.error-text');
+            if (err) err.textContent = '';
+        } else if (ok === false) {
+            group.classList.add('error');
+            let err = group.querySelector('.error-text');
+            if (!err) {
+                err = document.createElement('div');
+                err.className = 'error-text';
+                group.appendChild(err);
+            }
+            err.textContent = message || '输入有误';
+        }
+    }
+    // 主题切换
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.addEventListener('click', () => {
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        if (newTheme === 'light') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    // 密码强度提示
+    const passwordElRef = document.getElementById('reg_password');
+    const strengthBar = document.querySelector('#strength > div');
+    passwordElRef.addEventListener('input', () => {
+        const v = passwordElRef.value;
+        const lengthScore = v.length >= 8 ? 1 : v.length >= 6 ? 0.5 : 0;
+        const hasLower = /[a-z]/.test(v);
+        const hasUpper = /[A-Z]/.test(v);
+        const hasNum = /\d/.test(v);
+        const hasSpec = /[^A-Za-z0-9]/.test(v);
+        const variety = [hasLower, hasUpper, hasNum, hasSpec].filter(Boolean).length;
+        const varietyScore = Math.min(1, variety / 3);
+        const score = Math.min(1, 0.4 * lengthScore + 0.6 * varietyScore);
+        strengthBar.style.width = `${Math.max(0.1, score) * 100}%`;
+        strengthBar.style.backgroundColor = score < 0.4 ? '#ff6b6b' : score < 0.7 ? '#f7b731' : '#28a745';
+    });
+
+    const submitBtn = document.querySelector('.login-btn');
+    let submitting = false;
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (submitting) return;
+        const usernameEl = document.getElementById('reg_username');
+        const emailEl = document.getElementById('reg_email');
+        const phoneEl = document.getElementById('reg_phone');
+        const passwordEl = document.getElementById('reg_password');
+        const confirmEl = document.getElementById('reg_confirm');
+        const username = usernameEl.value.trim();
+        const email = emailEl.value.trim();
+        const phone = phoneEl.value.trim();
+        const password = passwordEl.value;
+        const confirm = confirmEl.value;
+        let hasError = false;
+        if (!username) { setFieldState(usernameEl, false, '请输入用户名'); hasError = true; } else { setFieldState(usernameEl, true); }
+        const emailOk = /.+@.+\..+/.test(email);
+        if (!emailOk) { setFieldState(emailEl, false, '请输入有效邮箱'); hasError = true; } else { setFieldState(emailEl, true); }
+        const phoneOk = /^\d{6,15}$/.test(phone);
+        if (!phoneOk) { setFieldState(phoneEl, false, '请输入6-15位数字手机号'); hasError = true; } else { setFieldState(phoneEl, true); }
+        if (password.length < 6) { setFieldState(passwordEl, false, '密码至少6位'); hasError = true; } else { setFieldState(passwordEl, true); }
+        if (password !== confirm) { setFieldState(confirmEl, false, '两次密码不一致'); hasError = true; } else { setFieldState(confirmEl, true); }
+        if (hasError) { setMessage('请修正表单中的错误', true); return; }
+        try {
+            const resp = await fetch(`${BACKEND_BASE}/api/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+            const data = await resp.json().catch(() => ({ success:false, message: '响应不是JSON' }));
+            if (!resp.ok || data.success === false) {
+                const msg = data.message || data.error || '注册失败';
+                setFieldState(usernameEl, false, msg);
+                setMessage(msg, true);
+                return;
+            }
+            setMessage('注册成功，即将跳转到登录页...');
+            setTimeout(() => { 
+              if (window.location.protocol === 'file:') {
+                window.location.href = 'login.html';
+              } else {
+                window.location.href = '/login';
+              }
+            }, 1000);
+        } catch (err) {
+            setMessage('请求失败：' + err.message, true);
+        } finally {
+            submitting = false; submitBtn.removeAttribute('disabled');
+        }
+    });
+    </script>
+</body>
+</html>
+
+

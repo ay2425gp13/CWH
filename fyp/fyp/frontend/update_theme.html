@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme System Update Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: #CFD7E2;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .file-name {
+            font-weight: 500;
+        }
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .instructions {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        .code-block {
+            background: #CFD7E2;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Theme System Update Tool</h1>
+        
+        <div class="instructions">
+            <h3>📋 Update Instructions</h3>
+            <p>Please follow these steps to add theme switching functionality to all pages:</p>
+            
+            <h4>1. Add theme CSS in the &lt;head&gt; tag:</h4>
+            <div class="code-block">
+&lt;link rel="stylesheet" href="css/theme.css"&gt;
+            </div>
+            
+            <h4>2. Add theme script before &lt;/body&gt; tag:</h4>
+            <div class="code-block">
+&lt;!-- Theme switching script --&gt;
+&lt;script src="js/theme.js"&gt;&lt;/script&gt;
+            </div>
+            
+            <h4>3. Keyboard shortcuts:</h4>
+            <p>Users can use <strong>Ctrl/Cmd + Shift + T</strong> to quickly switch themes</p>
+        </div>
+        
+        <h3>📁 List of files that need updating:</h3>
+        <ul class="file-list">
+            <li class="file-item">
+                <span class="file-name">✅ secondary.html</span>
+                <span class="status completed">Completed</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">✅ CustomerMenu.html</span>
+                <span class="status completed">Completed</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ news.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ forum.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ platform-market.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ AI-Setup-Recommend.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ friendlist.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ online-support.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ coupon.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ refund.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ prices.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ product-detail.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ gift-box.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ my-favorites.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ my-items.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ my-reviews.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+            <li class="file-item">
+                <span class="file-name">⏳ search-notifications.html</span>
+                <span class="status pending">Pending update</span>
+            </li>
+        </ul>
+        
+        <div class="instructions">
+            <h3>🎯 Theme Features</h3>
+            <ul>
+                <li><strong>Dark Theme</strong>: Blue gradient navigation bar + dark background</li>
+                <li><strong>Light Theme</strong>: Blue gradient navigation bar + light background</li>
+                <li><strong>Auto Save</strong>: User selected theme is saved to local storage</li>
+                <li><strong>System Follow</strong>: Automatically follows system theme on first visit</li>
+                <li><strong>Global Switch</strong>: Set once, all pages sync</li>
+                <li><strong>Smooth Transition</strong>: Smooth animation effects when switching themes</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

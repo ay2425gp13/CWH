@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - FYP Marketplace</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        :root {
+            /* Dark theme variables */
+            --primary: #1b2838;
+            --secondary: #2a475e;
+            --accent: #66c0f4;
+            --gold: #ffc82c;
+            --silver: #c7d5e0;
+            --bronze: #cd7f32;
+            --bg: #1e2329;
+            --card-bg: #16181d;
+            --text: #c7d5e0;
+            --text-light: #8f98a0;
+            --border: #3c4043;
+            --success: #5cb85c;
+            --warning: #f0ad4e;
+            --danger: #d9534f;
+            --info: #5bc0de;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --forum-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        /* Light theme */
+        [data-theme="light"] {
+            --bg: #CFD7E2;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 70px; /* Space for bottom bar */
+        }
+
+    /* Unified top navigation bar styles */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+        .unified-top-nav .nav-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          height: 100%;
+        }
+
+        .unified-top-nav .nav-logo {
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+        }
+
+        .unified-top-nav .logo-link {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          color: white;
+          font-weight: bold;
+          font-size: 18px;
+          transition: all 0.3s ease;
+        }
+
+        .unified-top-nav .logo-link:hover {
+          transform: scale(1.05);
+        }
+
+        .unified-top-nav .logo-icon {
+          font-size: 24px;
+          margin-right: 8px;
+        }
+
+        .unified-top-nav .logo-text {
+          color: white;
+        }
+
+        .unified-top-nav .nav-menu {
+          display: flex;
+          align-items: center;
+          gap: 0;
+          flex: 1;
+          justify-content: center;
+          margin: 0 20px;
+        }
+
+        .unified-top-nav .nav-item {
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 500;
+          padding: 12px 16px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          position: relative;
+          white-space: nowrap;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .nav-item:hover {
+          background: rgba(255, 255, 255, 0.15);
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .nav-item.active {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          font-weight: 600;
+        }
+
+        .unified-top-nav .nav-item.active::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 20px;
+          height: 2px;
+          background: white;
+          border-radius: 1px;
+        }
+
+        .unified-top-nav .nav-user {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-shrink: 0;
+        }
+
+        .unified-top-nav .user-info {
+          position: relative;
+          cursor: pointer;
+        }
+
+        .unified-top-nav .user-id {
+          padding: 10px 16px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 6px;
+          font-weight: 500;
+          color: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          font-size: 14px;
+        }
+
+        .unified-top-nav .user-id:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .user-dropdown {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background: white;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          min-width: 180px;
+          display: none;
+          z-index: 1001;
+          margin-top: 5px;
+        }
+
+        .unified-top-nav .user-info:hover .user-dropdown {
+          display: block;
+        }
+
+        .unified-top-nav .dropdown-item {
+          display: block;
+          padding: 12px 16px;
+          text-decoration: none;
+          color: #333;
+          border-bottom: 1px solid #f0f0f0;
+          transition: background 0.3s;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .dropdown-item:hover {
+          background: #f5f5f5;
+        }
+
+        .unified-top-nav .dropdown-item:last-child {
+          border-bottom: none;
+        }
+
+        .unified-top-nav .logout-btn {
+          color: #ff4d4f !important;
+        }
+
+        .unified-top-nav .nav-icon {
+          font-size: 18px;
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.8);
+          padding: 10px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+        }
+
+        .unified-top-nav .nav-icon:hover {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .nav-button {
+          background: white;
+          color: #1e3a8a;
+          text-decoration: none;
+          padding: 10px 16px;
+          border-radius: 6px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          border: 2px solid white;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .nav-button:hover {
+          background: rgba(255, 255, 255, 0.9);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navigation bar theme switch button styles */
+        .theme-toggle-nav {
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+        }
+        
+        .switch-nav {
+          position: relative;
+          display: inline-block;
+          width: 50px;
+          height: 24px;
+        }
+        
+        .switch-nav input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+        
+        .slider-nav {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(255,255,255,0.2);
+          transition: .4s;
+          border-radius: 24px;
+          border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .switch-nav input:checked + .slider-nav {
+          background-color: rgba(255,255,255,0.3);
+        }
+        
+        .slider-nav:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 2px;
+          bottom: 2px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .switch-nav input:checked + .slider-nav:before {
+          transform: translateX(26px);
+        }
+        
+        .switch-label-nav {
+          position: absolute;
+          top: 2px;
+          font-size: 12px;
+          pointer-events: none;
+          transition: opacity 0.3s;
+        }
+        
+        .switch-label-nav.on {
+          left: 6px;
+          opacity: 1;
+        }
+        
+        .switch-label-nav.off {
+          right: 6px;
+          opacity: 0;
+        }
+        
+        .switch-nav input:checked + .slider-nav .switch-label-nav.on {
+          opacity: 0;
+        }
+        
+        .switch-nav input:checked + .slider-nav .switch-label-nav.off {
+          opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+          .unified-top-nav .nav-menu {
+            gap: 0;
+          }
+          
+          .unified-top-nav .nav-item {
+            padding: 10px 12px;
+            font-size: 13px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .unified-top-nav .nav-container {
+            padding: 0 15px;
+          }
+          
+          .unified-top-nav .nav-menu {
+            display: none;
+          }
+          
+          .unified-top-nav .nav-user {
+            gap: 8px;
+          }
+          
+          .unified-top-nav .nav-button {
+            padding: 8px 12px;
+            font-size: 13px;
+          }
+          
+          .unified-top-nav .nav-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .unified-top-nav .nav-container {
+            padding: 0 10px;
+          }
+          
+          .unified-top-nav .logo-text {
+            display: none;
+          }
+          
+          .unified-top-nav .nav-user {
+            gap: 6px;
+          }
+          
+          .unified-top-nav .nav-button {
+            padding: 6px 10px;
+            font-size: 12px;
+          }
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: var(--secondary);
+            color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* Navigation bar theme switch button styles */
+        .theme-toggle-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .switch-nav {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch-nav input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255,255,255,0.2);
+            transition: .4s;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .switch-nav input:checked + .slider-nav {
+            background-color: rgba(255,255,255,0.3);
+        }
+        
+        .slider-nav:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .switch-nav input:checked + .slider-nav:before {
+            transform: translateX(26px);
+        }
+        
+        .switch-label-nav {
+            position: absolute;
+            top: 2px;
+            font-size: 12px;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .switch-label-nav.on {
+            left: 6px;
+            opacity: 1;
+        }
+        
+        .switch-label-nav.off {
+            right: 6px;
+            opacity: 0;
+        }
+        
+        .switch-nav input:checked + .slider-nav .switch-label-nav.on {
+            opacity: 0;
+        }
+        
+        .switch-nav input:checked + .slider-nav .switch-label-nav.off {
+            opacity: 1;
+        }
+        
+        /* Bottom bar styles */
+        .bottom-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--card-bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 30px;
+            z-index: 4000;
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .bottom-bar .left-icons,
+        .bottom-bar .right-icons {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .bottom-bar .icon-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .bottom-bar .icon-btn:hover {
+            transform: scale(1.1);
+            color: var(--primary);
+        }
+        
+        .bottom-bar .username {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 16px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .bottom-bar .username:hover {
+            color: var(--primary);
+        }
+        
+        /* Bottom bar dark mode switch */
+        .bottom-bar .switch {
+            position: relative;
+            display: inline-block;
+            width: 120px;
+            height: 32px;
+            margin-right: 16px;
+            vertical-align: middle;
+        }
+        
+        .bottom-bar .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .bottom-bar .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0;
+            background-color: #181818;
+            border-radius: 32px;
+            transition: .4s;
+            border: 2px solid var(--border);
+        }
+        
+        .bottom-bar .switch input:checked + .slider {
+            background-color: #fff;
+        }
+        
+        .bottom-bar .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 3px;
+            background-color: #fff;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .bottom-bar .switch input:checked + .slider:before {
+            transform: translateX(88px);
+            background: #2196f3;
+        }
+        
+        .bottom-bar .switch-label {
+            position: absolute;
+            top: 6px;
+            font-size: 12px;
+            color: #fff;
+            pointer-events: none;
+            transition: color 0.4s, opacity 0.3s;
+            font-weight: 500;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+        
+        .bottom-bar .switch-label.on {
+            left: 12px;
+        }
+        
+        .bottom-bar .switch-label.off {
+            right: 12px;
+        }
+        
+        .bottom-bar .switch input:checked + .slider .switch-label.on {
+            opacity: 0;
+        }
+        
+        .bottom-bar .switch input:checked + .slider .switch-label.off {
+            opacity: 1;
+            color: #333;
+        }
+        
+        .bottom-bar .switch input:not(:checked) + .slider .switch-label.on {
+            opacity: 1;
+        }
+        
+        .bottom-bar .switch input:not(:checked) + .slider .switch-label.off {
+            opacity: 0;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Page title */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 20px;
+            background: var(--forum-gradient);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main content layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 30px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-item {
+            padding: 10px 12px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category-item:hover {
+            background: var(--bg);
+        }
+
+        .category-item.active {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .category-count {
+            font-size: 0.8rem;
+            background: var(--border);
+            color: var(--text-light);
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .category-item.active .category-count {
+            background: rgba(255,255,255,0.2);
+            color: var(--primary);
+        }
+
+        /* Forum main area */
+        .forum-main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Search and post */
+        .forum-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            color: var(--text);
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .new-post-btn {
+            padding: 12px 20px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .new-post-btn:hover {
+            background: #4cae4c;
+            transform: translateY(-1px);
+        }
+
+        /* Sort options */
+        .sort-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sort-btn {
+            padding: 8px 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sort-btn.active {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+
+        .sort-btn:hover {
+            border-color: var(--accent);
+        }
+
+        /* Posts list */
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .post-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .post-item:nth-child(1) { animation-delay: 0.1s; }
+        .post-item:nth-child(2) { animation-delay: 0.2s; }
+        .post-item:nth-child(3) { animation-delay: 0.3s; }
+        .post-item:nth-child(4) { animation-delay: 0.4s; }
+        .post-item:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .post-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        .post-content {
+            color: var(--text-light);
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-stats {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .post-engagement {
+            display: flex;
+            gap: 20px;
+        }
+
+        .engagement-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .post-tag {
+            padding: 2px 8px;
+            background: var(--border);
+            color: var(--text-light);
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .tag-hot {
+            background: var(--danger);
+            color: white;
+        }
+
+        .tag-new {
+            background: var(--success);
+            color: white;
+        }
+
+        .tag-sticky {
+            background: var(--warning);
+            color: var(--primary);
+        }
+
+        /* Right sidebar */
+        .right-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .widget {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .widget-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hot-topic {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .hot-topic:hover {
+            color: var(--accent);
+        }
+
+        .hot-topic:last-child {
+            border-bottom: none;
+        }
+
+        .topic-rank {
+            width: 20px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .topic-title {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .topic-count {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .user-item:hover {
+            color: var(--accent);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .user-posts {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 200px 1fr 250px;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .sidebar, .right-sidebar {
+                position: static;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .forum-actions {
+                flex-direction: column;
+            }
+
+            .post-stats {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified top navigation bar -->
+    <nav class="unified-top-nav">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <a href="CustomerMenu.html" class="logo-link">
+            <span class="logo-icon">📱</span>
+            <span class="logo-text">FYP Marketplace</span>
+          </a>
+        </div>
+        
+        <div class="nav-menu">
+          <a href="CustomerMenu.html" class="nav-item" data-page="home">Home</a>
+          <a href="news.html" class="nav-item" data-page="news">News Center</a>
+          <a href="prices.html" class="nav-item" data-page="prices">Price Info</a>
+          <a href="forum.html" class="nav-item active" data-page="forum">Forum</a>
+          <a href="secondary.html" class="nav-item" data-page="secondary">Secondary Market</a>
+          <a href="platform-market.html" class="nav-item" data-page="platform">Platform Market</a>
+          <a href="online-support.html" class="nav-item" data-page="support">Online Support</a>
+          <a href="AI-Setup-Recommend.html" class="nav-item" data-page="ai">AI Recommend</a>
+          <a href="friendlist.html" class="nav-item" data-page="friends">Trade Chat</a>
+        </div>
+        
+        <div class="nav-user">
+          <div class="user-info" id="userInfo">
+            <span class="user-id" id="userId">Please Login</span>
+            <div class="user-dropdown">
+              <a href="my-items.html" class="dropdown-item">My Items</a>
+              <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+              <a href="my-reviews.html" class="dropdown-item">My Reviews</a>
+              <a href="search-notifications.html" class="dropdown-item">Search Notifications</a>
+              <a href="#" class="dropdown-item logout-btn">Logout</a>
+            </div>
+          </div>
+          <!-- Theme switch button -->
+          <div class="theme-toggle-nav">
+            <label class="switch-nav" id="darkModeLabel">
+              <input type="checkbox" id="darkModeSwitch">
+              <span class="slider-nav">
+                <span class="switch-label-nav on">🌙</span>
+                <span class="switch-label-nav off">☀️</span>
+              </span>
+            </label>
+          </div>
+          <a href="#" class="nav-icon" title="Trade Chat">💬</a>
+          <a href="#" class="nav-icon" title="Messages">✉️</a>
+          <a href="secondary.html" class="nav-button">Free Listing</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main container -->
+    <div class="container">
+        <!-- Page title -->
+        <div class="page-header">
+            <h1 class="page-title">💬 Forum</h1>
+            <p class="page-subtitle">Share experiences, exchange ideas, build a harmonious community</p>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Left categories -->
+            <div class="sidebar">
+                <h3 class="sidebar-title">
+                    <span style="display: flex; align-items: center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:4px;"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/></svg>Discussion Categories</span>
+                </h3>
+                <ul class="category-list">
+                    <li class="category-item active" data-category="all">
+                        <span style="display: flex; align-items:center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:4px;"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>All Discussions</span>
+                        <span class="category-count">156</span>
+                    </li>
+                    <li class="category-item" data-category="trading">
+                        <span style="display: flex; align-items:center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:4px;"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 16v-8"/></svg>Trading Experience</span>
+                        <span class="category-count">42</span>
+                    </li>
+                    <li class="category-item" data-category="products">
+                        <span style="display: flex; align-items:center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Product Reviews</span>
+                        <span class="category-count">38</span>
+                    </li>
+                    <li class="category-item" data-category="help">
+                        <span style="display: flex; align-items:center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9c.45-2 6.36-2 5.82 1.18-.37 2.09-2.91 1.16-2.91 4.32"/><circle cx="12" cy="17" r="1"/></svg>Newbie Help</span>
+                        <span class="category-count">29</span>
+                    </li>
+                    <li class="category-item" data-category="suggestions">
+                        <span style="display: flex; align-items:center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:4px;"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Suggestions Feedback</span>
+                        <span class="category-count">23</span>
+                    </li>
+                    <li class="category-item" data-category="off-topic">
+                        <span style="display: flex; align-items:center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:4px;"><rect x="3" y="11" width="18" height="7" rx="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>Off-topic Chat</span>
+                        <span class="category-count">24</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main forum area -->
+            <div class="forum-main">
+                <!-- Search and post -->
+                <div class="forum-actions">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Search posts..." id="searchInput">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <button class="new-post-btn" onclick="newPost()">📝 New Post</button>
+                </div>
+
+                <!-- Sort options -->
+                <div class="sort-options">
+                    <button class="sort-btn active" data-sort="latest">Latest Replies</button>
+                    <button class="sort-btn" data-sort="hot">Hot Discussions</button>
+                    <button class="sort-btn" data-sort="views">Most Views</button>
+                    <button class="sort-btn" data-sort="replies">Most Replies</button>
+                </div>
+
+                <!-- Posts list -->
+                <div class="posts-list" id="postsList">
+                    <!-- Posts will be generated dynamically via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Right sidebar -->
+            <div class="right-sidebar">
+                <!-- Hot topics -->
+                <div class="widget">
+                    <h3 class="widget-title">
+                        <span style="display: flex; align-items: center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:6px;"><path d="M6 21V19C6 17.8954 6.89543 17 8 17H16C17.1046 17 18 17.8954 18 19V21"/><path d="M10 8C10 6.89543 10.8954 6 12 6C13.1046 6 14 6.89543 14 8V17"/></svg></span>Hot Topics
+                    </h3>
+                    <div id="hotTopics">
+                        <!-- Hot topics will be generated via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Active users -->
+                <div class="widget">
+                    <h3 class="widget-title">
+                        <span style="display: flex; align-items: center;"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="margin-right:6px;"><path d="M12 2l2.39 6.93H21l-5.19 3.77L17.24 21 12 17.27 6.76 21l1.43-8.3L3 8.93h6.61L12 2z"/></svg></span>Active Users
+                    </h3>
+                    <div id="activeUsers">
+                        <!-- Active users will be generated via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Forum statistics -->
+                <div class="widget">
+                    <h3 class="widget-title">
+                        📊 Forum Statistics
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Total Posts</span>
+                            <span style="color: var(--accent); font-weight: bold;">1,234</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Total Users</span>
+                            <span style="color: var(--accent); font-weight: bold;">5,678</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>New Posts Today</span>
+                            <span style="color: var(--success); font-weight: bold;">23</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Online Users</span>
+                            <span style="color: var(--warning); font-weight: bold;">89</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Unified navigation bar functionality script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update user info display
+            updateUserInfo();
+            
+            // Set current page highlight
+            setActiveNavItem();
+            
+            // Logout functionality
+            setupLogoutHandler();
+            
+            // Initialize theme switch
+            initializeThemeSwitch();
+        });
+
+        // Theme switching function
+        function initializeThemeSwitch() {
+          const darkModeSwitch = document.getElementById('darkModeSwitch');
+          if (darkModeSwitch) {
+            // Set initial state
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            darkModeSwitch.checked = currentTheme === 'dark';
+            
+            // Bind switch event
+            darkModeSwitch.addEventListener('change', function() {
+              if (window.themeManager) {
+                window.themeManager.toggleTheme();
+              } else {
+                // Fallback option
+                const newTheme = this.checked ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                document.documentElement.setAttribute('data-theme', newTheme);
+              }
+            });
+          }
+        }
+
+        // Update user info display
+        function updateUserInfo() {
+            const userInfo = sessionStorage.getItem('user_info');
+            const userIdElement = document.getElementById('userId');
+            
+            if (userInfo && userIdElement) {
+                const user = JSON.parse(userInfo);
+                userIdElement.textContent = user.id;
+            } else if (userIdElement) {
+                userIdElement.textContent = 'Please Login';
+                userIdElement.style.cursor = 'pointer';
+                userIdElement.onclick = function() {
+                    // Check if accessed through server
+                    if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                        window.location.href = '/login';
+                    } else {
+                        // If opening file directly, redirect to server address
+                        window.location.href = 'login.html';
+                    }
+                };
+            }
+        }
+
+        // Set current page navigation highlight
+        function setActiveNavItem() {
+            const currentPath = window.location.pathname;
+            const currentFile = window.location.pathname.split('/').pop();
+            const navItems = document.querySelectorAll('.unified-top-nav .nav-item');
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                const href = item.getAttribute('href');
+                const page = item.getAttribute('data-page');
+                
+                // Check if matches current page
+                if (currentPath === href || 
+                    currentFile === href ||
+                    (currentFile === 'CustomerMenu.html' && page === 'home') ||
+                    (currentFile === 'news.html' && page === 'news') ||
+                    (currentFile === 'prices.html' && page === 'prices') ||
+                    (currentFile === 'forum.html' && page === 'forum') ||
+                    (currentFile === 'secondary.html' && page === 'secondary') ||
+                    (currentFile === 'platform-market.html' && page === 'platform') ||
+                    (currentFile === 'online-support.html' && page === 'support') ||
+                    (currentFile === 'AI-Setup-Recommend.html' && page === 'ai') ||
+                    (currentFile === 'friendlist.html' && page === 'friends')) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Set logout handler
+        function setupLogoutHandler() {
+            const logoutBtn = document.querySelector('.unified-top-nav .logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to logout?')) {
+                        sessionStorage.removeItem('user_info');
+                        window.location.href = '/login';
+                    }
+                });
+            }
+        }
+
+        // Post data
+        const postsData = [
+            {
+                id: 1,
+                title: "Newbie Must-Read: Anti-Scam Guide for Second-Hand Trading",
+                content: "As a veteran user who has been trading on the platform for two years, I want to share some anti-scam experience with everyone. First, always communicate through the platform's built-in chat system, never add external contact methods...",
+                author: "Trading Expert",
+                avatar: "TE",
+                category: "trading",
+                tags: ["Pinned", "Featured"],
+                views: 1234,
+                replies: 89,
+                likes: 156,
+                time: "2024-01-25 14:30",
+                isSticky: true,
+                isHot: true
+            },
+            {
+                id: 2,
+                title: "iPhone 15 Pro Max One Month Real Usage Experience",
+                content: "I've had the iPhone 15 Pro Max for a month now, here to share the real usage experience. First, the titanium body is really textured, lighter than expected...",
+                author: "Tech Enthusiast",
+                avatar: "TE",
+                category: "products",
+                tags: ["Original", "Review"],
+                views: 892,
+                replies: 45,
+                likes: 78,
+                time: "2024-01-25 10:15",
+                isSticky: false,
+                isHot: true
+            },
+            {
+                id: 3,
+                title: "Help: What to do if the MacBook I bought has issues?",
+                content: "I bought a MacBook Air yesterday on the platform, received it and found screen spots, the seller says it's normal. Can I apply for a refund?",
+                author: "Newbie",
+                avatar: "NB",
+                category: "help",
+                tags: ["Help"],
+                views: 234,
+                replies: 12,
+                likes: 8,
+                time: "2024-01-25 09:45",
+                isSticky: false,
+                isHot: false
+            },
+            {
+                id: 4,
+                title: "Suggest adding product certification feature",
+                content: "Hope the platform can add product certification feature, especially for high-value electronics, provide official certification services, so buyers will be more assured, sellers can sell at better prices...",
+                author: "Product Manager",
+                avatar: "PM",
+                category: "suggestions",
+                tags: ["Suggestion"],
+                views: 567,
+                replies: 23,
+                likes: 34,
+                time: "2024-01-24 16:20",
+                isSticky: false,
+                isHot: false
+            },
+            {
+                id: 5,
+                title: "Sharing a great camera lens purchase experience",
+                content: "Picked up a Canon 50mm f/1.8 lens on the platform a few days ago, condition 9.5 new, price only 60% of original! Seller was great, even gave UV filter and lens cap...",
+                author: "Photographer",
+                avatar: "PH",
+                category: "trading",
+                tags: ["Share"],
+                views: 445,
+                replies: 18,
+                likes: 29,
+                time: "2024-01-24 14:10",
+                isSticky: false,
+                isHot: false
+            },
+            {
+                id: 6,
+                title: "Great weather today, perfect for photography",
+                content: "Hong Kong has great weather today, clear skies, preparing to take the new camera out for photos. Anyone want to join? Can exchange photography tips...",
+                author: "Sunny Boy",
+                avatar: "SB",
+                category: "off-topic",
+                tags: ["Chat"],
+                views: 123,
+                replies: 5,
+                likes: 12,
+                time: "2024-01-24 11:30",
+                isSticky: false,
+                isHot: false
+            }
+        ];
+
+        // Hot topics data
+        const hotTopicsData = [
+            { title: "iPhone 15 series price drop", count: 234 },
+            { title: "MacBook purchase guide", count: 189 },
+            { title: "Second-hand car trading precautions", count: 156 },
+            { title: "Camera lens recommendations", count: 134 },
+            { title: "Game console comparison", count: 98 }
+        ];
+
+        // Active users data
+        const activeUsersData = [
+            { name: "Trading Expert", avatar: "TE", posts: 156 },
+            { name: "Tech Enthusiast", avatar: "TE", posts: 134 },
+            { name: "Photographer", avatar: "PH", posts: 98 },
+            { name: "Product Manager", avatar: "PM", posts: 87 },
+            { name: "Gamer", avatar: "GM", posts: 76 }
+        ];
+
+        let filteredPosts = [...postsData];
+        let currentCategory = 'all';
+        let currentSort = 'latest';
+
+        // DOM elements
+        const postsList = document.getElementById('postsList');
+        const hotTopics = document.getElementById('hotTopics');
+        const activeUsers = document.getElementById('activeUsers');
+        const searchInput = document.getElementById('searchInput');
+
+        // Render posts list
+        function renderPosts() {
+            postsList.innerHTML = '';
+            filteredPosts.forEach(post => {
+                const postItem = document.createElement('div');
+                postItem.className = 'post-item';
+                
+                let tagsHtml = '';
+                post.tags.forEach(tag => {
+                    let tagClass = 'post-tag';
+                    if (tag === 'Pinned' || tag === 'Featured') tagClass += ' tag-sticky';
+                    else if (tag === 'Hot') tagClass += ' tag-hot';
+                    else if (tag === 'New') tagClass += ' tag-new';
+                    
+                    tagsHtml += `<span class="${tagClass}">${tag}</span>`;
+                });
+
+                postItem.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-tags">${tagsHtml}</div>
+                        <div class="post-meta">
+                            <span>${post.time}</span>
+                        </div>
+                    </div>
+                    <h3 class="post-title">${post.title}</h3>
+                    <div class="post-meta">
+                        <div class="post-author">
+                            <div class="author-avatar">${post.avatar}</div>
+                            <span>${post.author}</span>
+                        </div>
+                        <span>·</span>
+                        <span>${getCategoryName(post.category)}</span>
+                    </div>
+                    <p class="post-content">${post.content}</p>
+                    <div class="post-stats">
+                        <div class="post-engagement">
+                            <div class="engagement-item">
+                                <span style="display: flex; align-items: center;"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" style="margin-right:2px;"><ellipse cx="12" cy="12" rx="9" ry="6.5"/><circle cx="12" cy="12" r="2.3"/></svg></span>
+                                <span>${post.views}</span>
+                            </div>
+                            <div class="engagement-item">
+                                <span style="display: flex; align-items: center;"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" style="margin-right:2px;"><path d="M21 10.5a8.38 8.38 0 0 1-1.9 5.4c-.9 1.03-2.54 2.6-6.1 2.6a6.25 6.25 0 0 1-4.12-1.38L3 20l1.41-4.24A8.12 8.12 0 0 1 3 10.5C3 6.36 7.03 3 12 3s9 3.36 9 7.5Z"/></svg></span>
+                                <span>${post.replies}</span>
+                            </div>
+                            <div class="engagement-item">
+                                <span style="display: flex; align-items: center;"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" style="margin-right:2px;"><path d="M7 13v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-5"/><path d="M19 9.5a7 7 0 1 0-14 0c0 2.86 2.25 5.2 5.4 6.37a2 2 0 0 0 1.2 0c3.15-1.17 5.4-3.5 5.4-6.37Z"/></svg></span>
+                                <span>${post.likes}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                postItem.addEventListener('click', () => viewPost(post.id));
+                postsList.appendChild(postItem);
+            });
+        }
+
+        // Render hot topics
+        function renderHotTopics() {
+            hotTopics.innerHTML = '';
+            hotTopicsData.forEach((topic, index) => {
+                const topicItem = document.createElement('div');
+                topicItem.className = 'hot-topic';
+                topicItem.innerHTML = `
+                    <span class="topic-rank">${index + 1}</span>
+                    <span class="topic-title">${topic.title}</span>
+                    <span class="topic-count">${topic.count}</span>
+                `;
+                hotTopics.appendChild(topicItem);
+            });
+        }
+
+        // Render active users
+        function renderActiveUsers() {
+            activeUsers.innerHTML = '';
+            activeUsersData.forEach(user => {
+                const userItem = document.createElement('div');
+                userItem.className = 'user-item';
+                userItem.innerHTML = `
+                    <div class="user-avatar">${user.avatar}</div>
+                    <div class="user-info">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-posts">${user.posts} posts</div>
+                    </div>
+                `;
+                activeUsers.appendChild(userItem);
+            });
+        }
+
+        // Get category name
+        function getCategoryName(category) {
+            const categoryMap = {
+                'trading': 'Trading Experience',
+                'products': 'Product Reviews',
+                'help': 'Newbie Help',
+                'suggestions': 'Suggestions Feedback',
+                'off-topic': 'Off-topic Chat'
+            };
+            return categoryMap[category] || 'All Discussions';
+        }
+
+        // Filter posts
+        function filterPosts(category) {
+            currentCategory = category;
+            if (category === 'all') {
+                filteredPosts = [...postsData];
+            } else {
+                filteredPosts = postsData.filter(post => post.category === category);
+            }
+            sortPosts(currentSort);
+        }
+
+        // Sort posts
+        function sortPosts(sortType) {
+            currentSort = sortType;
+            switch (sortType) {
+                case 'hot':
+                    filteredPosts.sort((a, b) => (b.likes + b.replies) - (a.likes + a.replies));
+                    break;
+                case 'views':
+                    filteredPosts.sort((a, b) => b.views - a.views);
+                    break;
+                case 'replies':
+                    filteredPosts.sort((a, b) => b.replies - a.replies);
+                    break;
+                default: // latest
+                    filteredPosts.sort((a, b) => new Date(b.time) - new Date(a.time));
+            }
+            renderPosts();
+        }
+
+        // Search posts
+        function searchPosts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm === '') {
+                filterPosts(currentCategory);
+            } else {
+                filteredPosts = postsData.filter(post => 
+                    post.title.toLowerCase().includes(searchTerm) ||
+                    post.content.toLowerCase().includes(searchTerm) ||
+                    post.author.toLowerCase().includes(searchTerm)
+                );
+                renderPosts();
+            }
+        }
+
+        // View post
+        function viewPost(postId) {
+            const post = postsData.find(p => p.id === postId);
+            if (post) {
+                alert(`Viewing post: ${post.title}\n\n${post.content}\n\nAuthor: ${post.author}\nViews: ${post.views} | Replies: ${post.replies} | Likes: ${post.likes}`);
+                // Here you can redirect to post detail page
+            }
+        }
+
+        // Create new post
+        function newPost() {
+            const title = prompt('Please enter post title:');
+            if (title) {
+                const content = prompt('Please enter post content:');
+                if (content) {
+                    const newPost = {
+                        id: postsData.length + 1,
+                        title: title,
+                        content: content,
+                        author: 'Current User',
+                        avatar: 'Default',
+                        category: currentCategory === 'all' ? 'help' : currentCategory,
+                        tags: ['New'],
+                        views: 0,
+                        replies: 0,
+                        likes: 0,
+                        time: new Date().toLocaleString(),
+                        isSticky: false,
+                        isHot: false
+                    };
+                    
+                    postsData.unshift(newPost);
+                    filterPosts(currentCategory);
+                    alert('Post published successfully!');
+                }
+            }
+        }
+
+        // Event listeners
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                filterPosts(item.dataset.category);
+            });
+        });
+
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                sortPosts(btn.dataset.sort);
+            });
+        });
+
+        searchInput.addEventListener('input', searchPosts);
+
+        // Initialize
+        renderPosts();
+        renderHotTopics();
+        renderActiveUsers();
+        
+        // Theme switching function
+        function initializeThemeSwitch() {
+            const darkModeSwitch = document.getElementById('darkModeSwitch');
+            if (darkModeSwitch) {
+                // Set initial state
+                const currentTheme = localStorage.getItem('theme') || 'light';
+                darkModeSwitch.checked = currentTheme === 'dark';
+                
+                // Bind switch event
+                darkModeSwitch.addEventListener('change', function() {
+                    if (window.themeManager) {
+                        window.themeManager.setTheme(this.checked ? 'dark' : 'light');
+                    } else {
+                        // Fallback option
+                        const theme = this.checked ? 'dark' : 'light';
+                        localStorage.setItem('theme', theme);
+                        document.documentElement.setAttribute('data-theme', theme);
+                        window.dispatchEvent(new CustomEvent('themeChanged', { 
+                            detail: { theme: theme } 
+                        }));
+                    }
+                });
+            }
+        }
+        
+        // Initialize theme switch after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme immediately
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            setTimeout(initializeThemeSwitch, 100);
+            
+            // Listen for theme change events
+            window.addEventListener('themeChanged', function(e) {
+                const darkModeSwitch = document.getElementById('darkModeSwitch');
+                if (darkModeSwitch) {
+                    darkModeSwitch.checked = e.detail.theme === 'dark';
+                }
+            });
+        });
+        
+        // Bottom bar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update username
+            const userInfo = sessionStorage.getItem('user_info');
+            const usernameBtn = document.getElementById('usernameBtn');
+            if (userInfo && usernameBtn) {
+                const user = JSON.parse(userInfo);
+                usernameBtn.textContent = user.id;
+            }
+            
+            // Bottom bar dark mode switch functionality
+            const bottomDarkModeSwitch = document.getElementById('bottomDarkModeSwitch');
+            if (bottomDarkModeSwitch) {
+                // Initialize switch state
+                const currentTheme = localStorage.getItem('theme') || 'light';
+                bottomDarkModeSwitch.checked = currentTheme === 'dark';
+                
+                // Bind switch event
+                bottomDarkModeSwitch.addEventListener('change', function() {
+                    if (window.themeManager) {
+                        window.themeManager.setTheme(this.checked ? 'dark' : 'light');
+                    } else {
+                        // Fallback option
+                        const theme = this.checked ? 'dark' : 'light';
+                        localStorage.setItem('theme', theme);
+                        document.documentElement.setAttribute('data-theme', theme);
+                        window.dispatchEvent(new CustomEvent('themeChanged', { 
+                            detail: { theme: theme } 
+                        }));
+                    }
+                });
+            }
+            
+            // Listen for theme change events
+            window.addEventListener('themeChanged', function(e) {
+                const bottomDarkModeSwitch = document.getElementById('bottomDarkModeSwitch');
+                const topDarkModeSwitch = document.getElementById('darkModeSwitch');
+                if (bottomDarkModeSwitch) {
+                    bottomDarkModeSwitch.checked = e.detail.theme === 'dark';
+                }
+                if (topDarkModeSwitch) {
+                    topDarkModeSwitch.checked = e.detail.theme === 'dark';
+                }
+            });
+        });
+    </script>
+    
+    <!-- Theme switch script -->
+    <script src="js/theme.js"></script>
+    
+    <script>
+        // Handle user login button click
+        function handleUserLogin() {
+            // Check if user is logged in
+            const userInfo = sessionStorage.getItem('user_info');
+            if (userInfo) {
+                // Logged in, redirect to customer menu
+                window.location.href = 'CustomerMenu.html';
+            } else {
+                // Not logged in, redirect to login page
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

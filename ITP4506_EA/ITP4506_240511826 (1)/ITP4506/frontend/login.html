@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smile & Sunshine Toy Co. Ltd</title>
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+        /* Login Success Modal with Animation */
+        #loginSuccessModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        #loginSuccessModal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .success-modal-content {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            animation: slideUp 0.4s ease;
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: scaleIn 0.5s ease 0.2s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            animation: pulse 1s ease 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .success-checkmark {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .success-checkmark::before {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 20px;
+            background: #fff;
+            left: 18px;
+            top: 30px;
+            transform: rotate(45deg);
+            animation: checkmark1 0.3s ease 0.7s both;
+        }
+
+        .success-checkmark::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 12px;
+            background: #fff;
+            left: 10px;
+            top: 36px;
+            transform: rotate(-45deg);
+            animation: checkmark2 0.3s ease 0.9s both;
+        }
+
+        @keyframes checkmark1 {
+            from {
+                height: 0;
+                top: 40px;
+            }
+            to {
+                height: 20px;
+                top: 30px;
+            }
+        }
+
+        @keyframes checkmark2 {
+            from {
+                height: 0;
+                top: 40px;
+            }
+            to {
+                height: 12px;
+                top: 36px;
+            }
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #27ae60;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.5s ease 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.5s ease 0.6s both;
+        }
+
+        .success-username {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.5s ease 0.8s both;
+        }
+
+        .success-loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #27ae60;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <div class="brand"><div class="logo"></div> Smile & Sunshine Toy Co. Ltd</div>
+        </div>
+        <h2>Sign In</h2>
+        <p class="subtitle">Enter your account details to continue.</p>
+        <form id="loginForm" class="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required>
+            </div>
+            <div class="form-group">
+                <label for="userRole">Login As</label>
+                <select id="userRole" name="userRole" class="form-select" required>
+                    <option value="user">Customer</option>
+                    <option value="staff">Staff</option>
+                </select>
+            </div>
+            <div class="form-group checkbox-group">
+                <input id="remember" name="remember" type="checkbox">
+                <label for="remember">Remember me</label>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <div class="form-footer">
+                <a href="#" id="forgotLink">Forgot password?</a>
+                <a href="/signup" id="registerLink">Create account</a>
+            </div>
+            <div id="msg" style="margin-top:1rem;color:#555;"></div>
+        </form>
+    </div>
+
+    <!-- forgot password modal - Step 1: Enter Email or Phone -->
+    <div id="forgotModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:8px;min-width:320px;max-width:420px;padding:20px 24px;box-shadow:0 8px 24px rgba(0,0,0,.18);">
+            <h3 style="margin:0 0 12px;font-size:18px;">Reset Password</h3>
+            <p style="margin:0 0 12px;font-size:14px;color:#666;">Choose a method below and provide the details.</p>
+            <div style="display:flex;margin-bottom:12px;gap:8px;">
+                <button type="button" id="forgotTabEmail" style="flex:1;border-radius:4px;border:1px solid #3498db;background:#3498db;color:#fff;padding:6px 8px;font-size:14px;cursor:pointer;">Recover via Email</button>
+                <button type="button" id="forgotTabPhone" style="flex:1;border-radius:4px;border:1px solid #ccc;background:#f5f5f5;color:#333;padding:6px 8px;font-size:14px;cursor:pointer;">Recover via Phone</button>
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label id="forgotLabel" for="forgotInput" style="display:block;margin-bottom:6px;font-size:14px;">Enter your registered email:</label>
+                <input id="forgotInput" type="text" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:4px;border:1px solid #ccc;font-size:14px;">
+            </div>
+            <div id="forgotError" style="min-height:18px;font-size:12px;color:#c0392b;margin-bottom:4px;display:none;"></div>
+            <div style="text-align:right;margin-top:4px;">
+                <button type="button" id="forgotCancel" style="margin-right:8px;border-radius:4px;border:1px solid #ccc;background:#f5f5f5;padding:6px 14px;font-size:14px;cursor:pointer;">Cancel</button>
+                <button type="button" id="forgotSubmit" style="border-radius:4px;border:1px solid #3498db;background:#3498db;color:#fff;padding:6px 18px;font-size:14px;cursor:pointer;">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- forgot password modal - Step 2: Display Password and Ask to Change -->
+    <div id="forgotPasswordDisplayModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:8px;min-width:320px;max-width:420px;padding:20px 24px;box-shadow:0 8px 24px rgba(0,0,0,.18);">
+            <h3 style="margin:0 0 12px;font-size:18px;">Account Found</h3>
+            <p style="margin:0 0 16px;font-size:14px;color:#666;">Your account information is displayed below.</p>
+            <div style="background:#f8f9fa;border-radius:4px;padding:12px;margin-bottom:16px;">
+                <div style="margin-bottom:8px;">
+                    <strong style="font-size:13px;color:#555;">Email:</strong>
+                    <span id="displayUserEmail" style="margin-left:8px;font-size:14px;color:#333;"></span>
+                </div>
+                <div style="margin-bottom:8px;">
+                    <strong style="font-size:13px;color:#555;">Phone:</strong>
+                    <span id="displayUserPhone" style="margin-left:8px;font-size:14px;color:#333;"></span>
+                </div>
+                <div>
+                    <strong style="font-size:13px;color:#555;">Password:</strong>
+                    <span id="displayUserPassword" style="margin-left:8px;font-size:14px;color:#27ae60;font-weight:bold;"></span>
+                    <p id="passwordResetHint" style="margin:4px 0 0 0;font-size:12px;color:#e67e22;display:none;">This is an old account. Please reset your password to view it.</p>
+                </div>
+            </div>
+            <p style="margin:0 0 16px;font-size:14px;color:#666;">Would you like to change your password?</p>
+            <div style="text-align:right;margin-top:4px;">
+                <button type="button" id="forgotNoChange" style="margin-right:8px;border-radius:4px;border:1px solid #ccc;background:#f5f5f5;padding:6px 14px;font-size:14px;cursor:pointer;">No, keep current password</button>
+                <button type="button" id="forgotYesChange" style="border-radius:4px;border:1px solid #3498db;background:#3498db;color:#fff;padding:6px 18px;font-size:14px;cursor:pointer;">Yes, change password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- forgot password modal - Step 3: Change Password -->
+    <div id="forgotChangePasswordModal" style="display:none;position:fixed;inset:0;z-index:1001;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:8px;min-width:320px;max-width:420px;padding:20px 24px;box-shadow:0 8px 24px rgba(0,0,0,.18);">
+            <h3 style="margin:0 0 12px;font-size:18px;">Change Password</h3>
+            <p style="margin:0 0 16px;font-size:14px;color:#666;">Please enter your new password below.</p>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label for="resetNewPassword" style="display:block;margin-bottom:6px;font-size:14px;">New Password:</label>
+                <input id="resetNewPassword" type="password" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:4px;border:1px solid #ccc;font-size:14px;" placeholder="Enter new password (min. 6 characters)">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label for="resetConfirmPassword" style="display:block;margin-bottom:6px;font-size:14px;">Confirm New Password:</label>
+                <input id="resetConfirmPassword" type="password" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:4px;border:1px solid #ccc;font-size:14px;" placeholder="Confirm new password">
+            </div>
+            <div id="resetPasswordError" style="min-height:18px;font-size:12px;color:#c0392b;margin-bottom:4px;display:none;"></div>
+            <div style="text-align:right;margin-top:4px;">
+                <button type="button" id="resetCancel" style="margin-right:8px;border-radius:4px;border:1px solid #ccc;background:#f5f5f5;padding:6px 14px;font-size:14px;cursor:pointer;">Cancel</button>
+                <button type="button" id="resetSave" style="border-radius:4px;border:1px solid #3498db;background:#3498db;color:#fff;padding:6px 18px;font-size:14px;cursor:pointer;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Success Modal -->
+    <div id="loginSuccessModal">
+        <div class="success-modal-content">
+            <div class="success-icon">
+                <div class="success-icon-circle">
+                    <div class="success-checkmark"></div>
+                </div>
+            </div>
+            <h2 class="success-title">Login Successful!</h2>
+            <p class="success-message">Welcome back!</p>
+            <div class="success-username" id="successUsername"></div>
+            <p class="success-message" style="font-size: 14px; margin-top: 10px;">
+                Redirecting<span class="success-loading"></span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+    // backend base: fallback to localhost when using file://
+    const BACKEND_BASE = (window.location.protocol === 'file:'
+      ? 'http://127.0.0.1:5000'
+      : (window.location.origin || 'http://127.0.0.1:5000'));
+
+    function setMessage(text, isError = false) {
+        const msg = document.getElementById('msg');
+        msg.style.color = isError ? '#c0392b' : '#2c3e50';
+        msg.textContent = text;
+    }
+
+    function setFieldState(id, ok, message) {
+        const group = id.closest('.form-group');
+        group.classList.remove('error', 'success');
+        if (ok === true) {
+            group.classList.add('success');
+            const err = group.querySelector('.error-text');
+            if (err) err.textContent = '';
+        } else if (ok === false) {
+            group.classList.add('error');
+            let err = group.querySelector('.error-text');
+            if (!err) {
+                err = document.createElement('div');
+                err.className = 'error-text';
+                group.appendChild(err);
+            }
+            err.textContent = message || 'Invalid input';
+        }
+    }
+
+    const submitBtn = document.querySelector('.login-btn');
+    let submitting = false;
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (submitting) return;
+        const usernameEl = document.getElementById('username');
+        const passwordEl = document.getElementById('password');
+        const username = usernameEl.value.trim();
+        const password = passwordEl.value;
+        const remember = document.getElementById('remember').checked;
+        let hasError = false;
+        if (!username) { setFieldState(usernameEl, false, 'Please enter your username.'); hasError = true; } else { setFieldState(usernameEl, true); }
+        if (!password) { setFieldState(passwordEl, false, 'Please enter your password.'); hasError = true; } else { setFieldState(passwordEl, true); }
+        if (hasError) { return; }
+        setMessage('Signing you in...');
+        submitting = true; submitBtn.setAttribute('disabled', 'disabled');
+        try {
+            const resp = await fetch(`${BACKEND_BASE}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ account: username, password, remember })
+            });
+            const data = await resp.json().catch(() => ({ success: false, message: 'Response is not JSON' }));
+            if (!resp.ok || data.success === false) {
+                const msg = data.message || data.error || 'Login failed';
+                setFieldState(passwordEl, false, msg);
+                setMessage(msg, true);
+                return;
+            }
+            const userObj = data.user || {};
+            
+            // on success, store session info and show success modal
+            if (userObj && (userObj.id || userObj.username)) {
+                const userId = userObj.id || Math.floor(Math.random() * 9000) + 1000;
+                const currentDate = new Date().toISOString().split('T')[0];
+                const userRole = document.getElementById('userRole').value; // chosen role
+                
+                // store session info
+                sessionStorage.setItem('user_info', JSON.stringify({
+                    id: userId.toString(),
+                    username: userObj.username || '',
+                    avatar: '',
+                    registration_time: currentDate,
+                    is_new_user: true,
+                    phone_verified: false,
+                    email_verified: !!userObj.email,
+                    role: userRole // keep role
+                }));
+                
+                // Show success modal
+                const successModal = document.getElementById('loginSuccessModal');
+                const successUsername = document.getElementById('successUsername');
+                successUsername.textContent = userObj.username || 'User';
+                successModal.classList.add('show');
+                
+                // redirect by role after showing modal
+                setTimeout(() => {
+                    if (userRole === 'staff') {
+                        // staff → dashboard
+                    if (window.location.protocol === 'file:') {
+                            window.location.href = 'http://127.0.0.1:5000/staff-dashboard';
+                        } else {
+                            window.location.href = '/staff-dashboard';
+                        }
+                    } else {
+                        // user → marketplace
+                        if (window.location.protocol === 'file:') {
+                            window.location.href = 'http://127.0.0.1:5000/platform-market.html';
+                        } else {
+                            window.location.href = '/platform-market.html';
+                        }
+                    }
+                }, 2000); // Increased delay to show animation
+            }
+        } catch (err) {
+            setMessage('Request failed: ' + err.message, true);
+        } finally {
+            submitting = false; submitBtn.removeAttribute('disabled');
+        }
+    });
+
+    // forgot password modal logic
+    (function() {
+        // Step 1: Enter Email or Phone
+        const modal = document.getElementById('forgotModal');
+        const tabEmail = document.getElementById('forgotTabEmail');
+        const tabPhone = document.getElementById('forgotTabPhone');
+        const label = document.getElementById('forgotLabel');
+        const input = document.getElementById('forgotInput');
+        const errorEl = document.getElementById('forgotError');
+        const btnCancel = document.getElementById('forgotCancel');
+        const btnSubmit = document.getElementById('forgotSubmit');
+        let mode = 'email'; // or 'phone'
+
+        // Step 2: Display Password and Ask to Change
+        const displayModal = document.getElementById('forgotPasswordDisplayModal');
+        const displayUserEmail = document.getElementById('displayUserEmail');
+        const displayUserPhone = document.getElementById('displayUserPhone');
+        const displayUserPassword = document.getElementById('displayUserPassword');
+        const btnNoChange = document.getElementById('forgotNoChange');
+        const btnYesChange = document.getElementById('forgotYesChange');
+
+        // Step 3: Change Password
+        const changePasswordModal = document.getElementById('forgotChangePasswordModal');
+        const resetNewPassword = document.getElementById('resetNewPassword');
+        const resetConfirmPassword = document.getElementById('resetConfirmPassword');
+        const resetPasswordError = document.getElementById('resetPasswordError');
+        const btnResetCancel = document.getElementById('resetCancel');
+        const btnResetSave = document.getElementById('resetSave');
+
+        let verifiedEmail = '';
+
+        function openModal(defaultMode = 'email') {
+            mode = defaultMode;
+            updateModeUI();
+            input.value = '';
+            setError('');
+            modal.style.display = 'flex';
+            input.focus();
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function closeDisplayModal() {
+            displayModal.style.display = 'none';
+        }
+
+        function closeChangePasswordModal() {
+            changePasswordModal.style.display = 'none';
+            resetNewPassword.value = '';
+            resetConfirmPassword.value = '';
+            setResetError('');
+        }
+
+        function setError(msg) {
+            if (msg) {
+                errorEl.textContent = msg;
+                errorEl.style.display = 'block';
+            } else {
+                errorEl.textContent = '';
+                errorEl.style.display = 'none';
+            }
+        }
+
+        function setResetError(msg) {
+            if (msg) {
+                resetPasswordError.textContent = msg;
+                resetPasswordError.style.display = 'block';
+            } else {
+                resetPasswordError.textContent = '';
+                resetPasswordError.style.display = 'none';
+            }
+        }
+
+        function updateModeUI() {
+            const isEmail = mode === 'email';
+            tabEmail.style.background = isEmail ? '#3498db' : '#f5f5f5';
+            tabEmail.style.color = isEmail ? '#fff' : '#333';
+            tabEmail.style.borderColor = isEmail ? '#3498db' : '#ccc';
+            tabPhone.style.background = isEmail ? '#f5f5f5' : '#3498db';
+            tabPhone.style.color = isEmail ? '#333' : '#fff';
+            tabPhone.style.borderColor = isEmail ? '#ccc' : '#3498db';
+            label.textContent = isEmail ? 'Enter your registered email:' : 'Enter your phone number:';
+            input.placeholder = isEmail ? 'e.g. example@mail.com' : 'e.g. +852 9123 4567';
+        }
+
+        function showPasswordDisplay(userData) {
+            displayUserEmail.textContent = userData.email || 'Not provided';
+            displayUserPhone.textContent = userData.phone || 'Not provided';
+            displayUserPassword.textContent = userData.password || 'Not available';
+            
+            // Show hint if password reset is needed
+            const passwordResetHint = document.getElementById('passwordResetHint');
+            if (userData.needs_reset) {
+                passwordResetHint.style.display = 'block';
+                displayUserPassword.style.color = '#e67e22';
+            } else {
+                passwordResetHint.style.display = 'none';
+                displayUserPassword.style.color = '#27ae60';
+            }
+            
+            verifiedEmail = userData.email;
+            closeModal();
+            displayModal.style.display = 'flex';
+        }
+
+        // Step 1: Open modal
+        document.getElementById('forgotLink').addEventListener('click', (e) => {
+        e.preventDefault();
+            openModal('email');
+        });
+
+        // Step 1: Tab switching
+        tabEmail.addEventListener('click', () => { mode = 'email'; updateModeUI(); });
+        tabPhone.addEventListener('click', () => { mode = 'phone'; updateModeUI(); });
+
+        // Step 1: Cancel
+        btnCancel.addEventListener('click', () => closeModal());
+
+        // Step 1: Submit email/phone
+        btnSubmit.addEventListener('click', async () => {
+            const value = input.value.trim();
+            if (!value) {
+                setError('Please enter a valid ' + (mode === 'email' ? 'email.' : 'phone number.'));
+                input.focus();
+                return;
+            }
+            setError('');
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Verifying...';
+        try {
+                const payload = mode === 'email' ? { email: value } : { phone: value };
+            const resp = await fetch(`${BACKEND_BASE}/forgot-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+            });
+            const data = await resp.json();
+                if (!resp.ok || data.success === false) {
+                    setError(data.message || 'We could not find a matching email/phone. Please try again.');
+                    input.focus();
+                    return;
+                }
+                setError('');
+                setMessage(data.message || 'Account found successfully.');
+                showPasswordDisplay(data.user || {});
+            } catch (err) {
+                setError('Request failed: ' + err.message);
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Submit';
+            }
+        });
+
+        // Step 2: No change password
+        btnNoChange.addEventListener('click', () => {
+            setMessage('No changes made. Your password remains unchanged.');
+            closeDisplayModal();
+        });
+
+        // Step 2: Yes change password
+        btnYesChange.addEventListener('click', () => {
+            closeDisplayModal();
+            changePasswordModal.style.display = 'flex';
+            resetNewPassword.focus();
+        });
+
+        // Step 3: Cancel password change
+        btnResetCancel.addEventListener('click', () => {
+            closeChangePasswordModal();
+            displayModal.style.display = 'flex';
+        });
+
+        // Step 3: Save new password
+        btnResetSave.addEventListener('click', async () => {
+            const newPassword = resetNewPassword.value;
+            const confirmPassword = resetConfirmPassword.value;
+            
+            if (!newPassword) {
+                setResetError('Please enter a new password.');
+                resetNewPassword.focus();
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                setResetError('New password must be at least 6 characters long.');
+                resetNewPassword.focus();
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                setResetError('Passwords do not match.');
+                resetConfirmPassword.focus();
+                return;
+            }
+            
+            setResetError('');
+            btnResetSave.disabled = true;
+            btnResetSave.textContent = 'Saving...';
+            
+            try {
+                const resp = await fetch(`${BACKEND_BASE}/reset-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: verifiedEmail, newPassword })
+                });
+                const data = await resp.json();
+                
+                if (!resp.ok || data.success === false) {
+                    setResetError(data.message || 'Failed to update password. Please try again.');
+                    return;
+                }
+                
+                setMessage(data.message || 'Password has been successfully updated.');
+                closeChangePasswordModal();
+                closeDisplayModal();
+        } catch (err) {
+                setResetError('Request failed: ' + err.message);
+            } finally {
+                btnResetSave.disabled = false;
+                btnResetSave.textContent = 'Save';
+        }
+    });
+    })();
+
+    // register link already goes to /signup directly
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smile & Sunshine - Sales Order Management</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/4.0.0/adminlte.min.css">
+<style>
+:root{--primary-blue:#007bff;--dark-blue:#0056b3;--light-blue:#e7f3ff;--very-light-blue:#f0f7ff}
+*{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+html,body{height:100%}
+body{background-color:#f8f9fa}
+.wrapper{display:flex;flex-direction:column;min-height:100vh}
+.main-header.navbar{background:linear-gradient(90deg,var(--primary-blue) 0%,var(--dark-blue) 100%);box-shadow:0 2px 8px rgba(0,86,179,0.15);border:none;height:60px;padding:0 1.5rem}
+.navbar-brand,.navbar-text{color:#fff!important;font-weight:600;font-size:15px}
+.navbar-nav .nav-link{color:rgba(255,255,255,0.9)!important;transition:0.3s}
+.navbar-nav .nav-link:hover{color:#fff!important}
+.main-container{display:flex;flex:1;overflow:hidden}
+.main-sidebar{width:260px;background:linear-gradient(180deg,var(--primary-blue) 0%,#0056b3 100%);box-shadow:2px 0 8px rgba(0,86,179,0.2);overflow-y:auto;flex-shrink:0}
+.brand-link{background:rgba(255,255,255,0.1);border-bottom:2px solid rgba(255,255,255,0.2);padding:1rem;font-size:18px;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:12px;height:70px}
+.brand-link i{font-size:24px}
+.brand-text{letter-spacing:0.5px;font-size:16px}
+.sidebar{padding:0.75rem 0}
+.nav-sidebar{list-style:none;padding:0;margin:0}
+.nav-item{margin:0.15rem 0.5rem}
+.nav-link{color:rgba(255,255,255,0.85);padding:0.6rem 1rem;border-radius:6px;transition:all 0.3s ease;border-left:3px solid transparent;display:flex;align-items:center;gap:12px;font-size:14px}
+.nav-link:hover{background-color:rgba(255,255,255,0.1);color:#fff;border-left-color:#fff;padding-left:calc(1rem + 2px)}
+.nav-link.active{background-color:rgba(255,255,255,0.2);color:#fff;border-left-color:#fff;font-weight:600}
+.nav-icon{width:18px;text-align:center;font-size:15px}
+.nav-link p{margin:0;font-size:13px;flex:1}
+.badge{padding:0.3rem 0.55rem;font-size:10px;font-weight:700;margin-left:auto;border-radius:10px;background-color:#dc3545;color:#fff}
+.content-wrapper{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.content{flex:1;overflow-y:auto;padding:1.5rem}
+.tab-content{display:none;height:100%;overflow:hidden}
+.tab-content.active{display:flex;flex-direction:column}
+h1{color:var(--primary-blue);font-weight:700;font-size:24px;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+h1 i{font-size:28px}
+.card{border:none;box-shadow:0 2px 8px rgba(0,86,179,0.08);border-radius:8px;transition:all 0.3s ease;margin-bottom:1.5rem}
+.card:hover{box-shadow:0 4px 16px rgba(0,86,179,0.12);transform:translateY(-2px)}
+.card-header{background:linear-gradient(90deg,var(--primary-blue) 0%,#0056b3 100%);color:#fff;border:none;padding:1rem 1.25rem;font-weight:600;border-radius:8px 8px 0 0;font-size:15px}
+.card-header h5{margin:0;font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}
+.card-body{padding:1.25rem;background-color:#fff;overflow-y:auto}
+.card-footer{background-color:#f8f9fa;border-top:1px solid #e9ecef;padding:0.75rem 1.25rem;border-radius:0 0 8px 8px;font-size:12px}
+.stat-card{background:#fff;border-radius:8px;padding:1rem;box-shadow:0 2px 8px rgba(0,86,179,0.08);transition:all 0.3s ease;text-align:center;cursor:pointer}
+.stat-card:hover{box-shadow:0 4px 16px rgba(0,86,179,0.12);transform:translateY(-2px)}
+.stat-card.bg-pending{background:linear-gradient(135deg,#FF6B6B 0%,#C92A2A 100%);color:#fff}
+.stat-card.bg-confirmed{background:linear-gradient(135deg,#4ECDC4 0%,#2C9B8F 100%);color:#fff}
+.stat-card.bg-processing{background:linear-gradient(135deg,#FFD93D 0%,#E0AC0E 100%);color:#fff}
+.stat-card.bg-delivering{background:linear-gradient(135deg,#6C5CE7 0%,#5F3DC4 100%);color:#fff}
+.stat-label{font-size:12px;font-weight:600;opacity:0.9;margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.4px}
+.stat-value{font-size:28px;font-weight:700;margin:0}
+.order-item-card{border:1px solid #e9ecef;border-radius:6px;padding:0.8rem;background:#fff;transition:all 0.3s ease;cursor:pointer;margin-bottom:0.6rem}
+.order-item-card:hover{box-shadow:0 4px 12px rgba(0,86,179,0.15);border-color:var(--primary-blue);transform:translateY(-1px)}
+.order-id{font-weight:700;color:var(--primary-blue);font-size:13px;margin-bottom:0.25rem}
+.order-customer{font-size:12px;color:#333;margin-bottom:0.15rem}
+.order-meta{display:flex;justify-content:space-between;font-size:11px;color:#6c757d;margin-bottom:0.25rem}
+.order-price{font-weight:600;color:#28a745;font-size:12px;margin-bottom:0.25rem}
+.order-status{font-weight:600;padding:0.4rem 0.8rem;border-radius:20px;display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:0.4px}
+.status-pending{background-color:#FFE5E5;color:#C92A2A}
+.status-confirmed{background-color:#D4F5F2;color:#2C9B8F}
+.status-processing{background-color:#FFF8E5;color:#E0AC0E}
+.status-delivering{background-color:#E5DEFF;color:#5F3DC4}
+.order-list-compact{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.8rem}
+.btn{border-radius:6px;font-weight:600;transition:all 0.3s ease;padding:0.5rem 1rem;font-size:13px;border:none;cursor:pointer}
+.btn-primary{background:var(--primary-blue);color:#fff}
+.btn-primary:hover{background:var(--dark-blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,86,179,0.3)}
+.btn-sm{padding:0.35rem 0.65rem;font-size:11px}
+.btn-secondary{background:#6c757d;color:#fff}
+.btn-secondary:hover{background:#5a6268}
+.form-control,.form-select{border:1px solid #dee2e6;border-radius:6px;padding:0.6rem 0.85rem;font-size:13px;transition:all 0.3s ease}
+.form-control:focus,.form-select:focus{border-color:var(--primary-blue);box-shadow:0 0 0 0.2rem rgba(0,123,255,0.25);color:#333}
+.modal-header{background:linear-gradient(90deg,var(--primary-blue) 0%,var(--dark-blue) 100%);color:#fff;border:none;padding:1.25rem}
+.modal-title{font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+.btn-close-white{filter:brightness(0) invert(1)}
+.table{margin-bottom:0;background-color:#fff;font-size:13px}
+.table thead th{background:var(--primary-blue);color:#fff;font-weight:600;border:none;padding:0.8rem;text-transform:uppercase;font-size:11px;letter-spacing:0.4px}
+.table tbody tr{transition:all 0.2s ease;border-bottom:1px solid #e9ecef}
+.table tbody tr:hover{background-color:var(--very-light-blue)}
+.table tbody td{padding:0.8rem;vertical-align:middle}
+.chart-container{position:relative;height:280px;margin-bottom:1rem;cursor:pointer}
+.message-item{border:1px solid #e9ecef;border-radius:6px;padding:0.8rem;background:#fff;cursor:pointer;transition:all 0.3s ease;margin-bottom:0.6rem;display:flex;justify-content:space-between;align-items:center}
+.message-item:hover{box-shadow:0 4px 12px rgba(0,86,179,0.15);border-color:var(--primary-blue)}
+.message-item.unread{background:#fff3cd;border-color:#ffc107}
+.message-brief{flex:1}
+.message-name{font-weight:600;color:#333;font-size:13px}
+.message-subject{font-size:12px;color:var(--primary-blue);margin:0.25rem 0}
+.message-time{font-size:11px;color:#6c757d}
+.message-badge{background:#ffc107;color:#333;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.toast{position:fixed;top:20px;right:20px;z-index:9999;box-shadow:0 4px 12px rgba(0,86,179,0.2);border-radius:8px;overflow:hidden;animation:slideIn 0.4s ease-in;pointer-events:auto}
+@keyframes slideIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast-header{background:linear-gradient(90deg,var(--primary-blue) 0%,var(--dark-blue) 100%);color:#fff;border:none;font-weight:600;padding:0.8rem;font-size:12px}
+.toast-body{padding:0.8rem;background-color:#fff;color:#333;font-size:13px}
+.empty-state{text-align:center;color:#6c757d;padding:3rem 1rem}
+.empty-state i{font-size:64px;opacity:0.2;display:block;margin-bottom:1rem}
+.modal.show{z-index:1050!important}
+.modal-backdrop.show{z-index:1040!important}
+@media(max-width:768px){.main-sidebar{width:100%;position:absolute;left:-100%;top:60px;height:calc(100vh - 60px);z-index:1000;transition:0.3s}.sidebar.show{left:0}.content{padding:1rem}h1{font-size:20px}.order-list-compact{grid-template-columns:1fr}}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#f1f1f1}
+::-webkit-scrollbar-thumb{background:var(--primary-blue);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--dark-blue)}
+</style>
+</head>
+<body class="hold-transition">
+<div class="wrapper">
+<nav class="main-header navbar navbar-expand navbar-light">
+<ul class="navbar-nav">
+<li class="nav-item">
+<a class="nav-link" data-widget="pushmenu" href="#" role="button">
+<i class="fas fa-bars"></i>
+</a>
+</li>
+</ul>
+<div class="navbar-text ms-3">
+<strong>Smile & Sunshine Toy Co. Ltd.</strong>
+</div>
+<ul class="navbar-nav ms-auto">
+<li class="nav-item">
+<a class="nav-link" href="#" id="logoutBtn">
+<i class="fas fa-sign-out-alt"></i> Logout
+</a>
+</li>
+</ul>
+</nav>
+
+<div class="main-container">
+<aside class="main-sidebar">
+<a href="#" class="brand-link">
+<i class="fas fa-smile"></i>
+<span class="brand-text">S&S Toys</span>
+</a>
+<div class="sidebar">
+<ul class="nav nav-sidebar flex-column" role="menu">
+<li class="nav-item">
+<a href="#dashboard" class="nav-link active tab-link" data-tab="dashboard">
+<i class="nav-icon fas fa-tachometer-alt"></i>
+<p>Dashboard</p>
+</a>
+</li>
+<li class="nav-item">
+<a href="#orders" class="nav-link tab-link" data-tab="orders">
+<i class="nav-icon fas fa-shopping-cart"></i>
+<p>Incoming Orders</p>
+<span class="badge" id="orderCount">0</span>
+</a>
+</li>
+<li class="nav-item">
+<a href="#processing" class="nav-link tab-link" data-tab="processing">
+<i class="nav-icon fas fa-hourglass-half"></i>
+<p>Processing</p>
+</a>
+</li>
+<li class="nav-item">
+<a href="#tracked" class="nav-link tab-link" data-tab="tracked">
+<i class="nav-icon fas fa-map-marker-alt"></i>
+<p>Track Orders</p>
+</a>
+</li>
+<li class="nav-item">
+<a href="#messages" class="nav-link tab-link" data-tab="messages">
+<i class="nav-icon fas fa-envelope"></i>
+<p>Messages</p>
+<span class="badge" id="messageCount">0</span>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+
+<div class="content-wrapper">
+<section id="dashboard" class="content tab-content active">
+<h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+<div style="flex:1;overflow-y:auto;display:flex;flex-direction:column">
+<div class="row mb-3 g-2">
+<div class="col-lg-3 col-md-6">
+<div class="stat-card bg-pending" onclick="showDashboardStatusModal('pending')" style="cursor:pointer">
+<div class="stat-label">Pending</div>
+<p class="stat-value" id="dashPending">0</p>
+</div>
+</div>
+<div class="col-lg-3 col-md-6">
+<div class="stat-card bg-confirmed" onclick="showDashboardStatusModal('confirmed')" style="cursor:pointer">
+<div class="stat-label">Confirmed</div>
+<p class="stat-value" id="dashConfirmed">0</p>
+</div>
+</div>
+<div class="col-lg-3 col-md-6">
+<div class="stat-card bg-processing" onclick="showDashboardStatusModal('processing')" style="cursor:pointer">
+<div class="stat-label">Processing</div>
+<p class="stat-value" id="dashProcessing">0</p>
+</div>
+</div>
+<div class="col-lg-3 col-md-6">
+<div class="stat-card bg-delivering" onclick="showDashboardStatusModal('delivering')" style="cursor:pointer">
+<div class="stat-label">Delivering</div>
+<p class="stat-value" id="dashDelivering">0</p>
+</div>
+</div>
+</div>
+
+<div class="row g-2">
+<div class="col-lg-6">
+<div class="card">
+<div class="card-header">
+<h5><i class="fas fa-shopping-bag"></i> Orders by Status</h5>
+</div>
+<div class="card-body" style="height:350px">
+<div class="chart-container" onclick="chartClick('bar')">
+<canvas id="statusChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="card">
+<div class="card-header">
+<h5><i class="fas fa-chart-pie"></i> Distribution</h5>
+</div>
+<div class="card-body" style="height:350px">
+<div class="chart-container" onclick="chartClick('pie')">
+<canvas id="statusCircleChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row g-2" style="margin-top:1rem">
+<div class="col-lg-12">
+<div class="card">
+<div class="card-header">
+<h5><i class="fas fa-envelope"></i> Unread Messages</h5>
+</div>
+<div class="card-body" style="max-height:400px">
+<div id="dashboardMessagesList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="orders" class="content tab-content">
+<h1><i class="fas fa-shopping-cart"></i> Incoming Orders</h1>
+<div class="card" style="flex:1;display:flex;flex-direction:column">
+<div class="card-header">
+<h5><i class="fas fa-inbox"></i> New Order Requests</h5>
+</div>
+<div class="card-body" style="flex:1;overflow-y:auto;display:flex;flex-direction:column">
+<div id="ordersList" class="order-list-compact" aria-hidden="false"></div>
+<div id="emptyOrders" class="empty-state" style="display:none;pointer-events:auto">
+<i class="fas fa-inbox"></i>
+<p>No pending orders</p>
+</div>
+</div>
+<div id="ordersFooter" class="card-footer" style="display:none">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:12px;color:#6c757d"><span id="paginationText">0 of 0</span></span>
+<div style="display:flex;gap:0.5rem">
+<button class="btn btn-sm btn-primary" id="prevBtn" onclick="prevPage()" disabled>
+<i class="fas fa-chevron-left"></i>
+</button>
+<span id="pageIndicator" style="font-size:12px;min-width:50px;text-align:center">Page 1</span>
+<button class="btn btn-sm btn-primary" id="nextBtn" onclick="nextPage()" disabled>
+<i class="fas fa-chevron-right"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="processing" class="content tab-content">
+<h1><i class="fas fa-hourglass-half"></i> Processing Orders</h1>
+<div class="card" style="flex:1;display:flex;flex-direction:column">
+<div class="card-body" style="flex:1;overflow-y:auto;display:flex;flex-direction:column">
+<div id="processingOrdersList" class="order-list-compact"></div>
+<div id="emptyProcessing" class="empty-state">
+<i class="fas fa-inbox"></i>
+<p>No orders in processing</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="tracked" class="content tab-content">
+<h1><i class="fas fa-map-marker-alt"></i> Order Tracking</h1>
+<div class="card" style="flex:1;display:flex;flex-direction:column">
+<div class="card-header">
+<input type="text" id="searchOrderId" class="form-control" placeholder="Search Order ID..." style="border-radius:6px">
+</div>
+<div class="card-body" style="flex:1;overflow-y:auto;display:flex;flex-direction:column">
+<div id="trackedOrdersList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem"></div>
+<div id="emptyTracked" class="empty-state">
+<i class="fas fa-search"></i>
+<p>Search or no active orders</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="messages" class="content tab-content">
+<h1><i class="fas fa-envelope"></i> Customer Messages</h1>
+<div class="row" style="flex:1;overflow:hidden;margin:0">
+<div class="col-lg-4" style="display:flex;flex-direction:column;overflow:hidden;padding-right:0.75rem">
+<div class="card" style="flex:1;display:flex;flex-direction:column;margin-bottom:0">
+<div class="card-header">
+<h5><i class="fas fa-inbox"></i> Messages</h5>
+</div>
+<div class="card-body p-0" style="flex:1;overflow-y:auto;padding:0.75rem!important">
+<div id="messageList"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-8" style="display:flex;flex-direction:column;overflow:hidden;padding-left:0.75rem">
+<div class="card" style="flex:1;display:flex;flex-direction:column;margin-bottom:0">
+<div class="card-header">
+<h5 id="selectedMessageHeader"><i class="fas fa-comment"></i> Select a message</h5>
+</div>
+<div class="card-body" id="messageContent" style="flex:1;overflow-y:auto">
+<div class="empty-state">
+<i class="fas fa-envelope-open"></i>
+<p>Select a message to view</p>
+</div>
+</div>
+<div class="card-footer">
+<div style="display:flex;gap:0.5rem">
+<input type="text" id="replyText" class="form-control" placeholder="Type reply..." disabled>
+<button class="btn btn-primary" id="sendReplyBtn" disabled>
+<i class="fas fa-paper-plane"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+
+<!-- MODALS -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title"><i class="fas fa-box"></i> Order Details</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" style="max-height:70vh;overflow-y:auto">
+<div style="background:var(--very-light-blue);padding:1rem;border-radius:8px;margin-bottom:1rem">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+<div>
+<p style="margin:0;font-size:11px;color:#6c757d;text-transform:uppercase">Order ID</p>
+<p style="margin:0.25rem 0 0 0;font-size:16px;font-weight:700;color:var(--primary-blue)"><span id="modalOrderId"></span></p>
+</div>
+<div>
+<p style="margin:0;font-size:11px;color:#6c757d;text-transform:uppercase">Total</p>
+<p style="margin:0.25rem 0 0 0;font-size:16px;font-weight:700;color:#28a745">$<span id="modalOrderTotal"></span></p>
+</div>
+<div>
+<p style="margin:0;font-size:11px;color:#6c757d;text-transform:uppercase">Customer</p>
+<p style="margin:0.25rem 0 0 0;font-size:14px;font-weight:600"><span id="modalCustomerName"></span></p>
+</div>
+</div>
+</div>
+
+<div style="margin-bottom:1.5rem">
+<label style="display:block;font-weight:600;margin-bottom:0.5rem;font-size:13px">Order Status</label>
+<select id="modalOrderStatus" class="form-select" style="font-weight:600;font-size:14px">
+<option value="pending">Pending</option>
+<option value="confirmed">Confirmed</option>
+<option value="processing">Processing</option>
+<option value="delivering">Delivering</option>
+</select>
+</div>
+
+<div style="margin-bottom:1.5rem">
+<label style="display:block;font-weight:600;margin-bottom:0.5rem;font-size:13px">Estimated Delivery</label>
+<input type="date" id="modalDeliveryDate" class="form-control">
+</div>
+
+<div style="margin-bottom:1rem">
+<label style="display:block;font-weight:600;margin-bottom:0.5rem;font-size:13px">Order Notes</label>
+<textarea id="modalNotes" class="form-control" rows="3" placeholder="Add notes about this order..."></textarea>
+</div>
+
+<div style="background:#f8f9fa;padding:1rem;border-radius:8px;margin-bottom:1rem">
+<p style="margin:0;font-size:11px;color:#6c757d;text-transform:uppercase;margin-bottom:0.5rem">Items</p>
+<div id="modalItemsList"></div>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<button type="button" class="btn btn-primary" id="modalStatusUpdate">
+<i class="fas fa-save me-2"></i>Save Changes
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="statusOrdersModal" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title"><i class="fas fa-list"></i> <span id="modalStatusTitle">Orders</span></h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" style="max-height:70vh;overflow-y:auto">
+<div id="statusOrdersModalList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="toast" id="toastNotification" role="alert" style="display:none">
+<div class="toast-header">
+<strong class="me-auto">Notification</strong>
+</div>
+<div class="toast-body" id="toastMessage"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+<script>
+const ordersData=[
+{orderId:'ORD1764925744356',customerId:'CUST005',customerName:'Tse Wai Kin',email:'tse@example.com',phone:'98765436',address:'654 Elm Ave, HK',items:[{name:'Building Blocks',qty:5,price:50}],totalPrice:2100.00,status:'pending',paymentMethod:'PayPal',receivedDate:'2025-11-25',timestamp:'2025/11/25 上午9:30:45',deliveryDate:'2025-12-05',notes:''},
+{orderId:'ORD1764925744358',customerId:'CUST007',customerName:'Lam Chun Yin',email:'lam@example.com',phone:'98765438',address:'135 Oak St, HK',items:[{name:'Toy Car',qty:3,price:80}],totalPrice:1200.00,status:'pending',paymentMethod:'Credit Card',receivedDate:'2025-12-03',timestamp:'2025/12/3 下午4:15:20',deliveryDate:'2025-12-13',notes:''},
+{orderId:'ORD1764925744359',customerId:'CUST008',customerName:'Ng Wai Fong',email:'ng@example.com',phone:'98765439',address:'246 Maple Rd, HK',items:[{name:'Board Game',qty:2,price:150}],totalPrice:1500.00,status:'pending',paymentMethod:'Bank Transfer',receivedDate:'2025-12-02',timestamp:'2025/12/2 上午11:45:30',deliveryDate:'2025-12-12',notes:''},
+{orderId:'ORD1764925744360',customerId:'CUST009',customerName:'Chan Ka Ming',email:'channel@example.com',phone:'98765440',address:'357 Spruce Ln, HK',items:[{name:'Doll Set',qty:1,price:250}],totalPrice:1750.00,status:'pending',paymentMethod:'PayPal',receivedDate:'2025-12-01',timestamp:'2025/12/1 下午2:30:15',deliveryDate:'2025-12-11',notes:''},
+{orderId:'ORD1764925744361',customerId:'CUST010',customerName:'Wong Chun Ho',email:'wong2@example.com',phone:'98765441',address:'468 Willow Ave, HK',items:[{name:'Puzzle',qty:4,price:60}],totalPrice:1800.00,status:'pending',paymentMethod:'Credit Card',receivedDate:'2025-11-30',timestamp:'2025/11/30 上午9:00:00',deliveryDate:'2025-12-10',notes:''},
+{orderId:'ORD1764925744362',customerId:'CUST011',customerName:'Lee Siu Yan',email:'lee2@example.com',phone:'98765442',address:'579 Ash St, HK',items:[{name:'Action Figures',qty:6,price:75}],totalPrice:2250.00,status:'pending',paymentMethod:'PayPal',receivedDate:'2025-11-28',timestamp:'2025/11/28 下午3:45:50',deliveryDate:'2025-12-08',notes:''},
+{orderId:'ORD1764925744363',customerId:'CUST012',customerName:'Cheung Man Yin',email:'cheung2@example.com',phone:'98765443',address:'680 Cedar Ave, HK',items:[{name:'Building Set',qty:2,price:180}],totalPrice:1800.00,status:'pending',paymentMethod:'Bank Transfer',receivedDate:'2025-11-27',timestamp:'2025/11/27 上午10:20:10',deliveryDate:'2025-12-07',notes:''},
+{orderId:'ORD1764925744364',customerId:'CUST013',customerName:'Ho Mei Ling',email:'ho2@example.com',phone:'98765444',address:'791 Pine Ave, HK',items:[{name:'Remote Car',qty:1,price:300}],totalPrice:2100.00,status:'pending',paymentMethod:'Credit Card',receivedDate:'2025-11-26',timestamp:'2025/11/26 下午1:15:40',deliveryDate:'2025-12-06',notes:''},
+{orderId:'ORD1764925744365',customerId:'CUST014',customerName:'Tung Ka Wai',email:'tung@example.com',phone:'98765445',address:'802 Birch Ln, HK',items:[{name:'Toy Train',qty:2,price:120}],totalPrice:1440.00,status:'pending',paymentMethod:'PayPal',receivedDate:'2025-11-24',timestamp:'2025/11/24 上午8:30:25',deliveryDate:'2025-12-04',notes:''},
+{orderId:'ORD1764925744366',customerId:'CUST015',customerName:'Yip Chun Ming',email:'yip@example.com',phone:'98765446',address:'913 Oak Ridge, HK',items:[{name:'Stuffed Animals',qty:5,price:40}],totalPrice:1500.00,status:'pending',paymentMethod:'Bank Transfer',receivedDate:'2025-11-23',timestamp:'2025/11/23 下午5:50:35',deliveryDate:'2025-12-03',notes:''},
+
+{orderId:'ORD1764925744353',customerId:'CUST002',customerName:'Cheung Sui Ming',email:'cheung@example.com',phone:'98765433',address:'456 Oak Ave, HK',items:[{name:'Action Figure',qty:1,price:200}],totalPrice:890.00,status:'confirmed',paymentMethod:'PayPal',receivedDate:'2025-11-30',timestamp:'2025/11/30 上午10:15:30',deliveryDate:'2025-12-10',notes:''},
+{orderId:'ORD1764925744355',customerId:'CUST004',customerName:'Lee Man Ho',email:'lee@example.com',phone:'98765435',address:'321 Cedar St, HK',items:[{name:'Robot Toy',qty:1,price:300}],totalPrice:1500.00,status:'confirmed',paymentMethod:'Credit Card',receivedDate:'2025-12-02',timestamp:'2025/12/2 下午3:20:15',deliveryDate:'2025-12-12',notes:''},
+{orderId:'ORD1764925744367',customerId:'CUST016',customerName:'Kwok Ling Ling',email:'kwok@example.com',phone:'98765447',address:'024 Elm St, HK',items:[{name:'Toy Set',qty:3,price:95}],totalPrice:1425.00,status:'confirmed',paymentMethod:'Credit Card',receivedDate:'2025-12-01',timestamp:'2025/12/1 上午7:00:00',deliveryDate:'2025-12-11',notes:''},
+{orderId:'ORD1764925744368',customerId:'CUST017',customerName:'So Wai Kuen',email:'so@example.com',phone:'98765448',address:'135 Spruce Ave, HK',items:[{name:'Dinosaur Set',qty:2,price:140}],totalPrice:1400.00,status:'confirmed',paymentMethod:'PayPal',receivedDate:'2025-11-29',timestamp:'2025/11/29 下午6:30:45',deliveryDate:'2025-12-09',notes:''},
+{orderId:'ORD1764925744369',customerId:'CUST018',customerName:'Tsang Mei Ling',email:'tsang@example.com',phone:'98765449',address:'246 Willow Rd, HK',items:[{name:'Marble Set',qty:4,price:50}],totalPrice:1200.00,status:'confirmed',paymentMethod:'Bank Transfer',receivedDate:'2025-11-27',timestamp:'2025/11/27 下午12:00:00',deliveryDate:'2025-12-07',notes:''},
+{orderId:'ORD1764925744370',customerId:'CUST019',customerName:'Chow Tak Shing',email:'chow@example.com',phone:'98765450',address:'357 Ash Ln, HK',items:[{name:'Sports Equipment',qty:5,price:70}],totalPrice:1750.00,status:'confirmed',paymentMethod:'Credit Card',receivedDate:'2025-11-25',timestamp:'2025/11/25 上午2:15:20',deliveryDate:'2025-12-05',notes:''},
+{orderId:'ORD1764925744371',customerId:'CUST020',customerName:'Lau Kai Fai',email:'lau@example.com',phone:'98765451',address:'468 Cedar Ln, HK',items:[{name:'Model Airplane',qty:2,price:180}],totalPrice:1620.00,status:'confirmed',paymentMethod:'PayPal',receivedDate:'2025-11-23',timestamp:'2025/11/23 下午9:45:10',deliveryDate:'2025-12-03',notes:''},
+{orderId:'ORD1764925744372',customerId:'CUST021',customerName:'Chung Lai Ying',email:'chung@example.com',phone:'98765452',address:'579 Pine St, HK',items:[{name:'Arts Supplies',qty:6,price:45}],totalPrice:1620.00,status:'confirmed',paymentMethod:'Bank Transfer',receivedDate:'2025-11-21',timestamp:'2025/11/21 上午11:30:00',deliveryDate:'2025-12-01',notes:''},
+{orderId:'ORD1764925744373',customerId:'CUST022',customerName:'Ng Yin Wah',email:'ng2@example.com',phone:'98765453',address:'680 Birch Ave, HK',items:[{name:'Book Set',qty:3,price:65}],totalPrice:1305.00,status:'confirmed',paymentMethod:'Credit Card',receivedDate:'2025-11-19',timestamp:'2025/11/19 下午4:20:30',deliveryDate:'2025-11-29',notes:''},
+{orderId:'ORD1764925744374',customerId:'CUST023',customerName:'Tse Wan Ting',email:'tse2@example.com',phone:'98765454',address:'791 Oak Ln, HK',items:[{name:'Educational Toys',qty:4,price:85}],totalPrice:1700.00,status:'confirmed',paymentMethod:'PayPal',receivedDate:'2025-11-17',timestamp:'2025/11/17 上午3:10:15',deliveryDate:'2025-11-27',notes:''},
+
+{orderId:'ORD1764925744352',customerId:'CUST001',customerName:'Chan Tai Man',email:'chan@example.com',phone:'98765432',address:'123 Main St, HK',items:[{name:'Teddy Bear',qty:2,price:150}],totalPrice:1764.00,status:'processing',paymentMethod:'Credit Card',receivedDate:'2025-12-05',timestamp:'2025/12/5 下午5:09:04',deliveryDate:'2025-12-15',notes:''},
+{orderId:'ORD1764925744357',customerId:'CUST006',customerName:'Ho Ka Wing',email:'ho@example.com',phone:'98765437',address:'987 Birch Ln, HK',items:[{name:'Puzzle Game',qty:2,price:120}],totalPrice:950.00,status:'processing',paymentMethod:'Bank Transfer',receivedDate:'2025-12-01',timestamp:'2025/12/1 下午1:50:10',deliveryDate:'2025-12-09',notes:''},
+{orderId:'ORD1764925744375',customerId:'CUST024',customerName:'Chan Kwai Hung',email:'chan2@example.com',phone:'98765455',address:'802 Maple St, HK',items:[{name:'Robot Kit',qty:1,price:350}],totalPrice:2100.00,status:'processing',paymentMethod:'Credit Card',receivedDate:'2025-12-04',timestamp:'2025/12/4 上午9:15:45',deliveryDate:'2025-12-14',notes:''},
+{orderId:'ORD1764925744376',customerId:'CUST025',customerName:'Wong Mei Yin',email:'wong3@example.com',phone:'98765456',address:'913 Elm Ave, HK',items:[{name:'Magic Tricks Set',qty:2,price:110}],totalPrice:1320.00,status:'processing',paymentMethod:'PayPal',receivedDate:'2025-12-03',timestamp:'2025/12/3 下午7:30:20',deliveryDate:'2025-12-13',notes:''},
+{orderId:'ORD1764925744377',customerId:'CUST026',customerName:'Lee Wai Man',email:'lee3@example.com',phone:'98765457',address:'024 Spruce Ln, HK',items:[{name:'Science Kit',qty:1,price:280}],totalPrice:1680.00,status:'processing',paymentMethod:'Bank Transfer',receivedDate:'2025-12-02',timestamp:'2025/12/2 上午6:45:00',deliveryDate:'2025-12-12',notes:''},
+{orderId:'ORD1764925744378',customerId:'CUST027',customerName:'Choi Kai Lam',email:'choi@example.com',phone:'98765458',address:'135 Cedar St, HK',items:[{name:'Model Cars',qty:5,price:60}],totalPrice:1800.00,status:'processing',paymentMethod:'Credit Card',receivedDate:'2025-12-01',timestamp:'2025/12/1 下午12:30:10',deliveryDate:'2025-12-11',notes:''},
+{orderId:'ORD1764925744379',customerId:'CUST028',customerName:'Tsui Pui Kuen',email:'tsui@example.com',phone:'98765459',address:'246 Ash Ave, HK',items:[{name:'Craft Supplies',qty:3,price:100}],totalPrice:1500.00,status:'processing',paymentMethod:'PayPal',receivedDate:'2025-11-30',timestamp:'2025/11/30 下午3:15:25',deliveryDate:'2025-12-10',notes:''},
+{orderId:'ORD1764925744380',customerId:'CUST029',customerName:'Kwong Chun Wan',email:'kwong@example.com',phone:'98765460',address:'357 Pine Rd, HK',items:[{name:'Building Blocks Pro',qty:2,price:200}],totalPrice:1600.00,status:'processing',paymentMethod:'Bank Transfer',receivedDate:'2025-11-29',timestamp:'2025/11/29 上午10:00:40',deliveryDate:'2025-12-09',notes:''},
+{orderId:'ORD1764925744381',customerId:'CUST030',customerName:'Man Kin Shing',email:'man@example.com',phone:'98765461',address:'468 Birch St, HK',items:[{name:'Video Game',qty:1,price:400}],totalPrice:2000.00,status:'processing',paymentMethod:'Credit Card',receivedDate:'2025-11-28',timestamp:'2025/11/28 下午8:20:55',deliveryDate:'2025-12-08',notes:''},
+{orderId:'ORD1764925744382',customerId:'CUST031',customerName:'Chow Wai Yee',email:'chow2@example.com',phone:'98765462',address:'579 Oak Ave, HK',items:[{name:'Educational Set',qty:4,price:75}],totalPrice:1800.00,status:'processing',paymentMethod:'PayPal',receivedDate:'2025-11-27',timestamp:'2025/11/27 上午1:50:15',deliveryDate:'2025-12-07',notes:''},
+
+{orderId:'ORD1764925744354',customerId:'CUST003',customerName:'Wong Ka Yee',email:'wong@example.com',phone:'98765434',address:'789 Pine Rd, HK',items:[{name:'Doll',qty:3,price:100}],totalPrice:1200.50,status:'delivering',paymentMethod:'Bank Transfer',receivedDate:'2025-11-28',timestamp:'2025/11/28 下午2:45:22',deliveryDate:'2025-12-08',notes:''},
+{orderId:'ORD1764925744383',customerId:'CUST032',customerName:'Lam Tin Ying',email:'lam2@example.com',phone:'98765463',address:'680 Maple Ln, HK',items:[{name:'Toy Collection',qty:6,price:50}],totalPrice:1800.00,status:'delivering',paymentMethod:'Credit Card',receivedDate:'2025-11-26',timestamp:'2025/11/26 下午11:05:30',deliveryDate:'2025-12-06',notes:''},
+{orderId:'ORD1764925744384',customerId:'CUST033',customerName:'So Pui Ling',email:'so2@example.com',phone:'98765464',address:'791 Elm St, HK',items:[{name:'Action Set',qty:3,price:130}],totalPrice:1560.00,status:'delivering',paymentMethod:'PayPal',receivedDate:'2025-11-25',timestamp:'2025/11/25 上午4:40:45',deliveryDate:'2025-12-05',notes:''},
+{orderId:'ORD1764925744385',customerId:'CUST034',customerName:'Ng Chun Fung',email:'ng3@example.com',phone:'98765465',address:'802 Spruce Ave, HK',items:[{name:'Model Kit',qty:2,price:190}],totalPrice:1520.00,status:'delivering',paymentMethod:'Bank Transfer',receivedDate:'2025-11-24',timestamp:'2025/11/24 下午9:15:20',deliveryDate:'2025-12-04',notes:''},
+{orderId:'ORD1764925744386',customerId:'CUST035',customerName:'Chan Sin Yee',email:'chan3@example.com',phone:'98765466',address:'913 Willow Rd, HK',items:[{name:'Toy Bundle',qty:4,price:90}],totalPrice:1800.00,status:'delivering',paymentMethod:'Credit Card',receivedDate:'2025-11-23',timestamp:'2025/11/23 上午5:30:10',deliveryDate:'2025-12-03',notes:''},
+{orderId:'ORD1764925744387',customerId:'CUST036',customerName:'Wong Chun Ming',email:'wong4@example.com',phone:'98765467',address:'024 Ash Ln, HK',items:[{name:'Board Games Set',qty:3,price:120}],totalPrice:1440.00,status:'delivering',paymentMethod:'PayPal',receivedDate:'2025-11-22',timestamp:'2025/11/22 下午2:45:35',deliveryDate:'2025-12-02',notes:''},
+{orderId:'ORD1764925744388',customerId:'CUST037',customerName:'Lee Ying Ling',email:'lee4@example.com',phone:'98765468',address:'135 Cedar Ave, HK',items:[{name:'Puzzle Collection',qty:5,price:70}],totalPrice:2100.00,status:'delivering',paymentMethod:'Bank Transfer',receivedDate:'2025-11-21',timestamp:'2025/11/21 上午8:20:50',deliveryDate:'2025-12-01',notes:''},
+{orderId:'ORD1764925744389',customerId:'CUST038',customerName:'Choi Yan Yan',email:'choi2@example.com',phone:'98765469',address:'246 Pine Ave, HK',items:[{name:'Craft Items',qty:2,price:160}],totalPrice:1280.00,status:'delivering',paymentMethod:'Credit Card',receivedDate:'2025-11-20',timestamp:'2025/11/20 下午6:55:15',deliveryDate:'2025-11-30',notes:''},
+{orderId:'ORD1764925744390',customerId:'CUST039',customerName:'Tse Kai Fai',email:'tse3@example.com',phone:'98765470',address:'357 Birch Ln, HK',items:[{name:'Educational Game',qty:1,price:250}],totalPrice:1250.00,status:'delivering',paymentMethod:'PayPal',receivedDate:'2025-11-19',timestamp:'2025/11/19 上午3:30:25',deliveryDate:'2025-11-29',notes:''},
+{orderId:'ORD1764925744391',customerId:'CUST040',customerName:'Kwok Tat Ming',email:'kwok2@example.com',phone:'98765471',address:'468 Maple St, HK',items:[{name:'Toy Assortment',qty:5,price:85}],totalPrice:2125.00,status:'delivering',paymentMethod:'Bank Transfer',receivedDate:'2025-11-18',timestamp:'2025/11/18 下午4:10:40',deliveryDate:'2025-11-28',notes:''}
+];
+
+const messagesData=[
+{messageId:'MSG001',orderId:'ORD1764925744352',customerName:'Chan Tai Man',subject:'Order Status',message:'When will my order be shipped?',timestamp:'2025-12-02 10:30',read:false,replies:[]},
+{messageId:'MSG002',orderId:'ORD1764925744353',customerName:'Cheung Sui Ming',subject:'Gift Wrapping',message:'Can you gift wrap?',timestamp:'2025-12-01 15:45',read:false,replies:[{sender:'Sales',text:'Yes available',timestamp:'2025-12-01 16:00'}]},
+{messageId:'MSG003',orderId:'ORD1764925744354',customerName:'Wong Ka Yee',subject:'Delivery Time',message:'What time should I be home?',timestamp:'2025-11-29 14:20',read:true,replies:[]}
+];
+
+let currentSelectedMessage=null;
+let statusCircleChart=null;
+let barChart=null;
+let currentPage=1;
+const itemsPerPage=30;
+
+$(document).ready(function(){
+  forceCloseAllModals();
+
+  setTimeout(function(){
+    initializeUI();
+    updateDashboard();
+    updateCharts(); 
+    loadOrdersPage();
+    loadMessages();
+    loadDashboardMessages();
+  }, 300);
+});
+
+function forceCloseAllModals(){
+  document.querySelectorAll('.modal.show').forEach(m=>{
+    m.classList.remove('show');
+    m.style.display='none';
+    m.setAttribute('aria-hidden','true');
+  });
+
+  document.querySelectorAll('.modal-backdrop').forEach(b=>b.remove());
+
+  document.body.classList.remove('modal-open');
+  document.body.style.overflow='auto';
+  document.body.style.paddingRight='';
+
+  ['orderModal','statusOrdersModal'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.classList.remove('show');
+      el.style.display='none';
+      el.setAttribute('aria-hidden','true');
+      try{
+        const inst=bootstrap.Modal.getInstance(el);
+        if(inst) inst.hide();
+      }catch(e){}
+    }
+  });
+}
+
+function initializeUI(){
+  $('.tab-link').on('click',function(e){
+    e.preventDefault();
+    const tabName=$(this).data('tab');
+    switchTab(tabName);
+    $('.nav-link').removeClass('active');
+    $(this).addClass('active');
+    if(tabName==='processing')loadProcessingOrders();
+    if(tabName==='tracked')loadTrackedOrders();
+  });
+
+  $('#logoutBtn').on('click',function(){
+    localStorage.removeItem('salesEmail');
+    window.location.href='entrance.html';
+  });
+
+  $('#searchOrderId').on('keyup',function(){
+    searchOrders($(this).val());
+  });
+
+  $('#modalStatusUpdate').on('click',updateOrder);
+  $('#sendReplyBtn').on('click',sendReply);
+
+  $(window).on('resize', function(){ updateCharts(); });
+}
+
+function switchTab(tabName){
+  $('.tab-content').removeClass('active');
+  $('#'+tabName).addClass('active');
+}
+
+function loadOrdersPage(){
+  currentPage=1;
+  displayOrdersPage();
+}
+
+function displayOrdersPage(){
+  const pending=ordersData.filter(o=>o.status==='pending');
+  const start=(currentPage-1)*itemsPerPage;
+  const end=start+itemsPerPage;
+  const pageOrders=pending.slice(start,end);
+  const totalPages=Math.max(1,Math.ceil(pending.length/itemsPerPage));
+
+  if(pending.length===0){
+    $('#ordersList').html('');
+    $('#emptyOrders').show();
+    $('#ordersFooter').hide();
+    $('#orderCount').text(0);
+    return;
+  }
+
+  let html='';
+  pageOrders.forEach(order=>{
+    html+=`<div class="order-item-card" onclick="openOrderModal('${order.orderId}')">
+      <div class="order-id"><i class="fas fa-box me-2"></i>${order.orderId}</div>
+      <div class="order-customer"><strong>${order.customerName}</strong></div>
+      <div class="order-meta">
+        <span>${order.receivedDate}</span>
+        <span>${order.items.length} item(s)</span>
+      </div>
+      <div class="order-price">$${order.totalPrice.toFixed(2)}</div>
+    </div>`;
+  });
+
+  $('#ordersList').html(html);
+  $('#emptyOrders').hide();
+  $('#ordersFooter').show();
+  $('#paginationText').text(`${start+1}-${Math.min(end,pending.length)} of ${pending.length}`);
+  $('#pageIndicator').text(`${currentPage}/${totalPages}`);
+  $('#prevBtn').prop('disabled',currentPage===1);
+  $('#nextBtn').prop('disabled',currentPage===totalPages);
+  $('#orderCount').text(pending.length);
+}
+
+function nextPage(){
+  const pending=ordersData.filter(o=>o.status==='pending');
+  const totalPages=Math.ceil(pending.length/itemsPerPage);
+  if(currentPage<totalPages){currentPage++;displayOrdersPage()}
+}
+
+function prevPage(){
+  if(currentPage>1){currentPage--;displayOrdersPage()}
+}
+
+function loadProcessingOrders(){
+  const processing=ordersData.filter(o=>o.status==='processing'||o.status==='confirmed');
+  let html='';
+  if(processing.length===0){
+    $('#processingOrdersList').html('');
+    $('#emptyProcessing').show();
+  }else{
+    processing.forEach(order=>{
+      html+=`<div class="order-item-card" onclick="openOrderModal('${order.orderId}')">
+        <div class="order-id"><i class="fas fa-box me-2"></i>${order.orderId}</div>
+        <div class="order-customer"><strong>${order.customerName}</strong></div>
+        <div class="order-meta">
+          <span>${order.timestamp}</span>
+          <span>ETA: ${order.deliveryDate}</span>
+        </div>
+        <div class="order-price">$${order.totalPrice.toFixed(2)}</div>
+        <div class="order-status status-${order.status}">${order.status.toUpperCase()}</div>
+      </div>`;
+    });
+    $('#processingOrdersList').html(html);
+    $('#emptyProcessing').hide();
+  }
+}
+
+function loadTrackedOrders(){
+  let html='';
+  const nonPending=ordersData.filter(o=>o.status!=='pending');
+  if(nonPending.length===0){
+    $('#trackedOrdersList').html('');
+    $('#emptyTracked').show();
+    return;
+  }
+  nonPending.forEach(o=>{
+    html+=`<div class="order-item-card" onclick="openOrderModal('${o.orderId}')" style="cursor:pointer">
+      <div class="order-id">${o.orderId}</div>
+      <div class="order-customer"><strong>${o.customerName}</strong></div>
+      <div class="order-meta">
+        <span>${o.receivedDate}</span>
+        <span>ETA: ${o.deliveryDate}</span>
+      </div>
+      <div class="order-price">$${o.totalPrice.toFixed(2)}</div>
+      <div class="order-status status-${o.status}">${o.status.toUpperCase()}</div>
+    </div>`;
+  });
+  $('#trackedOrdersList').html(html);
+  $('#emptyTracked').hide();
+}
+
+function loadMessages(){
+  let html='';
+  messagesData.forEach((msg,idx)=>{
+    const unreadClass=msg.read?'':'unread';
+    html+=`<div class="message-item ${unreadClass}" onclick="selectMessage(${idx})">
+      <div class="message-brief">
+        <div class="message-name">${msg.customerName}</div>
+        <div class="message-subject">${msg.subject}</div>
+        <div class="message-time">${msg.timestamp}</div>
+      </div>
+      ${!msg.read?'<span class="message-badge">New</span>':''}
+    </div>`;
+  });
+  $('#messageList').html(html||'<p style="text-align:center;color:#6c757d;padding:1rem">No messages</p>');
+  updateMessageCounts();
+}
+
+function loadDashboardMessages(){
+  const unread=messagesData.filter(m=>!m.read);
+  let html='';
+  unread.forEach((msg,idx)=>{
+    html+=`<div class="message-item unread" onclick="switchToMessages(${idx})">
+      <div class="message-brief">
+        <div class="message-name">${msg.customerName}</div>
+        <div class="message-subject">${msg.subject}</div>
+        <div class="message-time">${msg.timestamp}</div>
+      </div>
+      <span class="message-badge">New</span>
+    </div>`;
+  });
+  $('#dashboardMessagesList').html(html||'<p style="text-align:center;color:#6c757d;padding:1rem">No unread messages</p>');
+}
+
+function switchToMessages(idx){
+  $('.tab-link[data-tab="messages"]').click();
+  setTimeout(()=>selectMessage(idx),200);
+}
+
+function selectMessage(index){
+  currentSelectedMessage=index;
+  const msg=messagesData[index];
+  msg.read=true;
+  $('#selectedMessageHeader').html(`<i class="fas fa-comment me-2"></i>${msg.customerName} - ${msg.subject}`);
+  let content=`<p><strong>From:</strong> ${msg.customerName}</p><p><strong>Order:</strong> ${msg.orderId}</p><div style="background:var(--very-light-blue);padding:12px;border-radius:6px;margin-bottom:15px;border-left:4px solid var(--primary-blue)">${msg.message}</div>`;
+  msg.replies.forEach(r=>content+=`<div style="background:#f0f0f0;padding:12px;border-radius:6px;margin-bottom:10px"><strong>${r.sender}:</strong> ${r.text}<br><small style="color:#6c757d">${r.timestamp}</small></div>`);
+  $('#messageContent').html(content);
+  $('#replyText').prop('disabled',false);
+  $('#sendReplyBtn').prop('disabled',false);
+  loadMessages();
+  loadDashboardMessages();
+}
+
+function sendReply(){
+  const replyText=$('#replyText').val();
+  if(!replyText.trim())return;
+  const msg=messagesData[currentSelectedMessage];
+  msg.replies.push({sender:'Sales',text:replyText,timestamp:new Date().toLocaleString()});
+  $('#replyText').val('');
+  selectMessage(currentSelectedMessage);
+  showToast('Reply sent successfully');
+}
+
+function updateOrder(){
+  const order=ordersData.find(o=>o.orderId===$('#modalOrderId').text());
+  if(order){
+    order.status=$('#modalOrderStatus').val();
+    order.deliveryDate=$('#modalDeliveryDate').val();
+    order.notes=$('#modalNotes').val();
+    showToast('Order updated successfully');
+    
+    // Close the orderModal
+    const modalEl=document.getElementById('orderModal');
+    const modal=bootstrap.Modal.getInstance(modalEl);
+    if(modal){
+      modal.hide();
+    }
+    
+    // Close the statusOrdersModal if it's open
+    const statusModalEl=document.getElementById('statusOrdersModal');
+    const statusModal=bootstrap.Modal.getInstance(statusModalEl);
+    if(statusModal){
+      statusModal.hide();
+    }
+    
+    // Remove modal backdrops and reset body
+    document.querySelectorAll('.modal-backdrop').forEach(b=>b.remove());
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow='auto';
+    document.body.style.paddingRight='';
+    
+    // Refresh all order lists
+    setTimeout(()=>{
+      updateDashboard();
+      updateCharts();
+      loadOrdersPage();
+      loadProcessingOrders();
+      loadTrackedOrders();
+      loadDashboardMessages();
+    },300);
+  }
+}
+
+function openOrderModal(orderId){
+  const order=ordersData.find(o=>o.orderId===orderId);
+  if(!order)return;
+  $('#modalOrderId').text(order.orderId);
+  $('#modalOrderTotal').text(order.totalPrice.toFixed(2));
+  $('#modalCustomerName').text(order.customerName);
+  $('#modalOrderStatus').val(order.status);
+  $('#modalDeliveryDate').val(order.deliveryDate);
+  $('#modalNotes').val(order.notes);
+  let itemsHtml='';
+  order.items.forEach(item=>itemsHtml+=`<div style="padding:8px;background:#fff;border:1px solid #e9ecef;border-radius:4px;margin-bottom:8px"><strong>${item.name}</strong> x${item.qty} = $${(item.qty*item.price).toFixed(2)}</div>`);
+  $('#modalItemsList').html(itemsHtml);
+  new bootstrap.Modal(document.getElementById('orderModal')).show();
+}
+
+function updateDashboard(){
+  const pending=ordersData.filter(o=>o.status==='pending').length;
+  const confirmed=ordersData.filter(o=>o.status==='confirmed').length;
+  const processing=ordersData.filter(o=>o.status==='processing').length;
+  const delivering=ordersData.filter(o=>o.status==='delivering').length;
+  $('#dashPending').text(pending);
+  $('#dashConfirmed').text(confirmed);
+  $('#dashProcessing').text(processing);
+  $('#dashDelivering').text(delivering);
+}
+
+function updateCharts(){
+  loadChart();
+  loadInteractiveStatusChart();
+}
+
+function loadChart(){
+  const pending=ordersData.filter(o=>o.status==='pending').length;
+  const confirmed=ordersData.filter(o=>o.status==='confirmed').length;
+  const processing=ordersData.filter(o=>o.status==='processing').length;
+  const delivering=ordersData.filter(o=>o.status==='delivering').length;
+
+  if(barChart) barChart.destroy();
+
+  const ctx=document.getElementById('statusChart').getContext('2d');
+  barChart=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Pending','Confirmed','Processing','Delivering'],
+      datasets:[{
+        label:'Orders',
+        data:[pending,confirmed,processing,delivering],
+        backgroundColor:['#FF6B6B','#4ECDC4','#FFD93D','#6C5CE7']
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      onClick:(evt,elements)=>{
+        if(elements && elements.length){
+          const element = elements[0];
+          const index = element.index;
+          const statuses=['pending','confirmed','processing','delivering'];
+          showDashboardStatusModal(statuses[index]);
+        }
+      },
+      plugins:{
+        legend:{ display:false }
+      },
+      scales:{
+        y:{ beginAtZero:true, precision:0 }
+      }
+    }
+  });
+}
+
+function loadInteractiveStatusChart(){
+  const pending=ordersData.filter(o=>o.status==='pending').length;
+  const confirmed=ordersData.filter(o=>o.status==='confirmed').length;
+  const processing=ordersData.filter(o=>o.status==='processing').length;
+  const delivering=ordersData.filter(o=>o.status==='delivering').length;
+
+  if(statusCircleChart) statusCircleChart.destroy();
+
+  const ctx=document.getElementById('statusCircleChart').getContext('2d');
+  statusCircleChart=new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:['Pending','Confirmed','Processing','Delivering'],
+      datasets:[{
+        data:[pending,confirmed,processing,delivering],
+        backgroundColor:['#FF6B6B','#4ECDC4','#FFD93D','#6C5CE7']
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      onClick:(evt,elements)=>{
+        if(elements && elements.length){
+          const element = elements[0];
+          const index = element.index;
+          const statuses=['pending','confirmed','processing','delivering'];
+          showDashboardStatusModal(statuses[index]);
+        }
+      },
+      plugins:{
+        legend:{ position:'bottom' }
+      }
+    }
+  });
+}
+
+function showDashboardStatusModal(status){
+  const orders=ordersData.filter(o=>o.status===status);
+  $('#modalStatusTitle').text(status.charAt(0).toUpperCase()+status.slice(1)+' Orders');
+  let html='';
+  if(orders.length===0){
+    html=`<div class="empty-state"><i class="fas fa-inbox"></i><p>No orders</p></div>`;
+  }else{
+    orders.forEach(o=>html+=`<div class="order-item-card" onclick="openOrderModal('${o.orderId}')"><div class="order-id">${o.orderId}</div><div class="order-customer"><strong>${o.customerName}</strong></div><div class="order-price">$${o.totalPrice.toFixed(2)}</div></div>`);
+  }
+  $('#statusOrdersModalList').html(html);
+  new bootstrap.Modal(document.getElementById('statusOrdersModal')).show();
+}
+
+function searchOrders(query){
+  const q = (query || '').trim();
+  if(!q){
+    loadTrackedOrders();
+    return;
+  }
+  const results=ordersData.filter(o=>o.orderId.includes(q.toUpperCase())||o.customerName.toLowerCase().includes(q.toLowerCase()));
+  let html='';
+  results.forEach(o=>html+=`<div class="order-item-card" onclick="openOrderModal('${o.orderId}')"><div class="order-id">${o.orderId}</div><div class="order-customer"><strong>${o.customerName}</strong></div><div class="order-meta"><span>${o.receivedDate}</span><span>ETA: ${o.deliveryDate}</span></div><div class="order-price">$${o.totalPrice.toFixed(2)}</div><div class="order-status status-${o.status}">${o.status.toUpperCase()}</div></div>`);
+  $('#trackedOrdersList').html(html||'<p style="text-align:center;color:#6c757d;padding:2rem">No results found</p>');
+  if(results.length===0) $('#emptyTracked').show(); else $('#emptyTracked').hide();
+}
+
+function updateMessageCounts(){
+  const unreadCount=messagesData.filter(m=>!m.read).length;
+  $('#messageCount').text(unreadCount);
+}
+
+function showToast(message){
+  $('#toastMessage').text(message);
+  $('#toastNotification').show();
+  setTimeout(()=>$('#toastNotification').hide(),3000);
+}
+
+function chartClick(type){
+  console.log('Chart container clicked:',type);
+}
+</script>
+</body>
+</html>

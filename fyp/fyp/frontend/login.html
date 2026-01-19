@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FYP Marketplace</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <div class="brand"><div class="logo"></div> FYP Marketplace</div>
+            <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
+        </div>
+        <h2>Login</h2>
+        <p class="subtitle">Enter your account information to continue</p>
+        <form id="loginForm" class="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required>
+            </div>
+            <div class="form-group">
+                <label for="twofactor">Two-Factor Code (Optional)</label>
+                <input id="twofactor" name="twofactor" type="text" placeholder="Leave empty if not enabled">
+            </div>
+            <div class="form-group checkbox-group">
+                <input id="remember" name="remember" type="checkbox">
+                <label for="remember">Remember me</label>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <div class="form-footer">
+                <a href="#" id="forgotLink">Forgot Password</a>
+                <a href="/signup" id="registerLink">Register</a>
+            </div>
+            <div class="divider"><span>or</span></div>
+            <button type="button" id="googleBtn" class="google-login-btn">
+                <img class="google-icon" alt="G" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 48 48'%3E%3Cpath fill='%23FFC107' d='M43.6 20.5H42V20H24v8h11.3C33.8 31.9 29.3 35 24 35c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.2-.1-2.3-.4-3.5z'/%3E%3Cpath fill='%23FF3D00' d='M6.3 14.7l6.6 4.8C14.4 16.5 18.8 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 15.3 3 8.2 7.3 6.3 14.7z'/%3E%3Cpath fill='%2304A69C' d='M24 45c5.2 0 10-2 13.6-5.2l-6.3-5.2C29.2 36.7 26.7 37.5 24 37.5c-5.2 0-9.6-3.5-11.3-8.2l-6.6 5.1C8.2 40.7 15.3 45 24 45z'/%3E%3Cpath fill='%233197F3' d='M43.6 20.5H42V20H24v8h11.3c-1.1 3.2-4.4 7-11.3 7-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.2-.1-2.3-.4-3.5z'/%3E%3C/svg%3E"/>
+                Sign in with Google (Placeholder)
+            </button>
+            <div id="msg" style="margin-top:1rem;color:#555;"></div>
+        </form>
+    </div>
+
+    <script>
+    // 后端地址：在 file:// 打开时回落到本机端口
+    const BACKEND_BASE = (window.location.protocol === 'file:'
+      ? 'http://localhost:3000'
+      : (window.location.origin || 'http://localhost:3000'));
+
+    function setMessage(text, isError = false) {
+        const msg = document.getElementById('msg');
+        msg.classList.remove('show', 'success', 'error');
+        msg.style.color = isError ? '#c0392b' : '#2c3e50';
+        msg.textContent = text;
+        msg.classList.add('show');
+        if (!isError) {
+            msg.classList.add('success');
+        } else {
+            msg.classList.add('error');
+        }
+    }
+
+    function setFieldState(id, ok, message) {
+        const group = id.closest('.form-group');
+        group.classList.remove('error', 'success');
+        if (ok === true) {
+            group.classList.add('success');
+            const err = group.querySelector('.error-text');
+            if (err) err.textContent = '';
+        } else if (ok === false) {
+            group.classList.add('error');
+            let err = group.querySelector('.error-text');
+            if (!err) {
+                err = document.createElement('div');
+                err.className = 'error-text';
+                group.appendChild(err);
+            }
+            err.textContent = message || '输入有误';
+        }
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.addEventListener('click', () => {
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        if (newTheme === 'light') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    const submitBtn = document.querySelector('.login-btn');
+    let submitting = false;
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (submitting) return;
+        const usernameEl = document.getElementById('username');
+        const passwordEl = document.getElementById('password');
+        const username = usernameEl.value.trim();
+        const password = passwordEl.value;
+        const twofactor = document.getElementById('twofactor').value.trim();
+        const remember = document.getElementById('remember').checked;
+        let hasError = false;
+        if (!username) { setFieldState(usernameEl, false, 'Please enter username'); hasError = true; } else { setFieldState(usernameEl, true); }
+        if (!password) { setFieldState(passwordEl, false, 'Please enter password'); hasError = true; } else { setFieldState(passwordEl, true); }
+        if (hasError) { return; }
+        setMessage('Logging in...');
+        submitting = true; 
+        submitBtn.setAttribute('disabled', 'disabled');
+        submitBtn.innerHTML = '<span class="spinner"></span> Logging in...';
+        
+        try {
+            // Check for hardcoded credentials first
+            if (username === 'admin' && password === 'password123') {
+                // Hardcoded login success
+                const userObj = {
+                    id: '12345',
+                    username: 'admin',
+                    email: 'admin@fypmarketplace.com'
+                };
+                
+                setMessage('Login successful: ' + userObj.username);
+                
+                // Set user info to session
+                const currentDate = new Date().toISOString().split('T')[0];
+                sessionStorage.setItem('user_info', JSON.stringify({
+                    id: userObj.id,
+                    username: userObj.username,
+                    avatar: '',
+                    registration_time: currentDate,
+                    is_new_user: false,
+                    phone_verified: true,
+                    email_verified: true
+                }));
+                
+                // Redirect to marketplace
+                setTimeout(() => {
+                    window.location.href = 'secondary.html';
+                }, 1000);
+                return;
+            }
+            
+            // Original backend login logic
+            const resp = await fetch(`${BACKEND_BASE}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ account: username, password, remember })
+            });
+            const data = await resp.json().catch(() => ({ success: false, message: 'Response is not JSON' }));
+            if (!resp.ok || data.success === false) {
+                const msg = data.message || data.error || 'Login failed';
+                setFieldState(passwordEl, false, msg);
+                setMessage(msg, true);
+                return;
+            }
+            const userObj = data.user || {};
+            setMessage('Login successful: ' + (userObj.username || ''));
+            
+            // Login success, set user info to session and redirect
+            if (userObj && (userObj.id || userObj.username)) {
+                const userId = userObj.id || Math.floor(Math.random() * 9000) + 1000;
+                const currentDate = new Date().toISOString().split('T')[0];
+                
+                // Set user info to session
+                sessionStorage.setItem('user_info', JSON.stringify({
+                    id: userId.toString(),
+                    username: userObj.username || '',
+                    avatar: '',
+                    registration_time: currentDate,
+                    is_new_user: true,
+                    phone_verified: false,
+                    email_verified: !!userObj.email
+                }));
+                
+                // Delay redirect to marketplace page
+                setTimeout(() => {
+                    if (window.location.protocol === 'file:') {
+                        window.location.href = 'http://localhost:3000/secondary.html';
+                    } else {
+                        window.location.href = 'secondary.html';
+                    }
+                }, 1000);
+            }
+        } catch (err) {
+            setMessage('Request failed: ' + err.message, true);
+        } finally {
+            submitting = false; 
+            submitBtn.removeAttribute('disabled');
+            submitBtn.innerHTML = 'Login';
+        }
+    });
+
+    // Google login placeholder: call backend placeholder API and show message
+    document.getElementById('googleBtn').addEventListener('click', async () => {
+        setMessage('Opening Google login...');
+        try {
+            const resp = await fetch(`${BACKEND_BASE}/google-login`, { method: 'POST' });
+            const data = await resp.json();
+            if (!resp.ok) {
+                setMessage(data.error || 'Google login failed', true);
+                return;
+            }
+            setMessage(data.message || 'Google login');
+        } catch (e) {
+            setMessage('Request failed: ' + e.message, true);
+        }
+    });
+
+    document.getElementById('forgotLink').addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = prompt('Please enter your registered email:');
+        if (!email) return;
+        try {
+            const resp = await fetch(`${BACKEND_BASE}/forgot-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await resp.json();
+            setMessage(data.message || 'Request submitted');
+        } catch (err) {
+            setMessage('Request failed: ' + err.message, true);
+        }
+    });
+
+    // 注册链接已指向 /signup，直接跳转无需弹窗
+    </script>
+</body>
+</html>
+
+

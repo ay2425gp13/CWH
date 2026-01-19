@@ -1,0 +1,293 @@
+<!-- Top navigation bar component -->
+<nav class="top-nav">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="/CustomerMenu.html" class="logo-link">
+        <div class="logo-icon">📱</div>
+        <span class="logo-text">FYP Marketplace</span>
+      </a>
+    </div>
+    
+      <div class="nav-menu">
+        <a href="CustomerMenu.html" class="nav-item" data-page="home">Home</a>
+        <a href="news.html" class="nav-item" data-page="news">News Center</a>
+        <a href="prices.html" class="nav-item" data-page="prices">Price Info</a>
+        <a href="forum.html" class="nav-item" data-page="forum">Forum</a>
+        <a href="secondary.html" class="nav-item" data-page="secondary">Marketplace</a>
+      </div>
+    
+    <div class="nav-user">
+      <div class="user-info" id="userInfo">
+        <span class="user-id" id="userId">Please Login</span>
+        <div class="user-dropdown">
+          <a href="my-items.html" class="dropdown-item">My Items</a>
+          <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+          <a href="my-reviews.html" class="dropdown-item">My Reviews</a>
+          <a href="search-notifications.html" class="dropdown-item">Search Notifications</a>
+          <a href="#" class="dropdown-item logout-btn">Logout</a>
+        </div>
+      </div>
+      <a href="#" class="nav-icon" title="Trade Chat">💬</a>
+      <a href="#" class="nav-icon" title="Messages">✉️</a>
+      <a href="secondary.html" class="nav-button">Free Listing</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+/* Top navigation bar styles */
+.top-nav {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.logo-icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.logo-text {
+  color: #ff6600;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.nav-item:hover, .nav-item.active {
+  background: #f5f5f5;
+  color: #ff6600;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-id {
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-weight: 500;
+  color: #333;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-width: 180px;
+  display: none;
+  z-index: 1001;
+}
+
+.user-info:hover .user-dropdown {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.3s;
+}
+
+.dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.logout-btn {
+  color: #ff4d4f !important;
+}
+
+.nav-icon {
+  font-size: 18px;
+  text-decoration: none;
+  color: #666;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.nav-icon:hover {
+  background: #f5f5f5;
+  color: #ff6600;
+}
+
+.nav-button {
+  background: #ff6600;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.nav-button:hover {
+  background: #e55a00;
+  transform: translateY(-1px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 15px;
+  }
+  
+  .nav-menu {
+    gap: 15px;
+  }
+  
+  .nav-item {
+    padding: 6px 8px;
+    font-size: 14px;
+  }
+  
+  .nav-user {
+    gap: 10px;
+  }
+  
+  .nav-button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-menu {
+    display: none;
+  }
+  
+  .nav-container {
+    justify-content: space-between;
+  }
+}
+</style>
+
+<script>
+// 导航栏功能脚本
+document.addEventListener('DOMContentLoaded', function() {
+  // 更新用户信息显示
+  updateUserInfo();
+  
+  // 设置当前页面高亮
+  setActiveNavItem();
+  
+  // 退出登录功能
+  setupLogoutHandler();
+});
+
+// 更新用户信息显示
+function updateUserInfo() {
+  const userInfo = sessionStorage.getItem('user_info');
+  const userIdElement = document.getElementById('userId');
+  
+  if (userInfo && userIdElement) {
+    const user = JSON.parse(userInfo);
+    userIdElement.textContent = user.id;
+  } else if (userIdElement) {
+    userIdElement.textContent = '请登录';
+    userIdElement.style.cursor = 'pointer';
+    userIdElement.onclick = function() {
+      // 检查是否通过服务器访问
+      if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+        window.location.href = '/login';
+      } else {
+        // 如果是直接打开文件，跳转到服务器地址
+        window.location.href = 'login.html';
+      }
+    };
+  }
+}
+
+// 设置当前页面导航高亮
+function setActiveNavItem() {
+  const currentPath = window.location.pathname;
+  const navItems = document.querySelectorAll('.nav-item');
+  
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    const href = item.getAttribute('href');
+    
+    // 检查是否匹配当前页面
+    if (currentPath === href || 
+        (currentPath === '/' && href === '/CustomerMenu.html') ||
+        (currentPath.includes('news') && href === '/news.html') ||
+        (currentPath.includes('prices') && href === '/prices.html') ||
+        (currentPath.includes('forum') && href === '/forum.html') ||
+        (currentPath.includes('secondary') && href === '/secondary.html')) {
+      item.classList.add('active');
+    }
+  });
+}
+
+// 设置退出登录处理
+function setupLogoutHandler() {
+  const logoutBtn = document.querySelector('.logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (confirm('确定要退出登录吗？')) {
+        sessionStorage.removeItem('user_info');
+        window.location.href = '/login';
+      }
+    });
+  }
+}
+</script>

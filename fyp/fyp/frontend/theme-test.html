@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Sync Test - FYP Marketplace</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-main);
+            border: 1px solid var(--border);
+        }
+
+        .header h1 {
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .status-dark {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        .status-light {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .test-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-main);
+            border: 1px solid var(--border);
+        }
+
+        .test-section h2 {
+            color: var(--text);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-section h2::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .page-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .page-link {
+            display: block;
+            padding: 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--text);
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .page-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-main-hover);
+        }
+
+        .theme-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .info-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box h3 {
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .success {
+            border-left: 4px solid var(--success);
+        }
+
+        .warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .current-time {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Theme Sync Test</h1>
+            <p>Test theme switching sync functionality for all pages</p>
+            <span id="currentTheme" class="status status-light">Light Theme</span>
+        </div>
+
+        <div class="theme-controls">
+            <button class="btn btn-primary" onclick="setTheme('dark')">Dark Theme</button>
+            <button class="btn btn-secondary" onclick="setTheme('light')">Light Theme</button>
+            <button class="btn btn-primary" onclick="toggleTheme()">Toggle Theme</button>
+        </div>
+
+        <div class="info-box success">
+            <h3>✅ Pages with integrated theme switching</h3>
+            <p>The following pages have integrated theme switching functionality and can sync theme settings between pages:</p>
+        </div>
+
+        <div class="test-section">
+            <h2>📄 Main Pages</h2>
+            <div class="page-links">
+                <a href="CustomerMenu.html" class="page-link">Main Menu</a>
+                <a href="secondary.html" class="page-link">Second-hand Market</a>
+                <a href="news.html" class="page-link">News Center</a>
+                <a href="forum.html" class="page-link">Discussion Forum</a>
+                <a href="platform-market.html" class="page-link">Platform Market</a>
+                <a href="gift-box.html" class="page-link">Gift Box</a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🛠️ Function Pages</h2>
+            <div class="page-links">
+                <a href="AI-Setup-Recommend.html" class="page-link">AI Recommendations</a>
+                <a href="friendlist.html" class="page-link">Trade Chat</a>
+                <a href="online-support.html" class="page-link">Online Support</a>
+                <a href="coupon.html" class="page-link">Coupons</a>
+                <a href="refund.html" class="page-link">Refund Request</a>
+                <a href="prices.html" class="page-link">Price Information</a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>👤 Personal Center</h2>
+            <div class="page-links">
+                <a href="my-favorites.html" class="page-link">My Favorites</a>
+                <a href="my-items.html" class="page-link">My Items</a>
+                <a href="my-reviews.html" class="page-link">My Reviews</a>
+                <a href="search-notifications.html" class="page-link">Search Notifications</a>
+                <a href="product-detail.html" class="page-link">Product Details</a>
+            </div>
+        </div>
+
+        <div class="info-box warning">
+            <h3>🔧 Test Instructions</h3>
+            <p>1. Click the buttons above to switch themes</p>
+            <p>2. Visit any page link to check if theme syncs</p>
+            <p>3. Use shortcut <strong>Ctrl/Cmd + Shift + T</strong> for quick toggle</p>
+            <p>4. Theme settings are automatically saved to local storage</p>
+        </div>
+
+        <div class="current-time">
+            Current Time: <span id="currentTime"></span>
+        </div>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script>
+        // Theme switching functionality
+        function setTheme(theme) {
+            window.themeManager.setTheme(theme);
+        }
+
+        function toggleTheme() {
+            window.themeManager.toggleTheme();
+        }
+
+        // Update current theme display
+        function updateThemeDisplay() {
+            const currentTheme = window.themeManager.getCurrentTheme();
+            const themeIndicator = document.getElementById('currentTheme');
+            
+            if (currentTheme === 'dark') {
+                themeIndicator.textContent = 'Dark Theme';
+                themeIndicator.className = 'status status-dark';
+            } else {
+                themeIndicator.textContent = 'Light Theme';
+                themeIndicator.className = 'status status-light';
+            }
+        }
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        // Listen for theme changes
+        window.addEventListener('themeChanged', (e) => {
+            updateThemeDisplay();
+            console.log('Theme switched to:', e.detail.theme);
+        });
+
+        // Initialize after page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateThemeDisplay();
+            updateTime();
+            setInterval(updateTime, 1000);
+        });
+
+        // Add keyboard shortcut support
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+                switch(e.key) {
+                    case 'T':
+                        e.preventDefault();
+                        toggleTheme();
+                        break;
+                    case 'D':
+                        e.preventDefault();
+                        setTheme('dark');
+                        break;
+                    case 'L':
+                        e.preventDefault();
+                        setTheme('light');
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

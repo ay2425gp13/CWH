@@ -1,0 +1,324 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #1b2838;
+    --secondary: #2a475e;
+    --accent: #66c0f4;
+    --gold: #ffc82c;
+    --silver: #c7d5e0;
+    --bronze: #cd7f32;
+    --bg: #ffffff;
+    --card-bg: #ffffff;
+    --text: #333333;
+    --text-light: #666666;
+    --border: #e0e0e0;
+    --success: #5cb85c;
+    --warning: #f0ad4e;
+    --danger: #d9534f;
+    --info: #5bc0de;
+    --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --shadow: 0 4px 12px rgba(0,0,0,0.1);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.15);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 16px;
+    
+    /* 兼容旧变量名 */
+    --card: var(--card-bg);
+    --muted: var(--text-light);
+    --primary-hover: var(--secondary);
+}
+
+[data-theme="dark"] {
+    --bg: #0f1115;
+    --card-bg: #171a21;
+    --text: #e6e6e6;
+    --muted: #a0a7b4;
+    --border: #2a2f3a;
+    --primary: #3d8bfd;
+    --primary-hover: #2c7bf0;
+    --success: #4caf50;
+    --danger: #ff6b6b;
+    --shadow: 0 2px 12px rgba(0,0,0,0.45);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--text);
+}
+
+.login-container {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid var(--border);
+}
+
+.subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.loginForm {
+    margin-top: 1rem;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--muted);
+}
+
+input[type="text"],
+input[type="password"],
+select,
+.form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg);
+    color: var(--text);
+    font-size: 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(102, 192, 244, 0.2);
+}
+
+.form-group.error input {
+    border-color: var(--danger);
+}
+
+.form-group.success input {
+    border-color: var(--success);
+}
+
+.help-text {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.error-text {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--danger);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    margin-left: 0.5rem;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.login-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.login-btn[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.form-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.form-footer a:hover {
+    color: var(--text);
+    text-decoration: underline;
+}
+
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.divider span {
+    background-color: var(--card-bg);
+    padding: 0 1rem;
+    color: var(--muted);
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--border);
+    z-index: -1;
+}
+
+.google-login-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.google-login-btn:hover {
+    background-color: var(--bg);
+    border-color: var(--accent);
+}
+
+.google-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.register-link a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+}
+
+.brand .logo {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+
+.theme-toggle {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--bg);
+    border-color: var(--accent);
+}
+
+.illustration {
+    display: none;
+}
+
+@media (min-width: 900px) {
+    body {
+        height: 100vh;
+    }
+    .shell {
+        display: grid;
+        grid-template-columns: 420px 480px;
+        gap: 48px;
+        align-items: center;
+    }
+    .illustration {
+        display: block;
+        color: var(--muted);
+    }
+}
+
+.strength-meter {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+.strength-meter > div {
+    height: 100%;
+    width: 0%;
+    transition: width 0.2s ease, background-color 0.2s ease;
+    background: var(--danger);
+}
+    height: 100%;
+    width: 0%;
+    transition: width 0.2s ease, background-color 0.2s ease;
+    background: var(--danger);
+}

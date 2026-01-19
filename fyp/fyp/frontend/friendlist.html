@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Chat - FYP Marketplace</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        :root {
+            --primary: #07c160;
+            --primary-dark: #06ad56;
+            --bg: #f7f7f7;
+            --sidebar-bg: #2e2e2e;
+            --chat-bg: #ffffff;
+            --border: #e6e6e6;
+            --text: #333333;
+            --text-light: #999999;
+            --message-bg: #95ec69;
+            --message-received: #ffffff;
+            --hover: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+    /* Unified top navigation bar styles */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+            color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+
+        .unified-top-nav .nav-container {
+          max-width: 1200px;
+          margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          padding: 0 20px;
+          height: 100%;
+        }
+
+        .unified-top-nav .nav-logo {
+            display: flex;
+            align-items: center;
+          flex-shrink: 0;
+        }
+
+        .unified-top-nav .logo-link {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          color: white;
+            font-weight: bold;
+          font-size: 18px;
+          transition: all 0.3s ease;
+        }
+
+        .unified-top-nav .logo-link:hover {
+          transform: scale(1.05);
+        }
+
+        .unified-top-nav .logo-icon {
+          font-size: 24px;
+          margin-right: 8px;
+        }
+
+        .unified-top-nav .logo-text {
+            color: white;
+        }
+
+        .unified-top-nav .nav-menu {
+          display: flex;
+          align-items: center;
+          gap: 0;
+          flex: 1;
+          justify-content: center;
+          margin: 0 20px;
+        }
+
+        .unified-top-nav .nav-item {
+            text-decoration: none;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 500;
+          padding: 12px 16px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          position: relative;
+          white-space: nowrap;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .nav-item:hover {
+          background: rgba(255, 255, 255, 0.15);
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .nav-item.active {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          font-weight: 600;
+        }
+
+        .unified-top-nav .nav-item.active::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 20px;
+          height: 2px;
+          background: white;
+          border-radius: 1px;
+        }
+
+        .unified-top-nav .nav-user {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-shrink: 0;
+        }
+
+        .unified-top-nav .user-info {
+          position: relative;
+          cursor: pointer;
+        }
+
+        .unified-top-nav .user-id {
+          padding: 10px 16px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 6px;
+          font-weight: 500;
+          color: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          font-size: 14px;
+        }
+
+        .unified-top-nav .user-id:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .user-dropdown {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background: white;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          min-width: 180px;
+          display: none;
+          z-index: 1001;
+          margin-top: 5px;
+        }
+
+        .unified-top-nav .user-info:hover .user-dropdown {
+          display: block;
+        }
+
+        .unified-top-nav .dropdown-item {
+          display: block;
+          padding: 12px 16px;
+            text-decoration: none;
+          color: #333;
+          border-bottom: 1px solid #f0f0f0;
+          transition: background 0.3s;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .dropdown-item:hover {
+          background: #f5f5f5;
+        }
+
+        .unified-top-nav .dropdown-item:last-child {
+          border-bottom: none;
+        }
+
+        .unified-top-nav .logout-btn {
+          color: #ff4d4f !important;
+        }
+
+        .unified-top-nav .nav-icon {
+          font-size: 18px;
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.8);
+          padding: 10px;
+            border-radius: 6px;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+        }
+
+        .unified-top-nav .nav-icon:hover {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        .unified-top-nav .nav-button {
+          background: white;
+          color: #1e3a8a;
+          text-decoration: none;
+          padding: 10px 16px;
+          border-radius: 6px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          border: 2px solid white;
+          font-size: 14px;
+        }
+
+        .unified-top-nav .nav-button:hover {
+          background: rgba(255, 255, 255, 0.9);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navigation bar theme toggle button styles */
+        .theme-toggle-nav {
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+        }
+        
+        .switch-nav {
+          position: relative;
+          display: inline-block;
+          width: 50px;
+          height: 24px;
+        }
+        
+        .switch-nav input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+        
+        .slider-nav {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(255,255,255,0.2);
+          transition: .4s;
+          border-radius: 24px;
+          border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .switch-nav input:checked + .slider-nav {
+          background-color: rgba(255,255,255,0.3);
+        }
+        
+        .slider-nav:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 2px;
+          bottom: 2px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .switch-nav input:checked + .slider-nav:before {
+          transform: translateX(26px);
+        }
+        
+        .switch-label-nav {
+          position: absolute;
+          top: 2px;
+          font-size: 12px;
+          pointer-events: none;
+          transition: opacity 0.3s;
+        }
+        
+        .switch-label-nav.on {
+          left: 6px;
+          opacity: 1;
+        }
+        
+        .switch-label-nav.off {
+          right: 6px;
+          opacity: 0;
+        }
+        
+        .switch-nav input:checked + .slider-nav .switch-label-nav.on {
+          opacity: 0;
+        }
+        
+        .switch-nav input:checked + .slider-nav .switch-label-nav.off {
+          opacity: 1;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1024px) {
+          .unified-top-nav .nav-menu {
+            gap: 0;
+          }
+          
+          .unified-top-nav .nav-item {
+            padding: 10px 12px;
+            font-size: 13px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .unified-top-nav .nav-container {
+            padding: 0 15px;
+          }
+          
+          .unified-top-nav .nav-menu {
+            display: none;
+          }
+          
+          .unified-top-nav .nav-user {
+            gap: 8px;
+          }
+          
+          .unified-top-nav .nav-button {
+            padding: 8px 12px;
+            font-size: 13px;
+          }
+          
+          .unified-top-nav .nav-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .unified-top-nav .nav-container {
+            padding: 0 10px;
+          }
+          
+          .unified-top-nav .logo-text {
+            display: none;
+          }
+          
+          .unified-top-nav .nav-user {
+            gap: 6px;
+          }
+          
+          .unified-top-nav .nav-button {
+            padding: 6px 10px;
+            font-size: 12px;
+          }
+        }
+
+        /* Main container */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+
+        /* Left friends list */
+        .friends-sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            background: #fafafa;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 35px 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+            background: #f5f5f5;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .group-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .group-tab {
+            padding: 6px 12px;
+            background: #e8e8e8;
+            border: none;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .group-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .friends-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .friend-item:hover {
+            background: var(--hover);
+        }
+
+        .friend-item.active {
+            background: #e7f4fd;
+        }
+
+        .friend-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 6px;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+
+        .friend-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .friend-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .friend-status {
+            font-size: 13px;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .friend-badge {
+            background: #ff4757;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 11px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Right chat area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--chat-bg);
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .chat-btn:hover {
+            background: var(--hover);
+        }
+
+        /* General Tooltip */
+        .chat-btn[data-tooltip]:hover::after,
+        .toolbar-btn[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .chat-btn[data-tooltip]:hover::before,
+        .toolbar-btn[data-tooltip]:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0,0,0,0.8);
+            margin-bottom: 2px;
+        }
+
+        .toolbar-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f5f5f5;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+
+        .message.sent {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+
+        .message-content {
+            max-width: 60%;
+            background: var(--message-received);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .message.sent .message-content {
+            background: var(--message-bg);
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .chat-input-area {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        .input-toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .toolbar-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .toolbar-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            min-height: 40px;
+            max-height: 120px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .send-btn {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Empty state */
+        .empty-chat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-light);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .friends-sidebar {
+                width: 100%;
+                position: absolute;
+                z-index: 100;
+                height: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .friends-sidebar.show {
+                transform: translateX(0);
+            }
+
+            .chat-area {
+                width: 100%;
+            }
+        }
+
+        /* Scrollbar styles */
+        .friends-list::-webkit-scrollbar,
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .friends-list::-webkit-scrollbar-track,
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .friends-list::-webkit-scrollbar-thumb,
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .friends-list::-webkit-scrollbar-thumb:hover,
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        
+        /* Dark mode variables */
+        [data-theme="dark"] {
+            --card-bg: #2e2e2e;
+            --text: #ffffff;
+            --border: #404040;
+            --hover: #404040;
+        }
+        
+        [data-theme="light"] {
+            --card-bg: #ffffff;
+            --text: #333333;
+            --border: #e6e6e6;
+            --hover: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified top navigation bar -->
+    <nav class="unified-top-nav">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <a href="CustomerMenu.html" class="logo-link">
+            <span class="logo-icon">📱</span>
+            <span class="logo-text">FYP Marketplace</span>
+          </a>
+            </div>
+        
+        <div class="nav-menu">
+          <a href="CustomerMenu.html" class="nav-item" data-page="home">Home</a>
+          <a href="news.html" class="nav-item" data-page="news">News Center</a>
+          <a href="prices.html" class="nav-item" data-page="prices">Price Info</a>
+          <a href="forum.html" class="nav-item" data-page="forum">Forum</a>
+          <a href="secondary.html" class="nav-item" data-page="secondary">Marketplace</a>
+          <a href="platform-market.html" class="nav-item" data-page="platform">Platform Market</a>
+          <a href="online-support.html" class="nav-item" data-page="support">Online Support</a>
+          <a href="AI-Setup-Recommend.html" class="nav-item" data-page="ai">AI Recommend</a>
+          <a href="friendlist.html" class="nav-item active" data-page="friends">Trade Chat</a>
+        </div>
+        
+        <div class="nav-user">
+          <div class="user-info" id="userInfo">
+            <span class="user-id" id="userId">Please Login</span>
+            <div class="user-dropdown">
+              <a href="my-items.html" class="dropdown-item">My Items</a>
+              <a href="my-favorites.html" class="dropdown-item">My Favorites</a>
+              <a href="my-reviews.html" class="dropdown-item">My Reviews</a>
+              <a href="search-notifications.html" class="dropdown-item">Search Notifications</a>
+              <a href="#" class="dropdown-item logout-btn">Logout</a>
+            </div>
+          </div>
+          <!-- Theme toggle button -->
+          <div class="theme-toggle-nav">
+            <label class="switch-nav" id="darkModeLabel">
+              <input type="checkbox" id="darkModeSwitch">
+              <span class="slider-nav">
+                <span class="switch-label-nav on">🌙</span>
+                <span class="switch-label-nav off">☀️</span>
+              </span>
+            </label>
+          </div>
+          <a href="#" class="nav-icon" title="Trade Chat">💬</a>
+          <a href="#" class="nav-icon" title="Private Messages">✉️</a>
+          <a href="secondary.html" class="nav-button">Free Listing</a>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Main container -->
+    <div class="main-container">
+        <!-- Left friends list -->
+        <div class="friends-sidebar">
+            <div class="sidebar-header">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search friends..." id="searchInput">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="group-tabs">
+                    <button class="group-tab active" data-group="all">All</button>
+                    <button class="group-tab" data-group="online">Online</button>
+                    <button class="group-tab" data-group="recent">Recent</button>
+                </div>
+            </div>
+            <div class="friends-list" id="friendsList">
+                <!-- Friends list will be dynamically generated via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Right chat area -->
+        <div class="chat-area">
+            <div class="chat-header" id="chatHeader" style="display: none;">
+                <div class="chat-title" id="chatTitle">Select a friend to start chatting</div>
+                <div class="chat-actions">
+                    <button class="chat-btn" title="Voice">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:4px;vertical-align:-3px;"><path d="M22 16.92V22h-5.08a10 10 0 1 1 5.08-5.08z"/><path d="M15 9v6"/><path d="M18 12h-6"/></svg>Voice
+                    </button>
+                    <button class="chat-btn" title="Video">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:4px;vertical-align:-3px;"><rect x="3" y="6" width="15" height="12" rx="2"/><path d="M19 7v10l4-5z"/></svg>Video
+                    </button>
+                    <button class="chat-btn" title="Details">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:4px;vertical-align:-3px;"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01"/><path d="M11 12h1v4h1"/></svg>Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="empty-chat">
+                    <div class="empty-icon">
+                        <svg width="38" height="38" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <ellipse cx="12" cy="12" rx="9" ry="6.5"/>
+                            <circle cx="12" cy="12" r="2.3"/>
+                        </svg>
+                    </div>
+                    <p>Select a friend to start chatting</p>
+                </div>
+            </div>
+
+            <div class="chat-input-area" id="chatInputArea" style="display: none;">
+                <div class="input-toolbar">
+                    <button class="toolbar-btn" title="Emojis">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4.5 4.5 0 0 0 7 0"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/></svg>
+                    </button>
+                    <button class="toolbar-btn" title="Images">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="5" width="17" height="14" rx="2"/><circle cx="8" cy="13" r="2"/><path d="M21 19l-5-6-4 4-5 6"/></svg>
+                    </button>
+                    <button class="toolbar-btn" title="Files">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05a8.94 8.94 0 0 1-1.54 8.06A9 9 0 0 1 3 12c0-2.52 1-4.78 2.62-6.44m3.49-2.52A9 9 0 0 1 21 12h0"/><path d="M8.46 5.56l2.12 2.12-4.95 4.95a2.12 2.12 0 1 0 3 3l4.95-4.95 2.12 2.12"/></svg>
+                    </button>
+                    <button class="toolbar-btn" title="Screenshot">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="11" rx="2"/><circle cx="12" cy="13" r="3"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </button>
+                </div>
+                <div class="input-container">
+                    <textarea class="message-input" id="messageInput" placeholder="Type a message..." rows="1"></textarea>
+                    <button class="send-btn" id="sendBtn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock friends data
+        const friendsData = [
+            {
+                id: 1,
+                name: "John Smith",
+                avatar: "https://via.placeholder.com/45x45/4CAF50/white?text=JS",
+                status: "Online",
+                lastMessage: "Hello, is the product still available?",
+                time: "10:30",
+                unread: 2,
+                online: true,
+                group: "Buyer"
+            },
+            {
+                id: 2,
+                name: "Mary Johnson",
+                avatar: "https://via.placeholder.com/45x45/2196F3/white?text=MJ",
+                status: "Online 30 minutes ago",
+                lastMessage: "Okay, thank you!",
+                time: "09:45",
+                unread: 0,
+                online: false,
+                group: "Seller"
+            },
+            {
+                id: 3,
+                name: "David Wang",
+                avatar: "https://via.placeholder.com/45x45/FF9800/white?text=DW",
+                status: "Online",
+                lastMessage: "When can we trade?",
+                time: "Yesterday",
+                unread: 1,
+                online: true,
+                group: "Buyer"
+            },
+            {
+                id: 4,
+                name: "Emily Chen",
+                avatar: "https://via.placeholder.com/45x45/E91E63/white?text=EC",
+                status: "Online 2 hours ago",
+                lastMessage: "Can we negotiate the price?",
+                time: "Yesterday",
+                unread: 0,
+                online: false,
+                group: "Buyer"
+            },
+            {
+                id: 5,
+                name: "Robert Liu",
+                avatar: "https://via.placeholder.com/45x45/9C27B0/white?text=RL",
+                status: "Online",
+                lastMessage: "New stock arrived",
+                time: "Tuesday",
+                unread: 3,
+                online: true,
+                group: "Seller"
+            },
+            {
+                id: 6,
+                name: "Sarah Zhao",
+                avatar: "https://via.placeholder.com/45x45/607D8B/white?text=SZ",
+                status: "Online 1 day ago",
+                lastMessage: "Received, very satisfied!",
+                time: "Monday",
+                unread: 0,
+                online: false,
+                group: "Buyer"
+            }
+        ];
+
+        // Mock chat history
+        const chatHistory = {
+            1: [
+                { type: 'received', content: 'Hello, is this product still available?', time: '10:25', avatar: 'https://via.placeholder.com/35x35/4CAF50/white?text=JS' },
+                { type: 'sent', content: 'Yes, when are you available to see the goods?', time: '10:26', avatar: 'https://via.placeholder.com/35x35/666/white?text=Me' },
+                { type: 'received', content: 'Is this afternoon okay?', time: '10:30', avatar: 'https://via.placeholder.com/35x35/4CAF50/white?text=JS' }
+            ],
+            2: [
+                { type: 'sent', content: 'The product has been shipped', time: '09:40', avatar: 'https://via.placeholder.com/35x35/666/white?text=Me' },
+                { type: 'received', content: 'Okay, thank you!', time: '09:45', avatar: 'https://via.placeholder.com/35x35/2196F3/white?text=MJ' }
+            ],
+            3: [
+                { type: 'received', content: 'When can we trade?', time: 'Yesterday 15:20', avatar: 'https://via.placeholder.com/35x35/FF9800/white?text=DW' }
+            ]
+        };
+
+        let currentFriend = null;
+        let currentGroup = 'all';
+        let filteredFriends = [...friendsData];
+
+        // DOM elements
+        const friendsList = document.getElementById('friendsList');
+        const chatHeader = document.getElementById('chatHeader');
+        const chatTitle = document.getElementById('chatTitle');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInputArea = document.getElementById('chatInputArea');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const searchInput = document.getElementById('searchInput');
+
+        // Render friends list
+        function renderFriendsList() {
+            friendsList.innerHTML = '';
+            filteredFriends.forEach(friend => {
+                const friendItem = document.createElement('div');
+                friendItem.className = `friend-item ${currentFriend?.id === friend.id ? 'active' : ''}`;
+                friendItem.innerHTML = `
+                    <img src="${friend.avatar}" alt="${friend.name}" class="friend-avatar">
+                    <div class="friend-info">
+                        <div class="friend-name">${friend.name}</div>
+                        <div class="friend-status">${friend.lastMessage}</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                        <span style="font-size: 11px; color: #999;">${friend.time}</span>
+                        ${friend.unread > 0 ? `<span class="friend-badge">${friend.unread}</span>` : ''}
+                    </div>
+                `;
+                friendItem.addEventListener('click', () => selectFriend(friend));
+                friendsList.appendChild(friendItem);
+            });
+        }
+
+        // Select friend
+        function selectFriend(friend) {
+            currentFriend = friend;
+            chatHeader.style.display = 'flex';
+            chatInputArea.style.display = 'block';
+            chatTitle.textContent = friend.name;
+            
+            // Clear unread messages
+            friend.unread = 0;
+            
+            renderFriendsList();
+            renderChatMessages();
+        }
+
+        // Render chat messages
+        function renderChatMessages() {
+            if (!currentFriend) return;
+            
+            const messages = chatHistory[currentFriend.id] || [];
+            chatMessages.innerHTML = '';
+            
+            if (messages.length === 0) {
+                chatMessages.innerHTML = `
+                    <div class="empty-chat">
+                        <div class="empty-icon">💬</div>
+                        <p>Start a conversation with ${currentFriend.name}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            messages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${message.type}`;
+                messageDiv.innerHTML = `
+                    <img src="${message.avatar}" alt="avatar" class="message-avatar">
+                    <div class="message-content">
+                        ${message.content}
+                        <div class="message-time">${message.time}</div>
+                    </div>
+                `;
+                chatMessages.appendChild(messageDiv);
+            });
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Send message
+        function sendMessage() {
+            if (!currentFriend || !messageInput.value.trim()) return;
+            
+            const content = messageInput.value.trim();
+            const now = new Date();
+            const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            // Add to chat history
+            if (!chatHistory[currentFriend.id]) {
+                chatHistory[currentFriend.id] = [];
+            }
+            
+            chatHistory[currentFriend.id].push({
+                type: 'sent',
+                content: content,
+                time: time,
+                avatar: 'https://via.placeholder.com/35x35/666/white?text=Me'
+            });
+            
+            // Update last message in friends list
+            currentFriend.lastMessage = content;
+            currentFriend.time = time;
+            
+            messageInput.value = '';
+            renderFriendsList();
+            renderChatMessages();
+            
+            // Simulate reply from other party (delay 2 seconds)
+            setTimeout(() => {
+                const replies = [
+                    "Okay, I got it",
+                    "Thanks for your message",
+                    "Let me think",
+                    "No problem",
+                    "Received"
+                ];
+                const reply = replies[Math.floor(Math.random() * replies.length)];
+                
+                chatHistory[currentFriend.id].push({
+                    type: 'received',
+                    content: reply,
+                    time: `${now.getHours().toString().padStart(2, '0')}:${(now.getMinutes() + 1).toString().padStart(2, '0')}`,
+                    avatar: currentFriend.avatar
+                });
+                
+                currentFriend.lastMessage = reply;
+                currentFriend.unread = 1;
+                
+                renderFriendsList();
+                renderChatMessages();
+            }, 2000);
+        }
+
+        // Filter friends
+        function filterFriends() {
+            const searchTerm = searchInput.value.toLowerCase();
+            filteredFriends = friendsData.filter(friend => {
+                const matchesSearch = friend.name.toLowerCase().includes(searchTerm);
+                const matchesGroup = currentGroup === 'all' || 
+                                   (currentGroup === 'online' && friend.online) ||
+                                   (currentGroup === 'recent' && friend.unread > 0);
+                return matchesSearch && matchesGroup;
+            });
+            renderFriendsList();
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        searchInput.addEventListener('input', filterFriends);
+
+        // Group switching
+        document.querySelectorAll('.group-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.group-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentGroup = tab.dataset.group;
+                filterFriends();
+            });
+        });
+
+        // Auto adjust input height
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Initialize
+        renderFriendsList();
+    </script>
+    
+    <!-- Unified navigation bar function script -->
+    <script>
+      // Unified navigation bar function script
+      document.addEventListener('DOMContentLoaded', function() {
+        // Update user info display
+        updateUserInfo();
+        
+        // Set current page highlight
+        setActiveNavItem();
+        
+        // Logout functionality
+        setupLogoutHandler();
+        
+        // Initialize theme switching
+        initializeThemeSwitch();
+      });
+
+      // Theme switching functionality
+      function initializeThemeSwitch() {
+        const darkModeSwitch = document.getElementById('darkModeSwitch');
+        if (darkModeSwitch) {
+          // Set initial state
+          const currentTheme = localStorage.getItem('theme') || 'light';
+          document.documentElement.setAttribute('data-theme', currentTheme);
+          darkModeSwitch.checked = currentTheme === 'dark';
+          
+          // Bind toggle event
+          darkModeSwitch.addEventListener('change', function() {
+            if (window.themeManager) {
+              window.themeManager.toggleTheme();
+            } else {
+              // Fallback solution
+              const newTheme = this.checked ? 'dark' : 'light';
+              localStorage.setItem('theme', newTheme);
+              document.documentElement.setAttribute('data-theme', newTheme);
+            }
+          });
+        }
+      }
+
+      // Update user info display
+      function updateUserInfo() {
+        const userInfo = sessionStorage.getItem('user_info');
+        const userIdElement = document.getElementById('userId');
+        
+        if (userInfo && userIdElement) {
+          const user = JSON.parse(userInfo);
+          userIdElement.textContent = user.id;
+        } else if (userIdElement) {
+          userIdElement.textContent = 'Please Login';
+          userIdElement.style.cursor = 'pointer';
+          userIdElement.onclick = function() {
+            // Check if accessed via server
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/login';
+            } else {
+              // If file opened directly, redirect to server address
+              window.location.href = 'login.html';
+            }
+          };
+        }
+      }
+
+      // Set current page navigation highlight
+      function setActiveNavItem() {
+        const currentPath = window.location.pathname;
+        const currentFile = window.location.pathname.split('/').pop();
+        const navItems = document.querySelectorAll('.unified-top-nav .nav-item');
+        
+        navItems.forEach(item => {
+          item.classList.remove('active');
+          const href = item.getAttribute('href');
+          const page = item.getAttribute('data-page');
+          
+          // Check if matches current page
+          if (currentPath === href || 
+              currentFile === href ||
+              (currentFile === 'CustomerMenu.html' && page === 'home') ||
+              (currentFile === 'news.html' && page === 'news') ||
+              (currentFile === 'prices.html' && page === 'prices') ||
+              (currentFile === 'forum.html' && page === 'forum') ||
+              (currentFile === 'secondary.html' && page === 'secondary') ||
+              (currentFile === 'platform-market.html' && page === 'platform') ||
+              (currentFile === 'online-support.html' && page === 'support') ||
+              (currentFile === 'AI-Setup-Recommend.html' && page === 'ai') ||
+              (currentFile === 'friendlist.html' && page === 'friends')) {
+            item.classList.add('active');
+          }
+        });
+      }
+
+      // Set logout handler
+      function setupLogoutHandler() {
+        const logoutBtn = document.querySelector('.unified-top-nav .logout-btn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to log out?')) {
+              sessionStorage.removeItem('user_info');
+              window.location.href = '/login';
+            }
+          });
+        }
+      }
+    </script>
+    
+    <script>
+      // Handle user login button click
+      function handleUserLogin() {
+        // Check if user is logged in
+        const userInfo = sessionStorage.getItem('user_info');
+        if (userInfo) {
+          // Logged in, jump to my items page
+          window.location.href = '/my-items';
+        } else {
+          // Not logged in, jump to login page
+          window.location.href = '/login';
+        }
+      }
+    </script>
+</body>
+</html>
+

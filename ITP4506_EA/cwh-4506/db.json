@@ -1,0 +1,12 @@
+{
+  "products": [
+    {"id":1,"title":"Plush Bunny","meta":"Soft plush, 25cm","price":12.00},
+    {"id":2,"title":"Wooden Train","meta":"Maple wood, 10pcs","price":45.00},
+    {"id":3,"title":"Custom Doll","meta":"Tailor-made","price":60.00},
+    {"id":4,"title":"Puzzle 500pc","meta":"Educational","price":18.00}
+  ],
+  "users": [
+    {"id":"demo-user","email":"demo@example.com","name":"Demo User","wishlist":[]}
+  ],
+  "orders": []
+}

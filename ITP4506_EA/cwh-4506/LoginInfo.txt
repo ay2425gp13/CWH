@@ -1,0 +1,7 @@
+User Login:
+Username: user
+Password: 4506
+
+Sales Login:
+Email: sales@smilesunshine.toys
+Password: sales123

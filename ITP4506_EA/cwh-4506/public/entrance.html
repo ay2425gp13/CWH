@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Smile & Sunshine Toy</title>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+:root{--accent:#00bcd4;--accent-2:#2ecc71;--danger:#e03b3b;--header-height:80px;--rect-border:rgba(46,204,113,0.12);--purple:#d110c7}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Open Sans",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+html,body{height:100%}
+body{min-height:100vh;background:linear-gradient(180deg,rgba(234,248,242,0.8) 0%,rgba(240,251,255,0.8) 60%),url('images/hero-bg.jpg') center/cover no-repeat fixed;color:#0b3b3b;display:flex;flex-direction:column;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+header{position:fixed;top:0;left:0;width:100%;height:var(--header-height);z-index:900;padding:14px 32px;background:rgba(6,20,25,0.18);display:flex;align-items:center;justify-content:center}
+.navbar{width:100%;max-width:1400px;display:flex;align-items:center;justify-content:space-between;position:relative;height:100%}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;padding:6px;border-radius:10px;background:transparent}
+.logo .img-wrap{width:52px;height:52px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#dff7f0,#e6f8ff);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+.logo img{width:48px;height:48px;object-fit:cover;border-radius:50%;display:block;background:transparent}
+.logo h2{color:#fff;font-weight:700;font-size:1.12rem;white-space:nowrap;cursor:pointer}
+.links{display:flex;gap:22px;list-style:none;align-items:center;justify-content:center;margin:0 auto;position:relative;z-index:910}
+.links a{color:#fff;text-decoration:none;font-weight:700;padding:10px 14px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.links a:hover{color:#19e8ff;background:rgba(255,255,255,0.04)}
+main{margin-top:calc(var(--header-height)+16px);display:flex;flex-direction:column;align-items:stretch;gap:36px;padding:36px 28px 160px;width:100%}
+.hero{width:100%;max-width:1400px;display:flex;align-items:center;justify-content:center;padding:28px 18px;position:relative;min-height:60vh;margin-top:2cm}
+.center-wrap{display:grid;grid-template-columns:220px minmax(560px,1fr) 220px;align-items:center;gap:28px;width:100%;max-width:1200px;margin:0 auto;transform:translateY(2cm) translateX(6cm)}
+.decor-left,.decor-right{width:220px;display:flex;flex-direction:column;gap:12px;pointer-events:none;opacity:0.95}
+.decor-card{background:transparent;border-radius:12px;padding:12px;border:0;color:var(--purple);font-weight:700;text-shadow:0 1px 0 rgba(0,0,0,0.12)}
+.card-row{display:flex;gap:28px;align-items:stretch;justify-content:center;width:100%;max-width:640px;margin:0 auto;position:relative;z-index:20}
+.card-rect{width:100%;height:100%;border-radius:14px;border:2px solid var(--rect-border);background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;pointer-events:auto;cursor:pointer;z-index:10}
+.card{width:46%;height:520px;border-radius:18px;overflow:visible;background:transparent;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .12s;z-index:15}
+.card:active{transform:scale(.995)}
+.mv-wrap{width:92%;height:92%;display:flex;align-items:center;justify-content:center;position:relative;z-index:12;pointer-events:auto}
+model-viewer{width:100%;height:100%;display:block;pointer-events:auto;cursor:pointer;z-index:13}
+.label{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.98);padding:10px 18px;border-radius:999px;font-weight:700;color:#222;font-size:18px;box-shadow:0 6px 18px rgba(0,0,0,0.12);z-index:16}
+.sales-tag{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.98);padding:8px 14px;border-radius:999px;font-weight:700;color:#222;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,0.08);z-index:1000}
+.coin{position:absolute;width:36px;height:36px;background-image:url('coin.png');background-size:cover;background-position:center;pointer-events:none;opacity:0;transform-origin:center center;transition:transform 320ms cubic-bezier(.2,.9,.2,1),left 320ms cubic-bezier(.2,.9,.2,1),top 320ms cubic-bezier(.2,.9,.2,1),opacity 120ms linear;will-change:transform,left,top,opacity;z-index:30}
+.page-section{width:100%;max-width:1200px;border-radius:12px;padding:36px;box-shadow:0 10px 30px rgba(6,20,25,0.06);margin:3cm auto 0;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,255,250,0.95))}
+.oblique-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:16px;align-items:center;justify-items:center}
+.oblique-item{position:relative;border-radius:12px;overflow:hidden;height:240px;background:linear-gradient(180deg,#fff7f2,#f7fff9);display:flex;align-items:center;justify-content:center;padding:12px;color:#111}
+.oblique-item img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1.02);width:auto;height:120%;object-fit:cover;filter:contrast(0.98) saturate(1.02);opacity:0.98}
+.oblique-item .caption{position:relative;z-index:2;padding:12px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.7));color:#0b3b3b;max-width:85%;text-align:center}
+body.show-popup>header{filter:none;pointer-events:auto}
+.show-popup main{filter:blur(6px);pointer-events:none}
+.form-popup{position:fixed;top:50%;left:50%;z-index:1000;width:100%;max-width:720px;transform:translate(-50%,-70%);opacity:0;pointer-events:none;display:none;align-items:center;justify-content:center;transition:transform .22s,opacity .12s}
+.form-popup[aria-hidden="false"]{display:flex;opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.modal{width:520px;max-width:calc(100% - 32px);background:#fff;border-radius:12px;padding:28px;box-shadow:0 28px 60px rgba(6,20,25,0.22);transform:translateY(-10px) scale(.98);opacity:0;transition:opacity .18s,transform .18s;pointer-events:auto;z-index:1010;position:relative;overflow:visible}
+.form-popup[aria-hidden="false"] .modal{transform:translateY(0) scale(1);opacity:1}
+.modal .close-btn{position:absolute;right:16px;top:16px;background:transparent;border:none;font-size:1.4rem;cursor:pointer;color:#999;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.form{display:flex;flex-direction:column;gap:12px}
+.form-error{color:var(--danger);font-size:.9rem;margin-bottom:12px;display:none}
+.input-field{position:relative;height:56px;width:100%;margin-top:8px}
+.input-field input{height:100%;width:100%;background:#fff;outline:none;font-size:.95rem;padding:16px 12px 8px 12px;border:2px solid #e0e0e0;border-radius:8px;transition:border-color 0.2s}
+.input-field input:focus{border-color:var(--accent)}
+.input-field input.input-error{border-color:var(--danger);background:rgba(224,59,59,0.02)}
+.input-field label{position:absolute;top:12px;left:12px;transform:translateY(0);color:#999;pointer-events:none;transition:all 0.2s;font-size:0.85rem}
+.input-field input:focus~label,.input-field input:not(:placeholder-shown)~label{transform:translateY(-8px);color:var(--accent);font-size:0.75rem;background:#fff;padding:0 4px}
+.btn{width:100%;padding:12px 0;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;transition:all 0.2s;font-size:1rem}
+.btn:hover:not(:disabled){opacity:0.9;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,188,212,0.3)}
+.btn:disabled{opacity:0.6;cursor:not-allowed}
+.muted{text-align:center;margin-top:12px;color:#666;font-size:.9rem}
+.error-inline{color:var(--danger);font-size:.85rem;margin-bottom:8px;display:none}
+.tick-overlay{display:flex;align-items:center;justify-content:center;gap:14px;flex-direction:column;padding:28px}
+.tick-svg{width:80px;height:80px;transform-origin:center center;opacity:0;transform:scale(.6);transition:opacity 220ms ease,transform 220ms cubic-bezier(.2,.9,.2,1)}
+.tick-path{stroke:var(--accent-2);stroke-width:6;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100}
+.tick-show .tick-svg{opacity:1;transform:scale(1)}
+.tick-show .tick-path{animation:draw 520ms ease forwards 120ms}
+@keyframes draw{to{stroke-dashoffset:0}}
+.signup-wizard-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.signup-wizard-left{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.signup-wizard-bar{flex:1;height:8px;background:rgba(0,0,0,0.08);border-radius:999px;position:relative;overflow:hidden}
+.signup-wizard-fill{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--accent));transition:width 420ms cubic-bezier(.2,.9,.2,1)}
+.progress-stickman{position:absolute;top:-18px;left:0;width:24px;height:24px;transform:translateX(-50%);pointer-events:none;z-index:1200}
+.progress-stickman svg{width:24px;height:24px;display:block}
+@keyframes legs-run{0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-1px) rotate(2deg)}100%{transform:translateY(0) rotate(0deg)}}
+.running{animation:legs-run 260ms steps(2) infinite}
+.wizard-body{margin-top:20px}
+.wizard-body h3{font-size:1.3rem;margin-bottom:8px;color:#222}
+.wizard-body>div:nth-of-type(2){font-size:0.95rem;color:#666;margin-bottom:4px}
+.wizard-body>div:nth-of-type(3){font-size:0.85rem;color:#999;margin-bottom:16px}
+.wizard-input-wrapper{position:relative;width:100%;height:56px;margin-bottom:16px}
+.wizard-input-wrapper input{width:100%;height:100%;padding:16px 12px 8px 12px;border:2px solid #e0e0e0;border-radius:8px;background:#fff;color:#111;font-size:0.95rem;outline:none;transition:border-color 0.2s}
+.wizard-input-wrapper input:focus{border-color:var(--accent)}
+.wizard-input-wrapper input.input-error{border-color:var(--danger);background:rgba(224,59,59,0.02)}
+.wizard-input-wrapper label{position:absolute;left:12px;top:12px;transform:translateY(0);color:#999;pointer-events:none;transition:all 0.2s;font-size:0.85rem;background:#fff;padding:0 4px}
+.wizard-input-wrapper input:focus~label,.wizard-input-wrapper input:not(:placeholder-shown)~label{transform:translateY(-8px);color:var(--accent);font-size:0.75rem}
+@media (max-width:980px){.center-wrap{grid-template-columns:0.5fr 1fr 0.5fr;transform:translateY(2cm)}.card-row{max-width:520px}}
+@media (max-width:760px){.card{width:300px;height:500px}.modal{width:92%}.links{display:none}.center-wrap{grid-template-columns:1fr;gap:18px;padding:0 12px;transform:translateY(2cm)}}
+</style>
+</head>
+<body>
+<header>
+<nav class="navbar" role="navigation" aria-label="Main">
+<a class="logo" id="logoLink" href="#top" aria-label="Smile & Sunshine Toy">
+<span class="img-wrap"><img src="images/logo.jpg" alt="logo"></span>
+<h2>Smile &amp; Sunshine Toy</h2>
+</a>
+<ul class="links" role="menubar" aria-label="Main navigation">
+<li><a href="#home" data-section="home" role="menuitem">Home</a></li>
+<li><a href="#portfolio" data-section="portfolio" role="menuitem">Portfolio</a></li>
+<li><a href="#courses" data-section="courses" role="menuitem">Workshops</a></li>
+<li><a href="#about" data-section="about" role="menuitem">About us</a></li>
+<li><a href="#contact" data-section="contact" role="menuitem">Contact us</a></li>
+</ul>
+</nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+<div class="center-wrap">
+<div class="decor-left" aria-hidden="true">
+<div class="decor-card">
+<h4>Welcome!</h4>
+<p>Click left to sign in, right to manage sales.</p>
+</div>
+</div>
+
+<div class="card-row" role="group" aria-label="Models">
+<div class="card" id="scCard" role="button" tabindex="0" aria-label="User login">
+<div class="card-rect">
+<div class="mv-wrap" id="scWrap">
+<model-viewer id="scModel" src="SC.glb" alt="3D Shopping Cart" shadow-intensity="1" exposure="1" camera-orbit="0deg 75deg 90m" field-of-view="25deg" disable-zoom interaction-prompt="none"></model-viewer>
+</div>
+</div>
+<div class="label">User</div>
+</div>
+
+<div class="card" id="cgCard" role="button" tabindex="0" aria-label="Sales login">
+<div class="card-rect" id="cgRect">
+<div class="mv-wrap" id="cgWrap">
+<model-viewer id="cgModel" src="CG.glb" alt="Sales model" shadow-intensity="1" exposure="1" camera-orbit="90deg 75deg 1m" field-of-view="25deg" disable-zoom interaction-prompt="none"></model-viewer>
+</div>
+</div>
+<div class="sales-tag">Sales</div>
+</div>
+</div>
+
+<div class="decor-right" aria-hidden="true">
+<div class="decor-card">
+<h4>Tip</h4>
+<p>Hover to spin, click to login.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="portfolio" class="page-section" aria-labelledby="portfolio-title">
+<h3 id="portfolio-title">Portfolio — joyful play in action</h3>
+<p>Snapshots from homes where our toys inspire curiosity and hands-on play.</p>
+<div class="oblique-grid">
+<div class="oblique-item">
+<img src="images/kids-happy-1.jpg" alt="Children playing">
+<div class="caption"><h4>Woodland Friends</h4></div>
+</div>
+<div class="oblique-item">
+<img src="images/toy-sets-1.jpg" alt="Toy set">
+<div class="caption"><h4>Classic Play Sets</h4></div>
+</div>
+<div class="oblique-item">
+<img src="images/soft-play-1.jpg" alt="Soft play">
+<div class="caption"><h4>Soft Play Series</h4></div>
+</div>
+<div class="oblique-item">
+<img src="images/custom-commission.jpg" alt="Custom toy">
+<div class="caption"><h4>Custom Commissions</h4></div>
+</div>
+</div>
+</section>
+
+<section id="courses" class="page-section" aria-labelledby="courses-title">
+<h3 id="courses-title">Workshops — hands-on sessions</h3>
+<p>Learn toy care, repairs, and play ideas.</p>
+<div class="oblique-grid">
+<div class="oblique-item">
+<img src="images/course-1.jpg" alt="Workshop">
+<div class="caption"><h4>Play at Home</h4></div>
+</div>
+<div class="oblique-item">
+<img src="images/course-2.jpg" alt="Materials">
+<div class="caption"><h4>Care & Repair</h4></div>
+</div>
+<div class="oblique-item">
+<img src="images/course-3.jpg" alt="Making">
+<div class="caption"><h4>Making for Fun</h4></div>
+</div>
+</div>
+</section>
+
+<section id="about" class="page-section" aria-labelledby="about-title">
+<h3 id="about-title">About us</h3>
+<p>Smile & Sunshine Toy is a studio focused on sustainable, meaningful play.</p>
+</section>
+
+<section id="contact" class="page-section" aria-labelledby="contact-title">
+<h3 id="contact-title">Contact us</h3>
+<div class="oblique-grid" style="margin-top:18px">
+<div class="oblique-item" style="height:auto;padding:18px">
+<div class="caption"><h4>Support</h4><p>hello@smilesunshine.toys</p></div>
+</div>
+<div class="oblique-item" style="height:auto;padding:18px">
+<div class="caption"><h4>Sales</h4><p>partners@smilesunshine.toys</p></div>
+</div>
+</div>
+</section>
+</main>
+
+<div class="form-popup" id="formPopup" aria-hidden="true">
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+<button class="close-btn" id="closeModal" aria-label="Close">✕</button>
+<div id="form-error-top" class="form-error"></div>
+
+<!-- User Login Form -->
+<div id="login-content" style="display:none;">
+<h2 style="text-align:center;margin-bottom:16px;font-size:1.5rem;">User Login</h2>
+<form id="loginForm" class="form" autocomplete="off" novalidate>
+<div id="login-username-error" class="error-inline"></div>
+<div class="input-field">
+<input id="login-username" type="text" placeholder=" " required/>
+<label for="login-username">Username</label>
+</div>
+<div id="login-password-error" class="error-inline"></div>
+<div class="input-field">
+<input id="login-password" type="password" placeholder=" " required/>
+<label for="login-password">Password</label>
+</div>
+<button type="submit" class="btn">Log In</button>
+</form>
+<div class="muted">
+Don't have an account? <a href="#" id="signup-link" style="color:var(--accent);cursor:pointer;">Sign up</a>
+</div>
+<div class="muted">
+Sales personnel? <a href="#" id="to-sales-login" style="color:var(--accent);cursor:pointer;">Login here</a>
+</div>
+</div>
+
+<!-- Sales Login Form -->
+<div id="sales-login-content" style="display:none;">
+<h2 style="text-align:center;margin-bottom:16px;font-size:1.5rem;">Sales Login</h2>
+<form id="salesLoginForm" class="form" autocomplete="off" novalidate>
+<div id="sales-login-email-error" class="error-inline"></div>
+<div class="input-field">
+<input id="sales-login-email" type="email" placeholder=" " required/>
+<label for="sales-login-email">Email</label>
+</div>
+<div id="sales-login-password-error" class="error-inline"></div>
+<div class="input-field">
+<input id="sales-login-password" type="password" placeholder=" " required/>
+<label for="sales-login-password">Password</label>
+</div>
+<button type="submit" class="btn">Log In</button>
+</form>
+<div class="muted">
+New here? <a href="#" id="sales-register-link" style="color:var(--accent);cursor:pointer;">Create account</a>
+</div>
+<div class="muted">
+<a href="#" id="back-to-user-login" style="color:var(--accent);cursor:pointer;">← Back to user login</a>
+</div>
+</div>
+
+<!-- User Signup Wizard -->
+<div id="signup-wizard" style="display:none;pointer-events:none">
+<div class="signup-wizard-top">
+<div class="signup-wizard-left">
+<div class="progress-stickman" id="wizardStickman" aria-hidden="true">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6a0dad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="4" r="2"></circle>
+<path d="M12 6v4"></path>
+<path d="M12 10l-3 4"></path>
+<path d="M12 10l3 4"></path>
+<path d="M9 14l-2 4"></path>
+<path d="M15 14l2 4"></path>
+</svg>
+</div>
+</div>
+<div class="signup-wizard-bar" id="wizardBar">
+<div class="signup-wizard-fill" id="wizardFill"></div>
+</div>
+<div style="width:40px;text-align:right;font-size:0.8rem;color:#999">
+<div class="step-indicator" id="wizardStepText">1/4</div>
+</div>
+</div>
+
+<div class="wizard-body">
+<h3 id="wizardTitle">Create account</h3>
+<div id="wizardDesc">Let's start with a username</div>
+<div id="wizardSubDesc">Choose one you'll remember.</div>
+
+<div id="wizardError" style="color:var(--danger);font-size:0.85rem;margin-bottom:12px;display:none"></div>
+<div id="wizardFieldWrapper" style="min-height:60px"></div>
+
+<div style="margin-top:16px;display:flex;justify-content:space-between;gap:12px">
+<button class="btn" id="wizardBack" type="button" style="background:#f0f0f0;color:#333;width:80px">Back</button>
+<button class="btn" id="wizardNext" type="button" style="width:80px">Next</button>
+</div>
+</div>
+</div>
+
+<!-- Sales Signup Wizard -->
+<div id="sales-signup-wizard" style="display:none;pointer-events:none">
+<div class="signup-wizard-top">
+<div class="signup-wizard-left">
+<div class="progress-stickman" id="salesWizardStickman" aria-hidden="true">
+<svg viewBox="0 0 24 24" fill="none" stroke="#6a0dad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="4" r="2"></circle>
+<path d="M12 6v4"></path>
+<path d="M12 10l-3 4"></path>
+<path d="M12 10l3 4"></path>
+<path d="M9 14l-2 4"></path>
+<path d="M15 14l2 4"></path>
+</svg>
+</div>
+</div>
+<div class="signup-wizard-bar" id="salesWizardBar">
+<div class="signup-wizard-fill" id="salesWizardFill"></div>
+</div>
+<div style="width:40px;text-align:right;font-size:0.8rem;color:#999">
+<div class="step-indicator" id="salesWizardStepText">1/5</div>
+</div>
+</div>
+
+<div class="wizard-body">
+<h3 id="salesWizardTitle">Create sales account</h3>
+<div id="salesWizardDesc">Let's start with your company</div>
+<div id="salesWizardSubDesc">Enter your company name.</div>
+
+<div id="salesWizardError" style="color:var(--danger);font-size:0.85rem;margin-bottom:12px;display:none"></div>
+<div id="salesWizardFieldWrapper" style="min-height:60px"></div>
+
+<div style="margin-top:16px;display:flex;justify-content:space-between;gap:12px">
+<button class="btn" id="salesWizardBack" type="button" style="background:#f0f0f0;color:#333;width:80px">Back</button>
+<button class="btn" id="salesWizardNext" type="button" style="width:80px">Next</button>
+</div>
+</div>
+</div>
+
+<div id="success-content" style="display:none;text-align:center">
+<div class="tick-overlay" id="tickOverlay">
+<svg class="tick-svg" viewBox="0 0 52 52" aria-hidden="true">
+<circle cx="26" cy="26" r="25" stroke="#e6f7ee" stroke-width="2" fill="none"></circle>
+<path class="tick-path" d="M14 27 l8 8 16-18" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<div style="color:var(--accent-2);font-weight:700;font-size:1.2rem">Success!</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const HARDCODED_USER='user';
+const HARDCODED_PASS='4506';
+let SALES_USERS=[{email:'sales@smilesunshine.toys',password:'sales123'},{email:'manager@smilesunshine.toys',password:'manager123'}];
+
+const savedSalesUsers=localStorage.getItem('salesUsers');
+if(savedSalesUsers){try{SALES_USERS=JSON.parse(savedSalesUsers)}catch(e){}}
+
+let wizardState={step:0,data:{username:'',password:'',email:'',policy:false}};
+let salesWizardState={step:0,data:{company:'',fullName:'',email:'',password:'',phone:''}};
+
+const body=document.body;
+const formPopup=document.getElementById('formPopup');
+const modal=document.getElementById('modal');
+const closeModal=document.getElementById('closeModal');
+const loginContent=document.getElementById('login-content');
+const salesLoginContent=document.getElementById('sales-login-content');
+const signupWizard=document.getElementById('signup-wizard');
+const salesSignupWizard=document.getElementById('sales-signup-wizard');
+const formErrorTop=document.getElementById('form-error-top');
+const wizardFill=document.getElementById('wizardFill');
+const wizardStickman=document.getElementById('wizardStickman');
+const wizardStepText=document.getElementById('wizardStepText');
+const wizardTitle=document.getElementById('wizardTitle');
+const wizardDesc=document.getElementById('wizardDesc');
+const wizardSubDesc=document.getElementById('wizardSubDesc');
+const wizardFieldWrapper=document.getElementById('wizardFieldWrapper');
+const wizardError=document.getElementById('wizardError');
+const wizardBack=document.getElementById('wizardBack');
+const wizardNext=document.getElementById('wizardNext');
+const salesLoginForm=document.getElementById('salesLoginForm');
+const salesWizardFill=document.getElementById('salesWizardFill');
+const salesWizardStickman=document.getElementById('salesWizardStickman');
+const salesWizardStepText=document.getElementById('salesWizardStepText');
+const salesWizardTitle=document.getElementById('salesWizardTitle');
+const salesWizardDesc=document.getElementById('salesWizardDesc');
+const salesWizardSubDesc=document.getElementById('salesWizardSubDesc');
+const salesWizardFieldWrapper=document.getElementById('salesWizardFieldWrapper');
+const salesWizardError=document.getElementById('salesWizardError');
+const salesWizardBack=document.getElementById('salesWizardBack');
+const salesWizardNext=document.getElementById('salesWizardNext');
+const successContent=document.getElementById('success-content');
+const tickOverlay=document.getElementById('tickOverlay');
+
+function clearErrors(){
+document.querySelectorAll('.error-inline').forEach(e=>{e.style.display='none';e.textContent=''});
+document.querySelectorAll('input').forEach(i=>i.classList.remove('input-error'));
+formErrorTop.style.display='none';
+}
+
+function openPopup(view='login',context='user'){
+clearErrors();
+body.classList.add('show-popup');
+formPopup.setAttribute('aria-hidden','false');
+formPopup.style.display='flex';
+
+if(view==='login'){
+loginContent.style.display=context==='sales'?'none':'';
+salesLoginContent.style.display=context==='sales'?'':'none';
+signupWizard.style.display='none';
+signupWizard.style.pointerEvents='none';
+salesSignupWizard.style.display='none';
+salesSignupWizard.style.pointerEvents='none';
+if(successContent)successContent.style.display='none';
+if(context==='sales')document.getElementById('sales-login-email')?.focus();
+else document.getElementById('login-username')?.focus();
+}else if(view==='user-signup'){
+loginContent.style.display='none';
+salesLoginContent.style.display='none';
+signupWizard.style.display='';
+signupWizard.style.pointerEvents='';
+salesSignupWizard.style.display='none';
+salesSignupWizard.style.pointerEvents='none';
+if(successContent)successContent.style.display='none';
+startWizard();
+}else if(view==='sales-signup'){
+loginContent.style.display='none';
+salesLoginContent.style.display='none';
+signupWizard.style.display='none';
+signupWizard.style.pointerEvents='none';
+salesSignupWizard.style.display='';
+salesSignupWizard.style.pointerEvents='';
+if(successContent)successContent.style.display='none';
+startSalesWizard();
+}
+if(tickOverlay)tickOverlay.classList.remove('tick-show');
+}
+
+function closePopup(){
+body.classList.remove('show-popup');
+formPopup.setAttribute('aria-hidden','true');
+formPopup.style.display='none';
+setTimeout(()=>{
+loginContent.style.display='';
+salesLoginContent.style.display='none';
+signupWizard.style.display='none';
+signupWizard.style.pointerEvents='none';
+salesSignupWizard.style.display='none';
+salesSignupWizard.style.pointerEvents='none';
+if(successContent)successContent.style.display='none';
+clearErrors();
+if(tickOverlay)tickOverlay.classList.remove('tick-show');
+wizardStickman.classList.remove('running');
+salesWizardStickman.classList.remove('running');
+wizardFill.style.width='0%';
+salesWizardFill.style.width='0%';
+},150)
+}
+
+closeModal.addEventListener('click',closePopup);
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closePopup()});
+
+document.getElementById('signup-link').addEventListener('click',(e)=>{e.preventDefault();openPopup('user-signup')});
+document.getElementById('to-sales-login').addEventListener('click',(e)=>{e.preventDefault();openPopup('login','sales')});
+document.getElementById('sales-register-link').addEventListener('click',(e)=>{e.preventDefault();openPopup('sales-signup')});
+document.getElementById('back-to-user-login').addEventListener('click',(e)=>{e.preventDefault();openPopup('login','user')});
+
+// User Login
+document.getElementById('loginForm').addEventListener('submit',(e)=>{
+e.preventDefault();
+clearErrors();
+const u=document.getElementById('login-username').value.trim();
+const p=document.getElementById('login-password').value;
+let ok=true;
+
+if(!u){
+ok=false;
+document.getElementById('login-username-error').textContent='Enter username';
+document.getElementById('login-username-error').style.display='block';
+document.getElementById('login-username').classList.add('input-error');
+}
+if(!p){
+ok=false;
+document.getElementById('login-password-error').textContent='Enter password';
+document.getElementById('login-password-error').style.display='block';
+document.getElementById('login-password').classList.add('input-error');
+}
+if(!ok)return;
+
+if(u===HARDCODED_USER&&p===HARDCODED_PASS){
+localStorage.setItem('userAuth','true');
+animateSuccess('user.html');
+}else{
+formErrorTop.textContent='Invalid credentials';
+formErrorTop.style.display='block';
+document.getElementById('login-username').classList.add('input-error');
+document.getElementById('login-password').classList.add('input-error');
+}
+});
+
+// Sales Login
+salesLoginForm.addEventListener('submit',(e)=>{
+e.preventDefault();
+clearErrors();
+const email=document.getElementById('sales-login-email').value.trim();
+const password=document.getElementById('sales-login-password').value;
+let ok=true;
+
+if(!email){
+ok=false;
+document.getElementById('sales-login-email-error').textContent='Enter email';
+document.getElementById('sales-login-email-error').style.display='block';
+document.getElementById('sales-login-email').classList.add('input-error');
+}
+if(!password){
+ok=false;
+document.getElementById('sales-login-password-error').textContent='Enter password';
+document.getElementById('sales-login-password-error').style.display='block';
+document.getElementById('sales-login-password').classList.add('input-error');
+}
+if(!ok)return;
+
+if(!/\S+@\S+\.\S+/.test(email)){
+formErrorTop.textContent='Invalid email';
+formErrorTop.style.display='block';
+document.getElementById('sales-login-email').classList.add('input-error');
+return;
+}
+
+const match=SALES_USERS.find(s=>s.email.toLowerCase()===email.toLowerCase()&&s.password===password);
+if(!match){
+formErrorTop.textContent='Invalid email or password';
+formErrorTop.style.display='block';
+document.getElementById('sales-login-email').classList.add('input-error');
+document.getElementById('sales-login-password').classList.add('input-error');
+return;
+}
+
+localStorage.setItem('salesEmail',email.toLowerCase());
+animateSuccess('sales.html');
+});
+
+function animateSuccess(redirectUrl=''){
+if(successContent)successContent.style.display='block';
+signupWizard.style.display='none';
+signupWizard.style.pointerEvents='none';
+salesSignupWizard.style.display='none';
+salesSignupWizard.style.pointerEvents='none';
+loginContent.style.display='none';
+salesLoginContent.style.display='none';
+setTimeout(()=>{
+if(tickOverlay){
+tickOverlay.classList.remove('tick-show');
+void tickOverlay.offsetWidth;
+tickOverlay.classList.add('tick-show');
+}
+},100);
+setTimeout(()=>{
+closePopup();
+if(redirectUrl){
+window.location.href=redirectUrl;
+}
+},2400);
+}
+
+const userSteps=[
+{key:'username',title:'Username',desc:'Create a username',sub:'Choose one you remember.',type:'text',placeholder:'Username',validate:v=>v?.trim().length>0,error:'Required'},
+{key:'password',title:'Password',desc:'Create password',sub:'Min 6 characters.',type:'password',placeholder:'Password',validate:v=>v?.length>=6,error:'Min 6 chars'},
+{key:'email',title:'Email',desc:'Your email',sub:'For recovery.',type:'email',placeholder:'Email',validate:v=>/\S+@\S+\.\S+/.test(v),error:'Invalid email'},
+{key:'policy',title:'Agree',desc:'Terms & Conditions',sub:'Click checkbox.',type:'checkbox',placeholder:'I agree',validate:v=>v===true,error:'Required'}
+];
+
+function renderWizard(){
+wizardError.style.display='none';
+const s=userSteps[wizardState.step];
+wizardStepText.textContent=`${wizardState.step+1}/${userSteps.length}`;
+wizardTitle.textContent=s.title;
+wizardDesc.textContent=s.desc;
+wizardSubDesc.textContent=s.sub;
+const pct=Math.round((wizardState.step/(userSteps.length-1))*100);
+wizardFill.style.width=`${pct}%`;
+const barRect=document.querySelector('#wizardBar').getBoundingClientRect();
+wizardStickman.style.left=`${Math.max(8,(pct/100)*barRect.width)}px`;
+wizardNext.textContent=wizardState.step===userSteps.length-1?'Finish':'Next';
+wizardFieldWrapper.innerHTML='';
+
+if(s.type==='checkbox'){
+const wrap=document.createElement('div');
+wrap.style.display='flex';
+wrap.style.alignItems='center';
+wrap.style.gap='12px';
+const cb=document.createElement('input');
+cb.type='checkbox';
+cb.id='wizardCheckbox';
+cb.checked=wizardState.data.policy;
+cb.addEventListener('change',()=>{wizardState.data.policy=cb.checked});
+const lbl=document.createElement('label');
+lbl.htmlFor='wizardCheckbox';
+lbl.textContent='I agree to Terms & Conditions';
+lbl.style.cursor='pointer';
+lbl.style.fontSize='0.95rem';
+wrap.appendChild(cb);
+wrap.appendChild(lbl);
+wizardFieldWrapper.appendChild(wrap);
+}else{
+const wrapper=document.createElement('div');
+wrapper.className='wizard-input-wrapper';
+const input=document.createElement('input');
+input.type=s.type;
+input.id='wizardInput';
+input.placeholder=' ';
+input.value=wizardState.data[s.key]||'';
+input.addEventListener('input',(e)=>{
+wizardState.data[s.key]=e.target.value;
+wizardError.style.display='none';
+input.classList.remove('input-error');
+});
+input.addEventListener('keydown',(e)=>{if(e.key==='Enter')wizardNext.click()});
+const label=document.createElement('label');
+label.htmlFor='wizardInput';
+label.textContent=s.placeholder;
+wrapper.appendChild(input);
+wrapper.appendChild(label);
+wizardFieldWrapper.appendChild(wrapper);
+setTimeout(()=>{input.focus()},100);
+}
+}
+
+function startWizard(){
+wizardState={step:0,data:{username:'',password:'',email:'',policy:false}};
+renderWizard();
+}
+
+wizardBack.addEventListener('click',()=>{
+if(wizardState.step===0)openPopup('login','user');
+else{wizardState.step--;renderWizard()}
+});
+
+wizardNext.addEventListener('click',()=>{
+const s=userSteps[wizardState.step];
+const input=document.getElementById('wizardInput');
+const value=s.type==='checkbox'?wizardState.data.policy:(input?.value||'');
+wizardState.data[s.key]=value;
+if(!s.validate(value)){
+wizardError.textContent=s.error;
+wizardError.style.display='block';
+if(input)input.classList.add('input-error');
+return;
+}
+if(wizardState.step<userSteps.length-1){
+wizardState.step++;
+renderWizard();
+}else{
+animateSuccess('user.html');
+}
+});
+
+const salesSteps=[
+{key:'company',title:'Company',desc:'Company name',sub:'Your business name.',type:'text',placeholder:'Company',validate:v=>v?.trim().length>0,error:'Required'},
+{key:'fullName',title:'Name',desc:'Full name',sub:'Your name.',type:'text',placeholder:'Full name',validate:v=>v?.trim().length>0,error:'Required'},
+{key:'email',title:'Email',desc:'Business email',sub:'Contact email.',type:'email',placeholder:'Email',validate:v=>/\S+@\S+\.\S+/.test(v),error:'Invalid'},
+{key:'password',title:'Password',desc:'Create password',sub:'Min 6 chars.',type:'password',placeholder:'Password',validate:v=>v?.length>=6,error:'Min 6'},
+{key:'phone',title:'Phone',desc:'Phone number',sub:'Contact number.',type:'tel',placeholder:'Phone',validate:v=>v?.trim().length>=10,error:'Invalid'}
+];
+
+function renderSalesWizard(){
+salesWizardError.style.display='none';
+const s=salesSteps[salesWizardState.step];
+salesWizardStepText.textContent=`${salesWizardState.step+1}/${salesSteps.length}`;
+salesWizardTitle.textContent=s.title;
+salesWizardDesc.textContent=s.desc;
+salesWizardSubDesc.textContent=s.sub;
+const pct=Math.round((salesWizardState.step/(salesSteps.length-1))*100);
+salesWizardFill.style.width=`${pct}%`;
+const barRect=document.querySelector('#salesWizardBar').getBoundingClientRect();
+salesWizardStickman.style.left=`${Math.max(8,(pct/100)*barRect.width)}px`;
+salesWizardNext.textContent=salesWizardState.step===salesSteps.length-1?'Create':'Next';
+salesWizardFieldWrapper.innerHTML='';
+
+const wrapper=document.createElement('div');
+wrapper.className='wizard-input-wrapper';
+const input=document.createElement('input');
+input.type=s.type;
+input.id='salesInput';
+input.placeholder=' ';
+input.value=salesWizardState.data[s.key]||'';
+input.addEventListener('input',(e)=>{
+salesWizardState.data[s.key]=e.target.value;
+salesWizardError.style.display='none';
+input.classList.remove('input-error');
+});
+input.addEventListener('keydown',(e)=>{if(e.key==='Enter')salesWizardNext.click()});
+const label=document.createElement('label');
+label.htmlFor='salesInput';
+label.textContent=s.placeholder;
+wrapper.appendChild(input);
+wrapper.appendChild(label);
+salesWizardFieldWrapper.appendChild(wrapper);
+setTimeout(()=>{input.focus()},100);
+}
+
+function startSalesWizard(){
+salesWizardState={step:0,data:{company:'',fullName:'',email:'',password:'',phone:''}};
+renderSalesWizard();
+}
+
+salesWizardBack.addEventListener('click',()=>{
+if(salesWizardState.step===0)openPopup('login','sales');
+else{salesWizardState.step--;renderSalesWizard()}
+});
+
+salesWizardNext.addEventListener('click',()=>{
+const s=salesSteps[salesWizardState.step];
+const input=document.getElementById('salesInput');
+const value=input?.value||'';
+salesWizardState.data[s.key]=value;
+if(!s.validate(value)){
+salesWizardError.textContent=s.error;
+salesWizardError.style.display='block';
+if(input)input.classList.add('input-error');
+return;
+}
+if(salesWizardState.step<salesSteps.length-1){
+salesWizardState.step++;
+renderSalesWizard();
+}else{
+SALES_USERS.push({
+email:salesWizardState.data.email.toLowerCase(),
+password:salesWizardState.data.password,
+company:salesWizardState.data.company,
+fullName:salesWizardState.data.fullName,
+phone:salesWizardState.data.phone
+});
+localStorage.setItem('salesUsers',JSON.stringify(SALES_USERS));
+localStorage.setItem('salesEmail',salesWizardState.data.email.toLowerCase());
+animateSuccess('sales.html');
+}
+});
+
+// 3D Models - SC with spin
+const scModel=document.getElementById('scModel');
+const scCard=document.getElementById('scCard');
+if(scModel&&scCard){
+const phi='75deg';
+const radius='90m';
+const speedMultiplier=3;
+const spinDuration=800;
+const fullRotation=2*Math.PI;
+let spinning=false;
+let spinStart=0;
+
+function startSpin(){
+if(spinning)return;
+spinning=true;
+spinStart=performance.now()
+}
+
+function stopSpin(){
+spinning=false;
+const startTime=performance.now();
+const duration=300;
+let startAngleDeg=0;
+try{
+const orbit=scModel.getCameraOrbit();
+if(typeof orbit==='string'){
+const parts=orbit.split(' ');
+if(parts.length){
+const a=parts[0];
+if(a.endsWith('deg'))startAngleDeg=parseFloat(a);
+else if(a.endsWith('rad'))startAngleDeg=parseFloat(a)*180/Math.PI
+}
+}
+}catch(e){}
+function step(now){
+const t=Math.min(1,(now-startTime)/duration);
+const eased=1-Math.pow(1-t,3);
+const cur=startAngleDeg+(0-startAngleDeg)*eased;
+scModel.cameraOrbit=`${cur}deg ${phi} ${radius}`;
+if(t<1)requestAnimationFrame(step)
+}
+requestAnimationFrame(step)
+}
+
+function animateSpin(){
+requestAnimationFrame(animateSpin);
+if(!spinning)return;
+const now=performance.now();
+const elapsed=now-spinStart;
+const progress=Math.min(1,elapsed/spinDuration);
+if(progress<1){
+const theta=progress*fullRotation*speedMultiplier;
+scModel.cameraOrbit=`${theta}rad ${phi} ${radius}`
+}else{
+scModel.cameraOrbit=`0rad ${phi} ${radius}`;
+spinning=false
+}
+}
+
+animateSpin();
+scModel.addEventListener('load',()=>{
+const attr=scModel.getAttribute('camera-orbit')||'0deg 75deg 90m';
+scModel.cameraOrbit=attr
+});
+scCard.addEventListener('mouseenter',startSpin);
+scCard.addEventListener('mouseleave',stopSpin);
+scCard.addEventListener('focus',startSpin);
+scCard.addEventListener('blur',stopSpin);
+scCard.addEventListener('click',(e)=>{e.stopPropagation();openPopup('login','user')});
+scCard.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPopup('login','user')}})
+}
+
+// CG with coin animation
+(function(){
+const mv=document.getElementById('cgModel');
+const container=document.getElementById('cgCard');
+const cgWrap=document.getElementById('cgWrap');
+const salesLabel=container?container.querySelector('.sales-tag'):null;
+if(!mv||!container)return;
+const phiDeg=75;
+const radiusM=1;
+const PX_PER_CM=37.8;
+const mouthAboveLabelCm=2.6;
+const mouthYOffsetPx=mouthAboveLabelCm*PX_PER_CM;
+const zoneHeightExtraCm=1;
+const zoneHeightExtraPx=zoneHeightExtraCm*PX_PER_CM;
+const coinTravelMs=220;
+const coinVisibleMs=420;
+const coinsPerWave=5;
+const spawnEveryNdeg=2;
+const horizontalStartSequence=[10,7,8,9,6,5,4,3,2,1,0];
+let horizontalIndex=0;
+
+function createCoinElement(){
+const el=document.createElement('div');
+el.className='coin';
+el.style.width='36px';
+el.style.height='36px';
+return el
+}
+
+function computeBottomTargets(){
+const cardRect=container.getBoundingClientRect();
+const padding=12;
+const coinW=36;
+const coinH=36;
+const leftX=padding;
+const midX=Math.round((cardRect.width-coinW)/2);
+const rightX=Math.round(cardRect.width-coinW-padding);
+const bottomY=Math.round(cardRect.height-coinH-12);
+return{left:{x:leftX,y:bottomY-zoneHeightExtraPx},middle:{x:midX,y:bottomY},right:{x:rightX,y:bottomY-zoneHeightExtraPx}}
+}
+
+function zoneForAngle(angle){if(angle>=120)return'right';if(angle<=60)return'left';return'middle'}
+
+function computeMouthPosition(){
+const mvRect=mv.getBoundingClientRect();
+const cardRect=container.getBoundingClientRect();
+const labelRect=salesLabel?salesLabel.getBoundingClientRect():cardRect;
+const mouthY=(labelRect.top-cardRect.top)-mouthYOffsetPx;
+const mouthX=(mvRect.left-cardRect.left)+mvRect.width*0.5;
+return{x:Math.round(mouthX),y:Math.round(mouthY)}
+}
+
+function computeTargetAlongAngle(mouth,angleDeg,bottomY){
+const rad=angleDeg*Math.PI/180;
+const vx=Math.cos(rad);
+const vy=Math.sin(rad);
+if(Math.abs(vy)<1e-6)return{x:mouth.x+vx*100,y:bottomY};
+const t=(bottomY-mouth.y)/vy;
+const tClamped=t>0?t:Math.abs(bottomY-mouth.y);
+const targetX=mouth.x+vx*tClamped;
+const targetY=mouth.y+vy*tClamped;
+return{x:Math.round(targetX),y:Math.round(targetY)}
+}
+
+function spawnAndSplitCoins(angle){
+const mouth=computeMouthPosition();
+const targets=computeBottomTargets();
+const zone=zoneForAngle(angle);
+const bottomLineY=targets.middle.y;
+const angleTarget=computeTargetAlongAngle(mouth,angle,bottomLineY);
+const zoneAnchor=zone==='left'?targets.left:zone==='right'?targets.right:targets.middle;
+const weightAngle=0.92;
+const baseTarget={x:Math.round(angleTarget.x*weightAngle+zoneAnchor.x*(1-weightAngle)),y:Math.round(angleTarget.y*weightAngle+zoneAnchor.y*(1-weightAngle))};
+const extraHorizontal=horizontalStartSequence[horizontalIndex%horizontalStartSequence.length]||0;
+horizontalIndex++;
+const spread=18;
+const coins=[];
+for(let i=0;i<coinsPerWave;i++){
+const c=createCoinElement();
+container.appendChild(c);
+const startLeft=mouth.x-18+extraHorizontal-Math.round((coinsPerWave-1)/2);
+const startTop=mouth.y-18;
+c.style.left=`${startLeft}px`;
+c.style.top=`${startTop}px`;
+coins.push(c)
+}
+requestAnimationFrame(()=>{coins.forEach(c=>c.style.opacity='1')});
+for(let i=0;i<coins.length;i++){
+const c=coins[i];
+const idxCentered=i-(coins.length-1)/2;
+const jitterX=(Math.random()*6-3);
+const jitterY=(Math.random()*6-3);
+const offsetX=Math.round(idxCentered*(spread/1.6)+jitterX);
+const offsetY=Math.round(Math.abs(idxCentered)*2+jitterY);
+const final={x:baseTarget.x+offsetX+(zone==='left'?-6:zone==='right'?6:0),y:baseTarget.y+offsetY};
+(function(el,fx,fy,delay){
+setTimeout(()=>{
+el.style.transitionDuration=`${coinTravelMs}ms`;
+el.style.left=`${Math.round(fx)}px`;
+el.style.top=`${Math.round(fy)}px`;
+el.style.transform=`scale(${0.95+Math.random()*0.06}) rotate(${(Math.random()*18-9)}deg)`
+},delay)
+})(c,final.x,final.y,i*28)
+}
+const totalVisible=coinTravelMs+coinVisibleMs;
+setTimeout(()=>{coins.forEach(c=>c.style.opacity='0')},totalVisible);
+setTimeout(()=>{coins.forEach(c=>{if(c.parentElement)c.parentElement.removeChild(c)})},totalVisible+220)
+}
+
+let angleTimer=null;
+let running=false;
+
+function sweepAngles(start,stop,stepDelayMs,stepDeg,onStep,onComplete){
+if(angleTimer)clearInterval(angleTimer);
+let angle=start;
+const step=start>stop?-Math.abs(stepDeg):Math.abs(stepDeg);
+onStep(angle);
+angleTimer=setInterval(()=>{
+angle+=step;
+onStep(angle);
+if((step<0&&angle<=stop)||(step>0&&angle>=stop)){
+clearInterval(angleTimer);
+angleTimer=null;
+if(onComplete)onComplete()
+}
+},stepDelayMs)
+}
+
+function startSequence(){
+if(running)return;
+running=true;
+sweepAngles(135,90,24,1,(angle)=>{
+mv.cameraOrbit=`${angle}deg ${phiDeg}deg ${radiusM}m`;
+if(angle%spawnEveryNdeg===0)spawnAndSplitCoins(angle)
+},()=>{
+setTimeout(()=>{
+sweepAngles(90,45,24,1,(angle)=>{
+mv.cameraOrbit=`${angle}deg ${phiDeg}deg ${radiusM}m`;
+if(angle%spawnEveryNdeg===0)spawnAndSplitCoins(angle)
+},()=>{
+mv.cameraOrbit=`90deg ${phiDeg}deg ${radiusM}m`;
+running=false
+})
+},220)
+})
+}
+
+function stopSequence(){
+if(angleTimer){clearInterval(angleTimer);angleTimer=null}
+running=false;
+mv.cameraOrbit=`90deg ${phiDeg}deg ${radiusM}m`
+}
+
+container.addEventListener('mouseenter',startSequence);
+container.addEventListener('mouseleave',stopSequence);
+container.addEventListener('touchstart',(e)=>{e.preventDefault();startSequence()},{passive:false});
+container.addEventListener('touchend',stopSequence);
+container.addEventListener('click',(e)=>{e.stopPropagation();openPopup('login','sales')});
+container.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPopup('login','sales')}});
+if(cgWrap){
+cgWrap.addEventListener('click',(e)=>{e.stopPropagation();openPopup('login','sales')})
+}
+if(mv){
+mv.addEventListener('click',(e)=>{e.stopPropagation();openPopup('login','sales')})
+}
+mv.addEventListener('load',()=>{mv.cameraOrbit=mv.getAttribute('camera-orbit')||'90deg 75deg 1m'});
+window.addEventListener('resize',()=>{})
+})();
+
+document.querySelectorAll('.links a[data-section]').forEach(a=>{
+a.addEventListener('click',(e)=>{
+e.preventDefault();
+closePopup();
+const id=a.getAttribute('data-section');
+if(id==='home'){window.scrollTo({top:0,behavior:'auto'});return}
+const target=document.getElementById(id);
+if(target){const y=target.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:y,behavior:'smooth'})}
+});
+});
+
+document.getElementById('logoLink').addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'auto'})});
+setTimeout(()=>{document.getElementById('scCard')?.focus()},200);
+</script>
+</body>
+</html>

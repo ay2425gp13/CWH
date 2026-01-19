@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote Management - Staff Backend</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    body {
+      margin: 0;
+      background: var(--bg, linear-gradient(135deg, #f5f7ff, #e4f2ff));
+      display: block;
+      height: auto;
+    }
+
+    /* 统一顶部导航栏 */
+    .unified-top-nav {
+      background: linear-gradient(135deg, #1A319F 0%, #2A4BC7 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(26, 49, 159, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+    }
+    .unified-top-nav .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 100%;
+    }
+    .unified-top-nav .nav-logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .unified-top-nav .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+    .unified-top-nav .logo-link:hover {
+      transform: scale(1.05);
+    }
+    .unified-top-nav .logo-icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+    .unified-top-nav .logo-text {
+      color: white;
+    }
+
+    /* Status filter buttons: blue when unselected, black when selected */
+    .filter-btn {
+      background: #1A319F;
+      color: #fff;
+      border: 1px solid #1A319F;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(26, 49, 159, 0.15);
+    }
+    .filter-btn:hover {
+      opacity: 0.92;
+    }
+    .filter-btn.active {
+      background: #111827;
+      border-color: #111827;
+      color: #fff;
+      box-shadow: 0 6px 14px rgba(17, 24, 39, 0.25);
+    }
+    .unified-top-nav .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 0 20px;
+      flex-direction: row;
+    }
+    .unified-top-nav .nav-item {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+      font-size: 14px;
+      display: inline-block;
+    }
+    .unified-top-nav .nav-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transform: translateY(-1px);
+    }
+    .unified-top-nav .nav-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: 600;
+    }
+    .unified-top-nav .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background: white;
+      border-radius: 1px;
+    }
+    .unified-top-nav .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      flex-direction: row;
+    }
+    .unified-top-nav .user-info {
+      position: relative;
+      cursor: pointer;
+    }
+    .unified-top-nav .user-id {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .unified-top-nav .user-id:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+    .unified-top-nav .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 180px;
+      display: none;
+      z-index: 1001;
+      margin-top: 5px;
+    }
+    .unified-top-nav .user-info:hover .user-dropdown {
+      display: block;
+    }
+    .unified-top-nav .dropdown-item {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      transition: background 0.2s;
+    }
+    .unified-top-nav .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 20px;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quote-section {
+      background: white;
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .order-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1rem;
+      transition: all 0.3s ease;
+      background: #f9fafb;
+      position: relative;
+    }
+
+    .order-card:hover {
+      border-color: #1A319F;
+      box-shadow: 0 4px 12px rgba(26, 49, 159, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .order-card.editing {
+      border-color: #1A319F;
+      background: #eff6ff;
+      box-shadow: 0 4px 12px rgba(26, 49, 159, 0.2);
+    }
+
+    .order-card .editable-field {
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      display: inline-block;
+      min-width: 60px;
+      position: relative;
+    }
+
+    .order-card .editable-field:hover {
+      background: rgba(26, 49, 159, 0.1);
+      border: 1px dashed #1A319F;
+    }
+
+    .order-card .editable-field.editing {
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+
+    .order-card .editable-field input {
+      width: 100px;
+      padding: 4px 8px;
+      border: 2px solid #1A319F;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      background: white;
+      font-weight: 600;
+      color: #1A319F;
+    }
+
+    /* Hide default number steppers for quote inputs */
+    .quote-input {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .quote-input::-webkit-outer-spin-button,
+    .quote-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .order-card .editable-field input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 49, 159, 0.1);
+    }
+
+    .field-actions {
+      display: inline-flex;
+      gap: 4px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .btn-field-save, .btn-field-cancel {
+      padding: 2px 6px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-field-save {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-field-save:hover {
+      background: #16a34a;
+    }
+
+    .btn-field-cancel {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn-field-cancel:hover {
+      background: #4b5563;
+    }
+
+    .order-card-actions {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: center;
+    }
+
+    .btn-edit {
+      padding: 0.4rem 0.8rem;
+      background: #1A319F;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-edit:hover {
+      background: #152a7a;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(26, 49, 159, 0.3);
+    }
+
+    .btn-save {
+      padding: 0.4rem 0.8rem;
+      background: #22c55e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      margin-right: 0.5rem;
+    }
+
+    .btn-save:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-cancel {
+      padding: 0.4rem 0.8rem;
+      background: #6b7280;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-cancel:hover {
+      background: #4b5563;
+      transform: translateY(-1px);
+    }
+
+    .btn-delete {
+      padding: 0.4rem 0.8rem;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-delete:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+    }
+
+    .quote-status.cancelled {
+      background: #f3f4f6;
+      color: #6b7280;
+      border: 1px solid #e5e7eb;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .order-id {
+      font-weight: 600;
+      color: #111827;
+      font-size: 0.95rem;
+    }
+
+    .order-date {
+      color: #6b7280;
+      font-size: 0.85rem;
+    }
+
+    .order-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .order-info-item {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .order-info-item {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .order-info-label {
+      font-weight: 500;
+      color: #6b7280;
+      min-width: 80px;
+    }
+
+    .quote-form {
+      display: none;
+    }
+
+    .quote-form.active {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #374151;
+      font-size: 0.9rem;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #1A319F;
+      box-shadow: 0 0 0 3px rgba(26, 49, 159, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .price-breakdown {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .price-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .price-item:last-child {
+      border-bottom: none;
+    }
+
+    .price-item-label {
+      color: #6b7280;
+    }
+
+    .price-item-value {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .price-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      margin-top: 0.5rem;
+      border-top: 2px solid #1A319F;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1A319F;
+    }
+
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      background: #1A319F;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #152a7a;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #4b5563;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #d1d5db;
+      color: #374151;
+    }
+
+    .btn-outline:hover {
+      background: #f9fafb;
+      border-color: #9ca3af;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      justify-content: flex-end;
+    }
+
+    .empty-tip {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    .quote-status {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .quote-status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .quote-status.completed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .order-info {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 统一顶部导航栏 -->
+  <nav class="unified-top-nav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="/staff-dashboard" class="logo-link">
+          <span class="logo-icon">🏢</span>
+          <span class="logo-text">Staff Backend</span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="/staff-dashboard" class="nav-item">Order Management</a>
+        <a href="/staff-restock" class="nav-item">Restock Center</a>
+        <a href="/staff-quote" class="nav-item active">Quotes</a>
+        <a href="/login" class="nav-item">Login</a>
+      </div>
+      <div class="nav-user">
+        <div class="user-info">
+          <div class="user-id" id="userInfoBtn">Personal Center</div>
+          <div class="user-dropdown">
+            <a href="/my-items" class="dropdown-item">Personal Center</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-container">
+    <h1 class="page-title">
+      <span>📋</span>
+      <span>Quote Management</span>
+    </h1>
+
+    <!-- 状态筛选器 -->
+    <div class="filter-section" style="background: var(--card-bg); padding: 15px; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px;">
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <span style="font-weight: 600; color: var(--text);">Status Filter:</span>
+        <button class="filter-btn active" data-filter="all" onclick="filterOrdersByStatus('all')">All</button>
+        <button class="filter-btn" data-filter="pending" onclick="filterOrdersByStatus('pending')">Pending Review</button>
+        <button class="filter-btn" data-filter="reviewing" onclick="filterOrdersByStatus('reviewing')">Quoting</button>
+        <button class="filter-btn" data-filter="quoted" onclick="filterOrdersByStatus('quoted')">Quote Generated</button>
+        <button class="filter-btn" data-filter="accepted" onclick="filterOrdersByStatus('accepted')">Client Accepted</button>
+        <button class="filter-btn" data-filter="rejected" onclick="filterOrdersByStatus('rejected')">Client Rejected</button>
+      </div>
+    </div>
+
+    <div class="quote-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 class="section-title" style="margin: 0;">
+          <span>📦</span>
+          <span>Custom Order List</span>
+        </h2>
+        <button onclick="refreshOrderList()" style="padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">🔄 Refresh</button>
+      </div>
+      <div class="order-list" id="orderList">
+        <div class="empty-tip">Loading...</div>
+      </div>
+    </div>
+
+    <!-- 右侧创建报价单的大表单已废弃，改为直接在订单卡片上编辑价格并生成报价单 -->
+  </div>
+
+  <script>
+
+    function toggleUserDropdown() {
+      // 下拉菜单通过CSS hover显示
+    }
+
+    function updateUserInfo() {
+      const userInfo = sessionStorage.getItem('user_info');
+      const btn = document.getElementById('userInfoBtn');
+      if (btn) {
+        if (userInfo) {
+          try {
+            const info = JSON.parse(userInfo);
+            btn.textContent = 'Personal Center';
+            btn.style.cursor = 'pointer';
+            // 添加点击事件
+            btn.onclick = function(e) {
+              e.stopPropagation(); // 阻止事件冒泡
+              // 检查是否已登录
+              const userInfo = sessionStorage.getItem('user_info');
+              if (userInfo) {
+                // 已登录，跳转到个人中心
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                  window.location.href = '/my-items';
+                } else {
+                  window.location.href = 'my-items.html';
+                }
+              } else {
+                // 未登录，跳转到登录页面
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                  window.location.href = '/login';
+                } else {
+                  window.location.href = 'login.html';
+                }
+              }
+            };
+          } catch (e) {
+            console.error('解析用户信息失败:', e);
+          }
+        } else {
+          btn.textContent = 'Please Login';
+          btn.style.cursor = 'pointer';
+          btn.onclick = function(e) {
+            e.stopPropagation();
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+              window.location.href = '/login';
+            } else {
+              window.location.href = 'login.html';
+            }
+          };
+        }
+      }
+    }
+
+    let currentStatusFilter = 'all';
+
+    // 翻译商品标题（中文转英文）
+    const productTitleMap = {
+      "变形金刚 擎天柱": "Transformers Optimus Prime",
+      "变形金刚 大黄蜂": "Transformers Bumblebee",
+      "变形金刚 威震天": "Transformers Megatron",
+      "变形金刚 红蜘蛛": "Transformers Starscream",
+      "变形金刚 声波": "Transformers Soundwave",
+      "变形金刚 爵士": "Transformers Jazz",
+      "变形金刚 铁皮": "Transformers Ironhide",
+      "变形金刚 救护车": "Transformers Rescue Truck",
+      "变形金刚 横炮": "Transformers Sideswipe",
+      "变形金刚 飞毛腿": "Transformers Speed Car",
+      "变形金刚 钢锁": "Transformers Grimlock",
+      "玩具枪 水弹枪": "Toy Gun Water Blaster",
+      "玩具枪 软弹枪": "Toy Gun Soft Bullet Blaster",
+      "玩具枪 激光枪": "Toy Gun Laser Blaster",
+      "玩具枪 声光枪": "Toy Gun Sound & Light Blaster",
+      "玩具枪 赛车头枪": "Toy Gun Racing Car Blaster",
+      "玩具枪 冲锋枪": "Toy Gun Machine Gun",
+      "玩具枪 手枪": "Toy Gun Pistol",
+      "玩具枪 四星彩色手枪": "Toy Gun Color Pistol Set",
+      "玩具枪 暴龙头突击步枪": "Toy Gun Dino Assault Rifle",
+      "玩具枪 草莓机关枪": "Toy Gun Strawberry Machine Gun",
+      "漫威系列 钢铁侠和美国队长礼包": "Marvel Iron Man & Captain America Set",
+      "漫威系列 雷神": "Marvel Thor Figure",
+      "漫威系列 浩克": "Marvel Hulk Figure",
+      "漫威系列 美国队长": "Marvel Captain America Figure",
+      "漫威系列 蚁人": "Marvel Ant-Man Figure",
+      "漫威系列 马克42": "Marvel Iron Man Mark 42",
+      "漫威系列 奇异博士": "Marvel Doctor Strange",
+      "漫威系列 黑寡妇": "Marvel Black Widow",
+      "漫威系列 蚁人2号": "Marvel Ant-Man Suit 2",
+      "漫威系列 惊奇队长": "Marvel Captain Marvel",
+      "漫威系列 死侍": "Marvel Deadpool",
+      "DC宇宙 阿卡姆骑士": "DC Arkham Knight Batman",
+      "DC宇宙 黑暗骑士归来蝙蝠侠": "DC The Dark Knight Returns Batman",
+      "DC宇宙 元年蝙蝠侠": "DC Year One Batman",
+      "DC宇宙 闪电侠": "DC The Flash",
+      "DC宇宙 正义联盟礼包1号": "DC Justice League Set 1",
+      "DC宇宙 钢骨": "DC Cyborg",
+      "DC宇宙 正义联盟礼包2号": "DC Justice League Set 2",
+      "DC宇宙 小丑": "DC The Joker",
+      "DC宇宙 哈莉奎因": "DC Harley Quinn",
+      "毛绒玩具 小猪": "Plush Little Pig",
+      "毛绒玩具 小熊罗宾": "Plush Bear Robin",
+      "毛绒玩具 我的第一个泰迪熊": "My First Teddy Bear",
+      "毛绒玩具 金牌小熊": "Golden Teddy Bear",
+      "毛绒玩具 棕熊泰迪": "Brown Teddy Bear",
+      "毛绒玩具 黄熊泰迪": "Yellow Teddy Bear",
+      "毛绒玩具 圣诞特别版小熊": "Christmas Teddy Bear",
+      "毛绒玩具 《泰迪熊》电影同款泰迪熊": "Movie Teddy Bear Plush",
+      "毛绒玩具 I miss You 熊": "\"I Miss You\" Teddy Bear",
+      "毛绒玩具 大耳猴": "Big Ear Monkey Plush",
+      "毛绒玩具 趴趴狗": "Lying Puppy Plush",
+      "毛绒玩具 复活节兔子": "Easter Bunny Plush",
+      "毛绒玩具 领带熊": "Tie Bear Plush",
+      "毛绒玩具 贵宾狗": "Poodle Plush",
+      "幼儿玩具 铲车大礼包1号": "Toddler Truck Play Set 1",
+      "幼儿玩具 儿童推车": "Toddler Push Cart",
+      "幼儿玩具 图形拼图": "Shape Puzzle",
+      "幼儿玩具 动物模型礼包1号": "Animal Figure Set 1",
+      "幼儿玩具 儿童玩具礼包2号": "Kids Toy Set 2",
+      "幼儿玩具 水果玩具礼包1号": "Fruit Toy Set 1",
+      "幼儿玩具 积木炮台": "Block Cannon",
+      "幼儿玩具 滑板车": "Kids Scooter",
+      "幼儿玩具 水池": "Water Play Pool",
+      "幼儿玩具 滑板车2号": "Kids Scooter 2",
+      "恐龙模型 霸王龙": "T-Rex Dinosaur Model",
+      "恐龙模型 长颈龙": "Long Neck Dinosaur Model",
+      "恐龙模型 恐龙礼包1号": "Dinosaur Set 1",
+      "恐龙模型 恐龙礼包2号": "Dinosaur Set 2",
+      "恐龙模型 迅猛龙礼包1号": "Raptor Set 1",
+      "恐龙模型 脊背龙": "Spinosaurus Model",
+      "恐龙模型 农场恐龙礼包1号": "Farm Dinosaur Set 1",
+      "恐龙模型 三角龙": "Triceratops Model",
+      "恐龙模型 恐龙战争": "Dinosaur Battle Set",
+      "恐龙模型 侏罗纪公园礼包": "Jurassic Park Style Set",
+      "恐龙模型 异特龙": "Allosaurus Model",
+      "拼图益智 小猪佩奇": "Peppa Pig Puzzle",
+      "拼图益智 青蛙拼图": "Frog Puzzle",
+      "拼图益智 火车拼图": "Train Puzzle",
+      "拼图益智 数字拼图": "Number Puzzle",
+      "拼图益智 城市拼图": "City Puzzle",
+      "拼图益智 海洋拼图": "Ocean Puzzle",
+      "拼图益智 宇宙拼图": "Space Puzzle",
+      "拼图益智 运动场拼图": "Stadium Puzzle",
+      "拼图益智 农场": "Farm Puzzle",
+      "乐高积木 赛车1号": "Racing Car Blocks 1",
+      "乐高积木 城堡": "Castle Blocks",
+      "乐高积木 火箭": "Rocket Blocks",
+      "乐高积木 城市赛车": "City Racing Blocks",
+      "乐高积木 迅猛龙": "Raptor Blocks",
+      "乐高积木 赛车手": "Racer Blocks",
+      "乐高积木 幻影忍者 凯": "Ninja Kai Blocks",
+      "乐高积木 幻影忍者 寇": "Ninja Cole Blocks",
+      "乐高积木 幻影忍者 劳埃德": "Ninja Lloyd Blocks",
+      "乐高积木 幻影忍者 Jay": "Ninja Jay Blocks",
+      "乐高积木 幻影忍者 Zane": "Ninja Zane Blocks",
+      "乐高积木 幻影忍者巨龙": "Ninja Dragon Blocks",
+      "乐高积木 火龙": "Fire Dragon Blocks",
+      "乐高积木 冰龙": "Ice Dragon Blocks"
+    };
+
+    function getProductTitle(rawTitle) {
+      if (!rawTitle) return "";
+      return productTitleMap[rawTitle] || rawTitle;
+    }
+
+    // Color name translation map
+    const colorNameMap = {
+      '红色': 'Red',
+      '蓝色': 'Blue',
+      '绿色': 'Green',
+      '黄色': 'Yellow',
+      '紫色': 'Purple',
+      '橙色': 'Orange',
+      '粉色': 'Pink',
+      '黑色': 'Black',
+      '白色': 'White',
+      '灰色': 'Gray',
+      '金色': 'Gold',
+      '银色': 'Silver'
+    };
+
+    // Get color name in English
+    function getColorNameEn(colorName) {
+      if (!colorName) return '-';
+      if (typeof colorName === 'object' && colorName.name) {
+        return colorNameMap[colorName.name] || colorName.name || colorName;
+      }
+      return colorNameMap[colorName] || colorName;
+    }
+
+    function filterOrdersByStatus(status) {
+      currentStatusFilter = status;
+      
+      // 更新按钮状态
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        // base: unselected blue
+        btn.style.background = '#1A319F';
+        btn.style.borderColor = '#1A319F';
+        btn.style.color = '#fff';
+
+        if (btn.dataset.filter === status) {
+          // selected: black
+          btn.classList.add('active');
+          btn.style.background = '#111827';
+          btn.style.borderColor = '#111827';
+          btn.style.color = '#fff';
+        }
+      });
+      
+      loadCustomOrders();
+    }
+
+    function loadCustomOrders() {
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      const quotedOrderIds = new Set(quotes.map(q => q.orderId));
+      
+      // Debug: log data
+      console.log('=== STAFF QUOTE DEBUG ===');
+      console.log('Total customOrders:', customOrders.length);
+      console.log('All customOrders:', customOrders);
+      
+      // 创建报价单映射，方便查找（统一用字符串ID，避免数字/字符串类型不一致）
+      const quoteMap = new Map();
+      quotes.forEach(quote => {
+        quoteMap.set(String(quote.orderId), quote);
+      });
+
+      // 显示所有订单，取消的订单会在界面上标记
+      // Staff should see all orders, including those with quoteStatus: 'pending'
+      let activeOrders = [...customOrders];
+      
+      console.log('Active orders (all):', activeOrders.length);
+      console.log('Orders with quoteStatus:', activeOrders.filter(o => o.quoteStatus).length);
+      console.log('Orders with pending status:', activeOrders.filter(o => o.quoteStatus === 'pending').length);
+      console.log('All active orders:', activeOrders);
+
+      // 根据状态筛选
+      if (currentStatusFilter !== 'all') {
+        activeOrders = activeOrders.filter(order => {
+          const existingQuote = quoteMap.get(String(order.id));
+          const status = deriveQuoteStatus(order, existingQuote);
+
+          // 宽松匹配：已生成的报价（有报价对象但状态缺失）也归为 quoted
+          if (currentStatusFilter === 'quoted') {
+            if (status === 'quoted') return true;
+            if (!order.quoteStatus && existingQuote) return true;
+            if (existingQuote && existingQuote.status === 'pending') return true;
+            return false;
+          }
+
+          // 客户拒绝/接受的兼容：如果报价对象标记了状态也认作对应筛选
+          if (currentStatusFilter === 'rejected') {
+            if (status === 'rejected') return true;
+            if (existingQuote && existingQuote.status === 'rejected') return true;
+            return false;
+          }
+          if (currentStatusFilter === 'accepted') {
+            if (status === 'accepted') return true;
+            if (existingQuote && existingQuote.status === 'accepted') return true;
+            return false;
+          }
+
+          return status === currentStatusFilter;
+        });
+      }
+
+      const container = document.getElementById('orderList');
+      
+      if (activeOrders.length === 0) {
+        container.innerHTML = '<div class="empty-tip">No custom orders yet</div>';
+        return;
+      }
+
+      container.innerHTML = activeOrders.map(order => {
+        const date = new Date(order.createTime).toLocaleString('zh-CN');
+        // 检查是否有已保存的报价单（可能是在创建过程中）
+        const existingQuote = quoteMap.get(String(order.id));
+        let material, materialPrice, craftPrice, copyrightPrice, totalPrice;
+        let materialPriceNum = 0, craftPriceNum = 0, copyrightPriceNum = 0, quantity = 1;
+        let customerPrice = order.price || 0;
+        
+        // 获取报价状态（统一用函数计算，含已有报价但未写状态的情况）
+        const quoteStatus = deriveQuoteStatus(order, existingQuote);
+        const isCancelled = quoteStatus === 'cancelled';
+        const statusText = {
+          'pending': 'Pending Review',
+          'reviewing': 'Quoting',
+          'quoted': 'Quote Generated',
+          'accepted': 'Client Accepted',
+          'rejected': 'Client Rejected',
+          'cancelled': 'Cancelled'
+        };
+        const statusClass = {
+          'pending': 'pending',
+          'reviewing': 'reviewing',
+          'quoted': 'completed',
+          'accepted': 'completed',
+          'rejected': 'rejected',
+          'cancelled': 'cancelled'
+        };
+        
+        if (existingQuote) {
+          // 如果有报价单，使用报价单中的数据
+          material = existingQuote.material || '-';
+          materialPriceNum = existingQuote.priceMaterial || 0;
+          craftPriceNum = existingQuote.priceCraft || 0;
+          copyrightPriceNum = existingQuote.priceDesign || 0;
+          quantity = existingQuote.quantity || 1;
+          customerPrice = existingQuote.total || customerPrice;
+          materialPrice = materialPriceNum > 0 ? `HK$${materialPriceNum.toFixed(2)}` : '-';
+          craftPrice = craftPriceNum > 0 ? `HK$${craftPriceNum.toFixed(2)}` : '-';
+          copyrightPrice = copyrightPriceNum > 0 ? `HK$${copyrightPriceNum.toFixed(2)}` : '-';
+          // 使用报价单中的总价（已考虑折扣）
+          totalPrice = existingQuote.total ? `HK$${existingQuote.total.toFixed(2)}` : '-';
+        } else {
+          // 默认显示客户提交的材质信息，staff 可在此基础上补充
+          const clientMaterial = order.material || order.materialPreference || order.materialDetail || order.materials || order.materialDescription || '-';
+          material = clientMaterial;
+          materialPriceNum = 0;
+          craftPriceNum = 0;
+          copyrightPriceNum = 0;
+          quantity = 1;
+          materialPrice = '-';
+          craftPrice = '-';
+          copyrightPrice = '-';
+          totalPrice = '-';
+        }
+        
+        return `
+          <div class="order-card" data-order-id="${order.id}">
+            <div class="order-card-actions">
+              <span class="quote-status ${statusClass[quoteStatus] || 'pending'}" style="margin-right: 8px;">${statusText[quoteStatus] || 'Pending Review'}</span>
+              ${(!isCancelled && quoteStatus === 'pending') ? `<button class="btn-edit" onclick="event.stopPropagation(); updateQuoteStatus(${order.id}, 'reviewing')" style="margin-right: 8px;">Start Quote</button>` : ''}
+              ${(!isCancelled && quoteStatus === 'reviewing') ? `<button class="btn-edit" onclick="event.stopPropagation(); finalizeQuote(${order.id})" style="margin-right: 8px;">Generate Quote</button>` : ''}
+              ${(!isCancelled && quoteStatus === 'quoted') ? `
+                <button class="btn-edit" onclick="event.stopPropagation(); updateQuoteStatus(${order.id}, 'reviewing')" style="margin-right: 8px;">Edit Quote</button>
+                <button class="btn-cancel" onclick="event.stopPropagation(); withdrawQuote(${order.id})" style="margin-right: 8px; background: #ef4444; color: #fff;">Recall Quote</button>
+              ` : ''}
+              ${!isCancelled ? `<button class="btn-edit" onclick="event.stopPropagation(); editOrder(${order.id})">Modify</button>` : ''}
+              ${!isCancelled ? `<button class="btn-cancel" onclick="event.stopPropagation(); cancelCustomOrder(${order.id})" style="margin-left: 8px;">Cancel Order</button>` : `<span style="color:#6b7280;font-size:0.85rem;">Order Cancelled</span>`}
+              <button class="btn-delete" onclick="event.stopPropagation(); deleteCustomOrder(${order.id})">Delete Order</button>
+            </div>
+            <div class="order-header" onclick="selectOrder(${order.id})">
+              <div class="order-id">Order No.: ${order.id}</div>
+              <div class="order-date">${date}</div>
+            </div>
+            <div class="order-info" onclick="selectOrder(${order.id})">
+              <div class="order-info-item">
+                <span class="order-info-label">Product:</span>
+                <span>${order.productName || 'Custom Toy'}</span>
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Style:</span>
+                <span>${order.variant || '-'}</span>
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Size:</span>
+                <span>${order.size || '-'}</span>
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Color:</span>
+                <span>${order.color ? getColorNameEn(order.color.name || order.color) : '-'}</span>
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Material:</span>
+                <input class="quote-input" data-field="material" data-order-id="${order.id}" type="text" value="${material}" style="padding:4px 8px;border:1px solid #1A319F;border-radius:4px;font-weight:600;color:#1A319F;min-width:140px;" />
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Material Price:</span>
+                <input class="quote-input" data-field="priceMaterial" data-order-id="${order.id}" type="number" step="0.01" min="0" value="${materialPriceNum}" style="padding:4px 8px;border:1px solid #1A319F;border-radius:4px;font-weight:600;color:#1A319F;min-width:120px;" />
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Labor Cost:</span>
+                <input class="quote-input" data-field="priceCraft" data-order-id="${order.id}" type="number" step="0.01" min="0" value="${craftPriceNum}" style="padding:4px 8px;border:1px solid #1A319F;border-radius:4px;font-weight:600;color:#1A319F;min-width:120px;" />
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Copyright Fee:</span>
+                <input class="quote-input" data-field="priceDesign" data-order-id="${order.id}" type="number" step="0.01" min="0" value="${copyrightPriceNum}" style="padding:4px 8px;border:1px solid #1A319F;border-radius:4px;font-weight:600;color:#1A319F;min-width:120px;" />
+              </div>
+              ${customerPrice > 0 ? `
+              <div class="order-info-item">
+                <span class="order-info-label">Client Commission:</span>
+                <span style="color: #1A319F; font-weight: 600;">HK$${customerPrice.toFixed(2)}</span>
+                <span style="font-size: 0.75rem; color: #666; margin-left: 8px;">(Only client can modify)</span>
+              </div>
+              ` : ''}
+              <div class="order-info-item" style="grid-column: 1 / -1; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 2px solid #1A319F;">
+                <span class="order-info-label" style="font-size: 1rem; font-weight: 700; color: #1A319F;">Total Price:</span>
+                <span id="totalPrice_${order.id}" style="color: #1A319F; font-weight: 700; font-size: 1.1rem;">${totalPrice}</span>
+              </div>
+              ${order.notes ? `
+              <div class="order-info-item" style="grid-column: 1 / -1; margin-top: 0.5rem; padding: 10px; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #1A319F;">
+                <span class="order-info-label" style="display: block; margin-bottom: 4px; font-weight: 600; color: var(--text);">Additional Requirements:</span>
+                <div style="white-space: pre-wrap; color: #374151; font-size: 0.9rem; line-height: 1.5;">${order.notes}</div>
+              </div>
+              ` : ''}
+              ${order.sketch ? `
+              <div class="order-info-item" style="grid-column: 1 / -1; margin-top: 0.5rem; padding-top: 0.5rem;">
+                <span class="order-info-label" style="font-size: 0.9rem; font-weight: 600; color: var(--text);">Design Sketch:</span>
+                <div style="margin-top: 8px;">
+                  <img src="${order.sketch}" alt="Design Sketch" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer;" onclick="window.open('${order.sketch}', '_blank')">
+                </div>
+              </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // 绑定价格输入框事件，输入后实时刷新报价
+      attachQuoteInputs();
+    }
+
+    // 统一计算当前订单的报价状态（过滤与展示用）
+    function deriveQuoteStatus(order, existingQuote) {
+      const logisticsStatus = order.logisticsStatus || 'active';
+      if (logisticsStatus === 'cancelled') return 'cancelled';
+
+      // 先看订单自身状态
+      if (order.quoteStatus) return order.quoteStatus;
+
+      // 再看报价单自身状态
+      if (existingQuote && existingQuote.status) {
+        // pending 视为已生成但未确认
+        if (existingQuote.status === 'pending') return 'quoted';
+        return existingQuote.status;
+      }
+
+      // 如果有报价对象但没状态，视为已生成
+      if (existingQuote) return 'quoted';
+
+      return 'pending';
+    }
+
+    // 绑定报价输入框事件，实时保存与计算
+    function attachQuoteInputs() {
+      const inputs = document.querySelectorAll('.quote-input');
+      inputs.forEach(input => {
+        const handler = () => {
+          input.dataset.value = input.value;
+          updateQuoteFromFields(input.dataset.orderId);
+        };
+        // 改为在完成输入后再结算（change/blur），避免每个数字都触发
+        input.addEventListener('change', handler);
+        input.addEventListener('blur', handler);
+      });
+    }
+
+    // 保留函数以兼容旧数据，但默认改为手动输入
+    function getMaterialInfoByProduct() {
+      return {
+        material: '',
+        priceMaterial: 0,
+        priceCraft: 0,
+        priceDesign: 0
+      };
+    }
+
+    function editOrder(orderId) {
+      // 编辑订单，直接选择并滚动到表单
+      selectOrder(orderId);
+    }
+
+    // 更新报价状态
+    function updateQuoteStatus(orderId, newStatus) {
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let updated = false;
+
+      customOrders.forEach(order => {
+        if (String(order.id) === String(orderId)) {
+          order.quoteStatus = newStatus;
+          updated = true;
+        }
+      });
+
+      if (updated) {
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+        const statusText = {
+          'pending': 'Pending Review',
+          'reviewing': 'Quoting',
+          'quoted': 'Quote Generated',
+          'rejected': 'Rejected'
+        };
+        alert(`Order status updated to: ${statusText[newStatus] || newStatus}`);
+        loadCustomOrders(); // Reload order list
+      } else {
+        alert('Order not found');
+      }
+    }
+
+    // 直接在卡片上生成/确认报价单（不需要去右侧表单）
+    function finalizeQuote(orderId) {
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      const order = customOrders.find(o => String(o.id) === String(orderId));
+      let quote = quotes.find(q => String(q.orderId) === String(orderId));
+
+      if (!order) {
+        alert('Order not found');
+        return;
+      }
+
+      // Refresh quote data and total price from card fields before generating quote
+      updateQuoteFromFields(String(orderId));
+      quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      quote = quotes.find(q => String(q.orderId) === String(orderId));
+
+      if (!quote) {
+        alert('Please fill in material price, labor cost, copyright fee, etc. in the card first (click the blue amounts to edit), then click "Generate Quote".');
+        return;
+      }
+
+      order.quoteStatus = 'quoted'; // Quote generated, waiting for client confirmation
+      order.quote = quote;
+      order.quoteDate = new Date().toISOString();
+      order.estimatedDelivery = quote.deliveryDate || '';
+
+      localStorage.setItem('customOrders', JSON.stringify(customOrders));
+      // Trigger custom event for same-tab updates
+      window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+      alert('Quote generated, waiting for client confirmation');
+      loadCustomOrders();
+    }
+
+    // 撤回已生成的报价单，回到待报价状态并删除对应报价记录
+    function withdrawQuote(orderId) {
+      if (!confirm('Recall this quote? The client will no longer see it.')) return;
+
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+
+      const order = customOrders.find(o => String(o.id) === String(orderId));
+      if (!order) {
+        alert('Order not found');
+        return;
+      }
+
+      // 只允许在已生成报价时撤回
+      if (order.quoteStatus !== 'quoted') {
+        alert('Only generated quotes can be recalled.');
+        return;
+      }
+
+      // 删除对应的报价记录
+      const beforeLen = quotes.length;
+      quotes = quotes.filter(q => String(q.orderId) !== String(orderId));
+      if (quotes.length !== beforeLen) {
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+      }
+
+      // 重置订单的报价状态与报价数据
+      order.quoteStatus = 'pending';
+      order.quote = null;
+      order.quoteDate = null;
+      order.estimatedDelivery = '';
+      order.quoteTotal = 0;
+      order.total = order.total || 0;
+
+      localStorage.setItem('customOrders', JSON.stringify(customOrders));
+      window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+      alert('Quote has been recalled. The order is back to Pending Review.');
+      loadCustomOrders();
+    }
+
+    // Cancel custom order
+    function cancelCustomOrder(orderId) {
+      if (!confirm('Are you sure you want to cancel this custom order? The order will no longer appear in the list after cancellation.')) {
+        return;
+      }
+
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      let updated = false;
+
+      customOrders.forEach(order => {
+        if (String(order.id) === String(orderId)) {
+          order.logisticsStatus = 'cancelled';
+          updated = true;
+        }
+      });
+
+      if (updated) {
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+        alert('Order cancelled');
+        loadCustomOrders(); // Reload order list
+      } else {
+        alert('Order not found');
+      }
+    }
+
+    // Delete custom order
+    function deleteCustomOrder(orderId) {
+      if (!confirm('Are you sure you want to permanently delete this custom order? This action cannot be undone.')) {
+        return;
+      }
+
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const orderIndex = customOrders.findIndex(order => String(order.id) === String(orderId));
+
+      if (orderIndex === -1) {
+        alert('Order does not exist');
+        return;
+      }
+
+      const order = customOrders[orderIndex];
+      
+      // 如果订单已被拒绝，保留报价单数据（标记为已删除但保留历史记录）
+      const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      const quoteIndex = quotes.findIndex(q => String(q.orderId) === String(orderId));
+      
+      if (quoteIndex >= 0 && order.quoteStatus === 'rejected') {
+        // 对于被拒绝的报价单，保留数据但标记为已删除
+        quotes[quoteIndex].deleted = true;
+        quotes[quoteIndex].deletedAt = new Date().toISOString();
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+      } else if (quoteIndex >= 0) {
+        // 对于其他状态的报价单，正常删除
+        quotes.splice(quoteIndex, 1);
+        localStorage.setItem('quotes', JSON.stringify(quotes));
+      }
+
+      customOrders.splice(orderIndex, 1);
+      localStorage.setItem('customOrders', JSON.stringify(customOrders));
+      // Trigger custom event for same-tab updates
+      window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+
+      alert('Order deleted');
+      loadCustomOrders();
+    }
+
+    // 之前这里有 selectOrder / 右侧表单等逻辑，现已废弃，全部改为在订单卡片内编辑价格并生成报价单
+
+    // 设置可编辑字段的点击事件
+    function setupEditableFields() {
+      document.addEventListener('click', function(e) {
+        const editableField = e.target.closest('.editable-field');
+        if (editableField && !editableField.classList.contains('editing')) {
+          e.stopPropagation();
+          startEditField(editableField);
+        }
+      });
+    }
+
+    function startEditField(field) {
+      if (field.classList.contains('editing')) return;
+      
+      // 已经换成 input 的 quote-input 不需要弹出编辑
+      if (field.classList.contains('quote-input')) return;
+      
+      // Check if it's a client commission field, if so, don't allow editing
+      if (field.dataset.field === 'customerPrice') {
+        alert('Client commission can only be modified by the client. Staff cannot modify this field.');
+        return;
+      }
+      
+      const fieldType = field.dataset.type || 'text';
+      const currentValue = field.dataset.value || field.textContent.trim();
+      let inputValue = currentValue;
+      
+      // 处理价格字段，移除HK$符号
+      if (fieldType === 'number') {
+        inputValue = currentValue.toString().replace('HK$', '').replace('-', '0').trim();
+      }
+      
+      const originalValue = field.textContent.trim();
+      field.classList.add('editing');
+      
+      const input = document.createElement('input');
+      input.type = fieldType;
+      input.value = inputValue;
+      if (fieldType === 'number') {
+        input.step = '0.01';
+        input.min = '0';
+      }
+      input.style.width = fieldType === 'number' ? '100px' : '150px';
+      input.style.padding = '4px 8px';
+      input.style.border = '1px solid #1A319F';
+      input.style.borderRadius = '4px';
+      input.style.fontSize = '0.9rem';
+      input.style.background = 'white';
+      input.style.fontWeight = '600';
+      input.style.color = '#1A319F';
+      
+      // 保存原始内容
+      field.dataset.originalValue = originalValue;
+      field.textContent = '';
+      field.appendChild(input);
+      input.focus();
+      input.select();
+      
+      // 保存或取消编辑
+      function finishEdit(save = false) {
+        if (!save) {
+          // 取消编辑，恢复原值
+          field.textContent = originalValue;
+          field.classList.remove('editing');
+          return;
+        }
+        
+        // 保存编辑
+        const newValue = input.value.trim();
+        if (fieldType === 'number') {
+          const numValue = parseFloat(newValue) || 0;
+          field.dataset.value = numValue;
+          field.textContent = `HK$${numValue.toFixed(2)}`;
+        } else {
+          field.dataset.value = newValue;
+          field.textContent = newValue || '-';
+        }
+        
+        field.classList.remove('editing');
+        
+        // 更新报价单并重新计算总价
+        updateQuoteFromFields(field.dataset.orderId);
+      }
+      
+      // 按Enter保存，按Esc取消
+      input.addEventListener('blur', () => finishEdit(true));
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          finishEdit(true);
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          finishEdit(false);
+        }
+      });
+    }
+
+    function updateQuoteFromFields(orderId) {
+      const card = document.querySelector(`[data-order-id="${orderId}"]`);
+      if (!card) return;
+      
+      // 获取所有字段的值
+      const fields = card.querySelectorAll('.editable-field, .quote-input');
+      const quoteData = {
+        material: '',
+        priceMaterial: 0,
+        priceCraft: 0,
+        priceDesign: 0,
+        customerPrice: 0
+      };
+      
+      fields.forEach(field => {
+        const fieldName = field.dataset.field;
+        const value = field.dataset.value || (field.tagName === 'INPUT' ? field.value.trim() : field.textContent.trim());
+        
+        if (fieldName === 'material') {
+          quoteData.material = value;
+        } else if (fieldName === 'priceMaterial') {
+          quoteData.priceMaterial = parseFloat(value) || 0;
+        } else if (fieldName === 'priceCraft') {
+          quoteData.priceCraft = parseFloat(value) || 0;
+        } else if (fieldName === 'priceDesign') {
+          quoteData.priceDesign = parseFloat(value) || 0;
+        } else if (fieldName === 'customerPrice') {
+          quoteData.customerPrice = parseFloat(value) || 0;
+        }
+      });
+      
+      // 计算总价
+      let total = quoteData.priceMaterial + quoteData.priceCraft + quoteData.priceDesign;
+      
+      // 如果有客户佣金价格，总价应该等于佣金价格，并重新计算手工费
+      if (quoteData.customerPrice > 0) {
+        total = quoteData.customerPrice;
+        // 重新计算手工费
+        quoteData.priceCraft = Math.max(0, quoteData.customerPrice - quoteData.priceMaterial - quoteData.priceDesign);
+        
+        // 更新手工费显示
+        const craftField = card.querySelector('[data-field="priceCraft"]');
+        if (craftField) {
+          craftField.dataset.value = quoteData.priceCraft;
+          craftField.textContent = `HK$${quoteData.priceCraft.toFixed(2)}`;
+        }
+      }
+      
+      // 更新总价显示
+      const totalElement = document.getElementById(`totalPrice_${orderId}`);
+      if (totalElement) {
+        totalElement.textContent = `HK$${total.toFixed(2)}`;
+      }
+      
+      // 保存到localStorage
+      const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+      const order = customOrders.find(o => String(o.id) === String(orderId));
+      if (!order) return;
+      
+      // 同步将报价总价写入订单对象，方便客户端直接展示
+      order.quoteTotal = total;
+      order.total = total;
+      
+      let quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+      const existingQuoteIndex = quotes.findIndex(q => String(q.orderId) === String(orderId));
+      
+      const quote = {
+        id: existingQuoteIndex >= 0 ? quotes[existingQuoteIndex].id : Date.now(),
+        orderId: orderId,
+        productName: getProductTitle(order.productName) || 'Custom Toy',
+        material: quoteData.material,
+        priceMaterial: quoteData.priceMaterial,
+        priceCraft: quoteData.priceCraft,
+        priceDesign: quoteData.priceDesign,
+        quantity: order.quantity || 1,
+        subtotal: quoteData.priceMaterial + quoteData.priceCraft + quoteData.priceDesign,
+        discount: 0,
+        total: total,
+        createTime: existingQuoteIndex >= 0 ? quotes[existingQuoteIndex].createTime : new Date().toISOString(),
+        updateTime: new Date().toISOString(),
+        status: 'pending',
+        // 包含客户的额外需求和其他定制信息
+        notes: order.notes || '',
+        dimensions: order.dimensions || '',
+        pantone: order.pantone || '',
+        materialSpec: order.materialSpec || '',
+        variant: order.variant || '',
+        size: order.size || '',
+        color: order.color ? (typeof order.color === 'object' ? order.color.name : order.color) : '',
+        sketch: order.sketch || null
+      };
+      
+      if (existingQuoteIndex >= 0) {
+        quotes[existingQuoteIndex] = quote;
+      } else {
+        quotes.push(quote);
+      }
+      
+      localStorage.setItem('quotes', JSON.stringify(quotes));
+      localStorage.setItem('customOrders', JSON.stringify(customOrders));
+      // Trigger custom event for same-tab updates
+      window.dispatchEvent(new CustomEvent('customStorageUpdate', { detail: { key: 'customOrders' } }));
+    }
+
+    // 设置默认交货日期为30天后
+    window.addEventListener('DOMContentLoaded', () => {
+      updateUserInfo();
+      // 确保默认显示所有订单
+      currentStatusFilter = 'all';
+      // 设置"全部"按钮为激活状态
+      const allFilterBtn = document.querySelector('[data-filter="all"]');
+      if (allFilterBtn) {
+        allFilterBtn.classList.add('active');
+        allFilterBtn.style.background = '#111827';
+        allFilterBtn.style.color = '#fff';
+        allFilterBtn.style.borderColor = '#111827';
+      }
+      loadCustomOrders();
+      setupEditableFields();
+    });
+
+    // 监听 localStorage 变化（例如客户端提交定制申请时），自动刷新列表
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'customOrders') {
+        loadCustomOrders();
+      }
+    });
+
+    // 也监听自定义事件（同标签页更新）
+    window.addEventListener('customStorageUpdate', (event) => {
+      if (event.detail && event.detail.key === 'customOrders') {
+        console.log('=== Received customStorageUpdate event ===');
+        console.log('Event detail:', event.detail);
+        setTimeout(() => {
+          console.log('Reloading orders after event...');
+          loadCustomOrders();
+        }, 100); // 延迟100ms确保localStorage已更新
+      }
+    });
+    
+    // 添加手动刷新按钮功能（用于调试）
+    function refreshOrderList() {
+      console.log('=== Manual refresh triggered ===');
+      loadCustomOrders();
+    }
+  </script>
+</body>
+</html>
