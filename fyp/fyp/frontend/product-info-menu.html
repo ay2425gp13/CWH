@@ -1,0 +1,337 @@
+<div class="product-info-menu">
+  <div class="quality-inspection">
+    <h2 class="section-title">🔍 Quality Inspection</h2>
+    <div class="inspection-container">
+      <div class="inspection-header">
+        <div class="inspection-logo">
+          <div class="logo-circle">QI</div>
+        </div>
+        <div class="inspection-info">
+          <h3>{{title}}</h3>
+          <div class="inspection-details">
+            <span class="detail-item">Inspection ID: 000000000</span>
+            <span class="detail-item">IMEI: 000000000000000</span>
+          </div>
+          <div class="inspector-info">
+            <span class="inspector-badge">Certified Quality Inspector</span>
+          </div>
+        </div>
+      </div>
+      <div class="inspection-summary">
+        <div class="summary-scores">
+          <div class="score-item">
+            <div class="score-circle-small">95</div>
+            <div class="score-details">
+              <div class="score-label">Overall</div>
+              <div class="score-grade">A</div>
+            </div>
+          </div>
+          <div class="score-item">
+            <div class="score-circle-small function-grade">A</div>
+            <div class="score-details">
+              <div class="score-label">Function</div>
+              <div class="score-grade">Function Grade</div>
+            </div>
+          </div>
+        </div>
+        <div class="inspection-highlights">
+          <div class="highlight-item positive">Excellent condition</div>
+          <div class="highlight-item positive">Original packaging</div>
+          <div class="highlight-item positive">All accessories included</div>
+          <div class="highlight-item positive">No visible damage</div>
+        </div>
+      </div>
+      <div class="inspection-result">
+        <div class="result-header">
+          <h4>Inspection Result</h4>
+          <div class="result-status">Passed</div>
+        </div>
+        <div class="result-content">
+          <p>This product has passed our comprehensive quality inspection. All functions are working properly, the device is in excellent condition with no visible damage. The inspection covers appearance, functionality, performance, and overall quality assurance.</p>
+          <button class="expand-btn">Read More</button>
+        </div>
+      </div>
+      <div class="parameter-details">
+        <h2 class="section-title">📋 Parameter Details</h2>
+        <div class="parameter-container">
+          <div class="parameter-modal-trigger">
+            <div class="parameter-preview">
+              <div class="parameter-row">
+                <span class="param-label">Overall Condition</span>
+                <span class="param-value">Condition Grade</span>
+                <span class="param-status">Excellent, no issues detected</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">Battery Capacity Test</span>
+                <span class="param-value">Battery condition good</span>
+                <span class="param-status">Screen sRGB coverage</span>
+                <span class="param-detail">100.62%</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">Function</span>
+                <span class="param-value">Function Grade</span>
+                <span class="param-status">Normal</span>
+                <span class="param-detail">All functions working</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">Performance Test</span>
+                <span class="param-value">Function</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">Battery Health</span>
+                <span class="param-value">85%-90%</span>
+              </div>
+            </div>
+            <button class="view-all-btn" onclick="viewAllParameters()">View All Parameters ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="appearance-inspection">
+    <h2 class="section-title">👀 Appearance Inspection</h2>
+    <div class="appearance-container">
+      <div class="inspection-stats">
+        <div class="stat-badge warning">Minor: 2 small scratches</div>
+        <div class="stat-badge success">Good: 20 points</div>
+      </div>
+      <div class="appearance-gallery">
+        <div class="main-image-container">
+          <img src="{{imgs0}}" alt="Appearance Inspection Image" class="main-inspection-image">
+          <div class="image-overlay">Details (2)</div>
+        </div>
+        <div class="thumbnail-grid">
+          {{thumbnailGrid}}
+        </div>
+      </div>
+      <div class="inspection-description">
+        <p>The device shows excellent overall condition with only minor cosmetic imperfections. The screen has no scratches or dead pixels, and all ports and buttons are functioning properly. The keyboard and trackpad show minimal wear consistent with normal use. Battery performance is excellent, maintaining good capacity for its age.</p>
+      </div>
+      <div class="parameter-details">
+        <h2 class="section-title">📋 Parameter Details</h2>
+        <div class="parameter-container">
+          <div class="parameter-modal-trigger">
+            <div class="parameter-preview">
+              <div class="parameter-row">
+                <span class="param-label">Appearance</span>
+                <span class="param-value">External condition</span>
+                <span class="param-status">Function</span>
+                <span class="param-detail">Performance test</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">i5-11300H</span>
+                <span class="param-value">CPU Model</span>
+                <span class="param-status">Memory</span>
+                <span class="param-detail">Size</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">85%-90%</span>
+                <span class="param-value">Battery Health</span>
+                <span class="param-status">15.6 inches</span>
+                <span class="param-detail">Screen Size</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">GTX 1650</span>
+                <span class="param-value">GPU Model</span>
+                <span class="param-status">16GB</span>
+                <span class="param-detail">RAM Capacity</span>
+              </div>
+              <div class="parameter-row">
+                <span class="param-label">512G SSD</span>
+                <span class="param-value">Storage Type</span>
+              </div>
+            </div>
+            <button class="view-all-btn" onclick="viewAllParameters()">View All Parameters ></button>
+          </div>
+        </div>
+      </div>
+      <div class="accessories-list">
+        <h4>Accessories</h4>
+        <div class="accessories-grid">
+          <div class="accessory-item">
+            <div class="accessory-label">16GB</div>
+            <div class="accessory-sublabel">RAM Capacity</div>
+          </div>
+          <div class="accessory-item">
+            <div class="accessory-label">512G SSD</div>
+            <div class="accessory-sublabel">Storage Type</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="function-testing">
+    <h2 class="section-title">🔧 Function Testing</h2>
+    <div class="function-container">
+      <div class="function-status">Passed: 22 tests</div>
+      <div class="function-categories">
+        <div class="function-category">
+          <h4>Basic Function Test</h4>
+          <div class="function-items">
+            <div class="function-item passed">Power button test</div>
+            <div class="function-item passed">Screen display test</div>
+            <div class="function-item passed">Keyboard test</div>
+            <div class="function-item passed">Touchpad test</div>
+            <div class="function-item passed">USB ports test</div>
+            <div class="function-item passed">Audio test</div>
+          </div>
+        </div>
+        <div class="function-category">
+          <h4>Network Test</h4>
+          <div class="function-items">
+            <div class="function-item passed">WiFi connectivity</div>
+            <div class="function-item passed">Bluetooth function</div>
+            <div class="function-item passed">Network ports test</div>
+          </div>
+        </div>
+        <div class="function-category">
+          <h4>Hardware Test</h4>
+          <div class="function-items">
+            <div class="function-item passed">CPU performance</div>
+            <div class="function-item passed">Memory test</div>
+            <div class="function-item passed">Storage test</div>
+            <div class="function-item passed">GPU function</div>
+            <div class="function-item passed">Temperature test</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="repair-history">
+    <h2 class="section-title">🔨 Repair History</h2>
+    <div class="repair-container">
+      <div class="repair-status">Passed: 5 checks</div>
+      <div class="repair-categories">
+        <div class="repair-category">
+          <h4>Repair Check</h4>
+          <div class="repair-items">
+            <div class="repair-item passed">✓ No water damage</div>
+            <div class="repair-item passed">✓ No screen repairs</div>
+            <div class="repair-item passed">✓ No keyboard repairs</div>
+          </div>
+        </div>
+        <div class="repair-category">
+          <h4>Water Damage Check</h4>
+          <div class="repair-items">
+            <div class="repair-item passed">✓ No corrosion signs</div>
+          </div>
+        </div>
+        <div class="repair-category">
+          <h4>Port Damage Check</h4>
+          <div class="repair-items">
+            <div class="repair-item passed">✓ No port damage</div>
+          </div>
+        </div>
+      </div>
+      <div class="included-accessories">
+        <h4>Included Accessories</h4>
+        <div class="accessories-list">
+          <div class="accessory-item">Original Box: Yes x 1</div>
+          <div class="accessory-item">Power Adapter: 65W charger x 1, USB cable x 1</div>
+        </div>
+        <p>All listed accessories are included with the device. The original box and power adapter are in good condition. All accessories have been tested and are functioning properly. The device comes with standard accessories as originally provided by the manufacturer.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="delivery-availability">
+    <h2 class="section-title">🚚 Delivery & Availability</h2>
+    <div class="delivery-container">
+      <div class="trust-score">Trust Score: 4.8</div>
+      <div class="delivery-timeline">
+        <div class="timeline-item">Today - Received</div>
+        <div class="timeline-item">Inspected</div>
+        <div class="timeline-item">Listed</div>
+        <div class="timeline-item">Unavailable</div>
+      </div>
+      <p>Available for immediate delivery. Free shipping on orders over HK$500.</p>
+    </div>
+  </div>
+
+  <div class="seller-comparison">
+    <h2 class="section-title">📊 Seller Comparison</h2>
+    <div class="comparison-container">
+      <p>Compare prices and ratings from different sellers.</p>
+      <div class="comparison-table">
+        <div class="comparison-header">
+          <div>Seller</div>
+          <div>Price</div>
+          <div>Rating</div>
+          <div>Shipping</div>
+          <div>Condition</div>
+        </div>
+        <div class="comparison-row current-seller">
+          <div>Current Seller</div>
+          <div>HK$ 1,800</div>
+          <div>★★★★★</div>
+          <div>Free</div>
+          <div>9/10 New</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="combo-offers">
+    <h2 class="section-title">🎁 Combo Offers</h2>
+    <div class="combo-container">
+      <p>Buy this item with accessories for a discount.</p>
+      <div class="combo-item">
+        <div class="combo-products">
+          <div class="combo-product">
+            <img src="{{imgs0}}" alt="Product">
+            <div class="combo-product-title">{{title}}</div>
+          </div>
+          <div class="plus">+</div>
+          <div class="combo-product">
+            <img src="https://via.placeholder.com/60x60" alt="Accessory">
+            <div class="combo-product-title">Gaming Mouse</div>
+          </div>
+        </div>
+        <div class="combo-pricing">
+          <div class="combo-savings">Save HK$ 100</div>
+          <div class="combo-total">Total: HK$ 1,900</div>
+          <button class="combo-btn">Add Combo to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="questions-answers">
+    <h2 class="section-title">❓ Questions & Answers</h2>
+    <div class="qa-container">
+      <div class="qa-item">
+        <div class="question">Is this laptop good for gaming?</div>
+        <div class="answer">Yes, with RTX 5060 GPU, it's excellent for gaming.</div>
+      </div>
+      <div class="qa-form">
+        <textarea placeholder="Ask a question..."></textarea>
+        <button class="qa-submit-btn">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="warranty-support">
+    <h2 class="section-title">🛡️ Warranty & Support</h2>
+    <div class="warranty-container">
+      <div class="warranty-item">
+        <div class="warranty-icon">🛡️</div>
+        <div class="warranty-details">
+          <h4>1 Year Warranty</h4>
+          <p>Covers hardware defects and malfunctions.</p>
+        </div>
+      </div>
+      <div class="warranty-item">
+        <div class="warranty-icon">📞</div>
+        <div class="warranty-details">
+          <h4>24/7 Support</h4>
+          <p>Get help anytime with our customer service.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></content>
+<parameter name="filePath">c:\Users\wanhi\OneDrive\Documents\CWH\fyp\fyp\frontend\product-info-menu.html
+    

@@ -116,6 +116,10 @@ def create_app(config_name=None):
     def serve_platform_market():
         return send_from_directory(frontend_dir, 'platform-market.html')
 
+    @app.route('/product-info-menu.html')
+    def serve_product_info_menu():
+        return send_from_directory(frontend_dir, 'product-info-menu.html')
+
     @app.route('/online-support.html')
     def serve_online_support():
         return send_from_directory(frontend_dir, 'online-support.html')
