@@ -153,3 +153,126 @@ class Notification(db.Model):
     
     # 外键
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+class Hardware(db.Model):
+    """硬件组件表"""
+    __tablename__ = 'hardware'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), nullable=False)  # CPU, GPU, RAM, etc.
+    name = db.Column(db.String(200), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    specs = db.Column(db.String(500))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class SSD(db.Model):
+    """SSD存储设备表"""
+    __tablename__ = 'ssd'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer)
+    product_name = db.Column(db.String(500), nullable=False)
+    capacity = db.Column(db.String(50), nullable=False)
+    max_sequential_read = db.Column(db.String(100))
+    max_sequential_write = db.Column(db.String(100))
+    form_factor = db.Column(db.String(100))
+    interface = db.Column(db.String(100))
+    price = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class PSU(db.Model):
+    """电源供应器表"""
+    __tablename__ = 'psu'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer)
+    product_name = db.Column(db.String(500), nullable=False)
+    type = db.Column(db.String(100))
+    energy_efficiency = db.Column(db.String(100))
+    wattage = db.Column(db.String(50))
+    modular = db.Column(db.String(50))
+    length = db.Column(db.String(50))
+    price = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Motherboard(db.Model):
+    """主板表"""
+    __tablename__ = 'motherboard'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer)
+    product_name = db.Column(db.String(500), nullable=False)
+    customer_count = db.Column(db.String(100))
+    rating_count = db.Column(db.String(50))
+    combo_offer = db.Column(db.String(100))
+    socket_type = db.Column(db.String(50))
+    form_factor = db.Column(db.String(50))
+    memory_max = db.Column(db.String(50))
+    memory_slots = db.Column(db.String(50))
+    chipset = db.Column(db.String(50))
+    price = db.Column(db.String(50))
+    product_image = db.Column(db.String(500))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class RAM(db.Model):
+    """内存表"""
+    __tablename__ = 'ram'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer)
+    product_name = db.Column(db.String(500), nullable=False)
+    speed = db.Column(db.String(100))
+    module = db.Column(db.String(100))
+    color = db.Column(db.String(50))
+    cas_latency = db.Column(db.String(20))
+    price = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class GPU(db.Model):
+    """显卡表"""
+    __tablename__ = 'gpu'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer)
+    product_name = db.Column(db.String(500), nullable=False)
+    gpu_model = db.Column(db.String(100))
+    memory_size = db.Column(db.String(50))
+    cooler_type = db.Column(db.String(50))
+    tdp = db.Column(db.String(20))
+    price = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class CPU(db.Model):
+    """CPU处理器表"""
+    __tablename__ = 'cpu'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer)
+    product_name = db.Column(db.String(500), nullable=False)
+    customer_count = db.Column(db.String(100))
+    promotion = db.Column(db.String(500))
+    rating_count = db.Column(db.String(50))
+    combo_offer = db.Column(db.String(100))
+    number_of_cores = db.Column(db.String(50))
+    core_clock_speed = db.Column(db.String(50))
+    memory_type = db.Column(db.String(50))
+    tdp = db.Column(db.String(20))
+    integrated_graphics = db.Column(db.String(100))
+    price = db.Column(db.String(50))
+    product_image = db.Column(db.String(500))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Case(db.Model):
+    """机箱表"""
+    __tablename__ = 'case'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer)
+    product_name = db.Column(db.String(500), nullable=False)
+    type = db.Column(db.String(100))
+    color = db.Column(db.String(50))
+    led_type = db.Column(db.String(50))
+    case_material = db.Column(db.String(100))
+    max_gpu_length = db.Column(db.String(50))
+    price = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)

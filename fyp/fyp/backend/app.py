@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import secrets
 from datetime import datetime
-from models import db, User, Product, Category, Order, Review, Favorite, Watchlist, Notification
+from models import db, User, Product, Category, Order, Review, Favorite, Watchlist, Notification, Hardware, SSD, PSU, Motherboard, RAM, GPU, CPU, Case
 import openai
 
 def create_app(config_name=None):
@@ -22,8 +22,8 @@ def create_app(config_name=None):
     config_name = config_name or os.environ.get('FLASK_CONFIG', 'default')
     app.config.from_object(config_dict[config_name])
     
-    # 数据库配置
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///marketplace.db'
+    # 数据库配置 - MySQL via XAMPP phpMyAdmin
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/fyp'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # 初始化数据库
@@ -646,6 +646,200 @@ def create_app(config_name=None):
             'message': message
         })
 
+    @app.route('/api/hardware')
+    def get_hardware():
+        """获取硬件组件数据"""
+        use_case = request.args.get('use_case', 'gaming')
+        resolution = request.args.get('resolution', '1080')
+        
+        # Query hardware by type and use case
+        hardware_list = Hardware.query.filter_by(type=use_case).all()
+        
+        # If no specific hardware, get all
+        if not hardware_list:
+            hardware_list = Hardware.query.all()
+        
+        # Convert to dict
+        hardware_data = []
+        for hw in hardware_list:
+            hardware_data.append({
+                'id': hw.id,
+                'type': hw.type,
+                'name': hw.name,
+                'price': hw.price,
+                'specs': hw.specs
+            })
+        
+        return jsonify(hardware_data)
+
+    @app.route('/api/ssd')
+    def get_ssd():
+        """获取SSD存储设备数据"""
+        # Get all SSDs
+        ssd_list = SSD.query.order_by(SSD.position).all()
+        
+        # Convert to dict
+        ssd_data = []
+        for ssd in ssd_list:
+            ssd_data.append({
+                'id': ssd.id,
+                'position': ssd.position,
+                'product_name': ssd.product_name,
+                'capacity': ssd.capacity,
+                'max_sequential_read': ssd.max_sequential_read,
+                'max_sequential_write': ssd.max_sequential_write,
+                'form_factor': ssd.form_factor,
+                'interface': ssd.interface,
+                'price': ssd.price
+            })
+        
+        return jsonify(ssd_data)
+
+    @app.route('/api/psu')
+    def get_psu():
+        """获取电源供应器数据"""
+        # Get all PSUs
+        psu_list = PSU.query.order_by(PSU.position).all()
+        
+        # Convert to dict
+        psu_data = []
+        for psu in psu_list:
+            psu_data.append({
+                'id': psu.id,
+                'position': psu.position,
+                'product_name': psu.product_name,
+                'type': psu.type,
+                'energy_efficiency': psu.energy_efficiency,
+                'wattage': psu.wattage,
+                'modular': psu.modular,
+                'length': psu.length,
+                'price': psu.price
+            })
+        
+        return jsonify(psu_data)
+
+    @app.route('/api/motherboard')
+    def get_motherboard():
+        """获取主板数据"""
+        # Get all Motherboards
+        motherboard_list = Motherboard.query.order_by(Motherboard.position).all()
+        
+        # Convert to dict
+        motherboard_data = []
+        for mb in motherboard_list:
+            motherboard_data.append({
+                'id': mb.id,
+                'position': mb.position,
+                'product_name': mb.product_name,
+                'customer_count': mb.customer_count,
+                'rating_count': mb.rating_count,
+                'combo_offer': mb.combo_offer,
+                'socket_type': mb.socket_type,
+                'form_factor': mb.form_factor,
+                'memory_max': mb.memory_max,
+                'memory_slots': mb.memory_slots,
+                'chipset': mb.chipset,
+                'price': mb.price,
+                'product_image': mb.product_image
+            })
+        
+        return jsonify(motherboard_data)
+
+    @app.route('/api/ram')
+    def get_ram():
+        """获取内存数据"""
+        # Get all RAM
+        ram_list = RAM.query.order_by(RAM.position).all()
+        
+        # Convert to dict
+        ram_data = []
+        for ram in ram_list:
+            ram_data.append({
+                'id': ram.id,
+                'position': ram.position,
+                'product_name': ram.product_name,
+                'speed': ram.speed,
+                'module': ram.module,
+                'color': ram.color,
+                'cas_latency': ram.cas_latency,
+                'price': ram.price
+            })
+        
+        return jsonify(ram_data)
+
+    @app.route('/api/gpu')
+    def get_gpu():
+        """获取显卡数据"""
+        # Get all GPUs
+        gpu_list = GPU.query.order_by(GPU.position).all()
+        
+        # Convert to dict
+        gpu_data = []
+        for gpu in gpu_list:
+            gpu_data.append({
+                'id': gpu.id,
+                'position': gpu.position,
+                'product_name': gpu.product_name,
+                'gpu_model': gpu.gpu_model,
+                'memory_size': gpu.memory_size,
+                'cooler_type': gpu.cooler_type,
+                'tdp': gpu.tdp,
+                'price': gpu.price
+            })
+        
+        return jsonify(gpu_data)
+
+    @app.route('/api/cpu')
+    def get_cpu():
+        """获取CPU处理器数据"""
+        # Get all CPUs
+        cpu_list = CPU.query.order_by(CPU.position).all()
+        
+        # Convert to dict
+        cpu_data = []
+        for cpu in cpu_list:
+            cpu_data.append({
+                'id': cpu.id,
+                'position': cpu.position,
+                'product_name': cpu.product_name,
+                'customer_count': cpu.customer_count,
+                'promotion': cpu.promotion,
+                'rating_count': cpu.rating_count,
+                'combo_offer': cpu.combo_offer,
+                'number_of_cores': cpu.number_of_cores,
+                'core_clock_speed': cpu.core_clock_speed,
+                'memory_type': cpu.memory_type,
+                'tdp': cpu.tdp,
+                'integrated_graphics': cpu.integrated_graphics,
+                'price': cpu.price,
+                'product_image': cpu.product_image
+            })
+        
+        return jsonify(cpu_data)
+
+    @app.route('/api/case')
+    def get_case():
+        """获取机箱数据"""
+        # Get all Cases
+        case_list = Case.query.order_by(Case.position).all()
+        
+        # Convert to dict
+        case_data = []
+        for case in case_list:
+            case_data.append({
+                'id': case.id,
+                'position': case.position,
+                'product_name': case.product_name,
+                'type': case.type,
+                'color': case.color,
+                'led_type': case.led_type,
+                'case_material': case.case_material,
+                'max_gpu_length': case.max_gpu_length,
+                'price': case.price
+            })
+        
+        return jsonify(case_data)
+
     @app.route('/signup')
     def serve_register_page():
         return send_from_directory(frontend_dir, 'register.html')
@@ -865,183 +1059,182 @@ def create_app(config_name=None):
 
 app = create_app()
 
-# 初始化数据库
-with app.app_context():
-    db.create_all()
+# 初始化数据库 - 注释掉自动创建表，由phpMyAdmin管理
+# with app.app_context():
+#     db.create_all()
     
-    # 创建示例数据
-    if not User.query.first():
-        # 创建示例用户
-        users_data = [
-            {'username': '张先生', 'email': 'zhang@example.com', 'password': 'password123', 'location': '沙田'},
-            {'username': '李女士', 'email': 'li@example.com', 'password': 'password123', 'location': '旺角'},
-            {'username': '王先生', 'email': 'wang@example.com', 'password': 'password123', 'location': '尖沙咀'},
-            {'username': '陈先生', 'email': 'chen@example.com', 'password': 'password123', 'location': '佐敦'},
-            {'username': '刘女士', 'email': 'liu@example.com', 'password': 'password123', 'location': '荃湾'},
-            {'username': '黄先生', 'email': 'huang@example.com', 'password': 'password123', 'location': '九龙湾'},
-            {'username': '林先生', 'email': 'lin@example.com', 'password': 'password123', 'location': '中环'},
-            {'username': '陈女士', 'email': 'chen2@example.com', 'password': 'password123', 'location': '铜锣湾'}
-        ]
+#     # 创建示例数据
+#     if not User.query.first():
+#         # 创建示例用户
+#         users_data = [
+#             {'username': '张先生', 'email': 'zhang@example.com', 'password': 'password123', 'location': '沙田'},
+#             {'username': '李女士', 'email': 'li@example.com', 'password': 'password123', 'location': '旺角'},
+#             {'username': '王先生', 'email': 'wang@example.com', 'password': 'password123', 'location': '尖沙咀'},
+#             {'username': '陈先生', 'email': 'chen@example.com', 'password': 'password123', 'location': '佐敦'},
+#             {'username': '刘女士', 'email': 'liu@example.com', 'password': 'password123', 'location': '荃湾'},
+#             {'username': '黄先生', 'email': 'huang@example.com', 'password': 'password123', 'location': '九龙湾'},
+#             {'username': '林先生', 'email': 'lin@example.com', 'password': 'password123', 'location': '中环'},
+#             {'username': '陈女士', 'email': 'chen2@example.com', 'password': 'password123', 'location': '铜锣湾'}
+#         ]
+#         for user_data in users_data:
+#             user = User(
+#                 username=user_data['username'],
+#                 email=user_data['email'],
+#                 password_hash=generate_password_hash(user_data['password']),
+#                 location=user_data['location'],
+#                 rating=4.5 + (hash(user_data['username']) % 10) / 20,  # 4.5-5.0之间的评分
+#                 sales_count=hash(user_data['username']) % 500  # 0-499之间的销量
+#             )
+#             db.session.add(user)
         
-        for user_data in users_data:
-            user = User(
-                username=user_data['username'],
-                email=user_data['email'],
-                password_hash=generate_password_hash(user_data['password']),
-                location=user_data['location'],
-                rating=4.5 + (hash(user_data['username']) % 10) / 20,  # 4.5-5.0之间的评分
-                sales_count=hash(user_data['username']) % 500  # 0-499之间的销量
-            )
-            db.session.add(user)
+#         # 创建分类
+#         categories_data = [
+#             {'name': '手机', 'description': '手机及配件'},
+#             {'name': '摄影', 'description': '相机及摄影设备'},
+#             {'name': '电脑', 'description': '电脑及数码产品'},
+#             {'name': '影音', 'description': '影音设备'},
+#             {'name': '游戏', 'description': '游戏设备'},
+#             {'name': '手表', 'description': '手表及配件'},
+#             {'name': '汽车', 'description': '汽车用品'},
+#             {'name': '电器', 'description': '家用电器'}
+#         ]
         
-        # 创建分类
-        categories_data = [
-            {'name': '手机', 'description': '手机及配件'},
-            {'name': '摄影', 'description': '相机及摄影设备'},
-            {'name': '电脑', 'description': '电脑及数码产品'},
-            {'name': '影音', 'description': '影音设备'},
-            {'name': '游戏', 'description': '游戏设备'},
-            {'name': '手表', 'description': '手表及配件'},
-            {'name': '汽车', 'description': '汽车用品'},
-            {'name': '电器', 'description': '家用电器'}
-        ]
+#         for cat_data in categories_data:
+#             category = Category(name=cat_data['name'], description=cat_data['description'])
+#             db.session.add(category)
         
-        for cat_data in categories_data:
-            category = Category(name=cat_data['name'], description=cat_data['description'])
-            db.session.add(category)
+#         db.session.commit()
         
-        db.session.commit()
+#         # 创建示例商品
+#         products_data = [
+#             {
+#                 'name': 'iPhone 13 128GB 蓝色 99新',
+#                 'description': '有盒子,冇花冇壞,購自Apple store',
+#                 'price': 2680,
+#                 'original_price': 3200,
+#                 'condition': '99新',
+#                 'brand': 'Apple',
+#                 'location': '沙田',
+#                 'images': '["https://via.placeholder.com/300x200/007AFF/FFFFFF?text=iPhone+13"]',
+#                 'tags': '["包邮", "支持验货", "7天退换"]',
+#                 'category_id': 1,  # 手机
+#                 'seller_id': 1
+#             },
+#             {
+#                 'name': 'Sony A6400 微单相机 套机',
+#                 'description': '功能正常无拆修,运行流畅拍照清晰',
+#                 'price': 3500,
+#                 'original_price': 4200,
+#                 'condition': '95新',
+#                 'brand': 'Sony',
+#                 'location': '旺角',
+#                 'images': '["https://via.placeholder.com/300x200/FF6B35/FFFFFF?text=A6400"]',
+#                 'tags': '["包邮", "专业设备", "1年保修"]',
+#                 'category_id': 2,  # 摄影
+#                 'seller_id': 2
+#             },
+#             {
+#                 'name': 'Google Pixel 7 128GB 黑色',
+#                 'description': '几乎全新,屏幕有维修记录',
+#                 'price': 2000,
+#                 'original_price': 2800,
+#                 'condition': '9成新',
+#                 'brand': 'Google',
+#                 'location': '尖沙咀',
+#                 'images': '["https://via.placeholder.com/300x200/4285F4/FFFFFF?text=Pixel+7"]',
+#                 'tags': '["包邮", "可小刀", "支持验货"]',
+#                 'category_id': 1,  # 手机
+#                 'seller_id': 3
+#             },
+#             {
+#                 'name': 'Canon 24-70mm F2.8L II 镜头',
+#                 'description': '专业镜头,成色新,功能正常',
+#                 'price': 5200,
+#                 'original_price': 6800,
+#                 'condition': '98新',
+#                 'brand': 'Canon',
+#                 'location': '佐敦',
+#                 'images': '["https://via.placeholder.com/300x200/FF0000/FFFFFF?text=24-70+F2.8"]',
+#                 'tags': '["包邮", "专业设备", "支持验货"]',
+#                 'category_id': 2,  # 摄影
+#                 'seller_id': 4
+#             },
+#             {
+#                 'name': 'AirPods Pro 2代 降噪耳机',
+#                 'description': '全新未拆封,正品保证',
+#                 'price': 980,
+#                 'original_price': 1200,
+#                 'condition': '全新',
+#                 'brand': 'Apple',
+#                 'location': '荃湾',
+#                 'images': '["https://via.placeholder.com/300x200/000000/FFFFFF?text=AirPods+Pro"]',
+#                 'tags': '["包邮", "全新", "正品保证"]',
+#                 'category_id': 4,  # 影音
+#                 'seller_id': 5,
+#                 'is_new': True
+#             },
+#             {
+#                 'name': 'Sony PS5 游戏主机 光驱版',
+#                 'description': '功能正常,配件齐全,成色新',
+#                 'price': 2980,
+#                 'original_price': 3800,
+#                 'condition': '9成新',
+#                 'brand': 'Sony',
+#                 'location': '九龙湾',
+#                 'images': '["https://via.placeholder.com/300x200/003791/FFFFFF?text=PS5"]',
+#                 'tags': '["包邮", "热门商品", "配件齐全"]',
+#                 'category_id': 5,  # 游戏
+#                 'seller_id': 6
+#             },
+#             {
+#                 'name': 'MacBook Pro 13寸 M1芯片 256GB',
+#                 'description': 'M1芯片,性能强劲,成色新',
+#                 'price': 6800,
+#                 'original_price': 8500,
+#                 'condition': '95新',
+#                 'brand': 'Apple',
+#                 'location': '中环',
+#                 'images': '["https://via.placeholder.com/300x200/000000/FFFFFF?text=MacBook+Pro"]',
+#                 'tags': '["包邮", "高端设备", "支持验货"]',
+#                 'category_id': 3,  # 电脑
+#                 'seller_id': 7
+#             },
+#             {
+#                 'name': 'Nintendo Switch OLED 白色',
+#                 'description': 'OLED屏幕,成色新,配件齐全',
+#                 'price': 1800,
+#                 'original_price': 2200,
+#                 'condition': '9成新',
+#                 'brand': 'Nintendo',
+#                 'location': '铜锣湾',
+#                 'images': '["https://via.placeholder.com/300x200/FF0000/FFFFFF?text=Switch+OLED"]',
+#                 'tags': '["包邮", "游戏设备", "配件齐全"]',
+#                 'category_id': 5,  # 游戏
+#                 'seller_id': 8
+#             }
+#         ]
         
-        # 创建示例商品
-        products_data = [
-            {
-                'name': 'iPhone 13 128GB 蓝色 99新',
-                'description': '有盒子,冇花冇壞,購自Apple store',
-                'price': 2680,
-                'original_price': 3200,
-                'condition': '99新',
-                'brand': 'Apple',
-                'location': '沙田',
-                'images': '["https://via.placeholder.com/300x200/007AFF/FFFFFF?text=iPhone+13"]',
-                'tags': '["包邮", "支持验货", "7天退换"]',
-                'category_id': 1,  # 手机
-                'seller_id': 1
-            },
-            {
-                'name': 'Sony A6400 微单相机 套机',
-                'description': '功能正常无拆修,运行流畅拍照清晰',
-                'price': 3500,
-                'original_price': 4200,
-                'condition': '95新',
-                'brand': 'Sony',
-                'location': '旺角',
-                'images': '["https://via.placeholder.com/300x200/FF6B35/FFFFFF?text=A6400"]',
-                'tags': '["包邮", "专业设备", "1年保修"]',
-                'category_id': 2,  # 摄影
-                'seller_id': 2
-            },
-            {
-                'name': 'Google Pixel 7 128GB 黑色',
-                'description': '几乎全新,屏幕有维修记录',
-                'price': 2000,
-                'original_price': 2800,
-                'condition': '9成新',
-                'brand': 'Google',
-                'location': '尖沙咀',
-                'images': '["https://via.placeholder.com/300x200/4285F4/FFFFFF?text=Pixel+7"]',
-                'tags': '["包邮", "可小刀", "支持验货"]',
-                'category_id': 1,  # 手机
-                'seller_id': 3
-            },
-            {
-                'name': 'Canon 24-70mm F2.8L II 镜头',
-                'description': '专业镜头,成色新,功能正常',
-                'price': 5200,
-                'original_price': 6800,
-                'condition': '98新',
-                'brand': 'Canon',
-                'location': '佐敦',
-                'images': '["https://via.placeholder.com/300x200/FF0000/FFFFFF?text=24-70+F2.8"]',
-                'tags': '["包邮", "专业设备", "支持验货"]',
-                'category_id': 2,  # 摄影
-                'seller_id': 4
-            },
-            {
-                'name': 'AirPods Pro 2代 降噪耳机',
-                'description': '全新未拆封,正品保证',
-                'price': 980,
-                'original_price': 1200,
-                'condition': '全新',
-                'brand': 'Apple',
-                'location': '荃湾',
-                'images': '["https://via.placeholder.com/300x200/000000/FFFFFF?text=AirPods+Pro"]',
-                'tags': '["包邮", "全新", "正品保证"]',
-                'category_id': 4,  # 影音
-                'seller_id': 5,
-                'is_new': True
-            },
-            {
-                'name': 'Sony PS5 游戏主机 光驱版',
-                'description': '功能正常,配件齐全,成色新',
-                'price': 2980,
-                'original_price': 3800,
-                'condition': '9成新',
-                'brand': 'Sony',
-                'location': '九龙湾',
-                'images': '["https://via.placeholder.com/300x200/003791/FFFFFF?text=PS5"]',
-                'tags': '["包邮", "热门商品", "配件齐全"]',
-                'category_id': 5,  # 游戏
-                'seller_id': 6
-            },
-            {
-                'name': 'MacBook Pro 13寸 M1芯片 256GB',
-                'description': 'M1芯片,性能强劲,成色新',
-                'price': 6800,
-                'original_price': 8500,
-                'condition': '95新',
-                'brand': 'Apple',
-                'location': '中环',
-                'images': '["https://via.placeholder.com/300x200/000000/FFFFFF?text=MacBook+Pro"]',
-                'tags': '["包邮", "高端设备", "支持验货"]',
-                'category_id': 3,  # 电脑
-                'seller_id': 7
-            },
-            {
-                'name': 'Nintendo Switch OLED 白色',
-                'description': 'OLED屏幕,成色新,配件齐全',
-                'price': 1800,
-                'original_price': 2200,
-                'condition': '9成新',
-                'brand': 'Nintendo',
-                'location': '铜锣湾',
-                'images': '["https://via.placeholder.com/300x200/FF0000/FFFFFF?text=Switch+OLED"]',
-                'tags': '["包邮", "游戏设备", "配件齐全"]',
-                'category_id': 5,  # 游戏
-                'seller_id': 8
-            }
-        ]
+#         for prod_data in products_data:
+#             product = Product(
+#                 name=prod_data['name'],
+#                 description=prod_data['description'],
+#                 price=prod_data['price'],
+#                 original_price=prod_data['original_price'],
+#                 condition=prod_data['condition'],
+#                 brand=prod_data['brand'],
+#                 location=prod_data['location'],
+#                 images=prod_data['images'],
+#                 tags=prod_data['tags'],
+#                 category_id=prod_data['category_id'],
+#                 seller_id=prod_data['seller_id'],
+#                 is_new=prod_data.get('is_new', False),
+#                 views=hash(prod_data['name']) % 500,
+#                 favorites=hash(prod_data['name']) % 100
+#             )
+#             db.session.add(product)
         
-        for prod_data in products_data:
-            product = Product(
-                name=prod_data['name'],
-                description=prod_data['description'],
-                price=prod_data['price'],
-                original_price=prod_data['original_price'],
-                condition=prod_data['condition'],
-                brand=prod_data['brand'],
-                location=prod_data['location'],
-                images=prod_data['images'],
-                tags=prod_data['tags'],
-                category_id=prod_data['category_id'],
-                seller_id=prod_data['seller_id'],
-                is_new=prod_data.get('is_new', False),
-                views=hash(prod_data['name']) % 500,
-                favorites=hash(prod_data['name']) % 100
-            )
-            db.session.add(product)
-        
-        db.session.commit()
-        print("数据库初始化完成！")
+#         db.session.commit()
+#         print("数据库初始化完成！")
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
